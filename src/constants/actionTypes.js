@@ -1,0 +1,41 @@
+// NOT IN USE
+export const ADDED_CAR = "ADDED_CAR";
+export const DELETED_CAR = "DELETED_CAR";
+
+// INPUTS
+export const SET_NEWCAR_INPUT = "SET_NEWCAR_INPUT";
+export const SET_SEARCH_INPUT = "SET_SEARCH_INPUT";
+export const SET_GARAGE_INPUT = "SET_GARAGE_INPUT";
+export const SET_NEW_GARAGE_NAME = "SET_NEW_GARAGE_NAME";
+export const SET_NEW_GARAGE_DESC = "SET_NEW_GARAGE_DESC";
+
+// MOVING
+export const IS_MOVING = "IS_MOVING";
+export const FORCE_IS_MOVING = "FORCE_IS_MOVING";
+
+export const NEW_GARAGE_ID = "NEW_GARAGE_ID";
+
+export const CHECK_MOVE_LIST = "CHECK_MOVE_LIST";
+export const CLEAR_MOVE_LIST = "CLEAR_MOVE_LIST";
+
+// SEARCHING
+export const SEARCH_CARS = "SEARCH_CARS";
+export const CLEAR_CARS = "CLEAR_CARS";
+
+export const BAD_SEARCH = "BAD_SEARCH";
+
+export const SEARCH_GARAGES = "SEARCH_GARAGES";
+export const CLEAR_GARAGES = "CLEAR_GARAGES";
+
+export const SEARCH_POSSIBLE_CARS = "SEARCH_POSSIBLE_CARS";
+export const CLEAR_POSSIBLE_CARS = "CLEAR_POSSIBLE_CARS";
+
+// AUTH
+export const LOGIN = "LOGIN";
+export const LOGOUT = "LOGOUT";
+export const SET_LOGGED_IN = "SET_LOGGED_IN";
+
+export const GARAGE_PAGE = "GARAGE_PAGE";
+export const GARAGE_PAGE_CLEAR = "GARAGE_PAGE_CLEAR";
+export const GARAGE_PAGE_SET_NAME = "GARAGE_PAGE_SET_NAME";
+export const GARAGE_PAGE_SET_DESC = "GARAGE_PAGE_SET_DESC";
