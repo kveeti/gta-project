@@ -1,0 +1,24 @@
+{
+  "type": "module",
+  "name": "server",
+  "version": "1.0.0",
+  "main": "server.js",
+  "scripts": {
+    "start": "node --experimental-specifier-resolution=node server.js"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "connect-mongo": "^4.4.1",
+    "cors": "^2.8.5",
+    "dotenv": "^10.0.0",
+    "express": "^4.17.1",
+    "express-session": "^1.17.2",
+    "google-auth-library": "^7.3.0",
+    "helmet": "^4.6.0",
+    "mongoose": "^5.13.2"
+  },
+  "devDependencies": {},
+  "description": ""
+}
