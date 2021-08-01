@@ -6,7 +6,7 @@ const time = new Date();
 export const newCar = async (req, res, next) => {
   // Adds a car
   try {
-    const newCarName = req.body.name;
+    const newCarName = req.body.name.toLowerCase();
     const newGarageId = req.body.garageID;
     const owner = req.session.userId;
 
@@ -201,7 +201,7 @@ export const searchCar = async (req, res, next) => {
   // Gives the car(s) that matches with the query
 
   try {
-    const searchQuery = req.query.q;
+    const searchQuery = req.query.q.toLowerCase();
     const owner = req.session.userId;
 
     if (!searchQuery) return res.status(400).json({ error: `Empty query` });
@@ -232,7 +232,7 @@ export const searchCar = async (req, res, next) => {
 
 export const possibleCars = async (req, res, next) => {
   try {
-    let searchQuery = req.query.q;
+    let searchQuery = req.query.q.toLowerCase();
 
     if (!searchQuery) return res.status(400).json({ error: `Empty query` });
 

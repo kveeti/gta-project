@@ -3,8 +3,8 @@ import { garageModel, carModel } from "../models";
 
 export const newGarage = async (req, res, next) => {
   // Adds a garage
-  const name = req.body.name;
-  const desc = req.body.desc;
+  const name = req.body.name.toLowerCase();
+  const desc = req.body.desc.toLowerCase();
   const owner = req.session.userId;
 
   let time = new Date();
@@ -59,8 +59,8 @@ export const getGarage = async (req, res, next) => {
 
 export const renameGarage = async (req, res, next) => {
   const owner = req.session.userId;
-  const newName = req.body.newName;
-  const newDesc = req.body.newDesc;
+  const newName = req.body.newName.toLowerCase();
+  const newDesc = req.body.newDesc.toLowerCase();
   const garageID = req.params.garageId;
 
   if (!newName || !garageID)
@@ -97,7 +97,7 @@ export const renameGarage = async (req, res, next) => {
 
 export const searchGarage = async (req, res, next) => {
   // Gives the garage(s) that matches with the query
-  const searchQuery = req.query.q;
+  const searchQuery = req.query.q.toLowerCase();
   const owner = req.session.userId;
 
   let garages = await garageModel.find({ owner: owner }, "-_id -__v");
