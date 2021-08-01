@@ -7,14 +7,15 @@ import thunk from "redux-thunk";
 import App from "./App";
 import { reducers } from "./reducers";
 
-/*const composeEnhancers =
-  compose &&
-  window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__({
-    trace: true,
-    traceLimit: 25,
-  });*/
+const config = require("../src/config.json");
 
-const composeEnhancers = compose;
+const composeEnhancers = config.PROD
+  ? compose
+  : compose &&
+    window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__({
+      trace: true,
+      traceLimit: 25,
+    });
 
 const store = createStore(reducers, composeEnhancers(applyMiddleware(thunk)));
 
