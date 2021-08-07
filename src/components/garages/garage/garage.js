@@ -1,7 +1,5 @@
 import React from "react";
-import { Card, CardContent, Grid, Button } from "@material-ui/core/";
-
-import { Link } from "react-router-dom";
+import { Card, CardContent, Grid, Typography } from "@material-ui/core/";
 
 import "./styles.css";
 
@@ -10,18 +8,13 @@ const Garage = ({ garage }) => {
     <Card style={{ backgroundColor: "#212121" }} variant="outlined">
       <CardContent>
         <Grid container justifyContent="flex-start">
-          <Button
-            style={{ color: "white", fontSize: "1.05rem" }}
-            size="small"
-            component={Link}
-            to={`/garage/${garage.ID}`}
-            onClick={(e) => {
-              e.stopPropagation();
-            }}
+          <Typography
+            style={{ color: "white", fontSize: "15px" }}
+            variant="button"
           >
             {garage.name}
             {garage.desc.length ? ` - ${garage.desc}` : ""}
-          </Button>
+          </Typography>
         </Grid>
       </CardContent>
     </Card>
