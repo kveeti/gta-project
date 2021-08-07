@@ -27,7 +27,7 @@ const CreateButton = () => {
 
   return (
     <Button variant="contained" color="primary" onClick={handleClick}>
-      add
+      create
     </Button>
   );
 };

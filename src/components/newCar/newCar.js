@@ -28,7 +28,7 @@ const NewCar = () => {
               variant="body1"
               style={{ color: "white", fontSize: "20px" }}
             >
-              Add a new car
+              New car
             </Typography>
             <SelectGarage />
             <CarNameField />
