@@ -1,9 +1,10 @@
 import express from "express";
-const router = express.Router();
 
 import { login, logout, checkLogin } from "../controllers/authController";
 
 import { loggedIn, active } from "../middleware";
+
+const router = express.Router();
 
 router.get("/check", loggedIn, active, checkLogin);
 

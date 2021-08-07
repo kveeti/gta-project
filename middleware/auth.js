@@ -26,3 +26,36 @@ export const active = async (req, res, next) => {
 
   next();
 };
+
+export const admin = async (req, res, next) => {
+  try {
+    const time = new Date();
+
+    const { token, reqEmail } = req.body;
+
+    const ticket = await client.verifyIdToken({
+      idToken: token,
+      audience: process.env.CLIENT_ID,
+    });
+
+    const { email, name } = ticket.getPayload();
+
+    if (email !== reqEmail) {
+      return res.status(400).json({ message: "Bad request" });
+    }
+
+    const admin = await userModel.findOne({ email: reqEmail, admin: true });
+
+    if (!admin) {
+      return res.status(401).json({ message: "You are not an admin" });
+    }
+
+    next();
+  } catch (err) {
+    if (err.message.startsWith("Invalid token signature:")) {
+      console.log("Invalid token");
+      res.status(401).json({ message: "Invalid token" });
+    }
+    console.log(err);
+  }
+};

@@ -1,5 +1,4 @@
 import express from "express";
-const router = express.Router();
 
 import {
   searchGarage,
@@ -8,6 +7,8 @@ import {
   rmGarage,
   renameGarage,
 } from "../controllers/garageController";
+
+const router = express.Router();
 
 router.get("/", searchGarage);
 

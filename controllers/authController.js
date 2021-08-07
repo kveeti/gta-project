@@ -1,8 +1,8 @@
 import { OAuth2Client } from "google-auth-library";
 import { logIn, logOut } from "../auth";
-const client = new OAuth2Client(process.env.G_CLIENT_ID);
-
 import { userModel } from "../models";
+
+const client = new OAuth2Client(process.env.G_CLIENT_ID);
 
 export const login = async (req, res, next) => {
   try {
