@@ -1,12 +1,8 @@
 import express from "express";
 
-import { login, logout, checkLogin } from "../controllers/authController";
-
-import { loggedIn, active } from "../middleware";
+import { login, logout } from "../controllers";
 
 const router = express.Router();
-
-router.get("/check", loggedIn, active, checkLogin);
 
 router.post("/login", login);
 

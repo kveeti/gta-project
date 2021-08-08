@@ -7,7 +7,7 @@ import {
   moveCar,
   searchCar,
   possibleCars,
-} from "../controllers/carController";
+} from "../controllers/car";
 
 router.get("/", searchCar);
 

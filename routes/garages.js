@@ -6,7 +6,7 @@ import {
   newGarage,
   rmGarage,
   renameGarage,
-} from "../controllers/garageController";
+} from "../controllers/garage";
 
 const router = express.Router();
 
