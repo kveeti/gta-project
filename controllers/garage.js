@@ -1,4 +1,4 @@
-import { getUniqueGarageId } from "../helpers/carHelpers";
+import { getUniqueGarageId } from "../helpers";
 import { garageModel, carModel } from "../models";
 
 export const newGarage = async (req, res, next) => {

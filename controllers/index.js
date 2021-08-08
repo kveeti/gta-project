@@ -1,5 +1,7 @@
-export * from "./carController";
+export * from "./car";
 
-export * from "./garageController";
+export * from "./garage";
 
-export * from "./authController";
+export * from "./auth";
+
+export * from "./checks";

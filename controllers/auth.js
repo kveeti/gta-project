@@ -51,7 +51,3 @@ export const logout = async (req, res, next) => {
 
   await logOut(req, res);
 };
-
-export const checkLogin = async (req, res, next) => {
-  res.status(201).json({ message: "OK" });
-};

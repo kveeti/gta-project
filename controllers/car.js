@@ -1,5 +1,5 @@
 import { carModel, garageModel, possibleCarModel } from "../models";
-import { getUniqueCarId, getGarageById } from "../helpers/carHelpers.js";
+import { getUniqueCarId, getGarageById } from "../helpers";
 
 const time = new Date();
 
