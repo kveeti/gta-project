@@ -2,7 +2,6 @@ import express from "express";
 import session from "express-session";
 import cors from "cors";
 import helmet from "helmet";
-import path from "path";
 
 import { SESSION_OPTIONS } from "./config";
 import { auth, cars, garages } from "./routes";
