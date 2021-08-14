@@ -12,12 +12,12 @@ const router = express.Router();
 
 router.get("/", searchGarage);
 
-router.get("/:garageID", getGarage);
+router.get("/:garage_id", getGarage);
 
 router.post("/", newGarage);
 
-router.patch("/:garageId", renameGarage);
+router.patch("/:garage_id", renameGarage);
 
-router.delete("/:garageID", rmGarage);
+router.delete("/:garage_id", rmGarage);
 
 export { router as garages };
