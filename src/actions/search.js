@@ -3,6 +3,7 @@ import {
   CLEAR_CARS,
   SET_SEARCH_INPUT,
   BAD_SEARCH,
+  SEARCH_GARAGES,
 } from "../constants/actionTypes";
 
 import axios from "axios";
@@ -14,7 +15,7 @@ export const search = (query) => async (dispatch) => {
 
   await axios
     .get(
-      `${config.API_URL}/gta-api/cars`,
+      `${config.API_URL}/gta-api/search`,
       {
         params: { q: query },
       },
@@ -31,17 +32,17 @@ export const search = (query) => async (dispatch) => {
         return dispatch({ type: BAD_SEARCH, payload: true });
       }
 
-      if (res.data[0]) {
-        dispatch({ type: SEARCH_CARS, payload: res.data });
-        dispatch({ type: BAD_SEARCH, payload: false });
-      }
-
       if (res.status === 304 || res.status === 200) {
         dispatch({ type: BAD_SEARCH, payload: false });
       }
+
+      console.log(res.data.cars);
+      dispatch({ type: SEARCH_CARS, payload: res.data.cars });
+      dispatch({ type: SEARCH_GARAGES, payload: res.data.garages });
+      dispatch({ type: BAD_SEARCH, payload: false });
     })
     .catch((error) => {
-      console.log("search failed");
+      console.log("search failed", error);
     });
 };
 
