@@ -13,8 +13,6 @@ import {
   Button,
 } from "@material-ui/core";
 
-import Cars from "../cars/cars.js";
-
 import {
   renameGarage,
   getCarsForGarage,
@@ -37,7 +35,7 @@ const GaragePage = () => {
   const {
     garageName,
     garageDesc,
-    garageID,
+    garage_id,
     garageDescInput,
     garageNameInput,
     cars,
@@ -69,6 +67,12 @@ const GaragePage = () => {
         <Card style={{ backgroundColor: "#212121" }}>
           <CardContent>
             <Grid container direction="column" style={{ gridRowGap: "10px" }}>
+              <Typography
+                variant="button"
+                style={{ color: "white", fontSize: "18px" }}
+              >
+                rename garage
+              </Typography>
               <input
                 type="text"
                 value={garageNameInput}
@@ -96,8 +100,11 @@ const GaragePage = () => {
                 }}
               ></input>
             </Grid>
-            <Grid container direction="row">
-              <Typography>
+            <Grid container direction="row" style={{ paddingTop: "5px" }}>
+              <Typography
+                variant="button"
+                style={{ color: "white", fontSize: "18px" }}
+              >
                 {cars.length > 0
                   ? cars.length > 1
                     ? `${cars.length} cars`
@@ -123,7 +130,7 @@ const GaragePage = () => {
                     renameGarage(
                       garageNameInput,
                       garageDescInput,
-                      garageID,
+                      garage_id,
                       searchInput
                     )
                   );
@@ -134,7 +141,6 @@ const GaragePage = () => {
             </Grid>
           </CardActions>
         </Card>
-        <Cars cars={cars} onClick={false} page={"garage_page"} />
       </Grid>
     </>
   );
