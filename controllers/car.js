@@ -1,4 +1,4 @@
-import { carModel, garageModel, possibleCarModel } from "../models";
+import { carModel, garageModel, possibleCarModel, userModel } from "../models";
 import { getUniqueCarId, getGarageById } from "../helpers";
 
 const time = new Date();
@@ -10,12 +10,12 @@ export const newCar = async (req, res, next) => {
     const newGarageId = req.body.garageID;
     const owner = req.session.userId;
 
-    const garage = await garageModel.findOne({
+    const existingGarage = await garageModel.findOne({
       owner: owner,
       ID: newGarageId,
     });
 
-    if (!garage)
+    if (!existingGarage)
       return res.status(204).json({ message: "that garage doesn't exist" });
 
     let modelCar = await possibleCarModel.findOne(
@@ -30,36 +30,61 @@ export const newCar = async (req, res, next) => {
 
     const carID = await getUniqueCarId(owner);
 
-    let complete = await carModel.create({
+    const newCar = await carModel.create({
       name: modelCar.name,
       manufacturer: modelCar.manufacturer,
       price: modelCar.price,
       class: modelCar.class,
       ID: carID,
-      garage: {
-        name: garage.name,
-        desc: garage.desc,
-        ID: garage.ID,
-      },
+      garage: existingGarage._id,
       owner: owner,
     });
 
-    complete.save((err, car) => {
-      if (err) {
-        res.status(500).json({ error: `Error saving a new car` });
-        return console.log(`Error saving a new car: \n\n${err}`);
+    await userModel.updateOne(
+      { _id: owner },
+      { $addToSet: { cars: newCar._id } },
+      (err) => {
+        if (err) return console.log(err);
       }
+    );
 
-      res.status(201).json(car);
+    await garageModel.updateOne(
+      { ID: newGarageId },
+      { $addToSet: { cars: newCar._id } },
+      (err) => {
+        if (err) return console.log(err);
+      }
+    );
 
-      console.log(
-        `\n@ ${time.toLocaleDateString()} - ${time.toLocaleTimeString()}\n  Car added\n    ${
-          car.name
-        }\n    ${car.garage.name} - ${car.garage.desc} - ${
-          car.garage.ID
-        }\n    ${owner}`
-      );
-    });
+    const confirmCar = await carModel
+      .findOne({ _id: newCar._id })
+      .populate("garage");
+
+    if (!confirmCar) {
+      console.log("saved car cannot be found");
+      return res
+        .status(500)
+        .json({ message: "server error, car was not saved" });
+    }
+
+    console.log(
+      `\n@ ${time.toLocaleDateString()} - ${time.toLocaleTimeString()}\n  Car added\n    ${
+        confirmCar.name
+      }\n    ${confirmCar.garage.name} - ${confirmCar.garage.desc} - ${
+        confirmCar.garage.ID
+      }\n    ${owner}`
+    );
+
+    res
+      .status(201)
+      .json({
+        name: confirmCar.name,
+        garage: {
+          name: confirmCar.garage.name,
+          desc: confirmCar.garage.desc,
+          ID: confirmCar.garage.ID,
+        },
+      });
   } catch (err) {
     console.log(err);
   }

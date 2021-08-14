@@ -1,10 +1,10 @@
 import { getUniqueGarageId } from "../helpers";
-import { garageModel, carModel } from "../models";
+import { garageModel, carModel, userModel } from "../models";
 
 export const newGarage = async (req, res, next) => {
   // Adds a garage
-  const name = req.body.name.toLowerCase();
-  const desc = req.body.desc.toLowerCase();
+  const name = req.body.name.toLowerCase().trim();
+  const desc = req.body.desc.toLowerCase().trim();
   const owner = req.session.userId;
 
   let time = new Date();
@@ -19,13 +19,28 @@ export const newGarage = async (req, res, next) => {
       owner: owner,
     });
 
-    newGarage.save();
+    await userModel.updateOne(
+      { _id: owner },
+      { $addToSet: { garages: newGarage._id } },
+      (err) => {
+        if (err) console.log(err);
+      }
+    );
 
-    res.status(200).json(newGarage);
+    res.status(200).json({
+      ID: newGarage.ID,
+      name: newGarage.name,
+      desc: newGarage.desc,
+      owner: newGarage.owner,
+    });
 
     console.log(
       `\n@ ${time.toLocaleDateString()} - ${time.toLocaleTimeString()}\n  NEW GARAGE\n    ${name} - ${desc} - ${newGarageId}\n    ${owner}`
     );
+
+    const user = await userModel.findOne({ _id: owner }).populate("garages");
+
+    console.log(user);
   } catch (err) {
     console.log(err);
   }
@@ -38,36 +53,31 @@ export const rmGarage = (req, res, next) => {
 
 export const getGarage = async (req, res, next) => {
   // Gives garage(s) with the id param
-  const garageID = req.params.garageID;
+  const garage_id = req.params.garage_id;
   const owner = req.session.userId;
 
-  const garage = await garageModel.findOne(
-    { owner: owner, ID: garageID },
-    "-_id -__v"
-  );
+  const garage = await garageModel.findOne({ owner: owner, _id: garage_id });
 
   if (!garage) {
     return res
       .status(404)
-      .json({ message: `No garage with an id of ${garageID}` });
+      .json({ message: `No garage with an id of ${garage_id}` });
   }
 
-  let cars = await carModel.find({ owner: owner, "garage.ID": garageID });
-
-  res.status(200).json({ garage: garage, cars: cars });
+  res.status(200).json({ garage: garage });
 };
 
 export const renameGarage = async (req, res, next) => {
   const owner = req.session.userId;
-  const newName = req.body.newName.toLowerCase();
-  const newDesc = req.body.newDesc.toLowerCase();
-  const garageID = req.params.garageId;
+  const newName = req.body.newName.toLowerCase().trim();
+  const newDesc = req.body.newDesc.toLowerCase().trim();
+  const garage_id = req.params.garage_id;
 
-  if (!newName || !garageID)
+  if (!newName || !garage_id)
     return res.status(400).json({ message: "bad request" });
 
   await garageModel.findOneAndUpdate(
-    { ID: garageID, owner: owner },
+    { _id: garage_id, owner: owner },
     {
       $set: {
         name: newName,
@@ -79,30 +89,16 @@ export const renameGarage = async (req, res, next) => {
     }
   );
 
-  await carModel.updateMany(
-    { owner: owner, "garage.ID": garageID },
-    {
-      $set: {
-        "garage.name": newName,
-        "garage.desc": newDesc,
-      },
-    },
-    (err, doc) => {
-      if (err) console.log(err);
-    }
-  );
-
   res.status(201).send();
 };
 
-export const searchGarage = async (req, res, next) => {
-  // Gives the garage(s) that matches with the query
+export const searchGarage = async (req, res) => {
   const searchQuery = req.query.q.toLowerCase();
   const owner = req.session.userId;
 
-  let garages = await garageModel.find({ owner: owner }, "-_id -__v");
+  const user = await userModel.findOne({ _id: owner }).populate("garages");
 
-  let toSend = garages.filter(
+  let toSend = user.garages.filter(
     (garage) =>
       garage.name.startsWith(searchQuery) ||
       garage.name.includes(searchQuery) ||
@@ -115,6 +111,8 @@ export const searchGarage = async (req, res, next) => {
   if (toSend.length > 10) {
     toSend = toSend.slice(0, 11);
   }
+
+  console.log(toSend);
 
   return res.status(200).json(toSend);
 };

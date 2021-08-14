@@ -16,22 +16,40 @@ export const login = async (req, res, next) => {
     });
     const { email, name } = ticket.getPayload();
 
-    await userModel.findOneAndUpdate(
-      { email: email },
-      { $set: { email, name } },
-      { upsert: true, new: true, fields: { email: 1, name: 1, _id: 1 } },
+    const existingUser = await userModel.find({ email: email });
+
+    if (existingUser.length > 1) {
+      console.log("MORE THAN ONE MATCH ON EMAILS: ", email);
+      return res.status(500).json({ message: "server error" });
+    }
+
+    if (existingUser.length) {
+      logIn(req, existingUser[0]._id);
+
+      res.status(201).json({ message: "OK" });
+
+      return console.log(
+        `\n@ ${time.toLocaleDateString()} - ${time.toLocaleTimeString()}\n  LOGIN\n    ${email}\n    ${name}`
+      );
+    }
+
+    await userModel.create(
+      {
+        email: email,
+        name: name,
+        cars: [],
+        garages: [],
+      },
       (err, doc) => {
-        if (err) {
-          return res.status(500);
-        }
+        if (err) return console.log("Error creating an user: ", err);
 
         logIn(req, doc._id);
 
-        console.log(
-          `\n@ ${time.toLocaleDateString()} - ${time.toLocaleTimeString()}\n  LOGIN\n    ${email}\n    ${name}`
-        );
-
         res.status(201).json({ message: "OK" });
+
+        return console.log(
+          `\n@ ${time.toLocaleDateString()} - ${time.toLocaleTimeString()}\n  NEW USER\n    ${email}\n    ${name}`
+        );
       }
     );
   } catch (err) {
