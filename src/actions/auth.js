@@ -26,12 +26,12 @@ export const login = (token) => async (dispatch) => {
 
 export const checkLogin = () => async (dispatch) => {
   await axios
-    .get(`${config.API_URL}/gta-api/auth/check`)
+    .get(`${config.API_URL}/gta-api/check/login`)
     .then((res) => {
       dispatch({ type: SET_LOGGED_IN, payload: true });
     })
     .catch((err) => {
-      console.log("failed to check login status");
+      console.log("not logged in");
     });
 };
 
