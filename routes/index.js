@@ -5,3 +5,5 @@ export * from "./cars";
 export * from "./garages";
 
 export * from "./check";
+
+export * from "./search";

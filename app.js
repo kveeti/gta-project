@@ -4,7 +4,7 @@ import cors from "cors";
 import helmet from "helmet";
 
 import { SESSION_OPTIONS } from "./config";
-import { auth, cars, check, garages } from "./routes";
+import { auth, cars, check, garages, search } from "./routes";
 
 import { active, loggedIn } from "./middleware";
 
@@ -33,6 +33,8 @@ export const createApp = (store) => {
   app.use("/gta-api/cars", loggedIn, active, cars);
 
   app.use("/gta-api/garages", loggedIn, active, garages);
+
+  app.use("/gta-api/search", loggedIn, active, search);
 
   return app;
 };
