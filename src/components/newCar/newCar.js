@@ -25,8 +25,8 @@ const NewCar = () => {
         <CardContent>
           <Grid container direction="column" style={{ gridRowGap: "10px" }}>
             <Typography
-              variant="body1"
-              style={{ color: "white", fontSize: "20px" }}
+              variant="button"
+              style={{ color: "white", fontSize: "18px" }}
             >
               New car
             </Typography>
