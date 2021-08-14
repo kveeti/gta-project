@@ -36,22 +36,22 @@ export const searchGarages = (query) => async (dispatch) => {
   }
 };
 
-export const getCarsForGarage = (id) => async (dispatch) => {
+export const getCarsForGarage = (garage_id) => async (dispatch) => {
   try {
-    if (!id) return;
+    if (!garage_id) return;
 
     await axios
-      .get(`${config.API_URL}/gta-api/garages/${id}`)
+      .get(`${config.API_URL}/gta-api/garages/${garage_id}`)
       .then((res) => {
         dispatch({
           type: GARAGE_PAGE,
           payload: {
             garageName: res.data.garage.name,
             garageNameInput: res.data.garage.name,
-            garageID: res.data.garage.ID,
+            garage_id: res.data.garage._id,
             garageDesc: res.data.garage.desc,
             garageDescInput: res.data.garage.desc,
-            cars: res.data.cars,
+            cars: res.data.garage.cars,
           },
         });
       })
@@ -63,25 +63,22 @@ export const getCarsForGarage = (id) => async (dispatch) => {
   }
 };
 
-export const renameGarage = (
-  newName,
-  newDesc = "",
-  garageID,
-  searchInput
-) => async (dispatch) => {
-  axios
-    .patch(`${config.API_URL}/gta-api/garages/${garageID}`, {
-      newName,
-      newDesc,
-    })
-    .then((res) => {
-      dispatch(getCarsForGarage(garageID));
-      dispatch(search(searchInput));
-    })
-    .catch((err) => {
-      console.log("failed to rename the garage");
-    });
-};
+export const renameGarage =
+  (newName, newDesc = "", garage_id, searchInput) =>
+  async (dispatch) => {
+    axios
+      .patch(`${config.API_URL}/gta-api/garages/${garage_id}`, {
+        newName,
+        newDesc,
+      })
+      .then((res) => {
+        dispatch(getCarsForGarage(garage_id));
+        dispatch(search(searchInput));
+      })
+      .catch((err) => {
+        console.log("failed to rename the garage");
+      });
+  };
 
 export const garagePageSetName = (newName) => {
   return { type: GARAGE_PAGE_SET_NAME, payload: newName };
@@ -115,13 +112,15 @@ export const setNewGarageDesc = (value) => {
   return { type: SET_NEW_GARAGE_DESC, payload: value };
 };
 
-export const createNewGarage = (name, desc = "") => async (dispatch) => {
-  try {
-    axios.post(`${config.API_URL}/gta-api/garages`, {
-      name: name,
-      desc: desc,
-    });
-  } catch (err) {
-    console.log(err);
-  }
-};
+export const createNewGarage =
+  (name, desc = "") =>
+  async (dispatch) => {
+    try {
+      axios.post(`${config.API_URL}/gta-api/garages`, {
+        name: name,
+        desc: desc,
+      });
+    } catch (err) {
+      console.log(err);
+    }
+  };
