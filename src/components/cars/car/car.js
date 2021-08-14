@@ -29,7 +29,7 @@ const Car = ({ car, page }) => {
 
   let color;
 
-  if (carsToMove.filter((one) => one.ID === car.ID).length) {
+  if (carsToMove.filter((one) => one._id === car._id).length) {
     color = "#181818";
   } else {
     color = "#212121";
@@ -49,13 +49,18 @@ const Car = ({ car, page }) => {
           <Button
             style={{ color: "grey", fontSize: "0.8rem" }}
             component={Link}
-            to={`/garage/${car.garage.ID}`}
+            to={`/garage/${car.garage._id}`}
             onClick={(e) => {
               e.stopPropagation();
             }}
           >
             {car.garage.name}
-            {car.garage.desc.length ? ` - ${car.garage.desc}` : ""}
+            {car.garage.desc.length ? ` - ${car.garage.desc} - ` : " - "}
+            {car.length > 0
+              ? car.length > 1
+                ? `${car.garage.cars.length} cars`
+                : `${car.garage.cars.length} car`
+              : `${car.garage.cars.length} cars`}
           </Button>
         </Grid>
       </CardContent>
@@ -68,7 +73,7 @@ const Car = ({ car, page }) => {
               e.stopPropagation();
               await dispatch(deleteCar(car.ID));
               if (page !== "garage_page") dispatch(search(searchInput));
-              dispatch(getCarsForGarage(car.garage.ID));
+              dispatch(getCarsForGarage(car.garage._id));
             }}
           >
             <Delete />
