@@ -121,6 +121,6 @@ export const createNewGarage =
         desc: desc,
       });
     } catch (err) {
-      console.log(err);
+      console.log("garage creating failed");
     }
   };

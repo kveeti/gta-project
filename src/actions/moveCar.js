@@ -39,6 +39,6 @@ export const move = (carList, garageId) => async (dispatch) => {
       dispatch({ type: CLEAR_MOVE_LIST });
     })
     .catch((err) => {
-      console.log("failed to move some or all of the cars");
+      console.log("moving failed");
     });
 };
