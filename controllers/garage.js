@@ -1,7 +1,7 @@
 import { getUniqueGarageId } from "../helpers";
 import { garageModel, carModel, userModel } from "../models";
 
-export const newGarage = async (req, res, next) => {
+export const newGarage = async (req, res) => {
   // Adds a garage
   const name = req.body.name.toLowerCase().trim();
   const desc = req.body.desc.toLowerCase().trim();
@@ -46,12 +46,12 @@ export const newGarage = async (req, res, next) => {
   }
 };
 
-export const rmGarage = (req, res, next) => {
+export const rmGarage = (req, res) => {
   // Removes a garage
   let garageToRemove = req.params.garageID;
 };
 
-export const getGarage = async (req, res, next) => {
+export const getGarage = async (req, res) => {
   // Gives garage(s) with the id param
   const garage_id = req.params.garage_id;
   const owner = req.session.userId;
@@ -67,11 +67,11 @@ export const getGarage = async (req, res, next) => {
   res.status(200).json({ garage: garage });
 };
 
-export const renameGarage = async (req, res, next) => {
+export const renameGarage = async (req, res) => {
   const owner = req.session.userId;
   const newName = req.body.newName.toLowerCase().trim();
   const newDesc = req.body.newDesc.toLowerCase().trim();
-  const garage_id = req.params.garage_id;
+  const garage_id = req.params.garageId;
 
   if (!newName || !garage_id)
     return res.status(400).json({ message: "bad request" });
