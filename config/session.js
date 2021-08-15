@@ -12,6 +12,8 @@ export const {
 
 const prod = PROD == 1;
 
+console.log("prod:", prod);
+
 export const SESSION_OPTIONS = {
   secret: SESSION_SECRET,
   name: SESSION_NAME,
