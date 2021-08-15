@@ -19,44 +19,38 @@ export const search = async (req, res) => {
     })
     .populate("garages");
 
-  matchingCars = user.cars;
-  matchingGarages = user.garages;
-
   let toSend = {};
 
-  if (matchingCars.length) {
-    let carsToSend = matchingCars.filter(
-      (car) =>
-        car.name.includes(searchQuery) ||
-        car.garage.name.includes(searchQuery) ||
-        car.garage.desc.includes(searchQuery) ||
-        car.name.startsWith(searchQuery)
-    );
+  let carsToSend = user.cars.filter(
+    (car) =>
+      car.name.includes(searchQuery) ||
+      car.garage.name.includes(searchQuery) ||
+      car.garage.desc.includes(searchQuery) ||
+      car.name.startsWith(searchQuery)
+  );
 
-    if (carsToSend.length > 20) {
-      carsToSend = carsToSend.slice(0, 21);
-    }
-
-    toSend.cars = carsToSend;
+  if (carsToSend.length > 20) {
+    carsToSend = carsToSend.slice(0, 21);
   }
 
-  if (matchingGarages.length) {
-    let garagesToSend = matchingGarages.filter(
-      (garage) =>
-        garage.name.startsWith(searchQuery) ||
-        garage.name.includes(searchQuery) ||
-        garage.desc.includes(searchQuery)
-    );
+  toSend.cars = carsToSend;
 
-    if (garagesToSend > 10) {
-      garagesToSend = garagesToSend.slice(0, 11);
-    }
+  let garagesToSend = user.garages.filter(
+    (garage) =>
+      garage.name.startsWith(searchQuery) ||
+      garage.name.includes(searchQuery) ||
+      garage.desc.includes(searchQuery)
+  );
 
-    toSend.garages = garagesToSend;
+  if (garagesToSend.length > 2) {
+    garagesToSend = garagesToSend.slice(0, 3);
   }
 
-  if (!toSend)
-    return res.status(204).json({ message: "Didn't found anything" });
+  toSend.garages = garagesToSend;
+
+  if (!toSend.garages.length && !toSend.cars.length) {
+    return res.status(200).json({ ...toSend, status: 204 });
+  }
 
   res.status(200).json(toSend);
 };
