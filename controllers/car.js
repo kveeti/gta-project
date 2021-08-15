@@ -75,16 +75,14 @@ export const newCar = async (req, res, next) => {
       }\n    ${owner}`
     );
 
-    res
-      .status(201)
-      .json({
-        name: confirmCar.name,
-        garage: {
-          name: confirmCar.garage.name,
-          desc: confirmCar.garage.desc,
-          ID: confirmCar.garage.ID,
-        },
-      });
+    res.status(201).json({
+      name: confirmCar.name,
+      garage: {
+        name: confirmCar.garage.name,
+        desc: confirmCar.garage.desc,
+        ID: confirmCar.garage.ID,
+      },
+    });
   } catch (err) {
     console.log(err);
   }
@@ -94,28 +92,60 @@ export const rmCar = async (req, res, next) => {
   // Removes a car
 
   try {
-    const carToRemove = req.params.carID;
+    const carToDeleteId = req.params.car_id;
     const owner = req.session.userId;
 
-    const deleted = await carModel.findOneAndDelete({
-      ID: carToRemove,
+    const carToDelete = await carModel.findOne({
+      _id: carToDeleteId,
       owner: owner,
     });
 
-    if (!deleted)
+    if (!carToDelete)
       return res.status(400).json({ error: `That car doesn't exist.` });
 
-    res.status(200).json(`${carToRemove} deleted`);
+    const test = await userModel.updateOne(
+      { _id: owner },
+      { $pull: { cars: carToDelete._id } }
+    );
+
+    if (!test.nModified) {
+      console.log("failed to delete car from user document");
+      return res.status(500).json({ error: "deleting failed" });
+    }
+
+    const test2 = await garageModel.updateOne(
+      {
+        cars: carToDelete._id,
+      },
+      { $pull: { cars: carToDelete._id } }
+    );
+
+    if (!test2.nModified) {
+      console.log("failed to delete car from garage document");
+      return res.status(500).json({ error: "deleting failed" });
+    }
+
+    const deletedCar = await carModel
+      .findOneAndDelete({ _id: carToDeleteId })
+      .populate("garage");
+
+    if (!deletedCar) {
+      console.log("failed at the last deleting step");
+      console.log("car:", carToDelete);
+      return res.status(500).json({ error: "deleting failed" });
+    }
+
+    res.status(200).json(`deleted`);
 
     console.log(
       `\n@ ${time.toLocaleDateString()} - ${time.toLocaleTimeString()}\n  Car deleted\n    ${
-        deleted.name
-      }\n    ${deleted.garage.name} - ${deleted.garage.desc} - ${
-        deleted.garage.ID
+        deletedCar.name
+      }\n    ${deletedCar.garage.name} - ${deletedCar.garage.desc} - ${
+        deletedCar.garage.ID
       }\n    ${owner}`
     );
   } catch (err) {
-    console.log(err);
+    console.log("error at car controller, remove car: ", err);
   }
 };
 
