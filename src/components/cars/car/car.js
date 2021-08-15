@@ -71,7 +71,7 @@ const Car = ({ car, page }) => {
             color="secondary"
             onClick={async (e) => {
               e.stopPropagation();
-              await dispatch(deleteCar(car.ID));
+              await dispatch(deleteCar(car._id, searchInput));
               if (page !== "garage_page") dispatch(search(searchInput));
               dispatch(getCarsForGarage(car.garage._id));
             }}

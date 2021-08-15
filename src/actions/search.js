@@ -36,7 +36,11 @@ export const search = (query) => async (dispatch) => {
         dispatch({ type: BAD_SEARCH, payload: false });
       }
 
-      console.log(res.data.cars);
+      if (!res.data.cars) {
+        dispatch({ type: SEARCH_CARS, payload: 204 });
+        dispatch({ type: SEARCH_GARAGES, payload: res.data.garages });
+        return dispatch({ type: BAD_SEARCH, payload: true });
+      }
       dispatch({ type: SEARCH_CARS, payload: res.data.cars });
       dispatch({ type: SEARCH_GARAGES, payload: res.data.garages });
       dispatch({ type: BAD_SEARCH, payload: false });
