@@ -53,7 +53,7 @@ export const rmGarage = (req, res) => {
 
 export const getGarage = async (req, res) => {
   // Gives garage(s) with the id param
-  const garage_id = req.params.garage_id;
+  const garage_id = req.params.garageId;
   const owner = req.session.userId;
 
   const garage = await garageModel.findOne({ owner: owner, _id: garage_id });
