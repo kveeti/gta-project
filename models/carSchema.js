@@ -27,8 +27,6 @@ const carSchema = new mongoose.Schema(
     price: { type: Number, required: true },
     class: { type: String, required: true },
 
-    ID: { type: Number, required: true },
-
     garage: {
       type: mongoose.Schema.Types.ObjectId,
       ref: "garage",
