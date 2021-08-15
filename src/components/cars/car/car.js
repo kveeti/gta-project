@@ -17,15 +17,14 @@ import { useDispatch, useSelector } from "react-redux";
 import { deleteCar } from "../../../actions/cars.js";
 
 import { search } from "../../../actions/search";
+import { getCarsForGarage } from "../../../actions/garagePage.js";
 
-import { getCarsForGarage } from "../../../actions/garages.js";
-
-const Car = ({ car, page }) => {
+const Car = ({ car }) => {
   const dispatch = useDispatch();
-  const carsToMove = useSelector((state) => state.carsToMove);
-  const isMoving = useSelector((state) => state.isMoving);
+  const carsToMove = useSelector((state) => state.moveCar.carsToMove);
+  const isMoving = useSelector((state) => state.moveCar.isMoving);
 
-  const searchInput = useSelector((state) => state.searchInput);
+  const searchInput = useSelector((state) => state.search.input);
 
   let color;
 
@@ -55,12 +54,7 @@ const Car = ({ car, page }) => {
             }}
           >
             {car.garage.name}
-            {car.garage.desc.length ? ` - ${car.garage.desc} - ` : " - "}
-            {car.length > 0
-              ? car.length > 1
-                ? `${car.garage.cars.length} cars`
-                : `${car.garage.cars.length} car`
-              : `${car.garage.cars.length} cars`}
+            {car.garage.desc.length ? ` - ${car.garage.desc}` : ""}
           </Button>
         </Grid>
       </CardContent>
@@ -72,7 +66,7 @@ const Car = ({ car, page }) => {
             onClick={async (e) => {
               e.stopPropagation();
               await dispatch(deleteCar(car._id, searchInput));
-              if (page !== "garage_page") dispatch(search(searchInput));
+              dispatch(search(searchInput));
               dispatch(getCarsForGarage(car.garage._id));
             }}
           >

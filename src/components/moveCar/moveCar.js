@@ -5,20 +5,20 @@ import { Card, CardContent, Typography, Grid, Button } from "@material-ui/core";
 import { useDispatch, useSelector } from "react-redux";
 import { move, forceIsMoving } from "../../actions/moveCar";
 import { search } from "../../actions/search.js";
-import { setGarageInput, setNewGarageId } from "../../actions/garages.js";
 
 import { clearMoveList } from "../../actions/moveCar.js";
 
 import Cars from "../cars/cars.js";
-import SelectGarage from "../garages/selectGarage.js";
+
+import MoveCarGarageInput from "./moveCarGarageInput";
 
 const MoveCar = () => {
   const dispatch = useDispatch();
 
-  const carsToMove = useSelector((state) => state.carsToMove);
-  const newGarageId = useSelector((state) => state.newGarageId);
+  const carsToMove = useSelector((state) => state.moveCar.carsToMove);
+  const garageId = useSelector((state) => state.moveCar.garageId);
 
-  const searchInput = useSelector((state) => state.searchInput);
+  const searchInput = useSelector((state) => state.search.input);
 
   return (
     <>
@@ -38,16 +38,14 @@ const MoveCar = () => {
             >
               Move
             </Typography>
-            <SelectGarage paddingBottom={"10px"} />
+            <MoveCarGarageInput paddingBottom={"10px"} />
             <Button
               variant="contained"
               color="primary"
               size="small"
-              disabled={newGarageId ? false : true}
+              disabled={garageId ? false : true}
               onClick={async () => {
-                await dispatch(move(carsToMove, newGarageId));
-                dispatch(setGarageInput(""));
-                dispatch(setNewGarageId(null));
+                await dispatch(move(carsToMove, garageId));
                 dispatch(search(searchInput));
                 dispatch(forceIsMoving(false));
               }}
@@ -62,7 +60,6 @@ const MoveCar = () => {
               size="small"
               onClick={async () => {
                 dispatch(clearMoveList());
-                dispatch(setGarageInput(""));
                 dispatch(forceIsMoving(false));
               }}
             >

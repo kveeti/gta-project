@@ -1,14 +1,14 @@
 import React from "react";
 
 import { useSelector, useDispatch } from "react-redux";
-import { setNewGarageDesc } from "../../../actions/garages";
+import { newGarage_setDesc } from "../../../actions/newGarage";
 
 const NewGarageDesc = () => {
   const dispatch = useDispatch();
   const newGarageDesc = useSelector((state) => state.newGarageDesc);
 
   const handleChange = (e) => {
-    dispatch(setNewGarageDesc(e.target.value));
+    dispatch(newGarage_setDesc(e.target.value));
   };
 
   return (

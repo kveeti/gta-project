@@ -8,12 +8,11 @@ import {
   Grid,
 } from "@material-ui/core/";
 
-import SelectGarage from "../garages/selectGarage.js";
-
 import CreateButton from "./createButton/createButton.js";
 import ClearButton from "./clearButton/clearButton.js";
 
 import CarNameField from "./carNameField/carNameField.js";
+import NewCarGarageInput from "./newCarGarageInput.js";
 
 const NewCar = () => {
   return (
@@ -30,7 +29,7 @@ const NewCar = () => {
             >
               New car
             </Typography>
-            <SelectGarage />
+            <NewCarGarageInput />
             <CarNameField />
           </Grid>
         </CardContent>

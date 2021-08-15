@@ -1,25 +1,27 @@
 import React from "react";
 import { useSelector, useDispatch } from "react-redux";
 
-import { forceIsMoving } from "../../../actions/moveCar.js";
-import { clearPossibleCars } from "../../../actions/newCar.js";
-import { setSearchInput, search, clearCars } from "../../../actions/search.js";
-import { clearGarages } from "../../../actions/garages.js";
+import { forceIsMoving } from "../../actions/moveCar.js";
+import { newCar_setPossibleCars } from "../../actions/newCar.js";
+import {
+  search,
+  search_setCars,
+  search_setInput,
+} from "../../actions/search.js";
 
 const SearchBar = () => {
   const dispatch = useDispatch();
-  const searchInput = useSelector((state) => state.searchInput);
-
-  const badSearch = useSelector((state) => state.badSearch);
+  const searchInput = useSelector((state) => state.search.input);
+  const cars = useSelector((state) => state.search.cars);
+  const garages = useSelector((state) => state.search.garages);
 
   const handleChange = (e) => {
-    dispatch(setSearchInput(e.target.value));
-    dispatch(clearPossibleCars());
+    dispatch(search_setInput(e.target.value));
+    dispatch(newCar_setPossibleCars([]));
     dispatch(forceIsMoving(false));
 
     if (!e.target.value) {
-      dispatch(clearCars());
-      return dispatch(clearGarages());
+      return dispatch(search_setCars([]));
     }
 
     dispatch(search(e.target.value));
@@ -27,7 +29,7 @@ const SearchBar = () => {
 
   let color = "white";
 
-  if (badSearch && searchInput.length) {
+  if (searchInput.length && !cars.length && !garages.length) {
     color = "red";
   }
 

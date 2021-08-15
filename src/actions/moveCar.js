@@ -22,6 +22,7 @@ export const forceIsMoving = (forcedState) => {
 };
 
 export const checkCar = (car) => {
+  console.log("joo", car);
   return { type: CHECK_MOVE_LIST, payload: car };
 };
 

@@ -5,9 +5,9 @@ import { useSelector, useDispatch } from "react-redux";
 
 import {
   createNewGarage,
-  setNewGarageDesc,
-  setNewGarageName,
-} from "../../../actions/garages.js";
+  newGarage_setDesc,
+  newGarage_setName,
+} from "../../../actions/newGarage.js";
 
 const CreateButton = () => {
   const dispatch = useDispatch();
@@ -15,8 +15,8 @@ const CreateButton = () => {
   const newGarageDesc = useSelector((state) => state.newGarageDesc);
 
   const handleClick = (e) => {
-    dispatch(setNewGarageDesc(""));
-    dispatch(setNewGarageName(""));
+    dispatch(newGarage_setDesc(""));
+    dispatch(newGarage_setName(""));
     dispatch(createNewGarage(newGaragename, newGarageDesc));
   };
 

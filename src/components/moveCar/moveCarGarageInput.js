@@ -4,7 +4,7 @@ import { useSelector, useDispatch } from "react-redux";
 
 import { newGarage_setName } from "../../../actions/newGarage";
 
-const NewGarageName = () => {
+const MoveCarGarageInput = () => {
   const dispatch = useDispatch();
   const newGarageName = useSelector((state) => state.newGarage);
 
@@ -27,4 +27,4 @@ const NewGarageName = () => {
   );
 };
 
-export default NewGarageName;
+export default MoveCarGarageInput;

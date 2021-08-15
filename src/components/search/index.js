@@ -4,12 +4,14 @@ import { Grid } from "@material-ui/core";
 
 import { useSelector } from "react-redux";
 
-import SearchBar from "./searchBar/searchBar.js";
+import SearchBar from "./searchBar.js";
 import MoveButton from "./moveButton/moveButton.js";
 import LogoutButton from "./logoutButton/logoutButton.js";
 
 const Search = () => {
-  const carsToMove = useSelector((state) => state.carsToMove);
+  const carsToMove = useSelector((state) => state.moveCar.carsToMove);
+  const cars = useSelector((state) => state.search.cars);
+  console.log(cars);
 
   return (
     <>

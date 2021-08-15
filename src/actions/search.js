@@ -1,9 +1,7 @@
 import {
-  SEARCH_CARS,
-  CLEAR_CARS,
-  SET_SEARCH_INPUT,
-  BAD_SEARCH,
-  SEARCH_GARAGES,
+  SEARCH_SET_INPUT,
+  SEARCH_SET_CARS,
+  SEARCH_SET_GARAGES,
 } from "../constants/actionTypes";
 
 import axios from "axios";
@@ -27,36 +25,26 @@ export const search = (query) => async (dispatch) => {
       { withCredentials: true }
     )
     .then((res) => {
-      if (res.status === 204) {
-        dispatch({ type: SEARCH_CARS, payload: 204 });
-        return dispatch({ type: BAD_SEARCH, payload: true });
-      }
-
-      if (res.status === 304 || res.status === 200) {
-        dispatch({ type: BAD_SEARCH, payload: false });
-      }
-
-      if (!res.data.cars) {
-        dispatch({ type: SEARCH_CARS, payload: 204 });
-        dispatch({ type: SEARCH_GARAGES, payload: res.data.garages });
-        return dispatch({ type: BAD_SEARCH, payload: true });
-      }
-      dispatch({ type: SEARCH_CARS, payload: res.data.cars });
-      dispatch({ type: SEARCH_GARAGES, payload: res.data.garages });
-      dispatch({ type: BAD_SEARCH, payload: false });
+      console.log(res.data.cars);
+      dispatch(search_setCars(res.data.cars));
+      dispatch(search_setGarages(res.data.garages));
     })
     .catch((error) => {
       console.log("search failed", error);
     });
 };
 
-export const setSearchInput = (value) => {
+export const search_setInput = (searchInput) => {
   return {
-    type: SET_SEARCH_INPUT,
-    payload: value,
+    type: SEARCH_SET_INPUT,
+    payload: searchInput,
   };
 };
 
-export const clearCars = () => {
-  return { type: CLEAR_CARS, action: "clear" };
+export const search_setGarages = (garages) => {
+  return { type: SEARCH_SET_GARAGES, payload: garages };
+};
+
+export const search_setCars = (cars) => {
+  return { type: SEARCH_SET_CARS, payload: cars };
 };

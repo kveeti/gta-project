@@ -4,36 +4,36 @@ import { useSelector, useDispatch } from "react-redux";
 
 import PossibleCar from "./possibleCar/possibleCar.js";
 
-import { clearPossibleCars, setNewCarInput } from "../../actions/newCar.js";
+import {
+  newCar_setCarName,
+  newCar_setPossibleCars,
+} from "../../actions/newCar.js";
 
 const PossibleCars = () => {
-  let matchingPossibleCars = useSelector((state) => state.matchingPossibleCars);
+  let possibleCars = useSelector((state) => state.newCar.possibleCars);
+
   const dispatch = useDispatch();
 
   return (
     <>
-      {matchingPossibleCars === 204 ? (
-        <></>
-      ) : (
-        <Grid container spacing={1} justifyContent="center">
-          {matchingPossibleCars.map((car, index) => {
-            return (
-              <Grid item key={car.name} xs={12}>
-                <div
-                  key={index}
-                  style={{ cursor: "pointer" }}
-                  onClick={async (e) => {
-                    await dispatch(setNewCarInput(car.name));
-                    dispatch(clearPossibleCars());
-                  }}
-                >
-                  <PossibleCar car={car} />
-                </div>
-              </Grid>
-            );
-          })}
-        </Grid>
-      )}
+      <Grid container spacing={1} justifyContent="center">
+        {possibleCars.map((car, index) => {
+          return (
+            <Grid item key={car.name} xs={12}>
+              <div
+                key={index}
+                style={{ cursor: "pointer" }}
+                onClick={async (e) => {
+                  await dispatch(newCar_setCarName(car.name));
+                  dispatch(newCar_setPossibleCars([]));
+                }}
+              >
+                <PossibleCar car={car} />
+              </div>
+            </Grid>
+          );
+        })}
+      </Grid>
     </>
   );
 };

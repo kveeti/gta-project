@@ -2,12 +2,11 @@ import React from "react";
 
 import { useSelector, useDispatch } from "react-redux";
 import {
-  clearPossibleCars,
-  setNewCarInput,
-  searchPossibleCars,
+  newCar_searchPossibleCars,
+  newCar_setGarages,
+  newCar_setCarName,
+  newCar_setPossibleCars,
 } from "../../../actions/newCar";
-
-import { clearGarages } from "../../../actions/garages.js";
 
 const CarNameField = () => {
   const newCarInput = useSelector((state) => state.newCarInput);
@@ -16,19 +15,19 @@ const CarNameField = () => {
 
   const handleChange = (e) => {
     if (!e.target.value) {
-      dispatch(clearPossibleCars());
+      dispatch(newCar_setPossibleCars([]));
     }
-    dispatch(setNewCarInput(e.target.value));
-    dispatch(searchPossibleCars(e.target.value));
-    dispatch(clearGarages());
+    dispatch(newCar_setCarName(e.target.value));
+    dispatch(newCar_searchPossibleCars(e.target.value));
+    dispatch(newCar_setGarages([]));
   };
 
   const handleKeyPress = (e) => {
     if (!possibleCars.length) return;
 
     if (e.key === "Enter") {
-      dispatch(setNewCarInput(possibleCars[0].name));
-      dispatch(clearPossibleCars());
+      dispatch(newCar_setCarName(possibleCars[0].name));
+      dispatch(newCar_setPossibleCars([]));
     }
   };
 

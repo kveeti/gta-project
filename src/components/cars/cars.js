@@ -14,35 +14,32 @@ const Cars = ({ cars, onClick = false, page }) => {
 
   return (
     <>
-      {cars === 204 ? (
-        <></>
-      ) : (
-        <Grid container spacing={1}>
-          {cars.map((car) => {
-            return (
-              <Grid item key={car._id} xs={12} sm={6} md={4} lg={4} xl={3}>
-                <div
-                  key={car.name}
-                  style={{ cursor: "pointer" }}
-                  onClick={() => {
-                    if (!onClick) return;
-                    if (
-                      page === "move_car" &&
-                      carsToMove.length === 1 &&
-                      isMovingState
-                    ) {
-                      dispatch(isMoving());
-                    }
-                    dispatch(checkCar(car));
-                  }}
-                >
-                  <Car car={car} page={page} />
-                </div>
-              </Grid>
-            );
-          })}
-        </Grid>
-      )}
+      <Grid container spacing={1}>
+        {cars.map((car) => {
+          console.log(car);
+          return (
+            <Grid item key={car._id} xs={12} sm={6} md={4} lg={4} xl={3}>
+              <div
+                key={car.name}
+                style={{ cursor: "pointer" }}
+                onClick={() => {
+                  if (!onClick) return;
+                  if (
+                    page === "move_car" &&
+                    carsToMove.length === 1 &&
+                    isMovingState
+                  ) {
+                    dispatch(isMoving());
+                  }
+                  dispatch(checkCar(car));
+                }}
+              >
+                <Car car={car} page={page} />
+              </div>
+            </Grid>
+          );
+        })}
+      </Grid>
     </>
   );
 };

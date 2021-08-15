@@ -13,16 +13,14 @@ import {
   Button,
 } from "@material-ui/core";
 
-import {
-  renameGarage,
-  getCarsForGarage,
-  clearGarage,
-  garagePageSetName,
-  garagePageSetDesc,
-  searchGarages,
-} from "../../actions/garages.js";
-
 import { search } from "../../actions/search.js";
+import {
+  clearGaragePage,
+  garagePage_rename,
+  garagePage_setDesc,
+  garagePage_setName,
+  getCarsForGarage,
+} from "../../actions/garagePage.js";
 
 const GaragePage = () => {
   const dispatch = useDispatch();
@@ -41,8 +39,7 @@ const GaragePage = () => {
     cars,
   } = useSelector((state) => state.garagePage);
 
-  const searchInput = useSelector((state) => state.searchInput);
-  const garageInput = useSelector((state) => state.garageInput);
+  const searchInput = useSelector((state) => state.search.input);
 
   return (
     <>
@@ -53,10 +50,7 @@ const GaragePage = () => {
           component={Link}
           to="/home"
           onClick={() => {
-            dispatch(clearGarage());
-            if (garageInput) {
-              dispatch(searchGarages(garageInput));
-            }
+            clearGaragePage();
             if (searchInput) {
               dispatch(search(searchInput));
             }
@@ -77,7 +71,7 @@ const GaragePage = () => {
                 type="text"
                 value={garageNameInput}
                 placeholder={garageName}
-                onChange={(e) => dispatch(garagePageSetName(e.target.value))}
+                onChange={(e) => dispatch(garagePage_setName(e.target.value))}
                 style={{
                   backgroundColor: "#212121",
                   outline: "none",
@@ -90,7 +84,7 @@ const GaragePage = () => {
                 type="text"
                 value={garageDescInput}
                 placeholder={garageDesc}
-                onChange={(e) => dispatch(garagePageSetDesc(e.target.value))}
+                onChange={(e) => dispatch(garagePage_setDesc(e.target.value))}
                 style={{
                   backgroundColor: "#212121",
                   outline: "none",
@@ -127,7 +121,7 @@ const GaragePage = () => {
                 color="primary"
                 onClick={(e) => {
                   dispatch(
-                    renameGarage(
+                    garagePage_rename(
                       garageNameInput,
                       garageDescInput,
                       garage_id,

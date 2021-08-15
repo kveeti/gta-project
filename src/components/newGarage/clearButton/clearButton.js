@@ -2,18 +2,17 @@ import React from "react";
 import { Button } from "@material-ui/core/";
 
 import { useDispatch } from "react-redux";
-
 import {
-  setNewGarageDesc,
-  setNewGarageName,
-} from "../../../actions/garages.js";
+  newGarage_setDesc,
+  newGarage_setName,
+} from "../../../actions/newGarage";
 
 const ClearButton = () => {
   const dispatch = useDispatch();
 
   const handleClick = (e) => {
-    dispatch(setNewGarageDesc(""));
-    dispatch(setNewGarageName(""));
+    dispatch(newGarage_setDesc(""));
+    dispatch(newGarage_setName(""));
   };
 
   return (

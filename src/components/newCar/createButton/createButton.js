@@ -5,11 +5,11 @@ import { useSelector, useDispatch } from "react-redux";
 
 import {
   addCar,
-  setNewCarInput,
-  clearPossibleCars,
+  newCar_setCarName,
+  newCar_setGarageId,
+  newCar_setGarageName,
+  newCar_setPossibleCars,
 } from "../../../actions/newCar";
-
-import { setGarageInput, setNewGarageId } from "../../../actions/garages.js";
 
 const CreateButton = () => {
   const dispatch = useDispatch();
@@ -19,10 +19,10 @@ const CreateButton = () => {
 
   const handleClick = (e) => {
     dispatch(addCar(newCarName, newGarageId));
-    dispatch(setNewCarInput(""));
-    dispatch(setGarageInput(""));
-    dispatch(clearPossibleCars());
-    dispatch(setNewGarageId(null));
+    dispatch(newCar_setCarName(""));
+    dispatch(newCar_setGarageName(""));
+    dispatch(newCar_setPossibleCars([]));
+    dispatch(newCar_setGarageId(null));
   };
 
   return (

@@ -8,8 +8,8 @@ import { isMoving } from "../../../actions/moveCar.js";
 const MoveButton = () => {
   const dispatch = useDispatch();
 
-  const isMovingState = useSelector((state) => state.isMoving);
-  const carsToMove = useSelector((state) => state.carsToMove);
+  const isMovingState = useSelector((state) => state.moveCar.isMoving);
+  const carsToMove = useSelector((state) => state.moveCar.carsToMove);
 
   return (
     <Button

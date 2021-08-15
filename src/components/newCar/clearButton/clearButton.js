@@ -3,22 +3,21 @@ import { Button } from "@material-ui/core/";
 
 import { useDispatch } from "react-redux";
 
-import { setNewCarInput } from "../../../actions/newCar";
-
 import {
-  setGarageInput,
-  setNewGarageId,
-  clearGarages,
-} from "../../../actions/garages.js";
+  newCar_setCarName,
+  newCar_setGarageId,
+  newCar_setGarageName,
+  newCar_setGarages,
+} from "../../../actions/newCar";
 
 const ClearButton = () => {
   const dispatch = useDispatch();
 
   const handleClick = (e) => {
-    dispatch(setNewCarInput(""));
-    dispatch(setGarageInput(""));
-    dispatch(setNewGarageId(null));
-    dispatch(clearGarages());
+    dispatch(newCar_setCarName(""));
+    dispatch(newCar_setGarageName(""));
+    dispatch(newCar_setGarageId(null));
+    dispatch(newCar_setGarages([]));
   };
 
   return (
