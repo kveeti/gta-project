@@ -17,6 +17,6 @@ router.put("/", moveCar);
 
 router.post("/", newCar);
 
-router.delete("/:carID", rmCar);
+router.delete("/:car_id", rmCar);
 
 export { router as cars };
