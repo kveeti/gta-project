@@ -18,8 +18,7 @@ const Search = () => {
         direction="row"
         spacing={1}
         alignItems="center"
-        style={{ marginBottom: "1.5px" }}
-        xs={12}
+        style={{ marginBottom: "1.5px", width: "100%" }}
       >
         <Grid item xs={2} lg={1}>
           <LogoutButton />
@@ -29,7 +28,7 @@ const Search = () => {
         </Grid>
       </Grid>
       {carsToMove.length > 0 ? (
-        <Grid container xs={12}>
+        <Grid container>
           <MoveButton />
         </Grid>
       ) : null}

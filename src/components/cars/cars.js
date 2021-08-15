@@ -20,7 +20,7 @@ const Cars = ({ cars, onClick = false, page }) => {
         <Grid container spacing={1}>
           {cars.map((car) => {
             return (
-              <Grid item key={car.ID} xs={12} sm={6} md={4} lg={4} xl={3}>
+              <Grid item key={car._id} xs={12} sm={6} md={4} lg={4} xl={3}>
                 <div
                   key={car.name}
                   style={{ cursor: "pointer" }}
