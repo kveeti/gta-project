@@ -112,7 +112,5 @@ export const searchGarage = async (req, res) => {
     toSend = toSend.slice(0, 11);
   }
 
-  console.log(toSend);
-
   return res.status(200).json(toSend);
 };
