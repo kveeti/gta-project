@@ -37,10 +37,6 @@ export const newGarage = async (req, res) => {
     console.log(
       `\n@ ${time.toLocaleDateString()} - ${time.toLocaleTimeString()}\n  NEW GARAGE\n    ${name} - ${desc} - ${newGarageId}\n    ${owner}`
     );
-
-    const user = await userModel.findOne({ _id: owner }).populate("garages");
-
-    console.log(user);
   } catch (err) {
     console.log(err);
   }
@@ -105,12 +101,9 @@ export const searchGarage = async (req, res) => {
       garage.desc.includes(searchQuery)
   );
 
-  if (!toSend.length)
-    return res.status(204).json({ message: `No garages found` });
-
   if (toSend.length > 10) {
     toSend = toSend.slice(0, 11);
   }
 
-  return res.status(200).json(toSend);
+  return res.status(200).json({ garages: toSend });
 };

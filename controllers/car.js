@@ -1,9 +1,9 @@
 import { carModel, garageModel, possibleCarModel, userModel } from "../models";
-import { getUniqueCarId, getGarageById } from "../helpers";
+import { getGarageById } from "../helpers";
 
 const time = new Date();
 
-export const newCar = async (req, res, next) => {
+export const newCar = async (req, res) => {
   // Adds a car
   try {
     const newCarName = req.body.name.toLowerCase();
@@ -12,7 +12,7 @@ export const newCar = async (req, res, next) => {
 
     const existingGarage = await garageModel.findOne({
       owner: owner,
-      ID: newGarageId,
+      _id: newGarageId,
     });
 
     if (!existingGarage)
@@ -28,14 +28,11 @@ export const newCar = async (req, res, next) => {
         message: "that car doesn't exist",
       });
 
-    const carID = await getUniqueCarId(owner);
-
     const newCar = await carModel.create({
       name: modelCar.name,
       manufacturer: modelCar.manufacturer,
       price: modelCar.price,
       class: modelCar.class,
-      ID: carID,
       garage: existingGarage._id,
       owner: owner,
     });
@@ -49,7 +46,7 @@ export const newCar = async (req, res, next) => {
     );
 
     await garageModel.updateOne(
-      { ID: newGarageId },
+      { _id: newGarageId },
       { $addToSet: { cars: newCar._id } },
       (err) => {
         if (err) return console.log(err);
@@ -70,8 +67,8 @@ export const newCar = async (req, res, next) => {
     console.log(
       `\n@ ${time.toLocaleDateString()} - ${time.toLocaleTimeString()}\n  Car added\n    ${
         confirmCar.name
-      }\n    ${confirmCar.garage.name} - ${confirmCar.garage.desc} - ${
-        confirmCar.garage.ID
+      }\n    ${confirmCar.garage.name} - ${
+        confirmCar.garage.desc
       }\n    ${owner}`
     );
 
@@ -297,14 +294,11 @@ export const possibleCars = async (req, res, next) => {
 
     let results = await query.exec();
 
-    if (!results.length)
-      return res.status(204).json({ message: "No cars found" });
-
     if (results.length > 10) {
       results = results.slice(0, 11);
     }
 
-    return res.status(200).json(results);
+    return res.status(200).json({ possibleCars: results });
   } catch (err) {
     console.log(err);
   }
