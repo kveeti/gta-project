@@ -6,6 +6,7 @@ import { newCar_setPossibleCars } from "../../actions/newCar.js";
 import {
   search,
   search_setCars,
+  search_setGarages,
   search_setInput,
 } from "../../actions/search.js";
 
@@ -21,6 +22,7 @@ const SearchBar = () => {
     dispatch(forceIsMoving(false));
 
     if (!e.target.value) {
+      dispatch(search_setGarages([]));
       return dispatch(search_setCars([]));
     }
 

@@ -25,7 +25,6 @@ export const search = (query) => async (dispatch) => {
       { withCredentials: true }
     )
     .then((res) => {
-      console.log(res.data.cars);
       dispatch(search_setCars(res.data.cars));
       dispatch(search_setGarages(res.data.garages));
     })

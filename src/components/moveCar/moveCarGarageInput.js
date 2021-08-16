@@ -2,14 +2,24 @@ import React from "react";
 
 import { useSelector, useDispatch } from "react-redux";
 
-import { newGarage_setName } from "../../../actions/newGarage";
+import {
+  moveCar_searchGarages,
+  moveCar_setGarageInput,
+  moveCar_setGarages,
+} from "../../actions/moveCar";
 
 const MoveCarGarageInput = () => {
   const dispatch = useDispatch();
-  const newGarageName = useSelector((state) => state.newGarage);
+  const newGarageName = useSelector((state) => state.moveCar.garageInput);
 
   const handleChange = (e) => {
-    dispatch(newGarage_setName(e.target.value));
+    dispatch(moveCar_setGarageInput(e.target.value));
+
+    if (!e.target.value) {
+      dispatch(moveCar_setGarages([]));
+    }
+
+    dispatch(moveCar_searchGarages(e.target.value));
   };
 
   return (

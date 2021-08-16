@@ -7,7 +7,7 @@ import PossibleCar from "./possibleCar/possibleCar.js";
 import {
   newCar_setCarName,
   newCar_setPossibleCars,
-} from "../../actions/newCar.js";
+} from "../../../actions/newCar.js";
 
 const PossibleCars = () => {
   let possibleCars = useSelector((state) => state.newCar.possibleCars);

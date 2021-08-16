@@ -22,10 +22,7 @@ export const newCar_searchPossibleCars = (query) => async (dispatch) => {
       params: { q: query },
     })
     .then((res) => {
-      if (res.status === 204) {
-        return dispatch({ type: NEWCAR_SET_POSSIBLE_CARS, payload: 204 });
-      }
-      dispatch({ type: NEWCAR_SET_POSSIBLE_CARS, payload: res.data });
+      dispatch(newCar_setPossibleCars(res.data.possibleCars));
     })
     .catch((err) => {
       console.log("failed to search possible cars");
@@ -40,11 +37,7 @@ export const newCar_searchGarages = (query) => async (dispatch) => {
       params: { q: query },
     })
     .then((res) => {
-      dispatch({ type: NEWCAR_SET_GARAGES, payload: res.data.garages });
-
-      /* if (!res.data.garages.length) {
-        dispatch(newCar_setBadGarage(true));
-      } */
+      dispatch(newCar_setGarages(res.data.garages));
     })
     .catch((err) => {
       console.log("failed to search possible cars");
@@ -54,20 +47,6 @@ export const newCar_searchGarages = (query) => async (dispatch) => {
 export const newCar_setGarages = (garages) => {
   return { type: NEWCAR_SET_GARAGES, payload: garages };
 };
-
-/* export const newCar_setBadCar = (value) => {
-  return {
-    type: NEWCAR_BAD_CAR,
-    payload: value,
-  };
-};
-
-export const newCar_setBadGarage = (value) => {
-  return {
-    type: NEWCAR_BAD_GARAGE,
-    payload: value,
-  };
-}; */
 
 export const newCar_setPossibleCars = (possibleCars) => {
   return {

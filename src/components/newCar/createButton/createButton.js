@@ -14,8 +14,8 @@ import {
 const CreateButton = () => {
   const dispatch = useDispatch();
 
-  const newCarName = useSelector((state) => state.newCarInput);
-  const newGarageId = useSelector((state) => state.newGarageId);
+  const newCarName = useSelector((state) => state.newCar.carName);
+  const newGarageId = useSelector((state) => state.newCar.garageId);
 
   const handleClick = (e) => {
     dispatch(addCar(newCarName, newGarageId));

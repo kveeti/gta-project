@@ -4,19 +4,18 @@ import { useDispatch, useSelector } from "react-redux";
 
 import Car from "./car/car";
 
-import { checkCar, isMoving } from "../../actions/moveCar.js";
+import { checkCar, moveCar_clear } from "../../actions/moveCar.js";
 
 const Cars = ({ cars, onClick = false, page }) => {
   const dispatch = useDispatch();
 
-  const carsToMove = useSelector((state) => state.carsToMove);
-  const isMovingState = useSelector((state) => state.isMoving);
+  const carsToMove = useSelector((state) => state.moveCar.carsToMove);
+  const isMovingState = useSelector((state) => state.moveCar.isMoving);
 
   return (
     <>
       <Grid container spacing={1}>
         {cars.map((car) => {
-          console.log(car);
           return (
             <Grid item key={car._id} xs={12} sm={6} md={4} lg={4} xl={3}>
               <div
@@ -29,7 +28,7 @@ const Cars = ({ cars, onClick = false, page }) => {
                     carsToMove.length === 1 &&
                     isMovingState
                   ) {
-                    dispatch(isMoving());
+                    return dispatch(moveCar_clear());
                   }
                   dispatch(checkCar(car));
                 }}

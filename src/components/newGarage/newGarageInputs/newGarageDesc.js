@@ -5,7 +5,7 @@ import { newGarage_setDesc } from "../../../actions/newGarage";
 
 const NewGarageDesc = () => {
   const dispatch = useDispatch();
-  const newGarageDesc = useSelector((state) => state.newGarageDesc);
+  const newGarageDesc = useSelector((state) => state.newGarage.desc);
 
   const handleChange = (e) => {
     dispatch(newGarage_setDesc(e.target.value));

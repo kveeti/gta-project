@@ -1,23 +1,30 @@
 import {
-  CHECK_MOVE_LIST,
-  CLEAR_MOVE_LIST,
-  FORCE_IS_MOVING,
-  IS_MOVING,
+  MOVE_CAR_CHECK_CHOSEN_GARAGE,
+  MOVE_CAR_CHECK_MOVE_LIST,
+  MOVE_CAR_CLEAR,
+  MOVE_CAR_CLEAR_MOVE_LIST,
+  MOVE_CAR_FORCE_IS_MOVING,
+  MOVE_CAR_IS_MOVING,
+  MOVE_CAR_SET_GARAGES,
+  MOVE_CAR_SET_GARAGE_INPUT,
 } from "../constants/actionTypes";
 
 const init = {
   carsToMove: [],
   isMoving: false,
   garageId: "",
+  garageInput: "",
+  garages: [],
+  chosenGarage: null,
 };
 
 const moveCarReducer = (state = init, action) => {
   switch (action.type) {
-    case CHECK_MOVE_LIST:
+    case MOVE_CAR_CHECK_MOVE_LIST:
       if (
         !state.carsToMove.filter((car) => car._id === action.payload._id).length
       ) {
-        return { ...state, carsToMove: [action.payload] };
+        return { ...state, carsToMove: [...state.carsToMove, action.payload] };
       }
       return {
         ...state,
@@ -26,14 +33,32 @@ const moveCarReducer = (state = init, action) => {
         ),
       };
 
-    case CLEAR_MOVE_LIST:
+    case MOVE_CAR_CLEAR:
+      return init;
+
+    case MOVE_CAR_CLEAR_MOVE_LIST:
       return { ...state, carsToMove: [] };
 
-    case IS_MOVING:
+    case MOVE_CAR_IS_MOVING:
       return { ...state, isMoving: !state.isMoving };
 
-    case FORCE_IS_MOVING:
+    case MOVE_CAR_FORCE_IS_MOVING:
       return { ...state, isMoving: action.payload };
+
+    case MOVE_CAR_SET_GARAGES:
+      return { ...state, garages: action.payload };
+
+    case MOVE_CAR_SET_GARAGE_INPUT:
+      return { ...state, garageInput: action.payload };
+
+    case MOVE_CAR_CHECK_CHOSEN_GARAGE:
+      if (!state.chosenGarage) {
+        return { ...state, chosenGarage: action.payload };
+      }
+      return {
+        ...state,
+        chosenGarage: null,
+      };
 
     default:
       return state;

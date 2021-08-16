@@ -11,8 +11,8 @@ import {
 
 const CreateButton = () => {
   const dispatch = useDispatch();
-  const newGaragename = useSelector((state) => state.newGarageName);
-  const newGarageDesc = useSelector((state) => state.newGarageDesc);
+  const newGaragename = useSelector((state) => state.newGarage.name);
+  const newGarageDesc = useSelector((state) => state.newGarage.desc);
 
   const handleClick = (e) => {
     dispatch(newGarage_setDesc(""));

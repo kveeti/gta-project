@@ -3,22 +3,21 @@ import React from "react";
 import { Card, CardContent, Typography, Grid, Button } from "@material-ui/core";
 
 import { useDispatch, useSelector } from "react-redux";
-import { move, forceIsMoving } from "../../actions/moveCar";
+import { move, forceIsMoving, moveCar_clear } from "../../actions/moveCar";
 import { search } from "../../actions/search.js";
-
-import { clearMoveList } from "../../actions/moveCar.js";
 
 import Cars from "../cars/cars.js";
 
 import MoveCarGarageInput from "./moveCarGarageInput";
+import MoveCarChosenGarage from "./moveCarChosenGarage/moveCarChosenGarage";
 
 const MoveCar = () => {
   const dispatch = useDispatch();
 
-  const carsToMove = useSelector((state) => state.moveCar.carsToMove);
-  const garageId = useSelector((state) => state.moveCar.garageId);
-
   const searchInput = useSelector((state) => state.search.input);
+
+  const chosenGarage = useSelector((state) => state.moveCar.chosenGarage);
+  const carsToMove = useSelector((state) => state.moveCar.carsToMove);
 
   return (
     <>
@@ -38,14 +37,16 @@ const MoveCar = () => {
             >
               Move
             </Typography>
-            <MoveCarGarageInput paddingBottom={"10px"} />
+
+            {chosenGarage ? <MoveCarChosenGarage /> : <MoveCarGarageInput />}
+
             <Button
               variant="contained"
               color="primary"
               size="small"
-              disabled={garageId ? false : true}
+              disabled={chosenGarage ? false : true}
               onClick={async () => {
-                await dispatch(move(carsToMove, garageId));
+                await dispatch(move(carsToMove, chosenGarage._id));
                 dispatch(search(searchInput));
                 dispatch(forceIsMoving(false));
               }}
@@ -59,7 +60,7 @@ const MoveCar = () => {
               color="secondary"
               size="small"
               onClick={async () => {
-                dispatch(clearMoveList());
+                dispatch(moveCar_clear());
                 dispatch(forceIsMoving(false));
               }}
             >

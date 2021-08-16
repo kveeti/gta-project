@@ -10,8 +10,6 @@ import LogoutButton from "./logoutButton/logoutButton.js";
 
 const Search = () => {
   const carsToMove = useSelector((state) => state.moveCar.carsToMove);
-  const cars = useSelector((state) => state.search.cars);
-  console.log(cars);
 
   return (
     <>

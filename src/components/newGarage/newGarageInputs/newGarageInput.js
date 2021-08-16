@@ -6,7 +6,7 @@ import { newGarage_setName } from "../../../actions/newGarage";
 
 const NewGarageName = () => {
   const dispatch = useDispatch();
-  const newGarageName = useSelector((state) => state.newGarage);
+  const newGarageName = useSelector((state) => state.newGarage.name);
 
   const handleChange = (e) => {
     dispatch(newGarage_setName(e.target.value));

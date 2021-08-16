@@ -9,9 +9,9 @@ import {
 } from "../../../actions/newCar";
 
 const CarNameField = () => {
-  const newCarInput = useSelector((state) => state.newCarInput);
+  const newCarInput = useSelector((state) => state.newCar.carName);
   const dispatch = useDispatch();
-  const possibleCars = useSelector((state) => state.matchingPossibleCars);
+  const possibleCars = useSelector((state) => state.newCar.possibleCars);
 
   const handleChange = (e) => {
     if (!e.target.value) {
