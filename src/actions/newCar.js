@@ -1,11 +1,11 @@
 import {
   NEWCAR_SET_CAR_NAME,
   NEWCAR_SET_GARAGE_NAME,
-  NEWCAR_SET_GARAGE_ID,
   NEWCAR_SET_POSSIBLE_CARS,
   NEWCAR_SET_GARAGES,
-  // NEWCAR_BAD_CAR,
-  // NEWCAR_BAD_GARAGE,
+  NEWCAR_CHECK_CHOSEN_GARAGE,
+  NEWCAR_CHECK_CHOSEN_POSSIBLE_CAR,
+  NEWCAR_CLEAR_ALL,
 } from "../constants/actionTypes";
 
 import axios from "axios";
@@ -69,11 +69,16 @@ export const newCar_setGarageName = (newCarGarageName) => {
   };
 };
 
-export const newCar_setGarageId = (newCarGarageId) => {
-  return {
-    type: NEWCAR_SET_GARAGE_ID,
-    payload: newCarGarageId,
-  };
+export const newCar_checkChosenGarage = (garage) => {
+  return { type: NEWCAR_CHECK_CHOSEN_GARAGE, payload: garage };
+};
+
+export const newCar_checkChosenPossibleCar = (possibleCar) => {
+  return { type: NEWCAR_CHECK_CHOSEN_POSSIBLE_CAR, payload: possibleCar };
+};
+
+export const newCar_clearAll = () => {
+  return { type: NEWCAR_CLEAR_ALL };
 };
 
 export const addCar = (name, ID) => async (dispatch) => {

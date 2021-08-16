@@ -13,8 +13,16 @@ import ClearButton from "./clearButton/clearButton.js";
 
 import CarNameField from "./carNameField/carNameField.js";
 import NewCarGarageInput from "./newCarGarageInput.js";
+import { useSelector } from "react-redux";
+import NewCarChosenGarage from "./newCarChosenGarage/newCarChosenGarage.js";
+import NewCarChosenPossibleCar from "./newCarChosenPossibleCar/newCarChosenPossibleCar.js";
 
 const NewCar = () => {
+  const chosenGarage = useSelector((state) => state.newCar.chosenGarage);
+  const chosenPossibleCar = useSelector(
+    (state) => state.newCar.chosenPossibleCar
+  );
+
   return (
     <>
       <Card
@@ -29,8 +37,9 @@ const NewCar = () => {
             >
               New car
             </Typography>
-            <NewCarGarageInput />
-            <CarNameField />
+
+            {chosenGarage ? <NewCarChosenGarage /> : <NewCarGarageInput />}
+            {chosenPossibleCar ? <NewCarChosenPossibleCar /> : <CarNameField />}
           </Grid>
         </CardContent>
 

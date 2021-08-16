@@ -3,8 +3,8 @@ import React from "react";
 import { useSelector, useDispatch } from "react-redux";
 
 import {
+  newCar_checkChosenGarage,
   newCar_searchGarages,
-  newCar_setGarageId,
   newCar_setGarageName,
   newCar_setGarages,
 } from "../../actions/newCar.js";
@@ -19,8 +19,7 @@ const NewCarGarageInput = ({ paddingBottom = "0" }) => {
     dispatch(newCar_setGarageName(e.target.value));
 
     if (!e.target.value) {
-      dispatch(newCar_setGarages([]));
-      return dispatch(newCar_setGarageId(null));
+      return dispatch(newCar_setGarages([]));
     }
 
     dispatch(newCar_searchGarages(e.target.value));
@@ -32,9 +31,7 @@ const NewCarGarageInput = ({ paddingBottom = "0" }) => {
     if (e.key === "Enter") {
       if (!garages[0]) return;
 
-      dispatch(newCar_setGarageName(garages[0].name));
-      dispatch(newCar_setGarageId(garages[0]._id));
-      dispatch(newCar_setGarages([]));
+      dispatch(newCar_checkChosenGarage(garages[0]));
     }
   };
 

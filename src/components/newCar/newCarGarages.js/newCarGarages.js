@@ -4,11 +4,7 @@ import { useDispatch } from "react-redux";
 
 import NewCarGarage from "./garage/newCarGarage.js";
 
-import {
-  newCar_setGarageId,
-  newCar_setGarageName,
-  newCar_setGarages,
-} from "../../../actions/newCar.js";
+import { newCar_checkChosenGarage } from "../../../actions/newCar.js";
 
 const NewCarGarages = ({ garages }) => {
   const dispatch = useDispatch();
@@ -22,17 +18,7 @@ const NewCarGarages = ({ garages }) => {
               <div
                 style={{ cursor: "pointer", paddingBottom: "8.5px" }}
                 onClick={(e) => {
-                  let garageName;
-
-                  if (garage.desc) {
-                    garageName = `${garage.name} - ${garage.desc}`;
-                  }
-
-                  garageName = garage.name;
-
-                  dispatch(newCar_setGarageName(garageName));
-                  dispatch(newCar_setGarageId(garage._id));
-                  dispatch(newCar_setGarages([]));
+                  dispatch(newCar_checkChosenGarage(garage));
                 }}
               >
                 <NewCarGarage garage={garage} />

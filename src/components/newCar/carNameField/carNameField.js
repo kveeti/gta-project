@@ -9,9 +9,11 @@ import {
 } from "../../../actions/newCar";
 
 const CarNameField = () => {
-  const newCarInput = useSelector((state) => state.newCar.carName);
   const dispatch = useDispatch();
+
+  const newCarInput = useSelector((state) => state.newCar.carName);
   const possibleCars = useSelector((state) => state.newCar.possibleCars);
+  const chosenGarage = useSelector((state) => state.newCar.chosenGarage);
 
   const handleChange = (e) => {
     if (!e.target.value) {
@@ -19,7 +21,6 @@ const CarNameField = () => {
     }
     dispatch(newCar_setCarName(e.target.value));
     dispatch(newCar_searchPossibleCars(e.target.value));
-    dispatch(newCar_setGarages([]));
   };
 
   const handleKeyPress = (e) => {
@@ -44,6 +45,7 @@ const CarNameField = () => {
       value={newCarInput}
       onInput={handleChange}
       onKeyPress={handleKeyPress}
+      disabled={chosenGarage ? "" : "disabled"}
       style={{
         backgroundColor: "#212121",
         color: color,
