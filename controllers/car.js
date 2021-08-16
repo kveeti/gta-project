@@ -137,8 +137,8 @@ export const rmCar = async (req, res, next) => {
     console.log(
       `\n@ ${time.toLocaleDateString()} - ${time.toLocaleTimeString()}\n  Car deleted\n    ${
         deletedCar.name
-      }\n    ${deletedCar.garage.name} - ${deletedCar.garage.desc} - ${
-        deletedCar.garage.ID
+      }\n    ${deletedCar.garage.name} - ${
+        deletedCar.garage.desc
       }\n    ${owner}`
     );
   } catch (err) {
@@ -163,11 +163,11 @@ export const moveCar = async (req, res, next) => {
     let movedCars = [];
 
     for (const car of cars) {
-      const foundCar = await carModel.findOne({ ID: car.ID, owner: owner });
+      const foundCar = await carModel
+        .findOne({ _id: car._id, owner: owner })
+        .populate("garage");
 
-      if (foundCar.owner !== owner) {
-        return console.log("rip");
-      }
+      console.log(foundCar);
 
       if (!foundCar) {
         console.log(
@@ -178,7 +178,7 @@ export const moveCar = async (req, res, next) => {
         errors.push("move error");
       }
 
-      if (foundCar.garage.ID === to) {
+      if (foundCar.garage._id === to) {
         console.log(
           `\n@ ${time.toLocaleDateString()} - ${time.toLocaleTimeString()}\n  MOVE ERROR\n    Car already in garage\n    requested car: ${
             car.name
@@ -189,34 +189,40 @@ export const moveCar = async (req, res, next) => {
         errors.push("move error 2");
       }
 
-      let newCar = await carModel.findOneAndUpdate(
-        { ID: car.ID, owner: owner },
-        {
-          $set: {
-            "garage.ID": to,
-            "garage.name": newGarage.name,
-            "garage.desc": newGarage.desc,
+      const newCar = await carModel
+        .findOneAndUpdate(
+          { _id: car._id, owner: owner },
+          {
+            $set: { garage: newGarage._id },
           },
-        },
-        { new: true }
-      );
+          { new: true }
+        )
+        .populate("garage");
 
       if (!newCar) {
         errors.push("mongoose error ehkä");
         return console.log(`Error updating a car: ${err}`);
       }
 
+      await garageModel.findOneAndUpdate(
+        { _id: to, owner: owner },
+        { $addToSet: { cars: newCar._id } }
+      );
+
+      await garageModel.findOneAndUpdate(
+        { _id: foundCar.garage, owner: owner },
+        { $pull: { cars: foundCar._id } }
+      );
+
       movedCars.push({
         name: foundCar.name,
         from: {
           gName: foundCar.garage.name,
           gDesc: foundCar.garage.desc,
-          gID: foundCar.garage.ID,
         },
         to: {
           gName: newCar.garage.name,
           gDesc: newCar.garage.desc,
-          gID: newCar.garage.ID,
         },
         owner: foundCar.owner,
       });
@@ -233,11 +239,9 @@ export const moveCar = async (req, res, next) => {
       console.log(
         `\n@ ${time.toLocaleDateString()} - ${time.toLocaleTimeString()}\n  MOVED\n    ${
           car.name
-        }\n\n    from: ${car.from.gName} - ${car.from.gDesc} - ${
-          car.from.gID
-        }\n    to: ${car.to.gName} - ${car.to.gDesc} - ${
-          car.to.gID
-        }\n    owner: ${car.owner}`
+        }\n\n    from: ${car.from.gName} - ${car.from.gDesc}\n    to: ${
+          car.to.gName
+        } - ${car.to.gDesc}\n    owner: ${car.owner}`
       );
     });
 
