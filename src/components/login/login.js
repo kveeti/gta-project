@@ -4,19 +4,22 @@ import { useDispatch, useSelector } from "react-redux";
 
 import { useHistory } from "react-router-dom";
 
-import { Button } from "@material-ui/core/";
+import { Button, Typography } from "@material-ui/core/";
 import { GoogleLogin } from "react-google-login";
 
 import { login, checkLogin } from "../../actions/auth.js";
+import { AUTH_API_STATUS } from "../../constants/actionTypes.js";
 
 const config = require("../../config.json");
 
-const Login = () => {
+const Login = (props) => {
+  console.log(props);
   const dispatch = useDispatch();
 
   let history = useHistory();
 
   const { loggedIn } = useSelector((state) => state.user);
+  const auth = useSelector((state) => state.user);
 
   const googleSuccess = async (googleData) => {
     try {
@@ -38,6 +41,10 @@ const Login = () => {
   };
 
   useEffect(() => {
+    dispatch({
+      type: AUTH_API_STATUS,
+      payload: { message: null, success: null, loading: true },
+    });
     dispatch(checkLogin());
 
     if (loggedIn) {
@@ -56,22 +63,26 @@ const Login = () => {
         minHeight: "100vh",
       }}
     >
-      <GoogleLogin
-        clientId={config.G_CLIENT_ID}
-        render={(renderProps) => (
-          <Button
-            color="primary"
-            variant="contained"
-            onClick={renderProps.onClick}
-            disabled={renderProps.disabled}
-          >
-            Google login
-          </Button>
-        )}
-        onSuccess={googleSuccess}
-        onFailure={googleFailure}
-        cookiePolicy="single_host_origin"
-      />
+      {auth.api.loading || !auth.api.success ? (
+        <Typography style={{ color: "white" }}>{auth.api.message}</Typography>
+      ) : (
+        <GoogleLogin
+          clientId={config.G_CLIENT_ID}
+          render={(renderProps) => (
+            <Button
+              color="primary"
+              variant="contained"
+              onClick={renderProps.onClick}
+              disabled={renderProps.disabled}
+            >
+              Google login
+            </Button>
+          )}
+          onSuccess={googleSuccess}
+          onFailure={googleFailure}
+          cookiePolicy="single_host_origin"
+        />
+      )}
     </div>
   );
 };

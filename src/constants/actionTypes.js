@@ -31,3 +31,4 @@ export const GARAGE_PAGE_SET_DESC = "GARAGE_PAGE_SET_DESC";
 export const LOGIN = "LOGIN";
 export const LOGOUT = "LOGOUT";
 export const SET_LOGGED_IN = "SET_LOGGED_IN";
+export const AUTH_API_STATUS = "AUTH_API_STATUS";

@@ -5,7 +5,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { Card, CardContent, Typography } from "@material-ui/core";
 import { newCar_checkChosenPossibleCar } from "../../../actions/newCar";
 
-const NewCarChosenGarage = () => {
+const NewCarChosenPossibleCar = () => {
   const dispatch = useDispatch();
 
   const car = useSelector((state) => state.newCar.chosenPossibleCar);
@@ -35,4 +35,4 @@ const NewCarChosenGarage = () => {
   );
 };
 
-export default NewCarChosenGarage;
+export default NewCarChosenPossibleCar;

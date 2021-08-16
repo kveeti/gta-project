@@ -1,4 +1,9 @@
-import { LOGIN, LOGOUT, SET_LOGGED_IN } from "../constants/actionTypes";
+import {
+  AUTH_API_STATUS,
+  LOGIN,
+  LOGOUT,
+  SET_LOGGED_IN,
+} from "../constants/actionTypes";
 
 import axios from "axios";
 
@@ -31,7 +36,17 @@ export const checkLogin = () => async (dispatch) => {
       dispatch({ type: SET_LOGGED_IN, payload: true });
     })
     .catch((err) => {
-      console.log("not logged in");
+      if (!err.response) {
+        return dispatch({
+          type: AUTH_API_STATUS,
+          payload: { message: "site down", success: false, loading: false },
+        });
+      }
+
+      dispatch({
+        type: AUTH_API_STATUS,
+        payload: { message: null, success: true, loading: false },
+      });
     });
 };
 

@@ -16,7 +16,7 @@ const NewCarGarages = ({ garages }) => {
           return (
             <Grid item key={garage.name} xs={12}>
               <div
-                style={{ cursor: "pointer", paddingBottom: "8.5px" }}
+                style={{ cursor: "pointer" }}
                 onClick={(e) => {
                   dispatch(newCar_checkChosenGarage(garage));
                 }}

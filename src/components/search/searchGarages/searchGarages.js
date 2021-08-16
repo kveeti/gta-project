@@ -6,14 +6,11 @@ import SearchGarage from "./garage/searchGarage.js";
 const SearchGarages = ({ garages }) => {
   return (
     <>
-      <Grid container spacing={1}>
+      <Grid container spacing={1} style={{ paddingBottom: "8.5px" }}>
         {garages.map((garage) => {
           return (
             <Grid item key={garage.name} xs={12}>
-              <div
-                style={{ cursor: "pointer", paddingBottom: "8.5px" }}
-                onClick={(e) => {}}
-              >
+              <div style={{ cursor: "pointer" }} onClick={(e) => {}}>
                 <SearchGarage garage={garage} />
               </div>
             </Grid>
