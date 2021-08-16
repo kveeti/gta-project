@@ -1,5 +1,4 @@
-import { getUniqueGarageId } from "../helpers";
-import { garageModel, carModel, userModel } from "../models";
+import { garageModel, userModel } from "../models";
 
 export const newGarage = async (req, res) => {
   // Adds a garage
@@ -10,10 +9,7 @@ export const newGarage = async (req, res) => {
   let time = new Date();
 
   try {
-    const newGarageId = await getUniqueGarageId(owner);
-
     const newGarage = await garageModel.create({
-      ID: newGarageId,
       name: name,
       desc: desc,
       owner: owner,
@@ -27,15 +23,14 @@ export const newGarage = async (req, res) => {
       }
     );
 
-    res.status(200).json({
-      ID: newGarage.ID,
+    res.status(201).json({
       name: newGarage.name,
       desc: newGarage.desc,
       owner: newGarage.owner,
     });
 
     console.log(
-      `\n@ ${time.toLocaleDateString()} - ${time.toLocaleTimeString()}\n  NEW GARAGE\n    ${name} - ${desc} - ${newGarageId}\n    ${owner}`
+      `\n@ ${time.toLocaleDateString()} - ${time.toLocaleTimeString()}\n  NEW GARAGE\n    ${name} - ${desc}\n    ${owner}`
     );
   } catch (err) {
     console.log(err);
