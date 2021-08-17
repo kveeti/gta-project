@@ -1,19 +1,21 @@
+import { useSelector } from "react-redux";
+
 import {
-  Card,
   CardActions,
   CardContent,
   Typography,
   Grid,
+  Paper,
 } from "@material-ui/core/";
 
-import CreateButton from "./createButton/createButton.js";
-import ClearButton from "./clearButton/clearButton.js";
+import CreateButton from "./buttons/createButton";
+import ClearButton from "./buttons/clearButton";
 
-import CarNameField from "./carNameField/carNameField.js";
-import NewCarGarageInput from "./newCarGarageInput.js";
-import { useSelector } from "react-redux";
-import NewCarChosenGarage from "./newCarChosenGarage/newCarChosenGarage.js";
-import NewCarChosenPossibleCar from "./newCarChosenPossibleCar/newCarChosenPossibleCar.js";
+import CarNameField from "./carNameField/carNameField";
+import NewCarGarageInput from "./newCarGarageInput";
+
+import NewCarChosenGarage from "./newCarChosenGarage/newCarChosenGarage";
+import NewCarChosenPossibleCar from "./newCarChosenPossibleCar/newCarChosenPossibleCar";
 
 const NewCar = () => {
   const chosenGarage = useSelector((state) => state.newCar.chosenGarage);
@@ -23,12 +25,12 @@ const NewCar = () => {
 
   return (
     <>
-      <Card
-        style={{ backgroundColor: "#212121", marginBottom: "9.5px" }}
-        variant="outlined"
+      <Paper
+        style={{ backgroundColor: "#212121", marginTop: "8px" }}
+        elevation={6}
       >
         <CardContent>
-          <Grid container direction="column" style={{ gridRowGap: "10px" }}>
+          <Grid container direction="column" style={{ rowGap: "10px" }}>
             <Typography
               variant="button"
               style={{ color: "white", fontSize: "18px" }}
@@ -42,16 +44,12 @@ const NewCar = () => {
         </CardContent>
 
         <CardActions>
-          <Grid
-            container
-            justifyContent="center"
-            style={{ gridColumnGap: "10px" }}
-          >
+          <Grid container justifyContent="center">
             <ClearButton />
             <CreateButton />
           </Grid>
         </CardActions>
-      </Card>
+      </Paper>
     </>
   );
 };

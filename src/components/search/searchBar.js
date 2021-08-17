@@ -31,7 +31,11 @@ const SearchBar = () => {
   let color = "white";
 
   if (searchInput.length && !cars.length && !garages.length) {
-    color = "red";
+    color = "white";
+
+    setTimeout(() => {
+      color = "red";
+    }, 500);
   }
 
   return (
@@ -40,8 +44,9 @@ const SearchBar = () => {
       style={{
         width: "100%",
         backgroundColor: color,
-        border: `2px solid ${color}`,
-        fontSize: "1rem",
+        border: `4.75px solid ${color}`,
+        borderRadius: "2.5px",
+        fontSize: "16px",
       }}
       value={searchInput}
       onInput={handleChange}

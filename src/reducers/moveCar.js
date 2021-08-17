@@ -1,5 +1,6 @@
 import {
   MOVE_CAR_CHECK_CHOSEN_GARAGE,
+  MOVE_CAR_CHECK_ERROR_CAR,
   MOVE_CAR_CHECK_MOVE_LIST,
   MOVE_CAR_CLEAR,
   MOVE_CAR_CLEAR_MOVE_LIST,
@@ -11,6 +12,7 @@ import {
 
 const init = {
   carsToMove: [],
+  errorCars: [],
   isMoving: false,
   garageId: "",
   garageInput: "",
@@ -58,6 +60,19 @@ const moveCarReducer = (state = init, action) => {
       return {
         ...state,
         chosenGarage: null,
+      };
+
+    case MOVE_CAR_CHECK_ERROR_CAR:
+      if (
+        !state.errorCars.filter((car) => car._id === action.payload._id).length
+      ) {
+        return { ...state, errorCars: [...state.errorCars, action.payload] };
+      }
+      return {
+        ...state,
+        errorCars: state.errorCars.filter(
+          (car) => car._id !== action.payload._id
+        ),
       };
 
     default:

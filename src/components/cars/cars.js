@@ -3,36 +3,59 @@ import { useDispatch, useSelector } from "react-redux";
 
 import Car from "./car/car";
 
-import { checkCar, moveCar_clear } from "../../actions/moveCar.js";
+import { moveCar_checkCar, moveCar_clear } from "../../actions/moveCar.js";
+import { newCar_checkChosenPossibleCar } from "../../actions/newCar";
 
-const Cars = ({ cars, onClick = false, page }) => {
+const Cars = ({ cars, onClick = false, carType }) => {
   const dispatch = useDispatch();
 
   const carsToMove = useSelector((state) => state.moveCar.carsToMove);
   const isMovingState = useSelector((state) => state.moveCar.isMoving);
 
+  const checkMoveCar = (car) => {
+    if (carType !== "moveCar" && carType !== "search") return;
+
+    if (carsToMove.length === 1 && isMovingState) {
+      return dispatch(moveCar_clear());
+    }
+
+    dispatch(moveCar_checkCar(car));
+  };
+
+  const checkPossibleCar = (car) => {
+    if (carType !== "possibleCar") return;
+
+    dispatch(newCar_checkChosenPossibleCar(car));
+  };
+
   return (
     <>
-      <Grid container spacing={1}>
+      <Grid container spacing={1} style={{ marginTop: "4px" }}>
         {cars.map((car) => {
           return (
-            <Grid item key={car._id} xs={12} sm={6} md={4} lg={4} xl={3}>
+            <Grid
+              item
+              key={carType === "possibleCar" ? car.name : car._id}
+              xs={12}
+              sm={6}
+              md={4}
+              lg={4}
+              xl={3}
+            >
               <div
                 key={car.name}
-                style={{ cursor: "pointer" }}
-                onClick={() => {
-                  if (!onClick) return;
-                  if (
-                    page === "move_car" &&
-                    carsToMove.length === 1 &&
-                    isMovingState
-                  ) {
-                    return dispatch(moveCar_clear());
-                  }
-                  dispatch(checkCar(car));
-                }}
+                style={{ cursor: onClick ? "pointer" : null }}
+                onClick={
+                  onClick
+                    ? () => {
+                        checkMoveCar(car);
+
+                        checkPossibleCar(car);
+                      }
+                    : null
+                }
               >
-                <Car car={car} page={page} />
+                <Car car={car} carType={carType} />
               </div>
             </Grid>
           );

@@ -11,6 +11,7 @@ const NewCarChosenGarage = () => {
   const dispatch = useDispatch();
 
   const chosenGarage = useSelector((state) => state.newCar.chosenGarage);
+  const possibleCarInput = useSelector((state) => state.newCar.carName);
   const chosenPossibleCar = useSelector(
     (state) => state.newCar.chosenPossibleCar
   );
@@ -22,6 +23,10 @@ const NewCarChosenGarage = () => {
           onClick={(e) => {
             if (chosenPossibleCar) {
               dispatch(newCar_checkChosenPossibleCar(chosenPossibleCar));
+              dispatch(newCar_setCarName(""));
+              dispatch(newCar_setPossibleCars([]));
+            }
+            if (possibleCarInput) {
               dispatch(newCar_setCarName(""));
               dispatch(newCar_setPossibleCars([]));
             }

@@ -15,7 +15,7 @@ const MoveButton = () => {
       size="small"
       color="primary"
       variant="contained"
-      style={{ marginBottom: "8.5px", width: "100%" }}
+      style={{ marginBottom: "10.5px", width: "100%" }}
       onClick={() => {
         dispatch(isMoving());
       }}

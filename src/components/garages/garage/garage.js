@@ -1,8 +1,8 @@
-import { Card, CardContent, Grid, Typography } from "@material-ui/core/";
+import { CardContent, Grid, Paper, Typography } from "@material-ui/core";
 
-const NewCarGarage = ({ garage }) => {
+const Garage = ({ garage }) => {
   return (
-    <Card style={{ backgroundColor: "#212121" }} variant="outlined">
+    <Paper style={{ backgroundColor: "#212121" }} elevation={5}>
       <CardContent>
         <Grid container justifyContent="flex-start">
           <Typography
@@ -19,8 +19,8 @@ const NewCarGarage = ({ garage }) => {
           </Typography>
         </Grid>
       </CardContent>
-    </Card>
+    </Paper>
   );
 };
 
-export default NewCarGarage;
+export default Garage;

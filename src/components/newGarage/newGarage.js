@@ -1,22 +1,25 @@
 import React from "react";
 
 import {
-  Card,
   CardContent,
   Typography,
   Grid,
   CardActions,
+  Paper,
 } from "@material-ui/core";
 
 import NewGarageDesc from "./newGarageInputs/newGarageDesc";
 import NewGarageName from "./newGarageInputs/newGarageInput";
-import CreateButton from "./createButton/createButton";
-import ClearButton from "./clearButton/clearButton";
+import CreateButton from "./buttons/createButton";
+import ClearButton from "./buttons/clearButton";
 
 const NewGarage = () => {
   return (
     <>
-      <Card style={{ backgroundColor: "#212121" }}>
+      <Paper
+        elevation={6}
+        style={{ backgroundColor: "#212121", marginTop: "8px" }}
+      >
         <CardContent>
           <Grid container direction="column" style={{ gridRowGap: "10px" }}>
             <Typography
@@ -30,16 +33,12 @@ const NewGarage = () => {
           </Grid>
         </CardContent>
         <CardActions>
-          <Grid
-            container
-            justifyContent="center"
-            style={{ gridColumnGap: "10px" }}
-          >
+          <Grid container justifyContent="center">
             <ClearButton />
             <CreateButton />
           </Grid>
         </CardActions>
-      </Card>
+      </Paper>
     </>
   );
 };

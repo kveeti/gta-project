@@ -4,11 +4,11 @@ import {
   MOVE_CAR_IS_MOVING,
   MOVE_CAR_FORCE_IS_MOVING,
   MOVE_CAR_CHECK_MOVE_LIST,
-  MOVE_CAR_CLEAR_MOVE_LIST,
   MOVE_CAR_SET_GARAGES,
   MOVE_CAR_SET_GARAGE_INPUT,
   MOVE_CAR_CHECK_CHOSEN_GARAGE,
   MOVE_CAR_CLEAR,
+  MOVE_CAR_CHECK_ERROR_CAR,
 } from "../constants/actionTypes";
 
 import config from ".././config.json";
@@ -26,7 +26,7 @@ export const forceIsMoving = (forcedState) => {
   };
 };
 
-export const checkCar = (car) => {
+export const moveCar_checkCar = (car) => {
   return { type: MOVE_CAR_CHECK_MOVE_LIST, payload: car };
 };
 
@@ -46,18 +46,8 @@ export const moveCar_clear = () => {
   return { type: MOVE_CAR_CLEAR };
 };
 
-export const move = (carList, garageId) => async (dispatch) => {
-  await axios
-    .put(`${config.API_URL}/gta-api/cars/`, {
-      cars: carList,
-      newGarageID: garageId,
-    })
-    .then((res) => {
-      dispatch({ type: MOVE_CAR_CLEAR_MOVE_LIST });
-    })
-    .catch((err) => {
-      console.log("moving failed");
-    });
+export const moveCar_checkErrorCar = (errorCar) => {
+  return { type: MOVE_CAR_CHECK_ERROR_CAR, payload: errorCar };
 };
 
 export const moveCar_searchGarages = (query) => async (dispatch) => {

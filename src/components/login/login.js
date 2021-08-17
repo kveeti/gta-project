@@ -12,8 +12,7 @@ import { AUTH_API_STATUS } from "../../constants/actionTypes.js";
 
 const config = require("../../config.json");
 
-const Login = (props) => {
-  console.log(props);
+const Login = () => {
   const dispatch = useDispatch();
 
   let history = useHistory();
