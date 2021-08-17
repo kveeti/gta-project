@@ -1,10 +1,11 @@
 import { carModel, garageModel, possibleCarModel, userModel } from "../models";
 import { getGarageById } from "../helpers";
 
-const time = new Date();
+const date = new Date();
 
 export const newCar = async (req, res) => {
   // Adds a car
+
   try {
     const newCarName = req.body.name.toLowerCase();
     const newGarageId = req.body.garageID;
@@ -65,7 +66,7 @@ export const newCar = async (req, res) => {
     }
 
     console.log(
-      `\n@ ${time.toLocaleDateString()} - ${time.toLocaleTimeString()}\n  Car added\n    ${
+      `\n@ ${date.toLocaleDateString()} - ${date.toLocaleTimeString()}\n  Car added\n    ${
         confirmCar.name
       }\n    ${confirmCar.garage.name} - ${
         confirmCar.garage.desc
@@ -135,7 +136,7 @@ export const rmCar = async (req, res, next) => {
     res.status(200).json(`deleted`);
 
     console.log(
-      `\n@ ${time.toLocaleDateString()} - ${time.toLocaleTimeString()}\n  Car deleted\n    ${
+      `\n@ ${date.toLocaleDateString()} - ${date.toLocaleTimeString()}\n  Car deleted\n    ${
         deletedCar.name
       }\n    ${deletedCar.garage.name} - ${
         deletedCar.garage.desc
@@ -149,6 +150,8 @@ export const rmCar = async (req, res, next) => {
 export const moveCar = async (req, res, next) => {
   // Moves a car
 
+  let time = `${date.toLocaleDateString()} - ${date.toLocaleTimeString()}`;
+
   try {
     const cars = req.body.cars;
     const to = req.body.newGarageID;
@@ -161,32 +164,62 @@ export const moveCar = async (req, res, next) => {
 
     let errors = [];
     let movedCars = [];
+    let toSendMovedCars = [];
+    let toSendErrorCars = [];
 
     for (const car of cars) {
       const foundCar = await carModel
         .findOne({ _id: car._id, owner: owner })
         .populate("garage");
 
-      console.log(foundCar);
-
       if (!foundCar) {
-        console.log(
-          `\n@ ${time.toLocaleDateString()} - ${time.toLocaleTimeString()}\n  MOVE ERROR\n    Car not found\n    requested car: ${
-            car.name
-          }`
-        );
-        errors.push("move error");
+        errors.push({
+          time,
+          message: "Car not found",
+          car,
+          requester: owner,
+        });
+        toSendErrorCars.push(car);
+        continue;
       }
 
-      if (foundCar.garage._id === to) {
-        console.log(
-          `\n@ ${time.toLocaleDateString()} - ${time.toLocaleTimeString()}\n  MOVE ERROR\n    Car already in garage\n    requested car: ${
-            car.name
-          }\n\n    from: ${car.garage.name} - ${car.garage.desc}\n    to: ${
-            newGarage.name
-          } - ${newGarage.desc}`
-        );
-        errors.push("move error 2");
+      if (foundCar._id.toString() === "611c02c8c5e76925b4b059fa") {
+        errors.push({
+          time,
+          message: "custom error",
+          car,
+          requester: owner,
+        });
+        toSendErrorCars.push(car);
+        continue;
+      }
+
+      const oldGarage = await garageModel.findOneAndUpdate(
+        { _id: foundCar.garage, owner: owner },
+        { $pull: { cars: foundCar._id } },
+        { new: true }
+      );
+
+      if (!oldGarage) {
+        errors.push({
+          time,
+          message: "Old garage not found",
+          car,
+          requester,
+        });
+        toSendErrorCars.push(car);
+        continue;
+      }
+
+      if (foundCar.garage._id.toString() === to.toString()) {
+        errors.push({
+          time,
+          message: "Car already in garage",
+          car,
+          requester: owner,
+        });
+        toSendErrorCars.push(car);
+        continue;
       }
 
       const newCar = await carModel
@@ -200,21 +233,34 @@ export const moveCar = async (req, res, next) => {
         .populate("garage");
 
       if (!newCar) {
-        errors.push("mongoose error ehkä");
-        return console.log(`Error updating a car: ${err}`);
+        errors.push({
+          time,
+          message: "Updated car not found",
+          car,
+          requester: owner,
+        });
+        toSendErrorCars.push(car);
+        continue;
       }
 
-      await garageModel.findOneAndUpdate(
+      const newGarage2 = await garageModel.findOneAndUpdate(
         { _id: to, owner: owner },
         { $addToSet: { cars: newCar._id } }
       );
 
-      await garageModel.findOneAndUpdate(
-        { _id: foundCar.garage, owner: owner },
-        { $pull: { cars: foundCar._id } }
-      );
+      if (!newGarage2) {
+        errors.push({
+          time,
+          message: "Car adding to new garage failed",
+          car,
+          requester: owner,
+        });
+        toSendErrorCars.push(car);
+        continue;
+      }
 
       movedCars.push({
+        _id: foundCar._id,
         name: foundCar.name,
         from: {
           gName: foundCar.garage.name,
@@ -226,28 +272,39 @@ export const moveCar = async (req, res, next) => {
         },
         owner: foundCar.owner,
       });
+
+      toSendMovedCars.push(newCar);
     }
+
+    /* if (errors.length === cars.length) {
+      console.log(`\nEvery car failed to move\n`);
+      for (const error of errors) {
+        console.log(error);
+      }
+      return res.status(500).send();
+    } */
 
     if (errors.length) {
       console.log(
-        `\n@ ${time.toLocaleDateString()} - ${time.toLocaleTimeString()}\n    ERRORS: ${errors}`
+        `\n@ ${time}\n  Some cars made it through, heres the errors:`
       );
-      return res.status(400).send();
+
+      for (const error of errors) {
+        console.log(error);
+      }
     }
 
     movedCars.forEach((car) => {
       console.log(
-        `\n@ ${time.toLocaleDateString()} - ${time.toLocaleTimeString()}\n  MOVED\n    ${
-          car.name
-        }\n\n    from: ${car.from.gName} - ${car.from.gDesc}\n    to: ${
-          car.to.gName
-        } - ${car.to.gDesc}\n    owner: ${car.owner}`
+        `\n@ ${time}\n  MOVED\n    ${car.name}\n\n    from: ${car.from.gName} - ${car.from.gDesc}\n    to: ${car.to.gName} - ${car.to.gDesc}\n    owner: ${car.owner}`
       );
     });
 
     console.log(`\nMoved ${movedCars.length} cars`);
 
-    res.status(200).json(movedCars);
+    res
+      .status(200)
+      .json({ movedCars: toSendMovedCars, errorCars: toSendErrorCars });
   } catch (err) {
     console.log(err);
   }

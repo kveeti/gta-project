@@ -24,6 +24,7 @@ export const search = async (req, res) => {
   let carsToSend = user.cars.filter(
     (car) =>
       car.name.includes(searchQuery) ||
+      car.manufacturer.includes(searchQuery) ||
       car.garage.name.includes(searchQuery) ||
       car.garage.desc.includes(searchQuery) ||
       car.name.startsWith(searchQuery)
