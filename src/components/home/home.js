@@ -36,85 +36,44 @@ const Home = () => {
   return (
     <>
       <FadeIn>
-        {/* search shows always */}
         <Grid container justifyContent="center">
           <Grid item xs={12} sm={10} md={10} lg={8} xl={6}>
+            {/* search shows always */}
+
             <Search />
+
+            {/* shows move car page if there is cars to move */}
+            {moveCar_carsToMove.length && moveCar_isMoving ? <MoveCar /> : null}
+
+            {!moveCar_chosenGarage ? (
+              <MoveCarGarages garages={moveCar_garages} />
+            ) : null}
+
+            {searchInput.length && searchGarages.length && !moveCar_isMoving ? (
+              <SearchGarages garages={searchGarages} />
+            ) : null}
+
+            {/* shows cars which matches search or new car card and matching garages for new car card's garage search */}
+            {searchInput.length && !moveCar_isMoving ? (
+              <Cars cars={searchCars} onClick={true} page={"home"} />
+            ) : null}
+
+            {!searchInput.length && !moveCar_isMoving ? <NewCar /> : null}
+
+            {!newCar_chosenGarage && !searchInput.length ? (
+              <NewCarGarages garages={newCarGarages} />
+            ) : null}
+
+            {!newCar_chosenPossibleCar ? <PossibleCars /> : null}
+
+            {newCarNameInput.length ||
+            newCarGarageInput.length ||
+            searchInput.length ||
+            moveCar_isMoving ? null : (
+              <NewGarage />
+            )}
           </Grid>
         </Grid>
-
-        {/* shows move car page if there is cars to move */}
-        {moveCar_carsToMove.length && moveCar_isMoving ? (
-          <>
-            <Grid container justifyContent="center">
-              <Grid item xs={12} sm={10} md={10} lg={8} xl={6}>
-                <MoveCar />
-              </Grid>
-            </Grid>
-          </>
-        ) : null}
-
-        {!moveCar_chosenGarage ? (
-          <Grid container justifyContent="center">
-            <Grid item xs={12} sm={10} md={10} lg={8} xl={6}>
-              <MoveCarGarages garages={moveCar_garages} />
-            </Grid>
-          </Grid>
-        ) : null}
-
-        {searchInput.length && searchGarages.length && !moveCar_isMoving ? (
-          <Grid container justifyContent="center">
-            <Grid item xs={12} sm={10} md={10} lg={8} xl={6}>
-              <SearchGarages garages={searchGarages} />
-            </Grid>
-          </Grid>
-        ) : null}
-
-        {/* shows cars which matches search or new car card and matching garages for new car card's garage search */}
-        {searchInput.length && !moveCar_isMoving ? (
-          <Grid container justifyContent="center">
-            <Grid item xs={12} sm={10} md={10} lg={8} xl={6}>
-              <Cars cars={searchCars} onClick={true} page={"home"} />
-            </Grid>
-          </Grid>
-        ) : null}
-
-        {!searchInput.length && !moveCar_isMoving ? (
-          <>
-            <Grid container justifyContent="center">
-              <Grid item xs={12} sm={10} md={10} lg={8} xl={6}>
-                <NewCar />
-              </Grid>
-            </Grid>
-          </>
-        ) : null}
-
-        {!newCar_chosenGarage ? (
-          <Grid container justifyContent="center">
-            <Grid item xs={12} sm={10} md={10} lg={8} xl={6}>
-              <NewCarGarages garages={newCarGarages} />
-            </Grid>
-          </Grid>
-        ) : null}
-
-        {!newCar_chosenPossibleCar ? (
-          <Grid container justifyContent="center">
-            <Grid item xs={12} sm={10} md={10} lg={8} xl={6}>
-              <PossibleCars />
-            </Grid>
-          </Grid>
-        ) : null}
-
-        {newCarNameInput.length ||
-        newCarGarageInput.length ||
-        searchInput.length ||
-        moveCar_isMoving ? null : (
-          <Grid container justifyContent="center">
-            <Grid item xs={12} sm={10} md={10} lg={8} xl={6}>
-              <NewGarage />
-            </Grid>
-          </Grid>
-        )}
       </FadeIn>
     </>
   );
