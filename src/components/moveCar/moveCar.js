@@ -1,5 +1,3 @@
-import React from "react";
-
 import { Card, CardContent, Typography, Grid, Button } from "@material-ui/core";
 
 import { useDispatch, useSelector } from "react-redux";

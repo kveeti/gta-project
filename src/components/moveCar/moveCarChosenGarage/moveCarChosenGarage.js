@@ -1,5 +1,3 @@
-import React from "react";
-
 import { Card, CardContent, Grid, Typography } from "@material-ui/core";
 import { useDispatch, useSelector } from "react-redux";
 import { moveCar_checkChosenGarage } from "../../../actions/moveCar";

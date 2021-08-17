@@ -1,4 +1,3 @@
-import React from "react";
 import { Card, CardContent, Grid, Typography } from "@material-ui/core/";
 
 const NewCarGarage = ({ garage }) => {

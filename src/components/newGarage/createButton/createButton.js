@@ -1,4 +1,4 @@
-import React from "react";
+import { useState } from "react";
 import axios from "axios";
 import { Button } from "@material-ui/core/";
 
@@ -45,9 +45,9 @@ const CreateButton = () => {
   const classes = useStyles();
   const dispatch = useDispatch();
 
-  const [loading, setLoading] = React.useState(false);
-  const [success, setSuccess] = React.useState(false);
-  const [failure, setFailure] = React.useState(false);
+  const [loading, setLoading] = useState(false);
+  const [success, setSuccess] = useState(false);
+  const [failure, setFailure] = useState(false);
 
   const newGaragename = useSelector((state) => state.newGarage.name);
   const newGarageDesc = useSelector((state) => state.newGarage.desc);

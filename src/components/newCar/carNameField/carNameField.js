@@ -1,9 +1,6 @@
-import React from "react";
-
 import { useSelector, useDispatch } from "react-redux";
 import {
   newCar_searchPossibleCars,
-  newCar_setGarages,
   newCar_setCarName,
   newCar_setPossibleCars,
 } from "../../../actions/newCar";
