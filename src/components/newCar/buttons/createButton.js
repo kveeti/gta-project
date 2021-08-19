@@ -78,6 +78,7 @@ const CreateButton = () => {
             variant="contained"
             color="primary"
             size="medium"
+            disableElevation
             className={buttonClassname}
             disabled={!garage || !possibleCar || loading ? true : false}
             onClick={handleClick}

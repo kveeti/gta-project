@@ -72,6 +72,7 @@ const CreateButton = () => {
             variant="contained"
             color="primary"
             className={buttonClassname}
+            disableElevation
             disabled={
               (!newGarageDesc && !newGaragename) || loading ? true : false
             }

@@ -64,16 +64,21 @@ const Car = ({ car, carType, onClick }) => {
     color = "#212121";
   }
 
+  if (carType.includes("chosen")) {
+    color = "#181818";
+    elevation = 1;
+  }
+
+  if (carType === "carsToMove") {
+    color = "#181818";
+    elevation = 1;
+  }
+
   if (
-    carType === "moveCar" &&
+    carType === "carsToMove" &&
     errorCars.filter((one) => one._id.toString() === car._id.toString()).length
   ) {
     color = "#b02828";
-  }
-
-  if (carType === "chosenPossibleCar") {
-    color = "#181818";
-    elevation = 1;
   }
 
   return (

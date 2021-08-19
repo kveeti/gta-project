@@ -46,27 +46,28 @@ const MoveButton = () => {
         newGarageID: chosenGarage._id,
       })
       .then((res) => {
-        if (
-          res.status === 200 &&
-          res.data.errorCars &&
-          !res.data.movedCars.length
-        ) {
+        if (res.data.status === "none" && res.data.errorCars.length) {
+          setFailure(true);
+
           return setTimeout(() => {
             setLoading(false);
-
-            dispatch(search(searchInput));
+            for (const car of res.data.errorCars) {
+              dispatch(moveCar_checkErrorCar(car));
+            }
 
             setTimeout(() => {
-              setFailure(true);
-
-              setTimeout(() => {
-                setFailure(false);
-              }, 5000);
-            }, 800);
-          }, 600);
+              for (const car of res.data.errorCars) {
+                dispatch(moveCar_checkErrorCar(car));
+              }
+              setFailure(false);
+            }, 5000);
+          }, 1000);
         }
-
-        if (res.status === 200 && res.data.errorCars && res.data.movedCars) {
+        if (
+          res.data.status === "some" &&
+          res.data.errorCars.length &&
+          res.data.movedCars.length
+        ) {
           return setTimeout(() => {
             setLoading(false);
             setSuccess(true);
@@ -87,12 +88,15 @@ const MoveButton = () => {
 
               setTimeout(() => {
                 setFailure(false);
+                for (const errorCar of res.data.errorCars) {
+                  dispatch(moveCar_checkErrorCar(errorCar));
+                }
               }, 5000);
             }, 800);
           }, 600);
         }
 
-        if (res.status === 200) {
+        if (res.data.status === "every") {
           return setTimeout(() => {
             setLoading(false);
             setSuccess(true);
@@ -110,16 +114,24 @@ const MoveButton = () => {
         }
       })
       .catch((err) => {
+        console.log(err);
         setTimeout(() => {
           setFailure(true);
           setTimeout(() => {
             setLoading(false);
+
+            for (const car of carsToMove) {
+              moveCar_checkErrorCar(car);
+            }
+
+            setTimeout(() => {
+              setFailure(false);
+              for (const car of carsToMove) {
+                moveCar_checkErrorCar(car);
+              }
+            }, 7000);
           }, 2000);
         }, 2500);
-
-        setTimeout(() => {
-          setFailure(false);
-        }, 7000);
       });
   };
 
@@ -132,6 +144,7 @@ const MoveButton = () => {
             variant="contained"
             color="primary"
             size="small"
+            disableElevation
             disabled={!chosenGarage || loading ? true : false}
             onClick={handleClick}
             fullWidth

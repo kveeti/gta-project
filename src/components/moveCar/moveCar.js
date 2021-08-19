@@ -18,10 +18,10 @@ const MoveCar = () => {
       <Paper
         style={{
           backgroundColor: "#212121",
-          marginBottom: "7.5px",
+
           marginTop: "8px",
         }}
-        elevation={6}
+        elevation={4}
       >
         <CardContent>
           <Grid container direction="column" style={{ gridRowGap: "10px" }}>
@@ -37,7 +37,11 @@ const MoveCar = () => {
             </Typography>
 
             {chosenGarage ? (
-              <Garage garage={chosenGarage} location={"moveCar"} />
+              <Garage
+                garage={chosenGarage}
+                location={"chosenMoveCarGarage"}
+                onClick={true}
+              />
             ) : (
               <MoveCarGarageInput />
             )}
@@ -45,7 +49,7 @@ const MoveCar = () => {
             <MoveButton />
             <ClearButton />
 
-            <Cars cars={carsToMove} onClick={true} carType={"moveCar"} />
+            <Cars cars={carsToMove} onClick={true} carType={"carsToMove"} />
           </Grid>
         </CardContent>
       </Paper>

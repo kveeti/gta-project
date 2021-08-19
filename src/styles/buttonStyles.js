@@ -50,10 +50,10 @@ export const useStyles = makeStyles((theme) => ({
   },
 
   buttons: {
-    backgroundColor: "#777777",
+    backgroundColor: "#555555",
     color: "white",
     "&:hover": {
-      backgroundColor: "#555555",
+      backgroundColor: "#444444",
     },
   },
 }));

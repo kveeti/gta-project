@@ -30,12 +30,7 @@ const Garage = ({ garage, onClick, location }) => {
   color = "#212121";
   elevation = 4;
 
-  if (location === "chosenNewCarGarage") {
-    elevation = 1;
-    color = "#181818";
-  }
-
-  if (location === "moveCar") {
+  if (location.includes("chosen")) {
     elevation = 1;
     color = "#181818";
   }
@@ -52,7 +47,10 @@ const Garage = ({ garage, onClick, location }) => {
                 return dispatch(newCar_checkChosenGarage(garage));
               }
 
-              if (location === "moveCar") {
+              if (
+                location === "chosenMoveCarGarage" ||
+                location === "moveCar"
+              ) {
                 return dispatch(moveCar_checkChosenGarage(garage));
               }
             }
