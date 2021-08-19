@@ -183,10 +183,10 @@ export const moveCar = async (req, res, next) => {
         continue;
       }
 
-      if (foundCar._id.toString() === "611c02c8c5e76925b4b059fa") {
+      if (foundCar.garage._id.toString() === to.toString()) {
         errors.push({
           time,
-          message: "custom error",
+          message: "Car already in garage",
           car,
           requester: owner,
         });
@@ -206,17 +206,6 @@ export const moveCar = async (req, res, next) => {
           message: "Old garage not found",
           car,
           requester,
-        });
-        toSendErrorCars.push(car);
-        continue;
-      }
-
-      if (foundCar.garage._id.toString() === to.toString()) {
-        errors.push({
-          time,
-          message: "Car already in garage",
-          car,
-          requester: owner,
         });
         toSendErrorCars.push(car);
         continue;
@@ -276,17 +265,19 @@ export const moveCar = async (req, res, next) => {
       toSendMovedCars.push(newCar);
     }
 
-    /* if (errors.length === cars.length) {
+    if (errors.length === cars.length) {
       console.log(`\nEvery car failed to move\n`);
       for (const error of errors) {
         console.log(error);
       }
-      return res.status(500).send();
-    } */
+      return res
+        .status(200)
+        .json({ status: "none", errorCars: toSendErrorCars });
+    }
 
     if (errors.length) {
       console.log(
-        `\n@ ${time}\n  Some cars made it through, heres the errors:`
+        `\n@ ${time}\n  MOVE ERROR\n    Some cars made it through, heres the errors:`
       );
 
       for (const error of errors) {
@@ -302,9 +293,19 @@ export const moveCar = async (req, res, next) => {
 
     console.log(`\nMoved ${movedCars.length} cars`);
 
-    res
-      .status(200)
-      .json({ movedCars: toSendMovedCars, errorCars: toSendErrorCars });
+    if (toSendMovedCars.length && toSendErrorCars.length) {
+      return res.status(200).json({
+        status: "some",
+        movedCars: toSendMovedCars,
+        errorCars: toSendErrorCars,
+      });
+    }
+
+    res.status(200).json({
+      status: "every",
+      movedCars: toSendMovedCars,
+      errorCars: toSendErrorCars,
+    });
   } catch (err) {
     console.log(err);
   }
