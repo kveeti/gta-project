@@ -12,6 +12,10 @@ export const loggedIn = async (req, res, next) => {
       return console.log("user not found");
     }
 
+    if (!user) {
+      return res.status(401).send();
+    }
+
     return next();
   });
 };

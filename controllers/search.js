@@ -19,6 +19,8 @@ export const search = async (req, res) => {
     })
     .populate("garages");
 
+  if (!user) return res.status(401).send();
+
   let toSend = {};
 
   let carsToSend = user.cars.filter(
