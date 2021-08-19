@@ -14,8 +14,8 @@ import ClearButton from "./buttons/clearButton";
 import CarNameField from "./carNameField/carNameField";
 import NewCarGarageInput from "./newCarGarageInput";
 
-import NewCarChosenGarage from "./newCarChosenGarage/newCarChosenGarage";
-import NewCarChosenPossibleCar from "./newCarChosenPossibleCar/newCarChosenPossibleCar";
+import Car from "../cars/car/car.js";
+import Garage from "../garages/garage/garage.js";
 
 const NewCar = () => {
   const chosenGarage = useSelector((state) => state.newCar.chosenGarage);
@@ -38,8 +38,24 @@ const NewCar = () => {
               New car
             </Typography>
 
-            {chosenGarage ? <NewCarChosenGarage /> : <NewCarGarageInput />}
-            {chosenPossibleCar ? <NewCarChosenPossibleCar /> : <CarNameField />}
+            {chosenGarage ? (
+              <Garage
+                garage={chosenGarage}
+                location={"chosenNewCarGarage"}
+                onClick={true}
+              />
+            ) : (
+              <NewCarGarageInput />
+            )}
+            {chosenPossibleCar ? (
+              <Car
+                car={chosenPossibleCar}
+                carType={"chosenPossibleCar"}
+                onClick={true}
+              />
+            ) : (
+              <CarNameField />
+            )}
           </Grid>
         </CardContent>
 

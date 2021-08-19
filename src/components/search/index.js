@@ -10,15 +10,8 @@ const Search = () => {
 
   return (
     <>
-      <Grid
-        container
-        direction="row"
-        alignItems="flex-start"
-        style={{ marginBottom: "5px" }}
-      >
-        <Grid item xs={12}>
-          <SearchBar />
-        </Grid>
+      <Grid container direction="row" alignItems="flex-start">
+        <SearchBar />
       </Grid>
       {carsToMove.length > 0 ? (
         <Grid container>

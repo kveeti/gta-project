@@ -30,6 +30,7 @@ const CreateButton = () => {
   const buttonClassname = clsx({
     [classes.buttonSuccess]: success,
     [classes.buttonFailure]: failure,
+    [classes.buttons]: !success && !failure,
   });
 
   const handleClick = async (e) => {

@@ -48,4 +48,12 @@ export const useStyles = makeStyles((theme) => ({
     color: "#b02828",
     border: "1px solid #b02828",
   },
+
+  buttons: {
+    backgroundColor: "#777777",
+    color: "white",
+    "&:hover": {
+      backgroundColor: "#555555",
+    },
+  },
 }));

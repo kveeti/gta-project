@@ -5,9 +5,9 @@ import { useSelector } from "react-redux";
 import Cars from "../cars/cars.js";
 
 import MoveCarGarageInput from "./moveCarGarageInput";
-import MoveCarChosenGarage from "./moveCarChosenGarage/moveCarChosenGarage";
 import MoveButton from "./buttons/moveButton";
 import ClearButton from "./buttons/clearButton";
+import Garage from "../garages/garage/garage.js";
 
 const MoveCar = () => {
   const chosenGarage = useSelector((state) => state.moveCar.chosenGarage);
@@ -16,7 +16,11 @@ const MoveCar = () => {
   return (
     <>
       <Paper
-        style={{ backgroundColor: "#212121", marginBottom: "7.5px" }}
+        style={{
+          backgroundColor: "#212121",
+          marginBottom: "7.5px",
+          marginTop: "8px",
+        }}
         elevation={6}
       >
         <CardContent>
@@ -32,7 +36,11 @@ const MoveCar = () => {
               Move
             </Typography>
 
-            {chosenGarage ? <MoveCarChosenGarage /> : <MoveCarGarageInput />}
+            {chosenGarage ? (
+              <Garage garage={chosenGarage} location={"moveCar"} />
+            ) : (
+              <MoveCarGarageInput />
+            )}
 
             <MoveButton />
             <ClearButton />

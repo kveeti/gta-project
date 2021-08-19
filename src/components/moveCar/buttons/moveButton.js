@@ -24,6 +24,7 @@ const MoveButton = () => {
   const buttonClassname = clsx({
     [classes.buttonSuccess]: success,
     [classes.buttonFailure]: failure,
+    [classes.buttons]: !success && !failure,
   });
 
   const buttonProgress = clsx({
@@ -45,7 +46,27 @@ const MoveButton = () => {
         newGarageID: chosenGarage._id,
       })
       .then((res) => {
-        if (res.status === 200 && res.data.errorCars) {
+        if (
+          res.status === 200 &&
+          res.data.errorCars &&
+          !res.data.movedCars.length
+        ) {
+          return setTimeout(() => {
+            setLoading(false);
+
+            dispatch(search(searchInput));
+
+            setTimeout(() => {
+              setFailure(true);
+
+              setTimeout(() => {
+                setFailure(false);
+              }, 5000);
+            }, 800);
+          }, 600);
+        }
+
+        if (res.status === 200 && res.data.errorCars && res.data.movedCars) {
           return setTimeout(() => {
             setLoading(false);
             setSuccess(true);
@@ -101,9 +122,6 @@ const MoveButton = () => {
         }, 7000);
       });
   };
-
-  /* dispatch(search(searchInput));
-dispatch(forceIsMoving(false)); */
 
   return (
     <>

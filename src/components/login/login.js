@@ -9,11 +9,13 @@ import { GoogleLogin } from "react-google-login";
 
 import { login, checkLogin } from "../../actions/auth.js";
 import { AUTH_API_STATUS } from "../../constants/actionTypes.js";
+import { useStyles } from "../../styles/buttonStyles.js";
 
 const config = require("../../config.json");
 
 const Login = () => {
   const dispatch = useDispatch();
+  const classes = useStyles();
 
   let history = useHistory();
 
@@ -69,7 +71,7 @@ const Login = () => {
           clientId={config.G_CLIENT_ID}
           render={(renderProps) => (
             <Button
-              color="primary"
+              className={classes.buttons}
               variant="contained"
               onClick={renderProps.onClick}
               disabled={renderProps.disabled}
