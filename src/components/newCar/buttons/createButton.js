@@ -6,7 +6,7 @@ import { useSelector, useDispatch } from "react-redux";
 import { Button } from "@material-ui/core/";
 import CircularProgress from "@material-ui/core/CircularProgress";
 
-import { newCar_addCar, newCar_clearAll } from "../../../actions/newCar";
+import { newCar_clearAll } from "../../../actions/newCar";
 import { useStyles } from "../../../styles/buttonStyles";
 
 const config = require("../../../config.json");
@@ -38,8 +38,8 @@ const CreateButton = () => {
   const handleClick = async () => {
     try {
       setLoading(true);
-      const res = await axios.post(`${config.API_URL}/gta-api/cars`, {
-        name: chosenPossibleCar.name,
+      await axios.post(`${config.API_URL}/gta-api/cars`, {
+        carId: chosenPossibleCar._id,
         garageId: chosenGarage._id,
       });
 
