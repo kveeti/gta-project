@@ -49,7 +49,7 @@ const MoveButton = () => {
         if (res.data.status === "none" && res.data.errorCars.length) {
           setFailure(true);
 
-          return setTimeout(() => {
+          setTimeout(() => {
             setLoading(false);
             for (const car of res.data.errorCars) {
               dispatch(moveCar_checkErrorCar(car));
@@ -62,13 +62,15 @@ const MoveButton = () => {
               setFailure(false);
             }, 5000);
           }, 1000);
+
+          return;
         }
         if (
           res.data.status === "some" &&
           res.data.errorCars.length &&
           res.data.movedCars.length
         ) {
-          return setTimeout(() => {
+          setTimeout(() => {
             setLoading(false);
             setSuccess(true);
 
@@ -94,10 +96,12 @@ const MoveButton = () => {
               }, 5000);
             }, 800);
           }, 600);
+
+          return;
         }
 
         if (res.data.status === "every") {
-          return setTimeout(() => {
+          setTimeout(() => {
             setLoading(false);
             setSuccess(true);
 
@@ -111,6 +115,8 @@ const MoveButton = () => {
               setSuccess(false);
             }, 3000);
           }, 600);
+
+          return;
         }
       })
       .catch((err) => {
@@ -141,6 +147,7 @@ const MoveButton = () => {
         <div className={classes.ccWrapper}>
           <Button
             className={buttonClassname}
+            style={{ marginBottom: "4px" }}
             variant="contained"
             color="primary"
             size="small"
