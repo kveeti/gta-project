@@ -8,6 +8,7 @@ import MoveCarGarageInput from "./moveCarGarageInput";
 import MoveButton from "./buttons/moveButton";
 import ClearButton from "./buttons/clearButton";
 import Garage from "../garages/garage/garage.js";
+import { useStyles } from "../../styles/buttonStyles.js";
 
 const MoveCar = () => {
   const chosenGarage = useSelector((state) => state.moveCar.chosenGarage);
@@ -46,8 +47,10 @@ const MoveCar = () => {
               <MoveCarGarageInput />
             )}
 
-            <MoveButton />
-            <ClearButton />
+            <div>
+              <MoveButton />
+              <ClearButton />
+            </div>
 
             <Cars cars={carsToMove} onClick={true} carType={"carsToMove"} />
           </Grid>

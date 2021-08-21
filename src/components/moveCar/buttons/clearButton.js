@@ -10,16 +10,23 @@ const ClearButton = () => {
   const classes = useStyles();
 
   return (
-    <Button
-      className={classes.clearButton}
-      variant="outlined"
-      size="small"
-      onClick={() => {
-        dispatch(moveCar_clear());
-      }}
-    >
-      Clear cars
-    </Button>
+    <>
+      <div className={classes.ccRoot}>
+        <div className={classes.ccWrapper}>
+          <Button
+            className={classes.clearButton}
+            variant="outlined"
+            size="small"
+            fullWidth
+            onClick={() => {
+              dispatch(moveCar_clear());
+            }}
+          >
+            Clear cars
+          </Button>
+        </div>
+      </div>
+    </>
   );
 };
 
