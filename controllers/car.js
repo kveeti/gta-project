@@ -7,7 +7,7 @@ export const newCar = async (req, res) => {
   // Adds a car
 
   try {
-    const newCarName = req.body.name.toLowerCase();
+    const newCarId = req.body.name.toLowerCase();
     const newGarageId = req.body.garageId;
     const owner = req.session.userId;
 
@@ -16,18 +16,17 @@ export const newCar = async (req, res) => {
       _id: newGarageId,
     });
 
-    if (!existingGarage)
-      return res.status(204).json({ message: "that garage doesn't exist" });
+    if (!existingGarage) {
+      res.status(204).json({ message: "Garage does not exist" });
+      return;
+    }
 
-    let modelCar = await possibleCarModel.findOne(
-      { name: newCarName },
-      "-_id -__v"
-    );
+    const modelCar = await possibleCarModel.findOne({ _id: newCarId });
 
-    if (!modelCar)
-      return res.status(204).json({
-        message: "that car doesn't exist",
-      });
+    if (!modelCar) {
+      res.status(400).json({ message: "Car does not exist" });
+      return;
+    }
 
     const newCar = await carModel.create({
       name: modelCar.name,
@@ -40,18 +39,12 @@ export const newCar = async (req, res) => {
 
     await userModel.updateOne(
       { _id: owner },
-      { $addToSet: { cars: newCar._id } },
-      (err) => {
-        if (err) return console.log(err);
-      }
+      { $addToSet: { cars: newCar._id } }
     );
 
     await garageModel.updateOne(
       { _id: newGarageId },
-      { $addToSet: { cars: newCar._id } },
-      (err) => {
-        if (err) return console.log(err);
-      }
+      { $addToSet: { cars: newCar._id } }
     );
 
     const confirmCar = await carModel
@@ -60,9 +53,8 @@ export const newCar = async (req, res) => {
 
     if (!confirmCar) {
       console.log("saved car cannot be found");
-      return res
-        .status(500)
-        .json({ message: "server error, car was not saved" });
+      res.status(500).json({ message: "server error, car was not saved" });
+      return;
     }
 
     console.log(
@@ -346,11 +338,11 @@ export const searchCar = async (req, res, next) => {
 
 export const possibleCars = async (req, res, next) => {
   try {
-    let searchQuery = req.query.q.toLowerCase();
+    const searchQuery = req.query.q.toLowerCase();
 
-    if (!searchQuery) return res.status(400).json({ error: `Empty query` });
+    if (!searchQuery) return;
 
-    let query = possibleCarModel.find({}, "-_id -__v -iamges -topSpeed -price");
+    let query = possibleCarModel.find({});
 
     query = query.regex("name", new RegExp(searchQuery, "i"));
 
