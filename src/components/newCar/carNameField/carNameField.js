@@ -13,10 +13,12 @@ const CarNameField = () => {
   const chosenGarage = useSelector((state) => state.newCar.chosenGarage);
 
   const handleChange = (e) => {
+    dispatch(newCar_setCarName(e.target.value));
+
     if (!e.target.value) {
       dispatch(newCar_setPossibleCars([]));
     }
-    dispatch(newCar_setCarName(e.target.value));
+
     dispatch(newCar_searchPossibleCars(e.target.value));
   };
 
@@ -31,7 +33,7 @@ const CarNameField = () => {
 
   let color = "white";
 
-  if (possibleCars === 204) {
+  if (newCarInput.length && !possibleCars.length) {
     color = "red";
   }
 

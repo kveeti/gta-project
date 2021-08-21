@@ -35,7 +35,7 @@ const NewCarGarageInput = ({ paddingBottom = "0" }) => {
 
   let color = "white";
 
-  if (!garages.length) {
+  if (garageName.length && !garages.length) {
     color = "red";
   }
 

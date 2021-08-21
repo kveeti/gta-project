@@ -31,11 +31,7 @@ const SearchBar = () => {
   let color = "white";
 
   if (searchInput.length && !cars.length && !garages.length) {
-    color = "white";
-
-    setTimeout(() => {
-      color = "red";
-    }, 500);
+    color = "red";
   }
 
   return (
