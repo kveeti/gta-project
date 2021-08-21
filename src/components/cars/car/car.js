@@ -12,22 +12,14 @@ import { Delete } from "@material-ui/icons/";
 import { useDispatch, useSelector } from "react-redux";
 
 import { deleteCar } from "../../../actions/cars.js";
-import { moveCar_checkCar, moveCar_clear } from "../../../actions/moveCar.js";
+import {
+  moveCar_checkCar,
+  moveCar_checkErrorCar,
+  moveCar_clear,
+} from "../../../actions/moveCar.js";
 import { newCar_checkChosenPossibleCar } from "../../../actions/newCar.js";
 
 import { search } from "../../../actions/search.js";
-
-/* 
-carType = "possibleCar":
-  delete button is hidden
-  garage is hidden
-  class is shown
-
-carType = "search":
-  delete button is shown
-  garage is shown
-  class is hidden
-*/
 
 const Car = ({ car, carType, onClick }) => {
   const dispatch = useDispatch();
@@ -38,10 +30,21 @@ const Car = ({ car, carType, onClick }) => {
   const searchInput = useSelector((state) => state.search.input);
 
   const checkMoveCar = (car) => {
-    if (carType !== "moveCar" && carType !== "search") return;
+    if (
+      carType !== "moveCar" &&
+      carType !== "search" &&
+      carType !== "carsToMove"
+    )
+      return;
 
     if (carsToMove.length === 1 && isMoving) {
       return dispatch(moveCar_clear());
+    }
+
+    const errorCar = errorCars.find((errorCar) => (errorCar._id = car._id));
+
+    if (errorCar) {
+      dispatch(moveCar_checkErrorCar(errorCar));
     }
 
     dispatch(moveCar_checkCar(car));
@@ -110,7 +113,7 @@ const Car = ({ car, carType, onClick }) => {
               </Typography>
             ) : null}
 
-            {carType === "search" ? (
+            {carType === "search" || carType === "carsToMove" ? (
               <Typography
                 variant="button"
                 style={{ color: "grey", fontSize: "0.7em" }}
