@@ -10,8 +10,8 @@ const ClearButton = () => {
   const classes = useStyles();
   const dispatch = useDispatch();
 
-  const garage = useSelector((state) => state.newCar.chosenGarage);
-  const possibleCar = useSelector((state) => state.newCar.chosenPossibleCar);
+  const garageInput = useSelector((state) => state.newCar.garageName);
+  const carInput = useSelector((state) => state.newCar.carName);
 
   const handleClick = (e) => {
     dispatch(newCar_clearAll());
@@ -24,7 +24,7 @@ const ClearButton = () => {
           className={classes.clearButton}
           variant="outlined"
           size="medium"
-          disabled={!garage || !possibleCar ? true : false}
+          disabled={!garageInput && !carInput ? true : false}
           onClick={handleClick}
         >
           Clear
