@@ -81,9 +81,9 @@ export const newCar_clearAll = () => {
   return { type: NEWCAR_CLEAR_ALL };
 };
 
-export const addCar = (name, ID) => async (dispatch) => {
+export const newCar_addCar = (name, garageId) => async (dispatch) => {
   await axios.post(`${config.API_URL}/gta-api/cars`, {
-    name: name,
-    garageID: ID,
+    name,
+    garageId,
   });
 };

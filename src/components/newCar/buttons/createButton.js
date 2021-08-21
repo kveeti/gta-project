@@ -6,7 +6,7 @@ import { useSelector, useDispatch } from "react-redux";
 import { Button } from "@material-ui/core/";
 import CircularProgress from "@material-ui/core/CircularProgress";
 
-import { newCar_clearAll } from "../../../actions/newCar";
+import { newCar_addCar, newCar_clearAll } from "../../../actions/newCar";
 import { useStyles } from "../../../styles/buttonStyles";
 
 const config = require("../../../config.json");
@@ -30,44 +30,51 @@ const CreateButton = () => {
     [classes.buttonProgressFailure]: failure,
   });
 
-  const garage = useSelector((state) => state.newCar.chosenGarage);
-  const possibleCar = useSelector((state) => state.newCar.chosenPossibleCar);
+  const chosenGarage = useSelector((state) => state.newCar.chosenGarage);
+  const chosenPossibleCar = useSelector(
+    (state) => state.newCar.chosenPossibleCar
+  );
 
-  const handleClick = async (e) => {
-    setLoading(true);
-    await axios
-      .post(`${config.API_URL}/gta-api/cars`, {
-        name: possibleCar.name,
-        garageID: garage._id,
-      })
-      .then((res) => {
-        if (res.status === 201) {
-          return setTimeout(() => {
-            setLoading(false);
-            setSuccess(true);
-
-            setTimeout(() => {
-              dispatch(newCar_clearAll());
-            }, 800);
-
-            setTimeout(() => {
-              setSuccess(false);
-            }, 2000);
-          }, 600);
-        }
-      })
-      .catch((err) => {
-        setTimeout(() => {
-          setFailure(true);
-          setTimeout(() => {
-            setLoading(false);
-          }, 2000);
-        }, 2500);
-
-        setTimeout(() => {
-          setFailure(false);
-        }, 7000);
+  const handleClick = async () => {
+    try {
+      setLoading(true);
+      const res = await axios.post(`${config.API_URL}/gta-api/cars`, {
+        name: chosenPossibleCar.name,
+        garageId: chosenGarage._id,
       });
+
+      creationSuccess();
+    } catch (err) {
+      creationFailure();
+    }
+  };
+
+  const creationSuccess = () => {
+    setTimeout(() => {
+      setLoading(false);
+      setSuccess(true);
+
+      setTimeout(() => {
+        dispatch(newCar_clearAll());
+      }, 800);
+
+      setTimeout(() => {
+        setSuccess(false);
+      }, 2000);
+    }, 600);
+  };
+
+  const creationFailure = () => {
+    setTimeout(() => {
+      setFailure(true);
+      setTimeout(() => {
+        setLoading(false);
+      }, 2000);
+    }, 2500);
+
+    setTimeout(() => {
+      setFailure(false);
+    }, 7000);
   };
 
   return (
@@ -80,7 +87,9 @@ const CreateButton = () => {
             size="medium"
             disableElevation
             className={buttonClassname}
-            disabled={!garage || !possibleCar || loading ? true : false}
+            disabled={
+              !chosenGarage || !chosenPossibleCar || loading ? true : false
+            }
             onClick={handleClick}
           >
             Create
