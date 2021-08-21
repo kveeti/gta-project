@@ -8,7 +8,7 @@ export const newCar = async (req, res) => {
 
   try {
     const newCarName = req.body.name.toLowerCase();
-    const newGarageId = req.body.garageID;
+    const newGarageId = req.body.garageId;
     const owner = req.session.userId;
 
     const existingGarage = await garageModel.findOne({
