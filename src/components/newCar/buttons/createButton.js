@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import axios from "axios";
 import clsx from "clsx";
 import { useSelector, useDispatch } from "react-redux";
@@ -18,6 +18,19 @@ const CreateButton = () => {
   const [loading, setLoading] = useState(false);
   const [success, setSuccess] = useState(false);
   const [failure, setFailure] = useState(false);
+
+  const timeouts = useRef([]);
+
+  useEffect(() => {
+    console.log("clearing");
+    const toClearTimeouts = timeouts.current;
+
+    return () => {
+      for (const timeout of toClearTimeouts) {
+        clearTimeout(timeout);
+      }
+    };
+  }, []);
 
   const buttonClassname = clsx({
     [classes.buttonSuccess]: success,
@@ -50,31 +63,38 @@ const CreateButton = () => {
   };
 
   const creationSuccess = () => {
-    setTimeout(() => {
+    const t1 = setTimeout(() => {
       setLoading(false);
       setSuccess(true);
 
-      setTimeout(() => {
+      const t2 = setTimeout(() => {
         dispatch(newCar_clearAll());
       }, 800);
 
-      setTimeout(() => {
+      const t3 = setTimeout(() => {
         setSuccess(false);
       }, 2000);
+
+      timeouts.current.push(t1, t2, t3);
     }, 600);
   };
 
   const creationFailure = () => {
-    setTimeout(() => {
+    const t1 = setTimeout(() => {
       setFailure(true);
-      setTimeout(() => {
+
+      const t2 = setTimeout(() => {
         setLoading(false);
       }, 2000);
+
+      timeouts.current.push(t1, t2);
     }, 2500);
 
-    setTimeout(() => {
+    const t3 = setTimeout(() => {
       setFailure(false);
     }, 7000);
+
+    timeouts.current.push(t3);
   };
 
   return (

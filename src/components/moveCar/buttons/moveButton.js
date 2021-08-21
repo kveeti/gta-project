@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import clsx from "clsx";
 import axios from "axios";
@@ -21,6 +21,18 @@ const MoveButton = () => {
   const [success, setSuccess] = useState(false);
   const [failure, setFailure] = useState(false);
 
+  const timeouts = useRef([]);
+
+  useEffect(() => {
+    const toClearTimeouts = timeouts.current;
+
+    return () => {
+      for (const timeout of toClearTimeouts) {
+        clearTimeout(timeout);
+      }
+    };
+  }, []);
+
   const buttonClassname = clsx({
     [classes.buttonSuccess]: success,
     [classes.buttonFailure]: failure,
@@ -39,106 +51,137 @@ const MoveButton = () => {
   const config = require("../../../config.json");
 
   const handleClick = async () => {
-    setLoading(true);
-    await axios
-      .put(`${config.API_URL}/gta-api/cars/`, {
+    try {
+      setLoading(true);
+
+      const res = await axios.put(`${config.API_URL}/gta-api/cars/`, {
         cars: carsToMove,
         newGarageID: chosenGarage._id,
-      })
-      .then((res) => {
-        if (res.data.status === "none" && res.data.errorCars.length) {
-          setFailure(true);
-
-          setTimeout(() => {
-            setLoading(false);
-            for (const car of res.data.errorCars) {
-              dispatch(moveCar_checkErrorCar(car));
-            }
-
-            setTimeout(() => {
-              for (const car of res.data.errorCars) {
-                dispatch(moveCar_checkErrorCar(car));
-              }
-              setFailure(false);
-            }, 5000);
-          }, 1000);
-
-          return;
-        }
-        if (
-          res.data.status === "some" &&
-          res.data.errorCars.length &&
-          res.data.movedCars.length
-        ) {
-          setTimeout(() => {
-            setLoading(false);
-            setSuccess(true);
-
-            dispatch(search(searchInput));
-
-            setTimeout(() => {
-              for (const movedCar of res.data.movedCars) {
-                dispatch(moveCar_checkCar(movedCar));
-              }
-
-              setSuccess(false);
-              setFailure(true);
-
-              for (const errorCar of res.data.errorCars) {
-                dispatch(moveCar_checkErrorCar(errorCar));
-              }
-
-              setTimeout(() => {
-                setFailure(false);
-                for (const errorCar of res.data.errorCars) {
-                  dispatch(moveCar_checkErrorCar(errorCar));
-                }
-              }, 5000);
-            }, 800);
-          }, 600);
-
-          return;
-        }
-
-        if (res.data.status === "every") {
-          setTimeout(() => {
-            setLoading(false);
-            setSuccess(true);
-
-            setTimeout(() => {
-              dispatch(moveCar_clear());
-              if (!searchInput) return;
-              dispatch(search(searchInput));
-            }, 800);
-
-            setTimeout(() => {
-              setSuccess(false);
-            }, 3000);
-          }, 600);
-
-          return;
-        }
-      })
-      .catch((err) => {
-        console.log(err);
-        setTimeout(() => {
-          setFailure(true);
-          setTimeout(() => {
-            setLoading(false);
-
-            for (const car of carsToMove) {
-              moveCar_checkErrorCar(car);
-            }
-
-            setTimeout(() => {
-              setFailure(false);
-              for (const car of carsToMove) {
-                moveCar_checkErrorCar(car);
-              }
-            }, 7000);
-          }, 2000);
-        }, 2500);
       });
+
+      if (res.data.status === "none") {
+        noneCarsHandler(res);
+        return;
+      }
+      if (res.data.status === "some") {
+        someCarsHandler(res);
+        return;
+      }
+
+      if (res.data.status === "every") {
+        everyCarHandler();
+        return;
+      }
+    } catch {
+      movingFailure();
+    }
+  };
+
+  const movingFailure = () => {
+    const t1 = setTimeout(() => {
+      setFailure(true);
+
+      const t2 = setTimeout(() => {
+        setLoading(false);
+
+        for (const car of carsToMove) {
+          moveCar_checkErrorCar(car);
+        }
+
+        const t3 = setTimeout(() => {
+          setFailure(false);
+
+          for (const car of carsToMove) {
+            moveCar_checkErrorCar(car);
+          }
+        }, 7000);
+
+        timeouts.current.push(t3);
+      }, 2000);
+
+      timeouts.current.push(t2);
+    }, 2500);
+
+    timeouts.current.push(t1);
+  };
+
+  const noneCarsHandler = (res) => {
+    setFailure(true);
+
+    const t1 = setTimeout(() => {
+      setLoading(false);
+
+      for (const car of res.data.errorCars) {
+        dispatch(moveCar_checkErrorCar(car));
+      }
+
+      const t2 = setTimeout(() => {
+        for (const car of res.data.errorCars) {
+          dispatch(moveCar_checkErrorCar(car));
+        }
+
+        setFailure(false);
+      }, 5000);
+
+      timeouts.current.push(t2);
+      timeouts.current.push(t1);
+    }, 1000);
+  };
+
+  const someCarsHandler = (res) => {
+    const t1 = setTimeout(() => {
+      setLoading(false);
+      setSuccess(true);
+
+      dispatch(search(searchInput));
+
+      const t2 = setTimeout(() => {
+        for (const movedCar of res.data.movedCars) {
+          dispatch(moveCar_checkCar(movedCar));
+        }
+
+        setSuccess(false);
+        setFailure(true);
+
+        for (const errorCar of res.data.errorCars) {
+          dispatch(moveCar_checkErrorCar(errorCar));
+        }
+
+        const t3 = setTimeout(() => {
+          setFailure(false);
+          for (const errorCar of res.data.errorCars) {
+            dispatch(moveCar_checkErrorCar(errorCar));
+          }
+        }, 5000);
+
+        timeouts.current.push(t3);
+      }, 800);
+
+      timeouts.current.push(t2);
+    }, 600);
+
+    timeouts.current.push(t1);
+  };
+
+  const everyCarHandler = () => {
+    const t1 = setTimeout(() => {
+      setLoading(false);
+      setSuccess(true);
+
+      const t2 = setTimeout(() => {
+        dispatch(moveCar_clear());
+        if (!searchInput) return;
+        dispatch(search(searchInput));
+      }, 800);
+
+      const t3 = setTimeout(() => {
+        setSuccess(false);
+      }, 3000);
+
+      timeouts.current.push(t2, t3);
+    }, 600);
+
+    timeouts.current.push(t1);
   };
 
   return (
