@@ -7,7 +7,7 @@ export const newCar = async (req, res) => {
   // Adds a car
 
   try {
-    const newCarId = req.body.name.toLowerCase();
+    const newCarId = req.body.carId;
     const newGarageId = req.body.garageId;
     const owner = req.session.userId;
 
@@ -74,6 +74,7 @@ export const newCar = async (req, res) => {
       },
     });
   } catch (err) {
+    res.status(500).send();
     console.log(err);
   }
 };
