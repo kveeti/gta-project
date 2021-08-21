@@ -11,6 +11,7 @@ import NewGarage from "../newGarage/newGarage.js";
 import MoveCar from "../moveCar/moveCar.js";
 
 import Garages from "../garages/garages.js";
+import LogoutButton from "../search/buttons/logoutButton.js";
 
 const Home = () => {
   const searchInput = useSelector((state) => state.search.input);
@@ -84,6 +85,13 @@ const Home = () => {
             searchInput.length ||
             moveCar_isMoving ? null : (
               <NewGarage />
+            )}
+
+            {newCar_NameInput.length ||
+            newCar_GarageInput.length ||
+            searchInput.length ||
+            moveCar_isMoving ? null : (
+              <LogoutButton />
             )}
 
             {/* <Fab
