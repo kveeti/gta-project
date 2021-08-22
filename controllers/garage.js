@@ -24,9 +24,11 @@ export const newGarage = async (req, res) => {
     );
 
     res.status(201).json({
-      name: newGarage.name,
-      desc: newGarage.desc,
-      owner: newGarage.owner,
+      newGarage: {
+        name: newGarage.name,
+        desc: newGarage.desc,
+        owner: newGarage.owner,
+      },
     });
 
     console.log(
@@ -96,8 +98,8 @@ export const searchGarage = async (req, res) => {
       garage.desc.includes(searchQuery)
   );
 
-  if (toSend.length > 10) {
-    toSend = toSend.slice(0, 11);
+  if (toSend.length > 3) {
+    toSend = toSend.slice(0, 3);
   }
 
   return res.status(200).json({ garages: toSend });
