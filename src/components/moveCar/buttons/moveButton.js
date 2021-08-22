@@ -4,12 +4,11 @@ import clsx from "clsx";
 import { Button, CircularProgress } from "@material-ui/core";
 
 import { moveCar_api_setLoading, moveCar_move } from "../../../actions/moveCar";
-import { search } from "../../../actions/search";
-import { useStyles } from "../../../styles/buttonStyles";
+import { useBtnStyles } from "../../../styles/buttonStyles";
 
 const MoveButton = () => {
   const dispatch = useDispatch();
-  const classes = useStyles();
+  const btnClasses = useBtnStyles();
 
   const searchInput = useSelector((state) => state.search.input);
   const chosenGarage = useSelector((state) => state.moveCar.chosenGarage);
@@ -17,26 +16,25 @@ const MoveButton = () => {
   const api = useSelector((state) => state.moveCar.api);
 
   const buttonClassname = clsx({
-    [classes.buttonSuccess]: api.success,
-    [classes.buttonFailure]: api.failure,
-    [classes.buttons]: !api.success && !api.failure,
+    [btnClasses.buttonSuccess]: api.success,
+    [btnClasses.buttonFailure]: api.failure,
+    [btnClasses.buttons]: !api.success && !api.failure,
   });
 
   const buttonProgress = clsx({
-    [classes.buttonProgress]: true,
-    [classes.buttonProgressFailure]: api.failure,
+    [btnClasses.buttonProgress]: true,
+    [btnClasses.buttonProgressFailure]: api.failure,
   });
 
   const handleClick = async () => {
     dispatch(moveCar_api_setLoading(true));
-    dispatch(moveCar_move(carsToMove, chosenGarage._id));
-    dispatch(search(searchInput));
+    dispatch(moveCar_move(carsToMove, chosenGarage._id, searchInput));
   };
 
   return (
     <>
-      <div className={classes.ccRoot}>
-        <div className={classes.ccWrapper}>
+      <div className={btnClasses.ccRoot}>
+        <div className={btnClasses.ccWrapper}>
           <Button
             className={buttonClassname}
             style={{ marginBottom: "4px" }}

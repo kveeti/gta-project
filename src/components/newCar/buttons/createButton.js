@@ -5,23 +5,23 @@ import { Button } from "@material-ui/core/";
 import CircularProgress from "@material-ui/core/CircularProgress";
 
 import { newCar_addCar } from "../../../actions/newCar";
-import { useStyles } from "../../../styles/buttonStyles";
+import { useBtnStyles } from "../../../styles/buttonStyles";
 
 const CreateButton = () => {
-  const classes = useStyles();
+  const btnClasses = useBtnStyles();
   const dispatch = useDispatch();
 
   const api = useSelector((state) => state.newCar.api);
 
   const buttonClassname = clsx({
-    [classes.buttonSuccess]: api.success,
-    [classes.buttonFailure]: api.failure,
-    [classes.buttons]: !api.success && !api.failure,
+    [btnClasses.buttonSuccess]: api.success,
+    [btnClasses.buttonFailure]: api.failure,
+    [btnClasses.buttons]: !api.success && !api.failure,
   });
 
   const buttonProgress = clsx({
-    [classes.buttonProgress]: true,
-    [classes.buttonProgressFailure]: api.failure,
+    [btnClasses.buttonProgress]: true,
+    [btnClasses.buttonProgressFailure]: api.failure,
   });
 
   const chosenGarage = useSelector((state) => state.newCar.chosenGarage);
@@ -35,8 +35,8 @@ const CreateButton = () => {
 
   return (
     <>
-      <div className={classes.ccRoot}>
-        <div className={classes.ccWrapper}>
+      <div className={btnClasses.ccRoot}>
+        <div className={btnClasses.ccWrapper}>
           <Button
             variant="contained"
             color="primary"

@@ -3,18 +3,18 @@ import { useSelector, useDispatch } from "react-redux";
 import { Button } from "@material-ui/core";
 
 import { isMoving } from "../../../actions/moveCar.js";
-import { useStyles } from "../../../styles/buttonStyles.js";
+import { useBtnStyles } from "../../../styles/buttonStyles.js";
 
 const MoveButton = () => {
   const dispatch = useDispatch();
-  const classes = useStyles();
+  const btnClasses = useBtnStyles();
 
   const isMovingState = useSelector((state) => state.moveCar.isMoving);
   const carsToMove = useSelector((state) => state.moveCar.carsToMove);
 
   return (
     <Button
-      className={classes.buttons}
+      className={btnClasses.buttons}
       size="small"
       color="primary"
       variant="contained"

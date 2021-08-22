@@ -15,6 +15,7 @@ import {
 } from "../constants/actionTypes";
 
 import config from ".././config.json";
+import { search } from "./search";
 
 export const isMoving = () => {
   return {
@@ -68,7 +69,7 @@ export const moveCar_searchGarages = (query) => async (dispatch) => {
 };
 
 export const moveCar_move =
-  (carsToMove, chosenGarageId) => async (dispatch) => {
+  (carsToMove, chosenGarageId, searchInput) => async (dispatch) => {
     try {
       const res = await axios.put(`${config.API_URL}/gta-api/cars/`, {
         cars: carsToMove,
@@ -83,10 +84,15 @@ export const moveCar_move =
           break;
 
         case "some":
-          someCarsHandler(dispatch, res.data.movedCars, res.data.errorCars);
+          someCarsHandler(
+            dispatch,
+            res.data.movedCars,
+            res.data.errorCars,
+            searchInput
+          );
           break;
         case "every":
-          everyCarHandler(dispatch, res.data.movedCars);
+          everyCarHandler(dispatch, res.data.movedCars, searchInput);
           break;
 
         default:
@@ -153,7 +159,7 @@ const noneCarsHandler = (dispatch, errorCars) => {
   }, 1000);
 };
 
-const someCarsHandler = (dispatch, movedCars, errorCars) => {
+const someCarsHandler = (dispatch, movedCars, errorCars, searchInput) => {
   setTimeout(() => {
     dispatch(moveCar_api_setLoading(false));
     dispatch(setSuccess(true));
@@ -165,6 +171,7 @@ const someCarsHandler = (dispatch, movedCars, errorCars) => {
 
       dispatch(setSuccess(false));
       dispatch(setFailure(true));
+      dispatch(search(searchInput));
 
       for (const errorCar of errorCars) {
         dispatch(moveCar_checkErrorCar(errorCar));
@@ -180,7 +187,7 @@ const someCarsHandler = (dispatch, movedCars, errorCars) => {
   }, 600);
 };
 
-const everyCarHandler = (dispatch, movedCars) => {
+const everyCarHandler = (dispatch, movedCars, searchInput) => {
   const checkedCars = [];
 
   setTimeout(() => {
@@ -192,6 +199,8 @@ const everyCarHandler = (dispatch, movedCars) => {
         dispatch(moveCar_checkCar(movedCar));
         checkedCars.push(movedCar);
       }
+
+      dispatch(search(searchInput));
 
       if (checkedCars.length === movedCars.length) {
         dispatch(moveCar_clear());

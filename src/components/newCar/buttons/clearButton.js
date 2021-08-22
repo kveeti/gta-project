@@ -4,10 +4,10 @@ import { useDispatch, useSelector } from "react-redux";
 
 import { newCar_clearAll } from "../../../actions/newCar";
 
-import { useStyles } from "../../../styles/buttonStyles";
+import { useBtnStyles } from "../../../styles/buttonStyles";
 
 const ClearButton = () => {
-  const classes = useStyles();
+  const btnClasses = useBtnStyles();
   const dispatch = useDispatch();
 
   const garageInput = useSelector((state) => state.newCar.garageName);
@@ -18,10 +18,10 @@ const ClearButton = () => {
   };
 
   return (
-    <div className={classes.ccRoot}>
-      <div className={classes.ccWrapper}>
+    <div className={btnClasses.ccRoot}>
+      <div className={btnClasses.ccWrapper}>
         <Button
-          className={classes.clearButton}
+          className={btnClasses.clearButton}
           variant="outlined"
           size="medium"
           disabled={!garageInput && !carInput ? true : false}

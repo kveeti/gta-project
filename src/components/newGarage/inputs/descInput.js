@@ -1,22 +1,21 @@
 import React from "react";
 
 import { useSelector, useDispatch } from "react-redux";
+import { newGarage_setDesc } from "../../../actions/newGarage";
 
-import { newGarage_setName } from "../../../actions/newGarage";
-
-const NewGarageName = () => {
+const DescInput = () => {
   const dispatch = useDispatch();
-  const newGarageName = useSelector((state) => state.newGarage.name);
+  const newGarageDesc = useSelector((state) => state.newGarage.desc);
 
   const handleChange = (e) => {
-    dispatch(newGarage_setName(e.target.value));
+    dispatch(newGarage_setDesc(e.target.value));
   };
 
   return (
     <input
       type="text"
-      placeholder="Name"
-      value={newGarageName}
+      placeholder="Description"
+      value={newGarageDesc}
       onChange={handleChange}
       style={{
         color: "white",
@@ -27,4 +26,4 @@ const NewGarageName = () => {
   );
 };
 
-export default NewGarageName;
+export default DescInput;

@@ -8,6 +8,7 @@ import {
   search_setGarages,
   search_setInput,
 } from "../../actions/search.js";
+import { colors } from "../../styles/colors.js";
 
 const SearchBar = () => {
   const dispatch = useDispatch();
@@ -28,10 +29,12 @@ const SearchBar = () => {
     dispatch(search(e.target.value));
   };
 
-  let color = "white";
+  let color = colors.text.primary;
 
   if (searchInput.length && !cars.length && !garages.length) {
-    color = "red";
+    setTimeout(() => {
+      color = colors.red.primary;
+    }, 50);
   }
 
   return (

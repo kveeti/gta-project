@@ -1,5 +1,6 @@
 import { useSelector, useDispatch } from "react-redux";
 import {
+  newCar_checkChosenPossibleCar,
   newCar_searchPossibleCars,
   newCar_setCarName,
   newCar_setPossibleCars,
@@ -26,16 +27,10 @@ const CarNameField = () => {
     if (!possibleCars.length) return;
 
     if (e.key === "Enter") {
-      dispatch(newCar_setCarName(possibleCars[0].name));
+      dispatch(newCar_checkChosenPossibleCar(possibleCars[0]));
       dispatch(newCar_setPossibleCars([]));
     }
   };
-
-  let color = "white";
-
-  if (newCarInput.length && !possibleCars.length) {
-    color = "red";
-  }
 
   return (
     <input
@@ -47,8 +42,9 @@ const CarNameField = () => {
       disabled={chosenGarage ? "" : "disabled"}
       style={{
         backgroundColor: "#212121",
-        color: color,
+        color: "white",
         fontSize: "18px",
+        width: "100%",
       }}
     ></input>
   );

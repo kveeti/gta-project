@@ -1,8 +1,8 @@
 import { makeStyles } from "@material-ui/core";
 
-import { green, red, indigo } from "@material-ui/core/colors";
+import { colors } from "./colors";
 
-export const useStyles = makeStyles((theme) => ({
+export const useBtnStyles = makeStyles((theme) => ({
   ccRoot: {
     alignItems: "center",
   },
@@ -13,21 +13,21 @@ export const useStyles = makeStyles((theme) => ({
   },
 
   buttonSuccess: {
-    backgroundColor: green[500],
+    backgroundColor: colors.green.primary,
     "&:hover": {
-      backgroundColor: green[700],
+      backgroundColor: colors.green.hover,
     },
   },
 
   buttonFailure: {
-    backgroundColor: red[700],
+    backgroundColor: colors.red.primary,
     "&:hover": {
-      backgroundColor: red[900],
+      backgroundColor: colors.red.hover,
     },
   },
 
   buttonProgress: {
-    color: indigo[50],
+    color: colors.text.primary,
     position: "absolute",
     top: "50%",
     left: "50%",
@@ -36,7 +36,7 @@ export const useStyles = makeStyles((theme) => ({
   },
 
   buttonProgressFailure: {
-    color: red[500],
+    color: colors.red.primary,
     position: "absolute",
     top: "50%",
     left: "50%",
@@ -45,19 +45,22 @@ export const useStyles = makeStyles((theme) => ({
   },
 
   clearButton: {
-    color: "#b02828",
-    border: "1px solid #b02828",
+    color: colors.red.primary,
+    border: `1px solid ${colors.red.primary}`,
   },
 
   buttons: {
-    backgroundColor: "#555555",
-    color: "white",
+    backgroundColor: colors.buttons.primary,
+    color: colors.text.primary,
     "&:hover": {
-      backgroundColor: "#444444",
+      backgroundColor: colors.buttons.hover,
     },
   },
 
   deleteBtn: {
-    color: "#b02828",
+    color: colors.red.primary,
+    "&:hover": {
+      color: colors.red.hover,
+    },
   },
 }));

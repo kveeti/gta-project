@@ -5,9 +5,9 @@ import {
   newCar_searchGarages,
   newCar_setGarageName,
   newCar_setGarages,
-} from "../../actions/newCar.js";
+} from "../../../actions/newCar.js";
 
-const NewCarGarageInput = ({ paddingBottom = "0" }) => {
+const GarageInput = ({ paddingBottom = "0" }) => {
   const dispatch = useDispatch();
 
   const garageName = useSelector((state) => state.newCar.garageName);
@@ -33,12 +33,6 @@ const NewCarGarageInput = ({ paddingBottom = "0" }) => {
     }
   };
 
-  let color = "white";
-
-  if (garageName.length && !garages.length) {
-    color = "red";
-  }
-
   return (
     <input
       type="text"
@@ -49,12 +43,13 @@ const NewCarGarageInput = ({ paddingBottom = "0" }) => {
       onKeyPress={handleKeyPress}
       style={{
         backgroundColor: "#212121",
-        color: color,
+        color: "white",
         fontSize: "18px",
         paddingBottom: paddingBottom,
+        width: "100%",
       }}
     ></input>
   );
 };
 
-export default NewCarGarageInput;
+export default GarageInput;

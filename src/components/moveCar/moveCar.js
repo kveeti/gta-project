@@ -4,7 +4,7 @@ import { useSelector } from "react-redux";
 
 import Cars from "../cars/cars.js";
 
-import MoveCarGarageInput from "./moveCarGarageInput";
+import GarageInput from "./inputs/garageInput";
 import MoveButton from "./buttons/moveButton";
 import ClearButton from "./buttons/clearButton";
 import Garage from "../garages/garage/garage.js";
@@ -43,7 +43,7 @@ const MoveCar = ({ display }) => {
                 onClick={true}
               />
             ) : (
-              <MoveCarGarageInput />
+              <GarageInput />
             )}
 
             <div>
@@ -51,7 +51,7 @@ const MoveCar = ({ display }) => {
               <ClearButton />
             </div>
 
-            <Cars cars={carsToMove} onClick={true} carType={"carsToMove"} />
+            <Cars cars={carsToMove} onClick={true} carType={"chosenMoveCars"} />
           </Grid>
         </CardContent>
       </Paper>

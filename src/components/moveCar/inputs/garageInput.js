@@ -4,9 +4,9 @@ import {
   moveCar_searchGarages,
   moveCar_setGarageInput,
   moveCar_setGarages,
-} from "../../actions/moveCar";
+} from "../../../actions/moveCar";
 
-const MoveCarGarageInput = () => {
+const GarageInput = () => {
   const dispatch = useDispatch();
   const newGarageName = useSelector((state) => state.moveCar.garageInput);
 
@@ -35,4 +35,4 @@ const MoveCarGarageInput = () => {
   );
 };
 
-export default MoveCarGarageInput;
+export default GarageInput;

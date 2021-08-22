@@ -15,9 +15,8 @@ import axios from "axios";
 
 const config = require(".././config.json");
 
-// CAR STUFF
-
 let possibleCarCancelToken;
+let garageCancelToken;
 
 export const newCar_searchPossibleCars = (query) => async (dispatch) => {
   if (!query) return;
@@ -27,13 +26,12 @@ export const newCar_searchPossibleCars = (query) => async (dispatch) => {
   }
 
   possibleCarCancelToken = axios.CancelToken.source();
+
   try {
     const res = await axios.get(`${config.API_URL}/gta-api/cars/possible`, {
       params: { q: query },
       cancelToken: possibleCarCancelToken.token,
     });
-
-    console.log(res.data.possibleCars);
 
     dispatch(newCar_setPossibleCars(res.data.possibleCars));
   } catch {}
@@ -42,16 +40,20 @@ export const newCar_searchPossibleCars = (query) => async (dispatch) => {
 export const newCar_searchGarages = (query) => async (dispatch) => {
   if (!query) return;
 
-  await axios
-    .get(`${config.API_URL}/gta-api/garages`, {
+  if (typeof newCarCancelToken != typeof undefined) {
+    garageCancelToken.cancel();
+  }
+
+  garageCancelToken = axios.CancelToken.source();
+
+  try {
+    const res = await axios.get(`${config.API_URL}/gta-api/garages`, {
       params: { q: query },
-    })
-    .then((res) => {
-      dispatch(newCar_setGarages(res.data.garages));
-    })
-    .catch((err) => {
-      console.log("failed to search possible cars");
+      cancelToken: garageCancelToken.token,
     });
+
+    dispatch(newCar_setGarages(res.data.garages));
+  } catch {}
 };
 
 export const newCar_setGarages = (garages) => {

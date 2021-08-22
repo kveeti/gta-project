@@ -13,9 +13,13 @@ import {
 } from "../../../actions/newCar.js";
 
 import { Fade } from "react-awesome-reveal";
+import { colors } from "../../../styles/colors.js";
+import { useCardStyles } from "../../../styles/cardStyles.js";
 
-const Garage = ({ garage, onClick, location }) => {
+const Garage = ({ garage, location }) => {
   const dispatch = useDispatch();
+
+  const cardClasses = useCardStyles();
 
   const possibleCarInput = useSelector((state) => state.newCar.carName);
   const chosenPossibleCar = useSelector(
@@ -23,59 +27,41 @@ const Garage = ({ garage, onClick, location }) => {
   );
   const moveCarGarageInput = useSelector((state) => state.moveCar.garageInput);
 
-  const newCarChecks = (garage) => {
+  const handleClick = () => {
     if (possibleCarInput || chosenPossibleCar) {
       dispatch(newCar_setPossibleCars([]));
       dispatch(newCar_setCarName(""));
       dispatch(newCar_checkChosenPossibleCar(chosenPossibleCar));
     }
+
+    if (location === "chosenNewCarGarage" || location === "newCar") {
+      dispatch(newCar_checkChosenGarage(garage));
+      return;
+    }
+
+    if (location === "chosenMoveCarGarage" || location === "moveCar") {
+      dispatch(moveCar_checkChosenGarage(garage));
+      dispatch(moveCar_searchGarages(moveCarGarageInput));
+      return;
+    }
   };
 
-  let color;
-  let elevation;
-
-  color = "#212121";
-  elevation = 4;
+  let elevation = 4;
+  let cardClass = cardClasses.cards;
 
   if (location.includes("chosen")) {
     elevation = 1;
-    color = "#181818";
+    cardClass = cardClasses.chosenCards;
   }
 
   return (
     <Fade duration={500}>
-      <div
-        style={{ cursor: onClick ? "pointer" : null }}
-        onClick={
-          onClick
-            ? (e) => {
-                newCarChecks(garage);
-
-                if (
-                  location === "chosenNewCarGarage" ||
-                  location === "newCar"
-                ) {
-                  dispatch(newCar_checkChosenGarage(garage));
-                  return;
-                }
-
-                if (
-                  location === "chosenMoveCarGarage" ||
-                  location === "moveCar"
-                ) {
-                  dispatch(moveCar_checkChosenGarage(garage));
-                  dispatch(moveCar_searchGarages(moveCarGarageInput));
-                  return;
-                }
-              }
-            : null
-        }
-      >
-        <Paper style={{ backgroundColor: color }} elevation={elevation}>
+      <div style={{ cursor: "pointer" }} onClick={handleClick}>
+        <Paper className={cardClass} elevation={elevation}>
           <CardContent>
             <Grid container justifyContent="flex-start">
               <Typography
-                style={{ color: "white", fontSize: "15px" }}
+                style={{ color: colors.text.primary, fontSize: "15px" }}
                 variant="button"
               >
                 {garage.name}

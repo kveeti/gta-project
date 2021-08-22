@@ -11,11 +11,11 @@ import {
 import CreateButton from "./buttons/createButton";
 import ClearButton from "./buttons/clearButton";
 
-import CarNameField from "./carNameField/carNameField";
-import NewCarGarageInput from "./newCarGarageInput";
+import CarInput from "./inputs/carInput";
+import GarageInput from "./inputs/garageInput";
 
-import Car from "../cars/car/car.js";
-import Garage from "../garages/garage/garage.js";
+import Car from "../cars/car/car";
+import Garage from "../garages/garage/garage";
 
 import { Fade } from "react-awesome-reveal";
 
@@ -51,7 +51,7 @@ const NewCar = () => {
               />
             ) : (
               <Fade>
-                <NewCarGarageInput />
+                <GarageInput />
               </Fade>
             )}
 
@@ -63,7 +63,7 @@ const NewCar = () => {
               />
             ) : (
               <Fade>
-                <CarNameField />
+                <CarInput />
               </Fade>
             )}
           </Grid>

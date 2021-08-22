@@ -22,9 +22,12 @@ import { newCar_checkChosenPossibleCar } from "../../../actions/newCar.js";
 import { search } from "../../../actions/search.js";
 
 import { Fade } from "react-awesome-reveal";
-import { useStyles } from "../../../styles/buttonStyles.js";
 
-const Car = ({ car, carType, onClick }) => {
+import { useBtnStyles } from "../../../styles/buttonStyles.js";
+import { useCardStyles } from "../../../styles/cardStyles.js";
+import { colors } from "../../../styles/colors.js";
+
+const Car = ({ car, carType }) => {
   const dispatch = useDispatch();
   const carsToMove = useSelector((state) => state.moveCar.carsToMove);
   const isMoving = useSelector((state) => state.moveCar.isMoving);
@@ -32,13 +35,14 @@ const Car = ({ car, carType, onClick }) => {
 
   const searchInput = useSelector((state) => state.search.input);
 
-  const classes = useStyles();
+  const btnClasses = useBtnStyles();
+  const cardClasses = useCardStyles();
 
   const checkMoveCar = (car) => {
     if (
       carType !== "moveCar" &&
       carType !== "search" &&
-      carType !== "carsToMove"
+      carType !== "chosenMoveCars"
     )
       return;
 
@@ -61,59 +65,63 @@ const Car = ({ car, carType, onClick }) => {
     dispatch(newCar_checkChosenPossibleCar(car));
   };
 
-  let color;
-  let elevation;
-
-  elevation = 4;
+  let elevation = 4;
+  let cardClass = cardClasses.cards;
 
   if (carsToMove.filter((one) => one._id === car._id).length) {
-    color = "#181818";
-  } else {
-    color = "#212121";
+    cardClass = cardClasses.chosenCards;
   }
 
   if (carType.includes("chosen")) {
-    color = "#181818";
     elevation = 1;
-  }
-
-  if (carType === "carsToMove") {
-    color = "#181818";
-    elevation = 1;
+    cardClass = cardClasses.chosenCards;
   }
 
   if (
-    carType === "carsToMove" &&
+    carType === "chosenMoveCars" &&
     errorCars.filter((one) => one._id.toString() === car._id.toString()).length
   ) {
-    color = "#b02828";
+    cardClass = cardClasses.errorCards;
   }
 
   return (
     <Fade duration={500}>
       <div
-        style={{ cursor: onClick ? "pointer" : null }}
-        onClick={
-          onClick
-            ? () => {
-                checkMoveCar(car);
+        className={cardClass}
+        style={{ cursor: "pointer" }}
+        onClick={() => {
+          checkMoveCar(car);
 
-                checkPossibleCar(car);
-              }
-            : null
-        }
+          checkPossibleCar(car);
+        }}
       >
-        <Paper style={{ backgroundColor: color }} elevation={elevation}>
+        <Paper className={cardClass} elevation={elevation}>
           <CardContent>
             <Grid container direction="column" alignItems="flex-start">
-              <Typography variant="button" style={{ color: "white" }}>
-                {car.manufacturer} - {car.name}
+              {car.manufacturer ? (
+                <Typography
+                  variant="button"
+                  style={{
+                    color: colors.text.secondary,
+                    marginBottom: "2px",
+                    fontSize: "0.8em",
+                  }}
+                >
+                  {car.manufacturer}
+                </Typography>
+              ) : null}
+
+              <Typography
+                variant="button"
+                style={{ color: colors.text.primary }}
+              >
+                {car.name}
               </Typography>
 
               {carType === "possibleCar" ? (
                 <Typography
                   variant="button"
-                  style={{ color: "grey", fontSize: "0.7em" }}
+                  style={{ color: colors.text.secondary, fontSize: "0.7em" }}
                 >
                   {car.class}
                 </Typography>
@@ -122,7 +130,11 @@ const Car = ({ car, carType, onClick }) => {
               {carType === "search" || carType === "carsToMove" ? (
                 <Typography
                   variant="button"
-                  style={{ color: "grey", fontSize: "0.7em" }}
+                  style={{
+                    marginTop: "4px",
+                    color: colors.text.secondary,
+                    fontSize: "0.7em",
+                  }}
                 >
                   {car.garage.name}
                   {car.garage.desc.length ? ` - ${car.garage.desc}` : ""}
@@ -134,7 +146,7 @@ const Car = ({ car, carType, onClick }) => {
             <CardActions>
               <IconButton
                 aria-label="delete"
-                className={classes.deleteBtn}
+                className={btnClasses.deleteBtn}
                 onClick={async (e) => {
                   e.stopPropagation();
                   await dispatch(deleteCar(car._id, searchInput));

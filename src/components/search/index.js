@@ -10,7 +10,7 @@ const Search = () => {
 
   return (
     <>
-      <Grid container direction="row" alignItems="flex-start">
+      <Grid container direction="row" alignItems="center" alignContent="center">
         <SearchBar />
       </Grid>
       {carsToMove.length > 0 ? (

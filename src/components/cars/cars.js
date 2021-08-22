@@ -12,10 +12,9 @@ const Cars = ({ cars, onClick, carType }) => {
               item
               key={carType === "possibleCar" ? car.name : car._id}
               xs={12}
-              sm={6}
-              md={4}
-              lg={4}
-              xl={3}
+              sm={carType === "possibleCar" ? 12 : 6}
+              md={carType === "possibleCar" ? 12 : 4}
+              lg={carType === "possibleCar" ? 12 : 3}
             >
               <Car car={car} carType={carType} onClick={onClick} />
             </Grid>

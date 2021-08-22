@@ -8,10 +8,12 @@ import {
   Paper,
 } from "@material-ui/core";
 
-import NewGarageDesc from "./newGarageInputs/newGarageDesc";
-import NewGarageName from "./newGarageInputs/newGarageInput";
+import DescInput from "./inputs/descInput";
+import NameInput from "./inputs/nameInput";
 import CreateButton from "./buttons/createButton";
 import ClearButton from "./buttons/clearButton";
+
+import { Fade } from "react-awesome-reveal";
 
 const NewGarage = () => {
   return (
@@ -28,8 +30,13 @@ const NewGarage = () => {
             >
               New garage
             </Typography>
-            <NewGarageName />
-            <NewGarageDesc />
+
+            <Fade>
+              <NameInput />
+            </Fade>
+            <Fade>
+              <DescInput />
+            </Fade>
           </Grid>
         </CardContent>
         <CardActions>
