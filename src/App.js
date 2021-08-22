@@ -28,14 +28,14 @@ const App = () => {
       return res;
     },
     (err) => {
-      if (!err.response) {
-        dispatch({ type: SET_LOGGED_IN, payload: false });
-        return Promise.reject(err);
-      }
-
       if (err.response.status === 401) {
         dispatch({ type: SET_LOGGED_IN, payload: false });
       }
+
+      if (axios.isCancel(err)) return;
+
+      dispatch({ type: SET_LOGGED_IN, payload: false });
+
       return Promise.reject(err);
     }
   );

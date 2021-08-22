@@ -6,6 +6,9 @@ import {
   NEWCAR_CHECK_CHOSEN_GARAGE,
   NEWCAR_CHECK_CHOSEN_POSSIBLE_CAR,
   NEWCAR_CLEAR_ALL,
+  NEWCAR_API_LOADING,
+  NEWCAR_API_SUCCESS,
+  NEWCAR_API_FAILURE,
 } from "../constants/actionTypes.js";
 
 const init = {
@@ -15,6 +18,11 @@ const init = {
   garages: [],
   chosenGarage: null,
   chosenPossibleCar: null,
+  api: {
+    loading: false,
+    success: false,
+    failure: false,
+  },
 };
 
 const newCarReducer = (state = init, action) => {
@@ -51,6 +59,24 @@ const newCarReducer = (state = init, action) => {
 
     case NEWCAR_CLEAR_ALL:
       return init;
+
+    case NEWCAR_API_LOADING:
+      return {
+        ...state,
+        api: { ...state.api, loading: action.payload },
+      };
+
+    case NEWCAR_API_SUCCESS:
+      return {
+        ...state,
+        api: { ...state.api, success: action.payload },
+      };
+
+    case NEWCAR_API_FAILURE:
+      return {
+        ...state,
+        api: { ...state.api, failure: action.payload },
+      };
 
     default:
       return state;

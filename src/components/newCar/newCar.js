@@ -17,6 +17,8 @@ import NewCarGarageInput from "./newCarGarageInput";
 import Car from "../cars/car/car.js";
 import Garage from "../garages/garage/garage.js";
 
+import { Fade } from "react-awesome-reveal";
+
 const NewCar = () => {
   const chosenGarage = useSelector((state) => state.newCar.chosenGarage);
   const chosenPossibleCar = useSelector(
@@ -26,7 +28,10 @@ const NewCar = () => {
   return (
     <>
       <Paper
-        style={{ backgroundColor: "#212121", marginTop: "8px" }}
+        style={{
+          backgroundColor: "#212121",
+          marginTop: "8px",
+        }}
         elevation={6}
       >
         <CardContent>
@@ -45,8 +50,11 @@ const NewCar = () => {
                 onClick={true}
               />
             ) : (
-              <NewCarGarageInput />
+              <Fade>
+                <NewCarGarageInput />
+              </Fade>
             )}
+
             {chosenPossibleCar ? (
               <Car
                 car={chosenPossibleCar}
@@ -54,7 +62,9 @@ const NewCar = () => {
                 onClick={true}
               />
             ) : (
-              <CarNameField />
+              <Fade>
+                <CarNameField />
+              </Fade>
             )}
           </Grid>
         </CardContent>

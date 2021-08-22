@@ -36,77 +36,73 @@ const Home = () => {
 
   return (
     <>
-      <FadeIn>
-        <Grid container justifyContent="center">
-          <Grid item xs={12} sm={10} md={10} lg={8} xl={6}>
-            {/* search shows always */}
+      <Grid container justifyContent="center">
+        <Grid item xs={12} sm={10} md={10} lg={8} xl={6}>
+          {/* search shows always */}
+          <FadeIn>
             <Search />
+          </FadeIn>
 
-            {/* shows move car page if there is cars to move */}
-            {moveCar_carsToMove.length && moveCar_isMoving ? <MoveCar /> : null}
+          {moveCar_carsToMove.length && moveCar_isMoving ? <MoveCar /> : null}
 
-            {!moveCar_chosenGarage ? (
-              <Garages
-                garages={moveCar_garages}
-                onClick={true}
-                location={"moveCar"}
-              />
-            ) : null}
+          {!moveCar_chosenGarage ? (
+            <Garages
+              garages={moveCar_garages}
+              onClick={true}
+              location={"moveCar"}
+            />
+          ) : null}
 
-            {searchInput.length && searchGarages.length && !moveCar_isMoving ? (
-              <Garages garages={searchGarages} location={"search"} />
-            ) : null}
+          {searchInput.length && searchGarages.length && !moveCar_isMoving ? (
+            <Garages garages={searchGarages} location={"search"} />
+          ) : null}
 
-            {/* shows cars which matches search or new car card and matching garages for new car card's garage search */}
-            {searchInput.length && !moveCar_isMoving ? (
-              <Cars cars={searchCars} onClick={true} carType={"search"} />
-            ) : null}
+          {/* shows cars which matches search or new car card and matching garages for new car card's garage search */}
+          {searchInput.length && !moveCar_isMoving ? (
+            <Cars cars={searchCars} onClick={true} carType={"search"} />
+          ) : null}
 
-            {!searchInput.length && !moveCar_isMoving ? <NewCar /> : null}
+          {!searchInput.length && !moveCar_isMoving ? (
+            <FadeIn>
+              <NewCar />
+            </FadeIn>
+          ) : null}
 
-            {!newCar_chosenGarage && !searchInput.length ? (
-              <Garages
-                garages={newCar_Garages}
-                onClick={true}
-                location={"newCar"}
-              />
-            ) : null}
+          {!newCar_chosenGarage && !searchInput.length ? (
+            <Garages
+              garages={newCar_Garages}
+              onClick={true}
+              location={"newCar"}
+            />
+          ) : null}
 
-            {!newCar_chosenPossibleCar ? (
-              <Cars
-                cars={newCar_PossibleCars}
-                onClick={true}
-                carType={"possibleCar"}
-              />
-            ) : null}
+          {!newCar_chosenPossibleCar ? (
+            <Cars
+              cars={newCar_PossibleCars}
+              onClick={true}
+              carType={"possibleCar"}
+            />
+          ) : null}
 
-            {newCar_NameInput.length ||
-            newCar_GarageInput.length ||
-            searchInput.length ||
-            moveCar_isMoving ? null : (
+          {newCar_NameInput.length ||
+          newCar_GarageInput.length ||
+          searchInput.length ||
+          moveCar_isMoving ? null : (
+            <FadeIn>
               <NewGarage />
-            )}
+            </FadeIn>
+          )}
 
-            {newCar_NameInput.length ||
-            newCar_GarageInput.length ||
-            searchInput.length ||
-            moveCar_isMoving ? null : (
+          {newCar_NameInput.length ||
+          newCar_GarageInput.length ||
+          searchInput.length ||
+          moveCar_isMoving ? null : (
+            <FadeIn>
               <LogoutButton />
-            )}
-
-            {/* <Fab
-              style={{
-                margin: 0,
-                top: "auto",
-                right: 20,
-                bottom: 20,
-                left: "auto",
-                position: "fixed",
-              }}
-            ></Fab> */}
-          </Grid>
+            </FadeIn>
+          )}
         </Grid>
-      </FadeIn>
+      </Grid>
     </>
   );
 };

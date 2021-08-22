@@ -21,6 +21,9 @@ import { newCar_checkChosenPossibleCar } from "../../../actions/newCar.js";
 
 import { search } from "../../../actions/search.js";
 
+import { Fade } from "react-awesome-reveal";
+import { useStyles } from "../../../styles/buttonStyles.js";
+
 const Car = ({ car, carType, onClick }) => {
   const dispatch = useDispatch();
   const carsToMove = useSelector((state) => state.moveCar.carsToMove);
@@ -28,6 +31,8 @@ const Car = ({ car, carType, onClick }) => {
   const errorCars = useSelector((state) => state.moveCar.errorCars);
 
   const searchInput = useSelector((state) => state.search.input);
+
+  const classes = useStyles();
 
   const checkMoveCar = (car) => {
     if (
@@ -85,62 +90,64 @@ const Car = ({ car, carType, onClick }) => {
   }
 
   return (
-    <div
-      style={{ cursor: onClick ? "pointer" : null }}
-      onClick={
-        onClick
-          ? () => {
-              checkMoveCar(car);
+    <Fade duration={500}>
+      <div
+        style={{ cursor: onClick ? "pointer" : null }}
+        onClick={
+          onClick
+            ? () => {
+                checkMoveCar(car);
 
-              checkPossibleCar(car);
-            }
-          : null
-      }
-    >
-      <Paper style={{ backgroundColor: color }} elevation={elevation}>
-        <CardContent>
-          <Grid container direction="column" alignItems="flex-start">
-            <Typography variant="button" style={{ color: "white" }}>
-              {car.manufacturer} - {car.name}
-            </Typography>
-
-            {carType === "possibleCar" ? (
-              <Typography
-                variant="button"
-                style={{ color: "grey", fontSize: "0.7em" }}
-              >
-                {car.class}
+                checkPossibleCar(car);
+              }
+            : null
+        }
+      >
+        <Paper style={{ backgroundColor: color }} elevation={elevation}>
+          <CardContent>
+            <Grid container direction="column" alignItems="flex-start">
+              <Typography variant="button" style={{ color: "white" }}>
+                {car.manufacturer} - {car.name}
               </Typography>
-            ) : null}
 
-            {carType === "search" || carType === "carsToMove" ? (
-              <Typography
-                variant="button"
-                style={{ color: "grey", fontSize: "0.7em" }}
+              {carType === "possibleCar" ? (
+                <Typography
+                  variant="button"
+                  style={{ color: "grey", fontSize: "0.7em" }}
+                >
+                  {car.class}
+                </Typography>
+              ) : null}
+
+              {carType === "search" || carType === "carsToMove" ? (
+                <Typography
+                  variant="button"
+                  style={{ color: "grey", fontSize: "0.7em" }}
+                >
+                  {car.garage.name}
+                  {car.garage.desc.length ? ` - ${car.garage.desc}` : ""}
+                </Typography>
+              ) : null}
+            </Grid>
+          </CardContent>
+          {isMoving || carType !== "search" ? null : (
+            <CardActions>
+              <IconButton
+                aria-label="delete"
+                className={classes.deleteBtn}
+                onClick={async (e) => {
+                  e.stopPropagation();
+                  await dispatch(deleteCar(car._id, searchInput));
+                  dispatch(search(searchInput));
+                }}
               >
-                {car.garage.name}
-                {car.garage.desc.length ? ` - ${car.garage.desc}` : ""}
-              </Typography>
-            ) : null}
-          </Grid>
-        </CardContent>
-        {isMoving || carType !== "search" ? null : (
-          <CardActions>
-            <IconButton
-              aria-label="delete"
-              color="secondary"
-              onClick={async (e) => {
-                e.stopPropagation();
-                await dispatch(deleteCar(car._id, searchInput));
-                dispatch(search(searchInput));
-              }}
-            >
-              <Delete />
-            </IconButton>
-          </CardActions>
-        )}
-      </Paper>
-    </div>
+                <Delete />
+              </IconButton>
+            </CardActions>
+          )}
+        </Paper>
+      </div>
+    </Fade>
   );
 };
 

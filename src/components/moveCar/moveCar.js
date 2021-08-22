@@ -9,7 +9,7 @@ import MoveButton from "./buttons/moveButton";
 import ClearButton from "./buttons/clearButton";
 import Garage from "../garages/garage/garage.js";
 
-const MoveCar = () => {
+const MoveCar = ({ display }) => {
   const chosenGarage = useSelector((state) => state.moveCar.chosenGarage);
   const carsToMove = useSelector((state) => state.moveCar.carsToMove);
 

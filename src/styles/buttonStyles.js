@@ -56,4 +56,8 @@ export const useStyles = makeStyles((theme) => ({
       backgroundColor: "#444444",
     },
   },
+
+  deleteBtn: {
+    color: "#b02828",
+  },
 }));

@@ -2,6 +2,8 @@ import { Grid } from "@material-ui/core";
 
 import Garage from "./garage/garage";
 
+import { Fade } from "react-awesome-reveal";
+
 const Garages = ({ garages, onClick = false, location }) => {
   return (
     <>
@@ -9,7 +11,9 @@ const Garages = ({ garages, onClick = false, location }) => {
         {garages.map((garage) => {
           return (
             <Grid item key={garage.name} xs={12}>
-              <Garage garage={garage} location={location} onClick={onClick} />
+              <Fade duration={10}>
+                <Garage garage={garage} location={location} onClick={onClick} />
+              </Fade>
             </Grid>
           );
         })}

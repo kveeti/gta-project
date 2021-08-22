@@ -8,6 +8,9 @@ import {
   MOVE_CAR_IS_MOVING,
   MOVE_CAR_SET_GARAGES,
   MOVE_CAR_SET_GARAGE_INPUT,
+  MOVE_CAR_API_LOADING,
+  MOVE_CAR_API_SUCCESS,
+  MOVE_CAR_API_FAILURE,
 } from "../constants/actionTypes";
 
 const init = {
@@ -18,6 +21,11 @@ const init = {
   garageInput: "",
   garages: [],
   chosenGarage: null,
+  api: {
+    loading: false,
+    failure: false,
+    success: false,
+  },
 };
 
 const moveCarReducer = (state = init, action) => {
@@ -73,6 +81,24 @@ const moveCarReducer = (state = init, action) => {
         errorCars: state.errorCars.filter(
           (car) => car._id !== action.payload._id
         ),
+      };
+
+    case MOVE_CAR_API_LOADING:
+      return {
+        ...state,
+        api: { ...state.api, loading: action.payload },
+      };
+
+    case MOVE_CAR_API_FAILURE:
+      return {
+        ...state,
+        api: { ...state.api, failure: action.payload },
+      };
+
+    case MOVE_CAR_API_SUCCESS:
+      return {
+        ...state,
+        api: { ...state.api, success: action.payload },
       };
 
     default:
