@@ -13,7 +13,7 @@ const NoResults = () => {
   useEffect(() => {
     setTimeout(() => {
       setHidden(false);
-    }, 70);
+    }, 500);
   }, []);
 
   return hidden ? null : (
