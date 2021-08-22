@@ -297,7 +297,6 @@ export const moveCar = async (req, res, next) => {
     res.status(200).json({
       status: "every",
       movedCars: toSendMovedCars,
-      errorCars: toSendErrorCars,
     });
   } catch (err) {
     console.log(err);
