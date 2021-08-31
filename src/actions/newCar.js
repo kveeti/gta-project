@@ -34,7 +34,9 @@ export const newCar_searchPossibleCars = (query) => async (dispatch) => {
     });
 
     dispatch(newCar_setPossibleCars(res.data.possibleCars));
-  } catch {}
+  } catch {
+    console.log("new car error");
+  }
 };
 
 export const newCar_searchGarages = (query) => async (dispatch) => {

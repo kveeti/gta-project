@@ -64,7 +64,7 @@ export const moveCar_searchGarages = (query) => async (dispatch) => {
 
     dispatch(moveCar_setGarages(res.data.garages));
   } catch {
-    console.log("failed to search possible cars");
+    console.log("search error");
   }
 };
 

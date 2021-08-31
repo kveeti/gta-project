@@ -29,7 +29,7 @@ export const search = (query) => async (dispatch) => {
       dispatch(search_setGarages(res.data.garages));
     })
     .catch((error) => {
-      console.log("search failed", error);
+      console.log("search error");
     });
 };
 

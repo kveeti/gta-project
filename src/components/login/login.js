@@ -33,12 +33,11 @@ const Login = () => {
       );
       history.push("/home");
     } catch (err) {
-      console.log(err);
+      console.log("Google login error");
     }
   };
   const googleFailure = (err) => {
     console.log("Google login error");
-    console.log(err);
   };
 
   useEffect(() => {

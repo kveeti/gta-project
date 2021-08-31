@@ -47,6 +47,7 @@ const SearchBar = () => {
         borderRadius: "2.5px",
         fontSize: "16px",
       }}
+      placeholder={"Search for cars/garages"}
       value={searchInput}
       onInput={handleChange}
       autoFocus

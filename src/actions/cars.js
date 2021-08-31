@@ -4,11 +4,13 @@ import { search } from "./search";
 const config = require(".././config.json");
 
 export const deleteCar = (car_id, query) => async (dispatch) => {
-  const res = await axios.delete(`${config.API_URL}/gta-api/cars/${car_id}`);
+  try {
+    const res = await axios.delete(`${config.API_URL}/gta-api/cars/${car_id}`);
 
-  if (res.status === 200) {
-    search(query);
+    if (res.status === 200) {
+      search(query);
+    }
+  } catch (_) {
+    console.log("car delete error");
   }
-
-  //dispatch({ type: DELETED_CAR, payload: car_id });
 };

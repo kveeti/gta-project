@@ -30,7 +30,7 @@ export const login = (token) => async (dispatch) => {
 };
 
 export const checkLogin = () => async (dispatch) => {
-  await axios
+  axios
     .get(`${config.API_URL}/gta-api/check/login`)
     .then((res) => {
       dispatch({ type: SET_LOGGED_IN, payload: true });
