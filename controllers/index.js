@@ -7,3 +7,5 @@ export * from "./auth";
 export * from "./checks";
 
 export * from "./search";
+
+export * from "./epic";

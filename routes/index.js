@@ -7,3 +7,5 @@ export * from "./garages";
 export * from "./check";
 
 export * from "./search";
+
+export * from "./epic";

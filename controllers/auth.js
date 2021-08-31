@@ -4,9 +4,10 @@ import { userModel } from "../models";
 
 const client = new OAuth2Client(process.env.G_CLIENT_ID);
 
-export const login = async (req, res, next) => {
+export const login = async (req, res) => {
   try {
-    const time = new Date();
+    const date = new Date();
+    const time = `${date.toLocaleDateString()} - ${date.toLocaleTimeString()}`;
 
     const { token } = req.body;
 
@@ -28,9 +29,7 @@ export const login = async (req, res, next) => {
 
       res.status(201).json({ message: "OK" });
 
-      return console.log(
-        `\n@ ${time.toLocaleDateString()} - ${time.toLocaleTimeString()}\n  LOGIN\n    ${email}\n    ${name}`
-      );
+      return console.log(`\n@ ${time}\n  LOGIN\n    ${email}\n    ${name}`);
     }
 
     await userModel.create(
@@ -48,7 +47,7 @@ export const login = async (req, res, next) => {
         res.status(201).json({ message: "OK" });
 
         return console.log(
-          `\n@ ${time.toLocaleDateString()} - ${time.toLocaleTimeString()}\n  NEW USER\n    ${email}\n    ${name}`
+          `\n@ ${time}\n  NEW USER\n    ${email}\n    ${name}`
         );
       }
     );
@@ -61,9 +60,7 @@ export const login = async (req, res, next) => {
   }
 };
 
-export const logout = async (req, res, next) => {
-  const time = new Date();
-
+export const logout = async (req, res) => {
   if (!req.session.userId)
     return res.status(200).json({ message: "You weren't logged in" });
 

@@ -18,7 +18,7 @@ import { createApp } from "./app";
   const app = createApp(store);
 
   app.listen(process.env.APP_PORT, () => {
-    console.log(`dev api listening on port ${process.env.APP_PORT}`);
+    console.log(`back listening on port ${process.env.APP_PORT}`);
     console.log(`mongo connected to ${process.env.MONGO_DATABASE}`);
   });
 })();
