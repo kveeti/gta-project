@@ -19,7 +19,7 @@ export const createApp = (store) => {
 
   app.use(
     cors({
-      origin: "http://localhost:3000",
+      origin: "https://ranut.net",
       credentials: true,
     })
   );

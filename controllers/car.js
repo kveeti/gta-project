@@ -1,10 +1,10 @@
 import { carModel, garageModel, possibleCarModel, userModel } from "../models";
 import { getGarageById } from "../helpers";
 
-const date = new Date();
-
 export const newCar = async (req, res) => {
   // Adds a car
+  const date = new Date();
+  const time = `${date.toLocaleDateString()} - ${date.toLocaleTimeString()}`;
 
   try {
     const newCarId = req.body.carId;
@@ -58,11 +58,7 @@ export const newCar = async (req, res) => {
     }
 
     console.log(
-      `\n@ ${date.toLocaleDateString()} - ${date.toLocaleTimeString()}\n  Car added\n    ${
-        confirmCar.name
-      }\n    ${confirmCar.garage.name} - ${
-        confirmCar.garage.desc
-      }\n    ${owner}`
+      `\n@ ${time}\n  Car added\n    ${confirmCar.name}\n    ${confirmCar.garage.name} - ${confirmCar.garage.desc}\n    ${owner}`
     );
 
     res.status(201).json({
@@ -81,6 +77,8 @@ export const newCar = async (req, res) => {
 
 export const rmCar = async (req, res, next) => {
   // Removes a car
+  const date = new Date();
+  const time = `${date.toLocaleDateString()} - ${date.toLocaleTimeString()}`;
 
   try {
     const carToDeleteId = req.params.car_id;
@@ -129,11 +127,7 @@ export const rmCar = async (req, res, next) => {
     res.status(200).json(`deleted`);
 
     console.log(
-      `\n@ ${date.toLocaleDateString()} - ${date.toLocaleTimeString()}\n  Car deleted\n    ${
-        deletedCar.name
-      }\n    ${deletedCar.garage.name} - ${
-        deletedCar.garage.desc
-      }\n    ${owner}`
+      `\n@ ${time}\n  Car deleted\n    ${deletedCar.name}\n    ${deletedCar.garage.name} - ${deletedCar.garage.desc}\n    ${owner}`
     );
   } catch (err) {
     console.log("error at car controller, remove car: ", err);
@@ -143,7 +137,8 @@ export const rmCar = async (req, res, next) => {
 export const moveCar = async (req, res, next) => {
   // Moves a car
 
-  let time = `${date.toLocaleDateString()} - ${date.toLocaleTimeString()}`;
+  const date = new Date();
+  const time = `${date.toLocaleDateString()} - ${date.toLocaleTimeString()}`;
 
   try {
     const cars = req.body.cars;
