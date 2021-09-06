@@ -1,3 +1,24 @@
+:root {
+  --elevation1: 0px 2px 1px -1px rgb(0 0 0 / 20%),
+    0px 1px 1px 0px rgb(0 0 0 / 14%), 0px 1px 3px 0px rgb(0 0 0 / 12%);
+  --elevation4: 0px 2px 4px -1px rgb(0 0 0 / 20%),
+    0px 4px 5px 0px rgb(0 0 0 / 14%), 0px 1px 10px 0px rgb(0 0 0 / 12%);
+
+  --red-primary: #b02828;
+  --red-hover: #8f1f1f;
+
+  --green-primary: #4caf50;
+  --green-hover: #388e3c;
+
+  --text-primary: #f0f0f0;
+  --text-secondary: #bdbdbd;
+
+  --card-primary: #212121;
+  --card-hover: #1a1a1a;
+  --card-chosen-primary: #181818;
+  --card-chosen-hover: #151515;
+}
+
 body {
   background: #121212;
 }
@@ -8,4 +29,51 @@ input {
 
 input:focus {
   outline: none;
+}
+
+p {
+  font-family: "Helvetica", sans-serif;
+  font-weight: 400;
+  margin: 0;
+  letter-spacing: 0.02857em;
+}
+
+.uppercase {
+  text-transform: uppercase;
+}
+
+.elevation1 {
+  box-shadow: var(--elevation1);
+}
+
+.elevation4 {
+  box-shadow: var(--elevation4);
+}
+
+.card {
+  background-color: var(--card-primary);
+  padding: 15px;
+  border-radius: 3px;
+  display: flex;
+}
+
+.card-clickable:hover {
+  cursor: pointer;
+  background-color: var(--card-hover);
+}
+
+.card-chosen {
+  background-color: var(--card-chosen-primary) !important;
+}
+
+.card-chosen:hover {
+  background-color: var(--card-chosen-hover) !important;
+}
+
+.card-error {
+  background-color: var(--red-primary) !important;
+}
+
+.card-error:hover {
+  background-color: var(--red-hover) !important;
 }

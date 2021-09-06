@@ -1,14 +1,3 @@
-import {
-  CardActions,
-  CardContent,
-  Typography,
-  IconButton,
-  Grid,
-  Paper,
-} from "@material-ui/core/";
-
-import { Delete } from "@material-ui/icons/";
-
 import { useDispatch, useSelector } from "react-redux";
 
 import { deleteCar } from "../../../actions/cars.js";
@@ -23,9 +12,9 @@ import { search } from "../../../actions/search.js";
 
 import { Fade } from "react-awesome-reveal";
 
-import { useBtnStyles } from "../../../styles/buttonStyles.js";
-import { useCardStyles } from "../../../styles/cardStyles.js";
-import { colors } from "../../../styles/colors.js";
+import carIcon from "../../../images/car-icon.png";
+
+import "../carStyles.css";
 
 const Car = ({ car, carType }) => {
   const dispatch = useDispatch();
@@ -35,8 +24,17 @@ const Car = ({ car, carType }) => {
 
   const searchInput = useSelector((state) => state.search.input);
 
-  const btnClasses = useBtnStyles();
-  const cardClasses = useCardStyles();
+  const handleDelete = async (e) => {
+    e.stopPropagation();
+    await dispatch(deleteCar(car._id, searchInput));
+    dispatch(search(searchInput));
+  };
+
+  const handleCarClick = (e) => {
+    checkMoveCar(car);
+
+    checkPossibleCar(car);
+  };
 
   const checkMoveCar = (car) => {
     if (
@@ -65,99 +63,61 @@ const Car = ({ car, carType }) => {
     dispatch(newCar_checkChosenPossibleCar(car));
   };
 
-  let elevation = 4;
-  let cardClass = cardClasses.cards;
+  let elevation = "4";
+  let chosen = false;
+  let error = false;
 
   if (carsToMove.filter((one) => one._id === car._id).length) {
-    cardClass = cardClasses.chosenCards;
+    chosen = true;
   }
 
   if (carType.includes("chosen")) {
-    elevation = 1;
-    cardClass = cardClasses.chosenCards;
+    chosen = true;
+    elevation = "0";
   }
 
   if (
     carType === "chosenMoveCars" &&
     errorCars.filter((one) => one._id.toString() === car._id.toString()).length
   ) {
-    cardClass = cardClasses.errorCards;
+    error = true;
   }
 
   return (
     <Fade duration={500}>
       <div
-        className={cardClass}
-        style={{ cursor: "pointer" }}
-        onClick={() => {
-          checkMoveCar(car);
-
-          checkPossibleCar(car);
-        }}
+        className={`card car-card card-clickable elevation${elevation} ${
+          chosen ? "card-chosen" : ""
+        } ${error ? "card-error" : ""}`}
+        onClick={handleCarClick}
       >
-        <Paper className={cardClass} elevation={elevation}>
-          <CardContent>
-            <Grid container direction="column" alignItems="flex-start">
-              {car.manufacturer ? (
-                <Typography
-                  variant="button"
-                  style={{
-                    color: colors.text.secondary,
-                    marginBottom: "2px",
-                    fontSize: "0.8em",
-                  }}
-                >
-                  {car.manufacturer}
-                </Typography>
-              ) : null}
+        <div className="car-info uppercase">
+          <p className="car-info__manufacturer">
+            {car.manufacturer ? car.manufacturer : "unknown"}
+          </p>
+          <p className="car-info__name">{car.name}</p>
 
-              <Typography
-                variant="button"
-                style={{ color: colors.text.primary }}
-              >
-                {car.name}
-              </Typography>
-
-              {carType === "possibleCar" ? (
-                <Typography
-                  variant="button"
-                  style={{ color: colors.text.secondary, fontSize: "0.7em" }}
-                >
-                  {car.class}
-                </Typography>
-              ) : null}
-
-              {carType === "search" || carType === "carsToMove" ? (
-                <Typography
-                  variant="button"
-                  style={{
-                    marginTop: "4px",
-                    color: colors.text.secondary,
-                    fontSize: "0.7em",
-                  }}
-                >
-                  {car.garage.name}
-                  {car.garage.desc.length ? ` - ${car.garage.desc}` : ""}
-                </Typography>
-              ) : null}
-            </Grid>
-          </CardContent>
-          {isMoving || carType !== "search" ? null : (
-            <CardActions>
-              <IconButton
-                aria-label="delete"
-                className={btnClasses.deleteBtn}
-                onClick={async (e) => {
-                  e.stopPropagation();
-                  await dispatch(deleteCar(car._id, searchInput));
-                  dispatch(search(searchInput));
-                }}
-              >
-                <Delete />
-              </IconButton>
-            </CardActions>
+          {carType === "possibleCar" || carType === "chosenPossibleCar" ? (
+            <p className="car-info__car-class">{car.class}</p>
+          ) : (
+            <p className="car-info__garage">
+              {car.garage.name}
+              {car.garage.desc ? ` - ${car.garage.desc}` : null}
+            </p>
           )}
-        </Paper>
+        </div>
+        <div className="car-card__rigth-wrapper">
+          <img className="car-card__car-icon" src={carIcon} alt="car icon" />
+
+          {carType === "search" ? (
+            <button
+              className="car-card__delete-btn uppercase"
+              onClick={handleDelete}
+            >
+              Delete
+            </button>
+          ) : null}
+        </div>
       </div>
     </Fade>
   );
