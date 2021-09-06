@@ -4,7 +4,7 @@ import cors from "cors";
 import helmet from "helmet";
 import path from "path";
 
-import { SESSION_OPTIONS } from "./config";
+import { prod, SESSION_OPTIONS } from "./config";
 import { auth, cars, check, garages, search, epic } from "./routes";
 
 import { active, loggedIn } from "./middleware";
@@ -26,13 +26,11 @@ export const createApp = (store) => {
 
   app.use(express.json());
 
-  app.use(express.static(process.env.FRONT_ABS_PATH));
-
   app.set("trust proxy", "loopback");
 
   app.use(
     cors({
-      origin: "https://ranut.net",
+      origin: process.env.CORS_ORIGIN,
       credentials: true,
     })
   );
@@ -51,9 +49,15 @@ export const createApp = (store) => {
 
   app.use("/epic", epic);
 
-  app.get("/*", (_, res) => {
-    res.sendFile(path.join(process.env.FRONT_ABS_PATH, "index.html"));
-  });
+  const production = () => {
+    app.use(express.static(process.env.FRONT_ABS_PATH));
+
+    app.get("/*", (_, res) => {
+      res.sendFile(path.join(process.env.FRONT_ABS_PATH, "index.html"));
+    });
+  };
+
+  prod ? production() : null;
 
   return app;
 };

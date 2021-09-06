@@ -10,7 +10,7 @@ export const {
   PROD = 0,
 } = process.env;
 
-const prod = PROD == 1;
+export const prod = PROD == 1;
 
 console.log("prod:", prod);
 
