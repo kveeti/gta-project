@@ -33,7 +33,7 @@ export const checkLogin = () => async (dispatch) => {
   axios
     .get(`${config.API_URL}/gta-api/check/login`)
     .then((res) => {
-      dispatch({ type: SET_LOGGED_IN, payload: true });
+      dispatch(setLoggedIn(true));
     })
     .catch((err) => {
       if (!err.response) {
