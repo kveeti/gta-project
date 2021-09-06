@@ -1,19 +1,19 @@
+import axios from "axios";
+
+import { apiUrl } from "../config.js";
+
 import {
   SEARCH_SET_INPUT,
   SEARCH_SET_CARS,
   SEARCH_SET_GARAGES,
 } from "../constants/actionTypes";
 
-import axios from "axios";
-
-const config = require("../config.json");
-
 export const search = (query) => async (dispatch) => {
   if (!query) return;
 
   await axios
     .get(
-      `${config.API_URL}/gta-api/search`,
+      `${apiUrl}/gta-api/search`,
       {
         params: { q: query },
       },

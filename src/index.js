@@ -5,11 +5,10 @@ import { createStore, applyMiddleware, compose } from "redux";
 import thunk from "redux-thunk";
 
 import App from "./App";
+import { prod } from "./config.js";
 import { reducers } from "./reducers";
 
-const config = require("../src/config.json");
-
-const composeEnhancers = config.PROD
+const composeEnhancers = prod
   ? compose
   : compose &&
     window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__({

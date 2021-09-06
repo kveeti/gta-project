@@ -1,3 +1,7 @@
+import axios from "axios";
+
+import { apiUrl } from "../config.js";
+
 import {
   NEWCAR_SET_CAR_NAME,
   NEWCAR_SET_GARAGE_NAME,
@@ -10,10 +14,6 @@ import {
   NEWCAR_API_LOADING,
   NEWCAR_API_SUCCESS,
 } from "../constants/actionTypes";
-
-import axios from "axios";
-
-const config = require(".././config.json");
 
 let possibleCarCancelToken;
 let garageCancelToken;
@@ -28,7 +28,7 @@ export const newCar_searchPossibleCars = (query) => async (dispatch) => {
   possibleCarCancelToken = axios.CancelToken.source();
 
   try {
-    const res = await axios.get(`${config.API_URL}/gta-api/cars/possible`, {
+    const res = await axios.get(`${apiUrl}/gta-api/cars/possible`, {
       params: { q: query },
       cancelToken: possibleCarCancelToken.token,
     });
@@ -49,7 +49,7 @@ export const newCar_searchGarages = (query) => async (dispatch) => {
   garageCancelToken = axios.CancelToken.source();
 
   try {
-    const res = await axios.get(`${config.API_URL}/gta-api/garages`, {
+    const res = await axios.get(`${apiUrl}/gta-api/garages`, {
       params: { q: query },
       cancelToken: garageCancelToken.token,
     });
@@ -99,7 +99,7 @@ export const newCar_addCar = (carId, garageId) => async (dispatch) => {
   try {
     dispatch(newCar_api_setLoading(true));
 
-    await axios.post(`${config.API_URL}/gta-api/cars`, {
+    await axios.post(`${apiUrl}/gta-api/cars`, {
       carId,
       garageId,
     });

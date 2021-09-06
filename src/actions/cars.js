@@ -1,11 +1,11 @@
 import axios from "axios";
-import { search } from "./search";
 
-const config = require(".././config.json");
+import { apiUrl } from "../config.js";
+import { search } from "./search";
 
 export const deleteCar = (car_id, query) => async (dispatch) => {
   try {
-    const res = await axios.delete(`${config.API_URL}/gta-api/cars/${car_id}`);
+    const res = await axios.delete(`${apiUrl}/gta-api/cars/${car_id}`);
 
     if (res.status === 200) {
       search(query);

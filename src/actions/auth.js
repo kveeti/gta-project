@@ -1,3 +1,7 @@
+import axios from "axios";
+
+import { apiUrl } from "../config.js";
+
 import {
   AUTH_API_STATUS,
   LOGIN,
@@ -5,13 +9,9 @@ import {
   SET_LOGGED_IN,
 } from "../constants/actionTypes";
 
-import axios from "axios";
-
-const config = require(".././config.json");
-
 export const login = (token) => async (dispatch) => {
   await axios
-    .post(`${config.API_URL}/gta-api/auth/login`, {
+    .post(`${apiUrl}/gta-api/auth/login`, {
       token,
     })
     .then((response) => {
@@ -31,7 +31,7 @@ export const login = (token) => async (dispatch) => {
 
 export const checkLogin = () => async (dispatch) => {
   axios
-    .get(`${config.API_URL}/gta-api/check/login`)
+    .get(`${apiUrl}/gta-api/check/login`)
     .then((res) => {
       dispatch(setLoggedIn(true));
     })
@@ -51,7 +51,7 @@ export const checkLogin = () => async (dispatch) => {
 };
 
 export const logout = () => async (dispatch) => {
-  await axios.delete(`${config.API_URL}/gta-api/auth/logout`).then((res) => {
+  await axios.delete(`${apiUrl}/gta-api/auth/logout`).then((res) => {
     dispatch({ type: LOGOUT });
   });
 };

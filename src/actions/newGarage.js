@@ -1,5 +1,7 @@
 import axios from "axios";
 
+import { apiUrl } from "../config.js";
+
 import {
   NEW_GARAGE_SET_NAME,
   NEW_GARAGE_SET_DESC,
@@ -7,8 +9,6 @@ import {
   NEW_GARAGE_API_FAILURE,
   NEW_GARAGE_API_SUCCESS,
 } from "../constants/actionTypes";
-
-const config = require("../config.json");
 
 export const newGarage_setName = (garageName) => {
   return { type: NEW_GARAGE_SET_NAME, payload: garageName };
@@ -34,7 +34,7 @@ export const newGarage_addGarage = (name, desc) => async (dispatch) => {
   dispatch(newGarage_api_setLoading(true));
 
   try {
-    const res = await axios.post(`${config.API_URL}/gta-api/garages`, {
+    const res = await axios.post(`${apiUrl}/gta-api/garages`, {
       name,
       desc,
     });

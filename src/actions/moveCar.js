@@ -1,5 +1,7 @@
 import axios from "axios";
 
+import { apiUrl } from "../config.js";
+
 import {
   MOVE_CAR_IS_MOVING,
   MOVE_CAR_FORCE_IS_MOVING,
@@ -14,7 +16,6 @@ import {
   MOVE_CAR_API_SUCCESS,
 } from "../constants/actionTypes";
 
-import config from ".././config.json";
 import { search } from "./search";
 
 export const isMoving = () => {
@@ -58,7 +59,7 @@ export const moveCar_searchGarages = (query) => async (dispatch) => {
   if (!query) return;
 
   try {
-    const res = await axios.get(`${config.API_URL}/gta-api/garages`, {
+    const res = await axios.get(`${apiUrl}/gta-api/garages`, {
       params: { q: query },
     });
 
@@ -71,7 +72,7 @@ export const moveCar_searchGarages = (query) => async (dispatch) => {
 export const moveCar_move =
   (carsToMove, chosenGarageId, searchInput) => async (dispatch) => {
     try {
-      const res = await axios.put(`${config.API_URL}/gta-api/cars/`, {
+      const res = await axios.put(`${apiUrl}/gta-api/cars/`, {
         cars: carsToMove,
         newGarageID: chosenGarageId,
       });
