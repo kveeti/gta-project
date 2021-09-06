@@ -9,7 +9,6 @@ import { useDispatch, useSelector } from "react-redux";
 
 import Home from "./components/home/home.js";
 import Login from "./components/login/login.js";
-import GaragePage from "./components/garagePage/garagePage.js";
 
 import axios from "axios";
 
@@ -43,8 +42,6 @@ const App = () => {
   return (
     <Router>
       <Switch>
-        <Route path="/garage/:gID" children={<GaragePage />} />
-
         <Route path="/login">
           <Login />
         </Route>
