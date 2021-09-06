@@ -14,6 +14,7 @@ import Garages from "../garages/garages.js";
 import NoResults from "./noResults.js";
 import LogoutButton from "../search/buttons/logoutButton.js";
 import { delays } from "../../styles/delays.js";
+import Info from "./info.js";
 
 const Home = () => {
   const searchInput = useSelector((state) => state.search.input);
@@ -91,12 +92,15 @@ const Home = () => {
               />
             ) : null}
 
-            {!newCar_chosenPossibleCar ? (
-              <Cars
-                cars={newCar_possibleCars}
-                onClick={true}
-                carType={"possibleCar"}
-              />
+            {!newCar_chosenPossibleCar && newCar_carInput.length ? (
+              <>
+                <Info msg={"Select a car"} />
+                <Cars
+                  cars={newCar_possibleCars}
+                  onClick={true}
+                  carType={"possibleCar"}
+                />
+              </>
             ) : null}
 
             {newCar_carInput.length ||
