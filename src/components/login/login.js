@@ -10,8 +10,7 @@ import { GoogleLogin } from "react-google-login";
 import { login, checkLogin } from "../../actions/auth.js";
 import { AUTH_API_STATUS } from "../../constants/actionTypes.js";
 import { useBtnStyles } from "../../styles/buttonStyles.js";
-
-const config = require("../../config.json");
+import { clientId } from "../../config.js";
 
 const Login = () => {
   const dispatch = useDispatch();
@@ -67,7 +66,7 @@ const Login = () => {
         <Typography style={{ color: "white" }}>{auth.api.message}</Typography>
       ) : (
         <GoogleLogin
-          clientId={config.G_CLIENT_ID}
+          clientId={clientId}
           render={(renderProps) => (
             <Button
               className={btnClasses.buttons}
