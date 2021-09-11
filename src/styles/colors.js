@@ -21,8 +21,14 @@ export const colors = {
     primary: "#b02828",
     hover: "#8f1f1f",
   },
+
   green: {
     primary: "#4caf50",
     hover: "#388e3c",
+  },
+
+  blue: {
+    primary: "#2478ff",
+    hover: "#195ac2",
   },
 };

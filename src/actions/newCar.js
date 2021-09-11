@@ -14,6 +14,7 @@ import {
   NEWCAR_API_LOADING,
   NEWCAR_API_SUCCESS,
 } from "../constants/actionTypes";
+import { setNoResults } from "./search.js";
 
 let possibleCarCancelToken;
 let garageCancelToken;
@@ -34,6 +35,12 @@ export const newCar_searchPossibleCars = (query) => async (dispatch) => {
     });
 
     dispatch(newCar_setPossibleCars(res.data.possibleCars));
+
+    if (!res.data.possibleCars.length) {
+      return dispatch(setNoResults(true));
+    }
+
+    dispatch(setNoResults(false));
   } catch {
     console.log("new car error");
   }
@@ -55,6 +62,12 @@ export const newCar_searchGarages = (query) => async (dispatch) => {
     });
 
     dispatch(newCar_setGarages(res.data.garages));
+
+    if (!res.data.garages.length) {
+      return dispatch(setNoResults(true));
+    }
+
+    dispatch(setNoResults(false));
   } catch {}
 };
 

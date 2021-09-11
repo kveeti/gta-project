@@ -2,12 +2,14 @@ import {
   SEARCH_SET_CARS,
   SEARCH_SET_GARAGES,
   SEARCH_SET_INPUT,
+  SET_NO_RESULTS,
 } from "../constants/actionTypes.js";
 
 const init = {
   input: "",
   cars: [],
   garages: [],
+  noResults: false,
 };
 
 const searchReducer = (state = init, action) => {
@@ -20,6 +22,9 @@ const searchReducer = (state = init, action) => {
 
     case SEARCH_SET_INPUT:
       return { ...state, input: action.payload };
+
+    case SET_NO_RESULTS:
+      return { ...state, noResults: action.payload };
 
     default:
       return state;

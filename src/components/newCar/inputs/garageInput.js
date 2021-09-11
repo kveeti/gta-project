@@ -6,6 +6,7 @@ import {
   newCar_setGarageName,
   newCar_setGarages,
 } from "../../../actions/newCar.js";
+import { setNoResults } from "../../../actions/search.js";
 
 const GarageInput = ({ paddingBottom = "0" }) => {
   const dispatch = useDispatch();
@@ -17,7 +18,8 @@ const GarageInput = ({ paddingBottom = "0" }) => {
     dispatch(newCar_setGarageName(e.target.value));
 
     if (!e.target.value) {
-      return dispatch(newCar_setGarages([]));
+      dispatch(newCar_setGarages([]));
+      dispatch(setNoResults(false));
     }
 
     dispatch(newCar_searchGarages(e.target.value));

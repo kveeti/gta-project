@@ -58,10 +58,46 @@ export const useBtnStyles = makeStyles(
       },
     },
 
+    modifyButton: {
+      color: colors.blue.primary,
+      border: `1px solid ${colors.blue.primary}`,
+      lineHeight: "13px",
+
+      "&:hover": {
+        color: colors.blue.hover,
+        border: `1px solid ${colors.blue.hover}`,
+      },
+    },
+
+    renameBtn: {
+      color: colors.text.primary,
+      backgroundColor: colors.buttons.primary,
+      lineHeight: "17px",
+
+      "&:hover": {
+        backgroundColor: colors.buttons.hover,
+      },
+    },
+
     deleteBtn: {
       color: colors.red.primary,
+      border: `1px solid ${colors.red.primary}`,
+      lineHeight: "16px",
+
       "&:hover": {
         color: colors.red.hover,
+        border: `1px solid ${colors.red.hover}`,
+      },
+    },
+
+    deleteBtn2: {
+      color: colors.red.primary,
+      border: `1px solid ${colors.red.primary}`,
+      lineHeight: "13px",
+
+      "&:hover": {
+        color: colors.red.hover,
+        border: `1px solid ${colors.red.hover}`,
       },
     },
   }),

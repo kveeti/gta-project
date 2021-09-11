@@ -5,6 +5,7 @@ import {
   newCar_setCarName,
   newCar_setPossibleCars,
 } from "../../../actions/newCar";
+import { setNoResults } from "../../../actions/search.js";
 
 const CarNameField = () => {
   const dispatch = useDispatch();
@@ -18,6 +19,7 @@ const CarNameField = () => {
 
     if (!e.target.value) {
       dispatch(newCar_setPossibleCars([]));
+      dispatch(setNoResults(false));
     }
 
     dispatch(newCar_searchPossibleCars(e.target.value));

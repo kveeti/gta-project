@@ -38,6 +38,16 @@ p {
   letter-spacing: 0.02857em;
 }
 
+.text-primary {
+  font-size: 14px;
+  color: var(--text-primary);
+}
+
+.text-secondary {
+  font-size: 12px;
+  color: var(--text-secondary);
+}
+
 .uppercase {
   text-transform: uppercase;
 }

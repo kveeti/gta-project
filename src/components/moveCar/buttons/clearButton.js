@@ -22,7 +22,7 @@ const ClearButton = () => {
               dispatch(moveCar_clear());
             }}
           >
-            Clear cars
+            Clear
           </Button>
         </div>
       </div>

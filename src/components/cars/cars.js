@@ -1,12 +1,23 @@
+import styled from "styled-components";
 import Car from "./car/car";
+
+const CarGrid = styled.div`
+  display: grid;
+  gap: 8px;
+  margin-top: 8px;
+`;
 
 const Cars = ({ cars, carType }) => {
   return (
-    <div className="car-grid-wrapper">
+    <CarGrid>
       {cars.map((car) => {
-        return <Car car={car} carType={carType} />;
+        return (
+          <div key={car._id}>
+            <Car car={car} carType={carType} />
+          </div>
+        );
       })}
-    </div>
+    </CarGrid>
   );
 };
 

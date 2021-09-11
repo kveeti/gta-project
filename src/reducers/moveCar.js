@@ -17,7 +17,6 @@ const init = {
   carsToMove: [],
   errorCars: [],
   isMoving: false,
-  garageId: "",
   garageInput: "",
   garages: [],
   chosenGarage: null,

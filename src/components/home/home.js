@@ -15,11 +15,14 @@ import NoResults from "./noResults.js";
 import LogoutButton from "../search/buttons/logoutButton.js";
 import { delays } from "../../styles/delays.js";
 import Info from "./info.js";
+import GaragesNoModify from "../garages/garagesNoModify.js";
 
 const Home = () => {
   const searchInput = useSelector((state) => state.search.input);
   const searchCars = useSelector((state) => state.search.cars);
   const searchGarages = useSelector((state) => state.search.garages);
+
+  const noResults = useSelector((state) => state.search.noResults);
 
   const newCar_garages = useSelector((state) => state.newCar.garages);
   const newCar_possibleCars = useSelector((state) => state.newCar.possibleCars);
@@ -61,12 +64,8 @@ const Home = () => {
 
             {moveCar_carsToMove.length && moveCar_isMoving ? <MoveCar /> : null}
 
-            {!moveCar_chosenGarage ? (
-              <Garages
-                garages={moveCar_garages}
-                onClick={true}
-                location={"moveCar"}
-              />
+            {!moveCar_chosenGarage && moveCar_isMoving ? (
+              <GaragesNoModify garages={moveCar_garages} location={"movecar"} />
             ) : null}
 
             {searchInput.length && searchGarages.length && !moveCar_isMoving ? (
@@ -84,17 +83,18 @@ const Home = () => {
               </FadeIn>
             ) : null}
 
-            {!newCar_chosenGarage && !searchInput.length ? (
-              <Garages
-                garages={newCar_garages}
-                onClick={true}
-                location={"newCar"}
-              />
+            {!newCar_chosenGarage &&
+            !searchInput.length &&
+            newCar_garageInput.length ? (
+              <GaragesNoModify garages={newCar_garages} location={"newcar"} />
             ) : null}
 
             {!newCar_chosenPossibleCar && newCar_carInput.length ? (
               <>
-                <Info msg={"Select a car"} />
+                {newCar_possibleCars.length ? (
+                  <Info msg={"Select a car"} />
+                ) : null}
+
                 <Cars
                   cars={newCar_possibleCars}
                   onClick={true}
@@ -112,18 +112,19 @@ const Home = () => {
               </FadeIn>
             )}
 
-            {(searchInput.length &&
+            {((searchInput.length &&
               !searchCars.length &&
               !searchGarages.length) ||
-            (newCar_carInput.length &&
-              !newCar_possibleCars.length &&
-              !newCar_chosenPossibleCar) ||
-            (newCar_garageInput.length &&
-              !newCar_garages.length &&
-              !newCar_chosenGarage) ||
-            (moveCar_garageInput.length &&
-              !moveCar_garages.length &&
-              !moveCar_chosenGarage) ? (
+              (newCar_carInput.length &&
+                !newCar_possibleCars.length &&
+                !newCar_chosenPossibleCar) ||
+              (newCar_garageInput.length &&
+                !newCar_garages.length &&
+                !newCar_chosenGarage) ||
+              (moveCar_garageInput.length &&
+                !moveCar_garages.length &&
+                !moveCar_chosenGarage)) &&
+            noResults ? (
               <NoResults />
             ) : null}
 

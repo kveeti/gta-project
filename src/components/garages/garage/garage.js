@@ -1,81 +1,140 @@
-import { CardContent, Grid, Paper, Typography } from "@material-ui/core";
-
 import { useDispatch, useSelector } from "react-redux";
-import {
-  moveCar_checkChosenGarage,
-  moveCar_searchGarages,
-} from "../../../actions/moveCar.js";
-import {
-  newCar_checkChosenGarage,
-  newCar_checkChosenPossibleCar,
-  newCar_setCarName,
-  newCar_setPossibleCars,
-} from "../../../actions/newCar.js";
+
+import Rename from "./rename.js";
+import { Button } from "@material-ui/core";
 
 import { Fade } from "react-awesome-reveal";
-import { colors } from "../../../styles/colors.js";
-import { useCardStyles } from "../../../styles/cardStyles.js";
+import { motion } from "framer-motion";
 
-const Garage = ({ garage, location }) => {
+import {
+  garageRename_setOpenGarage,
+  garageRename_setRenameBtnDisabled,
+} from "../../../actions/garageRename.js";
+
+import "../garageStyles.css";
+import { useBtnStyles } from "../../../styles/buttonStyles.js";
+import garageIcon from "../../../images/garage-icon.png";
+import carIcon from "../../../images/car-icon.png";
+
+const animation = {
+  variants: {
+    expanded: {
+      height: "7em",
+    },
+    collapsed: {
+      height: "4.5em",
+    },
+  },
+  transition: {
+    type: "spring",
+    damping: 100,
+    stiffness: 800,
+  },
+};
+
+const Garage = ({ garage }) => {
   const dispatch = useDispatch();
+  const btnClasses = useBtnStyles();
 
-  const cardClasses = useCardStyles();
-
-  const possibleCarInput = useSelector((state) => state.newCar.carName);
-  const chosenPossibleCar = useSelector(
-    (state) => state.newCar.chosenPossibleCar
+  const { openGarage, isRenameBtnDisabled } = useSelector(
+    (state) => state.garageRename
   );
-  const moveCarGarageInput = useSelector((state) => state.moveCar.garageInput);
 
-  const handleClick = () => {
-    if (possibleCarInput || chosenPossibleCar) {
-      dispatch(newCar_setPossibleCars([]));
-      dispatch(newCar_setCarName(""));
-      dispatch(newCar_checkChosenPossibleCar(chosenPossibleCar));
-    }
+  let open = false;
 
-    if (location === "chosenNewCarGarage" || location === "newCar") {
-      dispatch(newCar_checkChosenGarage(garage));
+  if (openGarage === garage._id) {
+    open = true;
+  }
+
+  const handleModify = (e) => {
+    dispatch(garageRename_setRenameBtnDisabled(true));
+    if (open) {
+      dispatch(garageRename_setOpenGarage(null));
       return;
     }
 
-    if (location === "chosenMoveCarGarage" || location === "moveCar") {
-      dispatch(moveCar_checkChosenGarage(garage));
-      dispatch(moveCar_searchGarages(moveCarGarageInput));
-      return;
-    }
+    dispatch(garageRename_setOpenGarage(garage._id));
   };
 
-  let elevation = 4;
-  let cardClass = cardClasses.cards;
+  const handleRename = (e) => {
+    console.log("rename");
+  };
 
-  if (location.includes("chosen")) {
-    elevation = 1;
-    cardClass = cardClasses.chosenCards;
-  }
+  const handleDelete = (e) => {
+    console.log("delete");
+  };
 
   return (
     <Fade duration={500}>
-      <div style={{ cursor: "pointer" }} onClick={handleClick}>
-        <Paper className={cardClass} elevation={elevation}>
-          <CardContent>
-            <Grid container justifyContent="flex-start">
-              <Typography
-                style={{ color: colors.text.primary, fontSize: "15px" }}
-                variant="button"
-              >
-                {garage.name}
-                {garage.desc.length ? ` - ${garage.desc} - ` : " - "}
-                {garage.cars.length > 0
-                  ? garage.cars.length > 1
-                    ? `${garage.cars.length} cars`
-                    : `${garage.cars.length} car`
-                  : `${garage.cars.length} cars`}
-              </Typography>
-            </Grid>
-          </CardContent>
-        </Paper>
-      </div>
+      <motion.div
+        animate={open ? "expanded" : "collapsed"}
+        variants={animation.variants}
+        transition={animation.transition}
+        className={`card garage-card elevation1 uppercase`}
+      >
+        <motion.div className="garage-card-left">
+          <motion.div className="garage-card__info">
+            {open ? (
+              <Rename garage={garage} />
+            ) : (
+              <Fade duration={500}>
+                <p className="text-primary">{garage.name}</p>
+                <p className="text-secondary">
+                  {garage.desc.length && `${garage.desc}`}
+                </p>
+              </Fade>
+            )}
+          </motion.div>
+          {open ? (
+            <div className="garage-card__actions">
+              <Fade duration={500}>
+                <Button
+                  className={btnClasses.renameBtn}
+                  size="small"
+                  onClick={handleRename}
+                  disabled={isRenameBtnDisabled}
+                >
+                  rename
+                </Button>
+                <Button
+                  className={btnClasses.deleteBtn}
+                  size="small"
+                  onClick={handleDelete}
+                >
+                  delete
+                </Button>
+              </Fade>
+            </div>
+          ) : null}
+        </motion.div>
+
+        <motion.div className="garage-card-right">
+          <motion.div className="garage-card__icons">
+            <p className="garage-card__car-count text-primary">
+              {garage.cars.length}
+            </p>
+
+            <img
+              className="garage-card__car-icon"
+              src={carIcon}
+              alt="car icon"
+            />
+            <img
+              className="garage-card__garage-icon"
+              src={garageIcon}
+              alt="garage icon"
+            />
+          </motion.div>
+
+          <Button
+            className={btnClasses.modifyButton}
+            size={"small"}
+            onClick={handleModify}
+          >
+            modify
+          </Button>
+        </motion.div>
+      </motion.div>
     </Fade>
   );
 };

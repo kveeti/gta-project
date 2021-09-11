@@ -36,23 +36,15 @@
   font-size: 12px;
 }
 
-.car-card__rigth-wrapper {
+.car-card__rigth {
   display: flex;
   flex-direction: column;
   gap: 15px;
-  align-items: end;
+  align-items: flex-end;
+  justify-content: space-between;
 }
 
 .car-card__car-icon {
   height: 20px;
   width: auto;
-}
-
-.car-card__delete-btn {
-  background-color: var(--card-primary);
-  border: 1px solid var(--red-primary);
-  border-radius: 3px;
-  color: var(--red-primary);
-  padding: 5px;
-  cursor: pointer;
 }

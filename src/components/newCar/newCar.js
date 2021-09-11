@@ -10,12 +10,10 @@ import {
 
 import CreateButton from "./buttons/createButton";
 import ClearButton from "./buttons/clearButton";
-
 import CarInput from "./inputs/carInput";
 import GarageInput from "./inputs/garageInput";
-
 import Car from "../cars/car/car";
-import Garage from "../garages/garage/garage";
+import GarageNoModify from "../garages/garage/garageNoModify.js";
 
 import { Fade } from "react-awesome-reveal";
 
@@ -44,11 +42,7 @@ const NewCar = () => {
             </Typography>
 
             {chosenGarage ? (
-              <Garage
-                garage={chosenGarage}
-                location={"chosenNewCarGarage"}
-                onClick={true}
-              />
+              <GarageNoModify garage={chosenGarage} location="chosen-newcar" />
             ) : (
               <Fade>
                 <GarageInput />
@@ -58,7 +52,7 @@ const NewCar = () => {
             {chosenPossibleCar ? (
               <Car
                 car={chosenPossibleCar}
-                carType={"chosenPossibleCar"}
+                carType={"chosen-possiblecar"}
                 onClick={true}
               />
             ) : (

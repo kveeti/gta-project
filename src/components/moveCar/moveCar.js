@@ -7,7 +7,7 @@ import Cars from "../cars/cars.js";
 import GarageInput from "./inputs/garageInput";
 import MoveButton from "./buttons/moveButton";
 import ClearButton from "./buttons/clearButton";
-import Garage from "../garages/garage/garage.js";
+import GarageNoModify from "../garages/garage/garageNoModify.js";
 
 const MoveCar = ({ display }) => {
   const chosenGarage = useSelector((state) => state.moveCar.chosenGarage);
@@ -37,11 +37,7 @@ const MoveCar = ({ display }) => {
             </Typography>
 
             {chosenGarage ? (
-              <Garage
-                garage={chosenGarage}
-                location={"chosenMoveCarGarage"}
-                onClick={true}
-              />
+              <GarageNoModify garage={chosenGarage} location="chosen-movecar" />
             ) : (
               <GarageInput />
             )}
@@ -51,7 +47,7 @@ const MoveCar = ({ display }) => {
               <ClearButton />
             </div>
 
-            <Cars cars={carsToMove} onClick={true} carType={"chosenMoveCars"} />
+            <Cars cars={carsToMove} onClick={true} carType={"chosen-movecar"} />
           </Grid>
         </CardContent>
       </Paper>
