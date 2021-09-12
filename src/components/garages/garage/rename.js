@@ -6,7 +6,6 @@ import {
   garageRename_setNewName,
   garageRename_setRenameBtnDisabled,
 } from "../../../actions/garageRename.js";
-import { colors } from "../../../styles/colors.js";
 
 const Rename = ({ garage }) => {
   const dispatch = useDispatch();

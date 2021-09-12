@@ -1,0 +1,202 @@
+.no-modify {
+  height: 2.2em !important;
+}
+
+.garage-card {
+  flex-direction: row;
+  justify-content: space-between;
+  height: 4.5em;
+}
+
+.garage-card__icon {
+  height: 28px;
+  width: auto;
+}
+
+.garage-card-right {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  align-items: flex-end;
+  justify-content: space-between;
+}
+
+.garage-card-left {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.garage-card__actions {
+  display: flex;
+  flex-direction: row;
+  gap: 8px;
+}
+
+.garage-card__info {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.garage-card__icons {
+  display: flex;
+  flex-direction: row;
+  align-items: flex-end;
+  gap: 4px;
+}
+
+.garage-card__car-count {
+  font-size: 1em !important;
+}
+
+.garage-card__garage-icon {
+  height: 25px;
+  width: auto;
+}
+
+.garage-card__input {
+  background-color: #212121;
+  font-size: 1em;
+  color: #f0f0f0;
+  width: 100%;
+}
+
+.garage-list {
+  display: grid;
+  gap: 8px;
+  margin-top: 8px;
+}
+
+.card {
+  background-color: #212121;
+  padding: 15px;
+  border-radius: 3px;
+  display: flex;
+}
+
+.card-clickable:hover {
+  cursor: pointer;
+  background-color: black;
+}
+
+.card-chosen {
+  background-color: #181818 !important;
+}
+.card-chosen:hover {
+  background-color: black !important;
+}
+
+.card-error {
+  background-color: #b02828 !important;
+}
+.card-error:hover {
+  background-color: #5d1515 !important;
+}
+
+.car-grid-wrapper {
+  display: grid;
+  gap: 8px;
+  margin-top: 8px;
+}
+
+.car-card {
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.car-info {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.car-info__manufacturer {
+  color: #bdbdbd;
+  font-size: 12px;
+}
+
+.car-info__name {
+  color: #f0f0f0;
+  font-size: 14px;
+}
+
+.car-info__car-class {
+  color: #bdbdbd;
+  font-size: 10px;
+}
+
+.car-info__garage {
+  color: #bdbdbd;
+  font-size: 12px;
+}
+
+.car-card__rigth {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  align-items: flex-end;
+  justify-content: space-between;
+}
+
+.car-grid {
+  display: grid;
+  gap: 8px;
+  margin-top: 8px;
+}
+
+p {
+  font-family: "Helvetica", sans-serif;
+  font-weight: 400;
+  margin: 0;
+  letter-spacing: 0.02857em;
+  word-wrap: break-word;
+}
+
+.text-primary {
+  font-size: 0.8em;
+  color: #f0f0f0;
+}
+
+.text-secondary {
+  font-size: 0.65em;
+  color: #bdbdbd;
+}
+
+.uppercase {
+  text-transform: uppercase;
+}
+
+.car-icon {
+  height: 20px;
+  width: auto;
+}
+
+.garage-icon {
+  height: 20px;
+  width: auto;
+}
+
+.elevation1 {
+  box-shadow: 0px 2px 1px -1px rgba(0, 0, 0, 0.2), 0px 1px 1px 0px rgba(0, 0, 0, 0.14), 0px 1px 3px 0px rgba(0, 0, 0, 0.12);
+}
+
+.elevation4 {
+  box-shadow: 0px 2px 4px -1px rgba(0, 0, 0, 0.2), 0px 4px 5px 0px rgba(0, 0, 0, 0.14), 0px 1px 10px 0px rgba(0, 0, 0, 0.12);
+}
+
+body {
+  background: #121212;
+}
+
+input {
+  border: none;
+  width: 100%;
+}
+
+input:focus {
+  outline: none;
+}
+
+/*# sourceMappingURL=styles.css.map */

@@ -1,0 +1,23 @@
+@use "../variables/colors" as *;
+
+p {
+  font-family: "Helvetica", sans-serif;
+  font-weight: 400;
+  margin: 0;
+  letter-spacing: 0.02857em;
+  word-wrap: break-word;
+}
+
+.text-primary {
+  font-size: 0.8em;
+  color: $text-primary;
+}
+
+.text-secondary {
+  font-size: 0.65em;
+  color: $text-secondary;
+}
+
+.uppercase {
+  text-transform: uppercase;
+}

@@ -1,15 +1,8 @@
-import styled from "styled-components";
 import Car from "./car/car";
-
-const CarGrid = styled.div`
-  display: grid;
-  gap: 8px;
-  margin-top: 8px;
-`;
 
 const Cars = ({ cars, carType }) => {
   return (
-    <CarGrid>
+    <div className="car-grid">
       {cars.map((car) => {
         return (
           <div key={car._id}>
@@ -17,7 +10,7 @@ const Cars = ({ cars, carType }) => {
           </div>
         );
       })}
-    </CarGrid>
+    </div>
   );
 };
 

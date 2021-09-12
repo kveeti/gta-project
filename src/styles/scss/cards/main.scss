@@ -1,0 +1,29 @@
+@use "../variables/colors.scss" as *;
+
+.card {
+  background-color: $card-primary;
+  padding: 15px;
+  border-radius: 3px;
+  display: flex;
+}
+
+.card-clickable:hover {
+  cursor: pointer;
+  background-color: $card-primary-hover;
+}
+
+.card-chosen {
+  background-color: $card-chosen !important;
+
+  &:hover {
+    background-color: $card-chosen-hover !important;
+  }
+}
+
+.card-error {
+  background-color: $red-primary !important;
+
+  &:hover {
+    background-color: $red-hover !important;
+  }
+}

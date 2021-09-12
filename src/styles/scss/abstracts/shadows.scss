@@ -1,0 +1,9 @@
+@use "../variables/shadows.scss" as *;
+
+.elevation1 {
+  box-shadow: $elevation1;
+}
+
+.elevation4 {
+  box-shadow: $elevation4;
+}

@@ -14,7 +14,7 @@ import axios from "axios";
 
 import { SET_LOGGED_IN } from "./constants/actionTypes.js";
 
-import "./styles.css";
+import "./styles/css/styles.css";
 
 axios.defaults.withCredentials = true;
 

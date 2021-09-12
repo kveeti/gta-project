@@ -1,0 +1,27 @@
+.card {
+  background-color: #212121;
+  padding: 15px;
+  border-radius: 3px;
+  display: flex;
+}
+
+.card-clickable:hover {
+  cursor: pointer;
+  background-color: black;
+}
+
+.card-chosen {
+  background-color: #181818 !important;
+}
+.card-chosen:hover {
+  background-color: black !important;
+}
+
+.card-error {
+  background-color: #b02828 !important;
+}
+.card-error:hover {
+  background-color: #5d1515 !important;
+}
+
+/*# sourceMappingURL=main.css.map */

@@ -1,7 +1,6 @@
 import { Fade } from "react-awesome-reveal";
 import { motion } from "framer-motion";
 
-import "../garageStyles.css";
 import garageIcon from "../../../images/garage-icon.png";
 import carIcon from "../../../images/car-icon.png";
 import { useDispatch, useSelector } from "react-redux";

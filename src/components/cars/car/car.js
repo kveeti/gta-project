@@ -14,7 +14,6 @@ import { Fade } from "react-awesome-reveal";
 
 import carIcon from "../../../images/car-icon.png";
 
-import "../carStyles.css";
 import { Button } from "@material-ui/core";
 import { useBtnStyles } from "../../../styles/buttonStyles.js";
 
@@ -122,7 +121,7 @@ const Car = ({ car, carType }) => {
           )}
         </div>
         <div className="car-card__rigth">
-          <img className="car-card__car-icon" src={carIcon} alt="car icon" />
+          <img className="car-icon" src={carIcon} alt="car icon" />
 
           {isSearchCar ? (
             <Button

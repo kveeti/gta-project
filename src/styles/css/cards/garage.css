@@ -1,0 +1,71 @@
+.no-modify {
+  height: 2.2em !important;
+}
+
+.garage-card {
+  flex-direction: row;
+  justify-content: space-between;
+  height: 4.5em;
+}
+
+.garage-card__icon {
+  height: 28px;
+  width: auto;
+}
+
+.garage-card-right {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  align-items: flex-end;
+  justify-content: space-between;
+}
+
+.garage-card-left {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.garage-card__actions {
+  display: flex;
+  flex-direction: row;
+  gap: 8px;
+}
+
+.garage-card__info {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.garage-card__icons {
+  display: flex;
+  flex-direction: row;
+  align-items: flex-end;
+  gap: 4px;
+}
+
+.garage-card__car-count {
+  font-size: 1em !important;
+}
+
+.garage-card__garage-icon {
+  height: 25px;
+  width: auto;
+}
+
+.garage-card__input {
+  background-color: #212121;
+  font-size: 1em;
+  color: #f0f0f0;
+  width: 100%;
+}
+
+.garage-list {
+  display: grid;
+  gap: 8px;
+  margin-top: 8px;
+}
+
+/*# sourceMappingURL=garage.css.map */

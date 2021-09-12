@@ -1,0 +1,53 @@
+.car-grid-wrapper {
+  display: grid;
+  gap: 8px;
+  margin-top: 8px;
+}
+
+.car-card {
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.car-info {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.car-info__manufacturer {
+  color: #bdbdbd;
+  font-size: 12px;
+}
+
+.car-info__name {
+  color: #f0f0f0;
+  font-size: 14px;
+}
+
+.car-info__car-class {
+  color: #bdbdbd;
+  font-size: 10px;
+}
+
+.car-info__garage {
+  color: #bdbdbd;
+  font-size: 12px;
+}
+
+.car-card__rigth {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  align-items: flex-end;
+  justify-content: space-between;
+}
+
+.car-grid {
+  display: grid;
+  gap: 8px;
+  margin-top: 8px;
+}
+
+/*# sourceMappingURL=car.css.map */

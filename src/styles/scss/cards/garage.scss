@@ -1,3 +1,5 @@
+@use "../variables/colors.scss" as *;
+
 .no-modify {
   height: 2.2em !important;
 }
@@ -47,12 +49,7 @@
 }
 
 .garage-card__car-count {
-  font-size: 17px !important;
-}
-
-.garage-card__car-icon {
-  height: 20px;
-  width: auto;
+  font-size: 1em !important;
 }
 
 .garage-card__garage-icon {
@@ -61,8 +58,14 @@
 }
 
 .garage-card__input {
-  background-color: var(--card-primary);
-  font-size: 20px;
-  color: var(--text-primary);
+  background-color: $card-primary;
+  font-size: 1em;
+  color: $text-primary;
   width: 100%;
+}
+
+.garage-list {
+  display: grid;
+  gap: 8px;
+  margin-top: 8px;
 }

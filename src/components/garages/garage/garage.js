@@ -11,7 +11,6 @@ import {
   garageRename_setRenameBtnDisabled,
 } from "../../../actions/garageRename.js";
 
-import "../garageStyles.css";
 import { useBtnStyles } from "../../../styles/buttonStyles.js";
 import garageIcon from "../../../images/garage-icon.png";
 import carIcon from "../../../images/car-icon.png";
@@ -80,7 +79,7 @@ const Garage = ({ garage }) => {
               <Fade duration={500}>
                 <p className="text-primary">{garage.name}</p>
                 <p className="text-secondary">
-                  {garage.desc.length && `${garage.desc}`}
+                  {garage.desc.length ? `${garage.desc}` : ""}
                 </p>
               </Fade>
             )}
@@ -114,16 +113,8 @@ const Garage = ({ garage }) => {
               {garage.cars.length}
             </p>
 
-            <img
-              className="garage-card__car-icon"
-              src={carIcon}
-              alt="car icon"
-            />
-            <img
-              className="garage-card__garage-icon"
-              src={garageIcon}
-              alt="garage icon"
-            />
+            <img className="car-icon" src={carIcon} alt="car icon" />
+            <img className="garage-icon" src={garageIcon} alt="garage icon" />
           </motion.div>
 
           <Button

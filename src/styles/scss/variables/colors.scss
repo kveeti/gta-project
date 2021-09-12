@@ -1,0 +1,19 @@
+@function hover($color-name) {
+  @return darken($color-name, 20%);
+}
+
+$main-bg: #121212;
+
+$red-primary: #b02828;
+$red-hover: hover($red-primary);
+
+$green-primary: #4caf50;
+$green-hover: hover($green-primary);
+
+$text-primary: #f0f0f0;
+$text-secondary: #bdbdbd;
+
+$card-primary: #212121;
+$card-primary-hover: hover($card-primary);
+$card-chosen: #181818;
+$card-chosen-hover: hover($card-chosen);

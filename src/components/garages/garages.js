@@ -3,7 +3,7 @@ import Garage from "./garage/garage";
 const Garages = ({ garages, onClick = false, location }) => {
   return (
     <>
-      <div style={{ display: "grid", gap: "8px", marginTop: "8px" }}>
+      <div className="garage-list">
         {garages.map((garage) => {
           return (
             <div key={garage._id}>

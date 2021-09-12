@@ -1,0 +1,14 @@
+body {
+  background: #121212;
+}
+
+input {
+  border: none;
+  width: 100%;
+}
+
+input:focus {
+  outline: none;
+}
+
+/*# sourceMappingURL=main.css.map */

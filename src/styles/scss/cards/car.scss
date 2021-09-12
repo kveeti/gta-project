@@ -1,3 +1,5 @@
+@use "../variables/colors.scss" as *;
+
 .car-grid-wrapper {
   display: grid;
   gap: 8px;
@@ -17,22 +19,22 @@
 }
 
 .car-info__manufacturer {
-  color: var(--text-secondary);
+  color: $text-secondary;
   font-size: 12px;
 }
 
 .car-info__name {
-  color: var(--text-primary);
+  color: $text-primary;
   font-size: 14px;
 }
 
 .car-info__car-class {
-  color: var(--text-secondary);
+  color: $text-secondary;
   font-size: 10px;
 }
 
 .car-info__garage {
-  color: var(--text-secondary);
+  color: $text-secondary;
   font-size: 12px;
 }
 
@@ -44,7 +46,8 @@
   justify-content: space-between;
 }
 
-.car-card__car-icon {
-  height: 20px;
-  width: auto;
+.car-grid {
+  display: grid;
+  gap: 8px;
+  margin-top: 8px;
 }
