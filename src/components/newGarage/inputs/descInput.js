@@ -17,11 +17,6 @@ const DescInput = () => {
       placeholder="Description"
       value={newGarageDesc}
       onChange={handleChange}
-      style={{
-        color: "white",
-        backgroundColor: "#212121",
-        fontSize: "18px",
-      }}
     ></input>
   );
 };

@@ -1,16 +1,30 @@
+import { Grid } from "@material-ui/core";
 import Car from "./car/car";
 
 const Cars = ({ cars, carType }) => {
+  let isPossibleCar = false;
+
+  if (carType.includes("possiblecar")) {
+    isPossibleCar = true;
+  }
+
   return (
-    <div className="car-grid">
+    <Grid container spacing={1} style={{ marginTop: "0.25em" }}>
       {cars.map((car) => {
         return (
-          <div key={car._id}>
+          <Grid
+            item
+            key={isPossibleCar ? car.name : car._id}
+            xs={12}
+            sm={isPossibleCar ? 12 : 6}
+            md={isPossibleCar ? 12 : 4}
+            lg={isPossibleCar ? 12 : 3}
+          >
             <Car car={car} carType={carType} />
-          </div>
+          </Grid>
         );
       })}
-    </div>
+    </Grid>
   );
 };
 

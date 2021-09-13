@@ -10,10 +10,30 @@ p {
   font-size: 0.8em;
   color: #f0f0f0;
 }
+@media (max-width: 800px) {
+  .text-primary {
+    font-size: 0.8em;
+  }
+}
 
 .text-secondary {
   font-size: 0.65em;
   color: #bdbdbd;
+}
+@media (max-width: 800px) {
+  .text-secondary {
+    font-size: 0.65em;
+  }
+}
+
+.text-title {
+  font-size: 0.9em;
+  color: #f0f0f0;
+}
+@media (max-width: 800px) {
+  .text-title {
+    font-size: 0.9em;
+  }
 }
 
 .uppercase {
@@ -21,13 +41,23 @@ p {
 }
 
 .car-icon {
-  height: 20px;
+  height: 18px;
   width: auto;
+}
+@media (max-width: 800px) {
+  .car-icon {
+    height: 15px;
+  }
 }
 
 .garage-icon {
   height: 20px;
   width: auto;
+}
+@media (max-width: 800px) {
+  .garage-icon {
+    height: 18px;
+  }
 }
 
 .elevation1 {

@@ -39,15 +39,9 @@
 .car-card__rigth {
   display: flex;
   flex-direction: column;
-  gap: 15px;
+  gap: 1.2em;
   align-items: flex-end;
   justify-content: space-between;
-}
-
-.car-grid {
-  display: grid;
-  gap: 8px;
-  margin-top: 8px;
 }
 
 /*# sourceMappingURL=car.css.map */

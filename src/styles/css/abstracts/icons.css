@@ -1,10 +1,9 @@
-@use "../mixins.scss" as *;
-
 .car-icon {
   height: 18px;
   width: auto;
-
-  @include mobile {
+}
+@media (max-width: 800px) {
+  .car-icon {
     height: 15px;
   }
 }
@@ -12,8 +11,11 @@
 .garage-icon {
   height: 20px;
   width: auto;
-
-  @include mobile {
+}
+@media (max-width: 800px) {
+  .garage-icon {
     height: 18px;
   }
 }
+
+/*# sourceMappingURL=icons.css.map */

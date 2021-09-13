@@ -1,13 +1,5 @@
 import { useSelector } from "react-redux";
 
-import {
-  CardActions,
-  CardContent,
-  Typography,
-  Grid,
-  Paper,
-} from "@material-ui/core/";
-
 import CreateButton from "./buttons/createButton";
 import ClearButton from "./buttons/clearButton";
 import CarInput from "./inputs/carInput";
@@ -25,51 +17,35 @@ const NewCar = () => {
 
   return (
     <>
-      <Paper
-        style={{
-          backgroundColor: "#212121",
-          marginTop: "8px",
-        }}
-        elevation={6}
-      >
-        <CardContent>
-          <Grid container direction="column" style={{ rowGap: "10px" }}>
-            <Typography
-              variant="button"
-              style={{ color: "white", fontSize: "18px" }}
-            >
-              New car
-            </Typography>
+      <div className="card new-card">
+        <p className="text-title uppercase">New car</p>
+        <div className="new-card-inputs">
+          {chosenGarage ? (
+            <GarageNoModify garage={chosenGarage} location="chosen-newcar" />
+          ) : (
+            <Fade>
+              <GarageInput />
+            </Fade>
+          )}
 
-            {chosenGarage ? (
-              <GarageNoModify garage={chosenGarage} location="chosen-newcar" />
-            ) : (
-              <Fade>
-                <GarageInput />
-              </Fade>
-            )}
+          {chosenPossibleCar ? (
+            <Car
+              car={chosenPossibleCar}
+              carType={"chosen-possiblecar"}
+              onClick={true}
+            />
+          ) : (
+            <Fade>
+              <CarInput />
+            </Fade>
+          )}
+        </div>
 
-            {chosenPossibleCar ? (
-              <Car
-                car={chosenPossibleCar}
-                carType={"chosen-possiblecar"}
-                onClick={true}
-              />
-            ) : (
-              <Fade>
-                <CarInput />
-              </Fade>
-            )}
-          </Grid>
-        </CardContent>
-
-        <CardActions>
-          <Grid container justifyContent="center">
-            <ClearButton />
-            <CreateButton />
-          </Grid>
-        </CardActions>
-      </Paper>
+        <div className="new-card-actions">
+          <ClearButton />
+          <CreateButton />
+        </div>
+      </div>
     </>
   );
 };

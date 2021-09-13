@@ -125,9 +125,10 @@ const Car = ({ car, carType }) => {
 
           {isSearchCar ? (
             <Button
-              className={btnClasses.deleteBtn2}
+              className={btnClasses.deleteBtn}
               size="small"
               onClick={handleDelete}
+              disableElevation
             >
               delete
             </Button>

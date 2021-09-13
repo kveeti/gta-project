@@ -7,6 +7,7 @@ import { Fade } from "react-awesome-reveal";
 import { motion } from "framer-motion";
 
 import {
+  garageRename_rename,
   garageRename_setOpenGarage,
   garageRename_setRenameBtnDisabled,
 } from "../../../actions/garageRename.js";
@@ -35,9 +36,10 @@ const Garage = ({ garage }) => {
   const dispatch = useDispatch();
   const btnClasses = useBtnStyles();
 
-  const { openGarage, isRenameBtnDisabled } = useSelector(
+  const { openGarage, isRenameBtnDisabled, newDesc } = useSelector(
     (state) => state.garageRename
   );
+  const searchInput = useSelector((state) => state.search.input);
 
   let open = false;
 
@@ -56,7 +58,7 @@ const Garage = ({ garage }) => {
   };
 
   const handleRename = (e) => {
-    console.log("rename");
+    dispatch(garageRename_rename(newDesc, garage._id, searchInput));
   };
 
   const handleDelete = (e) => {
@@ -73,11 +75,11 @@ const Garage = ({ garage }) => {
       >
         <motion.div className="garage-card-left">
           <motion.div className="garage-card__info">
+            <p className="text-primary">{garage.name}</p>
             {open ? (
               <Rename garage={garage} />
             ) : (
               <Fade duration={500}>
-                <p className="text-primary">{garage.name}</p>
                 <p className="text-secondary">
                   {garage.desc.length ? `${garage.desc}` : ""}
                 </p>
@@ -89,9 +91,10 @@ const Garage = ({ garage }) => {
               <Fade duration={500}>
                 <Button
                   className={btnClasses.renameBtn}
-                  size="small"
                   onClick={handleRename}
+                  size="small"
                   disabled={isRenameBtnDisabled}
+                  disableElevation
                 >
                   rename
                 </Button>
@@ -99,6 +102,7 @@ const Garage = ({ garage }) => {
                   className={btnClasses.deleteBtn}
                   size="small"
                   onClick={handleDelete}
+                  disableElevation
                 >
                   delete
                 </Button>
@@ -120,6 +124,7 @@ const Garage = ({ garage }) => {
           <Button
             className={btnClasses.modifyButton}
             size={"small"}
+            disableElevation
             onClick={handleModify}
           >
             modify

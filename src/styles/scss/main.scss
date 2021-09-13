@@ -1,14 +1,35 @@
 @use "./variables/colors.scss" as *;
+@use "./variables/text.scss" as *;
+@use "./mixins.scss" as *;
 
 body {
   background: $main-bg;
 }
 
-input {
+input[type="text"] {
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
   border: none;
   width: 100%;
+  font-size: $input-font-size;
+  color: white;
+  background-color: #212121;
+  margin: 0;
+  padding: 0;
+
+  @include mobile {
+    font-size: $input-font-size-mobile;
+  }
 }
 
 input:focus {
   outline: none;
+}
+
+.search-bar {
+  width: 100%;
+  border-radius: 2.5px;
+  font-size: $input-font-size;
+  color: black !important;
 }

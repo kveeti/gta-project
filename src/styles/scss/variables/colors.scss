@@ -1,5 +1,9 @@
-@function hover($color-name) {
-  @return darken($color-name, 20%);
+@function hover($color-name, $chosen: false) {
+  @if $chosen {
+    @return darken($color-name, 1%);
+  }
+
+  @return darken($color-name, 2.5%);
 }
 
 $main-bg: #121212;
@@ -16,4 +20,4 @@ $text-secondary: #bdbdbd;
 $card-primary: #212121;
 $card-primary-hover: hover($card-primary);
 $card-chosen: #181818;
-$card-chosen-hover: hover($card-chosen);
+$card-chosen-hover: hover($card-chosen, true);

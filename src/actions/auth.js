@@ -33,6 +33,15 @@ export const checkLogin = () => async (dispatch) => {
   axios
     .get(`${apiUrl}/gta-api/check/login`)
     .then((res) => {
+      if (res.data.error === "auth") {
+        console.log("not logged in");
+        dispatch({
+          type: AUTH_API_STATUS,
+          payload: { message: null, success: true, loading: false },
+        });
+        return;
+      }
+
       dispatch(setLoggedIn(true));
     })
     .catch((err) => {
@@ -42,11 +51,6 @@ export const checkLogin = () => async (dispatch) => {
           payload: { message: "site down", success: false, loading: false },
         });
       }
-
-      dispatch({
-        type: AUTH_API_STATUS,
-        payload: { message: null, success: true, loading: false },
-      });
     });
 };
 

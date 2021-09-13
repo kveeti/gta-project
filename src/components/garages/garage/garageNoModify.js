@@ -72,16 +72,8 @@ const GarageNoModify = ({ garage, location }) => {
               {garage.cars.length}
             </p>
 
-            <img
-              className="garage-card__car-icon"
-              src={carIcon}
-              alt="car icon"
-            />
-            <img
-              className="garage-card__garage-icon"
-              src={garageIcon}
-              alt="garage icon"
-            />
+            <img className="car-icon" src={carIcon} alt="car icon" />
+            <img className="garage-icon" src={garageIcon} alt="garage icon" />
           </motion.div>
         </motion.div>
       </motion.div>

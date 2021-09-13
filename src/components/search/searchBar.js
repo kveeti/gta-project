@@ -43,12 +43,10 @@ const SearchBar = () => {
     <input
       type="text"
       style={{
-        width: "100%",
         backgroundColor: color,
         border: `4.75px solid ${color}`,
-        borderRadius: "2.5px",
-        fontSize: "16px",
       }}
+      className="search-bar"
       placeholder={"Search for cars/garages"}
       value={searchInput}
       onInput={handleChange}

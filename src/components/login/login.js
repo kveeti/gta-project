@@ -37,6 +37,7 @@ const Login = () => {
   };
   const googleFailure = (err) => {
     console.log("Google login error");
+    console.log(err);
   };
 
   useEffect(() => {
@@ -62,26 +63,22 @@ const Login = () => {
         minHeight: "100vh",
       }}
     >
-      {auth.api.loading || !auth.api.success ? (
-        <Typography style={{ color: "white" }}>{auth.api.message}</Typography>
-      ) : (
-        <GoogleLogin
-          clientId={clientId}
-          render={(renderProps) => (
-            <Button
-              className={btnClasses.buttons}
-              variant="contained"
-              onClick={renderProps.onClick}
-              disabled={renderProps.disabled}
-            >
-              Google login
-            </Button>
-          )}
-          onSuccess={googleSuccess}
-          onFailure={googleFailure}
-          cookiePolicy="single_host_origin"
-        />
-      )}
+      <GoogleLogin
+        clientId={clientId}
+        render={(renderProps) => (
+          <Button
+            className={btnClasses.buttons}
+            variant="contained"
+            onClick={renderProps.onClick}
+            disabled={renderProps.disabled}
+          >
+            Google login
+          </Button>
+        )}
+        onSuccess={googleSuccess}
+        onFailure={googleFailure}
+        cookiePolicy="single_host_origin"
+      />
     </div>
   );
 };

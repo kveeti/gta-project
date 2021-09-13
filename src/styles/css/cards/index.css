@@ -16,7 +16,6 @@
 .garage-card-right {
   display: flex;
   flex-direction: column;
-  gap: 15px;
   align-items: flex-end;
   justify-content: space-between;
 }
@@ -49,6 +48,11 @@
 .garage-card__car-count {
   font-size: 1em !important;
 }
+@media (max-width: 800px) {
+  .garage-card__car-count {
+    font-size: 0.9em !important;
+  }
+}
 
 .garage-card__garage-icon {
   height: 25px;
@@ -57,9 +61,8 @@
 
 .garage-card__input {
   background-color: #212121;
-  font-size: 1em;
   color: #f0f0f0;
-  width: 100%;
+  min-width: 21ch;
 }
 
 .garage-list {
@@ -77,21 +80,21 @@
 
 .card-clickable:hover {
   cursor: pointer;
-  background-color: black;
+  background-color: #1b1b1b;
 }
 
 .card-chosen {
   background-color: #181818 !important;
 }
 .card-chosen:hover {
-  background-color: black !important;
+  background-color: #151515 !important;
 }
 
 .card-error {
   background-color: #b02828 !important;
 }
 .card-error:hover {
-  background-color: #5d1515 !important;
+  background-color: #a62626 !important;
 }
 
 .car-grid-wrapper {
@@ -135,15 +138,31 @@
 .car-card__rigth {
   display: flex;
   flex-direction: column;
-  gap: 15px;
+  gap: 1.2em;
   align-items: flex-end;
   justify-content: space-between;
 }
 
-.car-grid {
-  display: grid;
-  gap: 8px;
-  margin-top: 8px;
+.new-card {
+  margin-top: 0.5em;
+  flex-direction: column;
+  padding: 0.8em;
+  padding-bottom: 0.5em;
+}
+
+.new-card-inputs {
+  display: flex;
+  flex-direction: column;
+  gap: 0.6em;
+  margin-top: 0.7em;
+}
+
+.new-card-actions {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  margin-top: 1em;
+  margin-bottom: 0;
 }
 
 /*# sourceMappingURL=index.css.map */

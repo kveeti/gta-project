@@ -43,13 +43,6 @@ const GarageInput = ({ paddingBottom = "0" }) => {
       value={garageName}
       onInput={handleChange}
       onKeyPress={handleKeyPress}
-      style={{
-        backgroundColor: "#212121",
-        color: "white",
-        fontSize: "18px",
-        paddingBottom: paddingBottom,
-        width: "100%",
-      }}
     ></input>
   );
 };

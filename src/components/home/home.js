@@ -1,21 +1,24 @@
 import { useSelector } from "react-redux";
 import { createTheme, Grid, ThemeProvider } from "@material-ui/core/";
-import FadeIn from "react-fade-in";
-
-import Cars from "../cars/cars.js";
 
 import Search from "../search/index.js";
-import NewCar from "../newCar/newCar.js";
 
+import NewCar from "../newCar/newCar.js";
 import NewGarage from "../newGarage/newGarage.js";
+
+import Cars from "../cars/cars.js";
+import Garages from "../garages/garages.js";
+import GaragesNoModify from "../garages/garagesNoModify.js";
+
 import MoveCar from "../moveCar/moveCar.js";
 
-import Garages from "../garages/garages.js";
-import NoResults from "./noResults.js";
-import LogoutButton from "../search/buttons/logoutButton.js";
-import { delays } from "../../styles/delays.js";
 import Info from "./info.js";
-import GaragesNoModify from "../garages/garagesNoModify.js";
+import NoResults from "./noResults.js";
+
+import LogoutButton from "../search/buttons/logoutButton.js";
+
+import { delays } from "../../styles/delays.js";
+import FadeIn from "react-fade-in";
 
 const Home = () => {
   const searchInput = useSelector((state) => state.search.input);
@@ -85,7 +88,8 @@ const Home = () => {
 
             {!newCar_chosenGarage &&
             !searchInput.length &&
-            newCar_garageInput.length ? (
+            newCar_garageInput.length &&
+            !noResults ? (
               <GaragesNoModify garages={newCar_garages} location={"newcar"} />
             ) : null}
 
@@ -98,7 +102,7 @@ const Home = () => {
                 <Cars
                   cars={newCar_possibleCars}
                   onClick={true}
-                  carType={"possibleCar"}
+                  carType={"possiblecar"}
                 />
               </>
             ) : null}

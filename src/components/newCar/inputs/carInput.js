@@ -42,12 +42,6 @@ const CarNameField = () => {
       onInput={handleChange}
       onKeyPress={handleKeyPress}
       disabled={chosenGarage ? "" : "disabled"}
-      style={{
-        backgroundColor: "#212121",
-        color: "white",
-        fontSize: "18px",
-        width: "100%",
-      }}
     ></input>
   );
 };

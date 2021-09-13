@@ -2,13 +2,33 @@ body {
   background: #121212;
 }
 
-input {
+input[type=text] {
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
   border: none;
   width: 100%;
+  font-size: 1.1em;
+  color: white;
+  background-color: #212121;
+  margin: 0;
+  padding: 0;
+}
+@media (max-width: 800px) {
+  input[type=text] {
+    font-size: 0.95em;
+  }
 }
 
 input:focus {
   outline: none;
+}
+
+.search-bar {
+  width: 100%;
+  border-radius: 2.5px;
+  font-size: 1.1em;
+  color: black !important;
 }
 
 /*# sourceMappingURL=main.css.map */

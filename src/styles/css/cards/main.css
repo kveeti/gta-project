@@ -7,21 +7,21 @@
 
 .card-clickable:hover {
   cursor: pointer;
-  background-color: black;
+  background-color: #1b1b1b;
 }
 
 .card-chosen {
   background-color: #181818 !important;
 }
 .card-chosen:hover {
-  background-color: black !important;
+  background-color: #151515 !important;
 }
 
 .card-error {
   background-color: #b02828 !important;
 }
 .card-error:hover {
-  background-color: #5d1515 !important;
+  background-color: #a62626 !important;
 }
 
 /*# sourceMappingURL=main.css.map */
