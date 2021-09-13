@@ -53,12 +53,12 @@ export const newCar = async (req, res) => {
 
     if (!confirmCar) {
       console.log("saved car cannot be found");
-      res.status(500).json({ message: "server error, car was not saved" });
+      res.status(500).json({ message: "car was not saved" });
       return;
     }
 
     console.log(
-      `\n@ ${time}\n  Car added\n    ${confirmCar.name}\n    ${confirmCar.garage.name} - ${confirmCar.garage.desc}\n    ${owner}`
+      `\n@ ${time}\n  Car added\n    ${confirmCar.name}\n    ${confirmCar.garage.name} - ${confirmCar.garage.desc}\n    Owner: ${req.locals.user.email}\n    Owner id: ${req.locals.user._id}`
     );
 
     res.status(201).json({
@@ -127,7 +127,7 @@ export const rmCar = async (req, res, next) => {
     res.status(200).json(`deleted`);
 
     console.log(
-      `\n@ ${time}\n  Car deleted\n    ${deletedCar.name}\n    ${deletedCar.garage.name} - ${deletedCar.garage.desc}\n    ${owner}`
+      `\n@ ${time}\n  Car deleted\n    ${deletedCar.name}\n    ${deletedCar.garage.name} - ${deletedCar.garage.desc}\n    Owner: ${req.locals.user.email}\n    Owner id: ${req.locals.user._id}`
     );
   } catch (err) {
     console.log("error at car controller, remove car: ", err);
@@ -165,7 +165,7 @@ export const moveCar = async (req, res, next) => {
           time,
           message: "Car not found",
           car,
-          requester: owner,
+          owner: owner,
         });
         toSendErrorCars.push(car);
         continue;
@@ -176,7 +176,8 @@ export const moveCar = async (req, res, next) => {
           time,
           message: "Car already in garage",
           car,
-          requester: owner,
+          owner: req.locals.user.name,
+          ownerId: req.locals.user._id,
         });
         toSendErrorCars.push(car);
         continue;
@@ -193,7 +194,8 @@ export const moveCar = async (req, res, next) => {
           time,
           message: "Old garage not found",
           car,
-          requester,
+          owner: req.locals.user.name,
+          ownerId: req.locals.user._id,
         });
         toSendErrorCars.push(car);
         continue;
@@ -214,7 +216,8 @@ export const moveCar = async (req, res, next) => {
           time,
           message: "Updated car not found",
           car,
-          requester: owner,
+          owner: req.locals.user.name,
+          ownerId: req.locals.user._id,
         });
         toSendErrorCars.push(car);
         continue;
@@ -230,7 +233,8 @@ export const moveCar = async (req, res, next) => {
           time,
           message: "Car adding to new garage failed",
           car,
-          requester: owner,
+          owner: req.locals.user.name,
+          ownerId: req.locals.user._id,
         });
         toSendErrorCars.push(car);
         continue;
@@ -247,7 +251,8 @@ export const moveCar = async (req, res, next) => {
           gName: newCar.garage.name,
           gDesc: newCar.garage.desc,
         },
-        owner: foundCar.owner,
+        owner: req.locals.user.name,
+        ownerId: req.locals.user._id,
       });
 
       toSendMovedCars.push(newCar);
@@ -275,7 +280,7 @@ export const moveCar = async (req, res, next) => {
 
     movedCars.forEach((car) => {
       console.log(
-        `\n@ ${time}\n  MOVED\n    ${car.name}\n\n    from: ${car.from.gName} - ${car.from.gDesc}\n    to: ${car.to.gName} - ${car.to.gDesc}\n    owner: ${car.owner}`
+        `\n@ ${time}\n  MOVED\n    ${car.name}\n\n    from: ${car.from.gName} - ${car.from.gDesc}\n    to: ${car.to.gName} - ${car.to.gDesc}\n    Owner: ${req.locals.user.email}\n    Owner id: ${req.locals.user._id}`
       );
     });
 

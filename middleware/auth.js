@@ -3,7 +3,7 @@ import { userModel } from "../models";
 
 export const loggedIn = async (req, res, next) => {
   if (!req.session.userId) {
-    return res.status(401).json({ message: "You need to be logged in" });
+    return res.status(200).json({ error: "auth" });
   }
 
   await userModel.findById(req.session.userId, (err, user) => {
@@ -13,8 +13,12 @@ export const loggedIn = async (req, res, next) => {
     }
 
     if (!user) {
-      return res.status(401).send();
+      return res.status(200).json({ error: "auth" });
     }
+
+    req.locals = {
+      user: user,
+    };
 
     return next();
   });
@@ -25,7 +29,7 @@ export const active = async (req, res, next) => {
   const { createdAt } = req.session;
 
   if (now > createdAt + SESSION_ABSOLUTE_TIMEOUT) {
-    return res.status(401).json({ message: "Session expired" });
+    return res.status(200).json({ error: "auth" });
   }
 
   next();

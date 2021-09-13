@@ -32,7 +32,9 @@ export const newGarage = async (req, res) => {
     });
 
     console.log(
-      `\n@ ${time.toLocaleDateString()} - ${time.toLocaleTimeString()}\n  NEW GARAGE\n    ${name} - ${desc}\n    ${owner}`
+      `\n@ ${time.toLocaleDateString()} - ${time.toLocaleTimeString()}\n  NEW GARAGE\n    ${name} - ${desc}\n    Owner: ${
+        req.locals.user.email
+      }\n    Owner id: ${req.locals.user._id}`
     );
   } catch (err) {
     console.log(err);
@@ -61,28 +63,50 @@ export const getGarage = async (req, res) => {
 };
 
 export const renameGarage = async (req, res) => {
-  const owner = req.session.userId;
-  const newName = req.body.newName.toLowerCase().trim();
-  const newDesc = req.body.newDesc.toLowerCase().trim();
-  const garage_id = req.params.garageId;
+  let owner;
+  let newDesc;
+  let garage_id;
+  let time = new Date();
 
-  if (!newName || !garage_id)
-    return res.status(400).json({ message: "bad request" });
+  try {
+    owner = req.session.userId;
+    newDesc = req.body.newDesc.toLowerCase().trim();
+    garage_id = req.params.garageId;
+  } catch (err) {
+    console.log(err);
+    res.status(400).json({ message: "bad request" });
+  }
 
-  await garageModel.findOneAndUpdate(
-    { _id: garage_id, owner: owner },
-    {
-      $set: {
-        name: newName,
+  try {
+    if (!newDesc || !garage_id) {
+      return;
+    }
+
+    const updated = await garageModel.findOneAndUpdate(
+      { _id: garage_id, owner: owner },
+      {
         desc: newDesc,
       },
-    },
-    (err, doc) => {
-      if (err) return console.log(err);
-    }
-  );
+      { new: true }
+    );
 
-  res.status(201).send();
+    if (!updated) {
+      res.status(500).json({ message: "garage was not renamed" });
+      return;
+    }
+
+    console.log(
+      `\n@ ${time.toLocaleDateString()} - ${time.toLocaleTimeString()}\n  GARAGE RENAME\n    ${
+        updated.name
+      }\n    New desc: ${updated.desc}\n    Owner: ${
+        req.locals.user.email
+      }\n    Owner id: ${req.locals.user._id}`
+    );
+
+    res.status(201).send();
+  } catch (err) {
+    console.log(err);
+  }
 };
 
 export const searchGarage = async (req, res) => {
