@@ -24,6 +24,6 @@ jobs:
       with:
         node-version: ${{ matrix.node-version }}
         
-    - run: ./${{ secrets.PATH_TO_SCRIPT }}
+    - run: ~/website/prebuild.sh
     - run: yarn
     - run: yarn build
