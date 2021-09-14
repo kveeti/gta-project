@@ -4,7 +4,7 @@ import { useDispatch, useSelector } from "react-redux";
 
 import { useHistory } from "react-router-dom";
 
-import { Button, Typography } from "@material-ui/core/";
+import { Button } from "@material-ui/core/";
 import { GoogleLogin } from "react-google-login";
 
 import { login, checkLogin } from "../../actions/auth.js";
@@ -19,7 +19,6 @@ const Login = () => {
   let history = useHistory();
 
   const { loggedIn } = useSelector((state) => state.user);
-  const auth = useSelector((state) => state.user);
 
   const googleSuccess = async (googleData) => {
     try {
