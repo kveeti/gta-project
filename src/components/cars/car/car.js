@@ -1,6 +1,5 @@
 import { useDispatch, useSelector } from "react-redux";
 
-import { deleteCar } from "../../../actions/cars.js";
 import {
   moveCar_checkCar,
   moveCar_checkErrorCar,
@@ -16,6 +15,7 @@ import carIcon from "../../../images/car-icon.png";
 
 import { Button } from "@material-ui/core";
 import { useBtnStyles } from "../../../styles/buttonStyles.js";
+import { deleteCar, setCarDeleting } from "../../../actions/cars.js";
 
 const Car = ({ car, carType }) => {
   const dispatch = useDispatch();
@@ -25,6 +25,7 @@ const Car = ({ car, carType }) => {
   const isMoving = useSelector((state) => state.moveCar.isMoving);
   const errorCars = useSelector((state) => state.moveCar.errorCars);
   const searchInput = useSelector((state) => state.search.input);
+  const carBeingDeleted = useSelector((state) => state.newCar.carBeingDeleted);
 
   let elevation = "4";
   let chosen = false;
@@ -32,6 +33,7 @@ const Car = ({ car, carType }) => {
   let isPossibleCar = false;
   let isMoveCar = false;
   let isSearchCar = false;
+  let isThisBeingDeleted = false;
 
   if (carType.includes("possiblecar")) {
     isPossibleCar = true;
@@ -60,6 +62,21 @@ const Car = ({ car, carType }) => {
   ) {
     error = true;
   }
+
+  if (carBeingDeleted === car._id) {
+    isThisBeingDeleted = true;
+  }
+
+  const handleDeleteState = (e) => {
+    e.stopPropagation();
+
+    if (isThisBeingDeleted) {
+      dispatch(setCarDeleting(null));
+      return;
+    }
+
+    dispatch(setCarDeleting(car._id));
+  };
 
   const handleDelete = async (e) => {
     e.stopPropagation();
@@ -100,40 +117,58 @@ const Car = ({ car, carType }) => {
   return (
     <Fade duration={500}>
       <div
-        className={`card card-clickable car-card uppercase elevation${elevation} ${
+        className={`card car-card uppercase elevation${elevation} ${
           error ? "card-error" : ""
-        } ${chosen ? "card-chosen" : ""}`}
-        onClick={handleClick}
+        } ${chosen ? "card-chosen" : ""} ${
+          isThisBeingDeleted
+            ? "car-delete-card card-error text-primary"
+            : "card-clickable"
+        }`}
+        onClick={isThisBeingDeleted ? () => {} : handleClick}
       >
-        <div className="car-info">
-          <p className="text-secondary">
-            {car.manufacturer ? car.manufacturer : "unknown"}
-          </p>
-          <p className="text-primary">{car.name}</p>
-
-          {isPossibleCar ? (
-            <p className="text-secondary">{car.class}</p>
-          ) : (
-            <p className="text-secondary">
-              {car.garage.name}
-              {car.garage.desc ? ` - ${car.garage.desc}` : null}
+        {isThisBeingDeleted ? (
+          <>
+            <p>
+              delete <strong>{car.name}</strong>?
             </p>
-          )}
-        </div>
-        <div className="car-card__rigth">
-          <img className="car-icon" src={carIcon} alt="car icon" />
+            <div className="car-delete-card-actions">
+              <Button onClick={handleDelete}>delete</Button>
+              <Button onClick={handleDeleteState}>cancel</Button>
+            </div>
+          </>
+        ) : (
+          <>
+            <div className="car-info">
+              <p className="text-secondary">
+                {car.manufacturer ? car.manufacturer : "unknown"}
+              </p>
+              <p className="text-primary">{car.name}</p>
 
-          {isSearchCar ? (
-            <Button
-              className={btnClasses.deleteBtn}
-              size="small"
-              onClick={handleDelete}
-              disableElevation
-            >
-              delete
-            </Button>
-          ) : null}
-        </div>
+              {isPossibleCar ? (
+                <p className="text-secondary">{car.class}</p>
+              ) : (
+                <p className="text-secondary">
+                  {car.garage.name}
+                  {car.garage.desc ? ` - ${car.garage.desc}` : null}
+                </p>
+              )}
+            </div>
+            <div className="car-card__rigth">
+              <img className="car-icon" src={carIcon} alt="car icon" />
+
+              {isSearchCar && !chosen ? (
+                <Button
+                  className={btnClasses.deleteBtn}
+                  size="small"
+                  onClick={handleDeleteState}
+                  disableElevation
+                >
+                  delete
+                </Button>
+              ) : null}
+            </div>
+          </>
+        )}
       </div>
     </Fade>
   );

@@ -9,6 +9,7 @@ import {
   NEWCAR_API_LOADING,
   NEWCAR_API_SUCCESS,
   NEWCAR_API_FAILURE,
+  SET_CAR_BEING_DELETED,
 } from "../constants/actionTypes.js";
 
 const init = {
@@ -23,6 +24,7 @@ const init = {
     success: false,
     failure: false,
   },
+  carBeingDeleted: null,
 };
 
 const newCarReducer = (state = init, action) => {
@@ -76,6 +78,12 @@ const newCarReducer = (state = init, action) => {
       return {
         ...state,
         api: { ...state.api, failure: action.payload },
+      };
+
+    case SET_CAR_BEING_DELETED:
+      return {
+        ...state,
+        carBeingDeleted: action.payload,
       };
 
     default:

@@ -1,5 +1,5 @@
 import { useSelector, useDispatch } from "react-redux";
-import { garageRename_setOpenGarage } from "../../actions/garageRename.js";
+import { garageModify_setOpenGarage } from "../../actions/garageModify.js";
 
 import { forceIsMoving } from "../../actions/moveCar.js";
 import { newCar_setPossibleCars } from "../../actions/newCar.js";
@@ -21,7 +21,7 @@ const SearchBar = () => {
     dispatch(search_setInput(e.target.value));
     dispatch(newCar_setPossibleCars([]));
     dispatch(forceIsMoving(false));
-    dispatch(garageRename_setOpenGarage(null));
+    dispatch(garageModify_setOpenGarage(null));
 
     if (!e.target.value) {
       dispatch(search_setGarages([]));

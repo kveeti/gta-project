@@ -45,3 +45,14 @@
   align-items: flex-end;
   justify-content: space-between;
 }
+
+.car-delete-card {
+  display: flex;
+  flex-direction: column;
+}
+
+.car-delete-card-actions {
+  display: flex;
+  flex-direction: row;
+  gap: 1em;
+}

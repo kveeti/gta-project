@@ -71,6 +71,19 @@
   margin-top: 8px;
 }
 
+.garage-delete-card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  color: #f0f0f0;
+}
+
+.garage-delete-card-actions {
+  display: flex;
+  flex-direction: row;
+  gap: 1em;
+}
+
 .card {
   background-color: #212121;
   padding: 15px;
@@ -141,6 +154,17 @@
   gap: 1.2em;
   align-items: flex-end;
   justify-content: space-between;
+}
+
+.car-delete-card {
+  display: flex;
+  flex-direction: column;
+}
+
+.car-delete-card-actions {
+  display: flex;
+  flex-direction: row;
+  gap: 1em;
 }
 
 .new-card {

@@ -8,7 +8,7 @@ import newCar from "./newCar.js";
 import newGarage from "./newGarage.js";
 
 import moveCar from "./moveCar";
-import garageRename from "./garageRename.js";
+import garageModify from "./garageModify.js";
 
 export const reducers = combineReducers({
   user,
@@ -19,7 +19,7 @@ export const reducers = combineReducers({
   newGarage,
 
   moveCar,
-  garageRename,
+  garageModify,
 });
 
 export default function createReducer(initialState, handlers) {

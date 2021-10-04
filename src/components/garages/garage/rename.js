@@ -2,18 +2,18 @@ import { useEffect } from "react";
 import { Fade } from "react-awesome-reveal";
 import { useDispatch, useSelector } from "react-redux";
 import {
-  garageRename_setNewDesc,
-  garageRename_setRenameBtnDisabled,
-} from "../../../actions/garageRename.js";
+  garageModify_setNewDesc,
+  garageModify_setRenameBtnDisabled,
+} from "../../../actions/garageModify.js";
 
 const Rename = ({ garage }) => {
   const dispatch = useDispatch();
 
-  const { newDesc } = useSelector((state) => state.garageRename);
+  const { newDesc } = useSelector((state) => state.garageModify);
 
   useEffect(() => {
     return () => {
-      dispatch(garageRename_setNewDesc(""));
+      dispatch(garageModify_setNewDesc(""));
     };
   }, [dispatch, garage.name]);
 
@@ -21,19 +21,19 @@ const Rename = ({ garage }) => {
     const input = e.target.value.trim();
 
     if (!input) {
-      dispatch(garageRename_setNewDesc(""));
-      dispatch(garageRename_setRenameBtnDisabled(true));
+      dispatch(garageModify_setNewDesc(""));
+      dispatch(garageModify_setRenameBtnDisabled(true));
       return;
     }
 
-    dispatch(garageRename_setNewDesc(e.target.value));
+    dispatch(garageModify_setNewDesc(e.target.value));
 
     if (input !== garage.desc) {
-      dispatch(garageRename_setRenameBtnDisabled(false));
+      dispatch(garageModify_setRenameBtnDisabled(false));
       return;
     }
 
-    dispatch(garageRename_setRenameBtnDisabled(true));
+    dispatch(garageModify_setRenameBtnDisabled(true));
   };
 
   return (

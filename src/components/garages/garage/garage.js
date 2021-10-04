@@ -7,10 +7,12 @@ import { Fade } from "react-awesome-reveal";
 import { motion } from "framer-motion";
 
 import {
-  garageRename_rename,
-  garageRename_setOpenGarage,
-  garageRename_setRenameBtnDisabled,
-} from "../../../actions/garageRename.js";
+  garageModify_deleteGarage,
+  garageModify_rename,
+  garageModify_setOpenGarage,
+  garageModify_setRenameBtnDisabled,
+  garageModify_set_garage_being_deleted,
+} from "../../../actions/garageModify.js";
 
 import { useBtnStyles } from "../../../styles/buttonStyles.js";
 import garageIcon from "../../../images/garage-icon.png";
@@ -37,32 +39,49 @@ const Garage = ({ garage }) => {
   const btnClasses = useBtnStyles();
 
   const { openGarage, isRenameBtnDisabled, newDesc } = useSelector(
-    (state) => state.garageRename
+    (state) => state.garageModify
   );
   const searchInput = useSelector((state) => state.search.input);
+  const garageBeingDeleted = useSelector(
+    (state) => state.garageModify.garageBeingDeleted
+  );
 
   let open = false;
+  let isThisBeingDeleted = false;
 
   if (openGarage === garage._id) {
     open = true;
   }
 
+  if (garageBeingDeleted === garage._id) {
+    isThisBeingDeleted = true;
+  }
+
   const handleModify = (e) => {
-    dispatch(garageRename_setRenameBtnDisabled(true));
+    dispatch(garageModify_setRenameBtnDisabled(true));
     if (open) {
-      dispatch(garageRename_setOpenGarage(null));
+      dispatch(garageModify_setOpenGarage(null));
       return;
     }
 
-    dispatch(garageRename_setOpenGarage(garage._id));
+    dispatch(garageModify_setOpenGarage(garage._id));
   };
 
   const handleRename = (e) => {
-    dispatch(garageRename_rename(newDesc, garage._id, searchInput));
+    dispatch(garageModify_rename(newDesc, garage._id, searchInput));
   };
 
   const handleDelete = (e) => {
-    console.log("delete");
+    dispatch(garageModify_deleteGarage(garage._id, searchInput));
+  };
+
+  const handleDeleteState = () => {
+    if (isThisBeingDeleted) {
+      dispatch(garageModify_set_garage_being_deleted(null));
+      return;
+    }
+
+    dispatch(garageModify_set_garage_being_deleted(garage._id));
   };
 
   return (
@@ -71,65 +90,85 @@ const Garage = ({ garage }) => {
         animate={open ? "expanded" : "collapsed"}
         variants={animation.variants}
         transition={animation.transition}
-        className={`card garage-card elevation1 uppercase`}
+        className={`card garage-card elevation1 uppercase ${
+          isThisBeingDeleted ? "card-error garage-delete-card" : ""
+        }`}
       >
-        <motion.div className="garage-card-left">
-          <motion.div className="garage-card__info">
-            <p className="text-primary">{garage.name}</p>
-            {open ? (
-              <Rename garage={garage} />
-            ) : (
-              <Fade duration={500}>
-                <p className="text-secondary">
-                  {garage.desc.length ? `${garage.desc}` : ""}
-                </p>
-              </Fade>
-            )}
-          </motion.div>
-          {open ? (
-            <div className="garage-card__actions">
-              <Fade duration={500}>
-                <Button
-                  className={btnClasses.renameBtn}
-                  onClick={handleRename}
-                  size="small"
-                  disabled={isRenameBtnDisabled}
-                  disableElevation
-                >
-                  rename
-                </Button>
-                <Button
-                  className={btnClasses.deleteBtn}
-                  size="small"
-                  onClick={handleDelete}
-                  disableElevation
-                >
-                  delete
-                </Button>
-              </Fade>
-            </div>
-          ) : null}
-        </motion.div>
-
-        <motion.div className="garage-card-right">
-          <motion.div className="garage-card__icons">
-            <p className="garage-card__car-count text-primary">
-              {garage.cars.length}
+        {isThisBeingDeleted ? (
+          <>
+            <p>
+              delete garage: <strong>{garage.name}</strong>?
             </p>
+            <div className="garage-delete-card-actions">
+              <Button onClick={handleDelete}>delete</Button>
+              <Button onClick={handleDeleteState}>cancel</Button>
+            </div>
+          </>
+        ) : (
+          <>
+            <motion.div className="garage-card-left ">
+              <motion.div className="garage-card__info">
+                <p className="text-primary">{garage.name}</p>
+                {open ? (
+                  <Rename garage={garage} />
+                ) : (
+                  <Fade duration={500}>
+                    <p className="text-secondary">
+                      {garage.desc.length ? `${garage.desc}` : ""}
+                    </p>
+                  </Fade>
+                )}
+              </motion.div>
+              {open ? (
+                <div className="garage-card__actions">
+                  <Fade duration={500}>
+                    <Button
+                      className={btnClasses.renameBtn}
+                      onClick={handleRename}
+                      size="small"
+                      disabled={isRenameBtnDisabled}
+                      disableElevation
+                    >
+                      rename
+                    </Button>
+                    <Button
+                      className={btnClasses.deleteBtn}
+                      size="small"
+                      onClick={handleDeleteState}
+                      disableElevation
+                    >
+                      delete
+                    </Button>
+                  </Fade>
+                </div>
+              ) : null}
+            </motion.div>
 
-            <img className="car-icon" src={carIcon} alt="car icon" />
-            <img className="garage-icon" src={garageIcon} alt="garage icon" />
-          </motion.div>
+            <motion.div className="garage-card-right">
+              <motion.div className="garage-card__icons">
+                <p className="garage-card__car-count text-primary">
+                  {garage.cars.length}
+                </p>
 
-          <Button
-            className={btnClasses.modifyButton}
-            size={"small"}
-            disableElevation
-            onClick={handleModify}
-          >
-            modify
-          </Button>
-        </motion.div>
+                <img className="car-icon" src={carIcon} alt="car icon" />
+                <img
+                  className="garage-icon"
+                  src={garageIcon}
+                  alt="garage icon"
+                />
+              </motion.div>
+
+              <Button
+                className={btnClasses.modifyButton}
+                size={"small"}
+                disableElevation
+                onClick={handleModify}
+              >
+                modify
+              </Button>
+            </motion.div>
+          </>
+        )}
       </motion.div>
     </Fade>
   );

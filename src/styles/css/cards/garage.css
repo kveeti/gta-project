@@ -71,4 +71,17 @@
   margin-top: 8px;
 }
 
+.garage-delete-card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  color: #f0f0f0;
+}
+
+.garage-delete-card-actions {
+  display: flex;
+  flex-direction: row;
+  gap: 1em;
+}
+
 /*# sourceMappingURL=garage.css.map */
