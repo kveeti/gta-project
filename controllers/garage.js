@@ -1,4 +1,4 @@
-import { garageModel, userModel } from "../models";
+import { carModel, garageModel, userModel } from "../models";
 
 export const newGarage = async (req, res) => {
   // Adds a garage
@@ -6,7 +6,7 @@ export const newGarage = async (req, res) => {
   const desc = req.body.desc.toLowerCase().trim();
   const owner = req.session.userId;
 
-  let time = new Date();
+  const time = new Date();
 
   try {
     const newGarage = await garageModel.create({
@@ -41,9 +41,55 @@ export const newGarage = async (req, res) => {
   }
 };
 
-export const rmGarage = (req, res) => {
+export const rmGarage = async (req, res) => {
   // Removes a garage
-  let garageToRemove = req.params.garageID;
+  const removeId = req.params.garageId;
+  const owner = req.session.userId;
+
+  const time = new Date();
+
+  try {
+    const deletedGarage = await garageModel.findOneAndDelete({
+      _id: removeId,
+      owner: owner,
+    });
+
+    if (!deletedGarage)
+      return res.status(200).json({ error: "garage does not exist" });
+
+    let carIds = [];
+
+    for (const carToDelete of deletedGarage.cars) {
+      carIds.push(carToDelete._id);
+    }
+
+    if (carIds.length) {
+      await carModel.deleteMany({
+        owner: owner,
+        _id: carIds,
+      });
+    }
+
+    await userModel.updateOne(
+      { _id: owner },
+      { $pull: { garages: deletedGarage._id, cars: { $in: carIds } } }
+    );
+
+    res
+      .status(200)
+      .json({ deleted: { garage: deletedGarage.name, cars: carIds } });
+
+    console.log(
+      `\n@ ${time.toLocaleDateString()} - ${time.toLocaleTimeString()}\n  GARAGE DELETE\n    ${
+        deletedGarage.name
+      }\n    Cars: ${deletedGarage.cars.length}\n    Owner: ${
+        req.locals.user.email
+      }\n    Owner id: ${req.locals.user._id}`
+    );
+  } catch (e) {
+    console.log(e);
+    res.status(500).send();
+  }
 };
 
 export const getGarage = async (req, res) => {

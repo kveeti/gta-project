@@ -58,7 +58,7 @@ export const newCar = async (req, res) => {
     }
 
     console.log(
-      `\n@ ${time}\n  Car added\n    ${confirmCar.name}\n    ${confirmCar.garage.name} - ${confirmCar.garage.desc}\n    Owner: ${req.locals.user.email}\n    Owner id: ${req.locals.user._id}`
+      `\n@ ${time}\n  NEW CAR\n    ${confirmCar.name}\n    ${confirmCar.garage.name} - ${confirmCar.garage.desc}\n    Owner: ${req.locals.user.email}\n    Owner id: ${req.locals.user._id}`
     );
 
     res.status(201).json({
