@@ -46,16 +46,16 @@ const App = () => {
     <Suspense fallback={<></>}>
       <Router>
         <Switch>
-          <Route path="/login">
+          <Route path="/gta/login">
             <Login />
           </Route>
-          <Route path="/home">
+          <Route path="/gta/home">
             {loggedIn ? <Home /> : <Redirect to="/login" />}
           </Route>
-          <Route path="/">
+          <Route path="/gta">
             <Redirect
               to={{
-                pathname: "/home",
+                pathname: "/gta/home",
               }}
             />
           </Route>
