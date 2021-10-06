@@ -50,7 +50,7 @@ const App = () => {
             <Login />
           </Route>
           <Route path="/gta/home">
-            {loggedIn ? <Home /> : <Redirect to="/login" />}
+            {loggedIn ? <Home /> : <Redirect to="/gta/login" />}
           </Route>
           <Route path="/gta">
             <Redirect
