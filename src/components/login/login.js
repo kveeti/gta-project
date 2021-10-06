@@ -47,7 +47,7 @@ const Login = () => {
     dispatch(checkLogin());
 
     if (loggedIn) {
-      history.push("/home");
+      history.push("/gta/home");
     }
   }, [dispatch, loggedIn, history]);
 
