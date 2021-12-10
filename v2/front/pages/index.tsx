@@ -1,6 +1,8 @@
-import { signOut, useSession } from "next-auth/react";
+import { useSession } from "next-auth/react";
 import { useRouter } from "next/router";
-import { SearchBar } from "../components/searchBar";
+import { MenuBar } from "../components/MenuBar/MenuBar";
+
+import "semantic-ui-css/semantic.min.css";
 
 export default () => {
   if (typeof window === "undefined") return null;
@@ -9,7 +11,12 @@ export default () => {
   const loading = status === "loading";
   const router = useRouter();
 
-  if (session) return <SearchBar />;
+  if (session)
+    return (
+      <>
+        <MenuBar />
+      </>
+    );
 
   if (!loading && !session) return router.push("/api/auth/signin");
 
