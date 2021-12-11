@@ -1,5 +1,6 @@
 import { useRef, useState } from "react";
-import { Button, Icon, Placeholder, Popup, Segment } from "semantic-ui-react";
+import { signOut } from "next-auth/react";
+import { Button, Icon, Popup } from "semantic-ui-react";
 import ProfilePlaceholder from "./Placeholder";
 
 interface data {
@@ -30,7 +31,7 @@ const ProfilePopup = () => {
             cars: 3,
             garages: 4,
           });
-        }, 2000);
+        }, 5000);
       }}
       popperDepencies={[!!data]}
       trigger={ProfileButton}
@@ -47,7 +48,14 @@ const ProfilePopup = () => {
           <p>{data.email}</p>
           cars: <label>{data.cars}</label> <br />
           garages: <label>{data.garages}</label> <br />
-          <Button color="red">Logout</Button>
+          <Button
+            color="red"
+            onClick={() => {
+              signOut();
+            }}
+          >
+            Logout
+          </Button>
         </>
       )}
     </Popup>
