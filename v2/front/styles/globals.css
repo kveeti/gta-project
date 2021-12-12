@@ -5,9 +5,11 @@ body {
   font-family: -apple-system, BlinkMacSystemFont, Roboto, Oxygen-Sans, Ubuntu, Cantarell,
     "Helvetica Neue", Tahoma, Geneva, sans-serif;
   overflow-x: hidden;
+  background-color: #111111;
 }
 
 #__next {
+  margin-top: 4vh;
   height: 100vh;
   background-color: #111111;
 }

@@ -1,0 +1,14 @@
+.gridWrapper {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.carGrid {
+  width: 100%;
+  max-width: 1216px;
+  display: grid;
+  gap: 0.5rem;
+  padding: 0.5rem;
+  grid-template-columns: auto auto auto auto;
+}

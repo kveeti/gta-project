@@ -31,9 +31,9 @@ const ProfilePopup = () => {
             cars: 3,
             garages: 4,
           });
-        }, 5000);
+        }, 1000);
       }}
-      popperDepencies={[!!data]}
+      popperdepencies={[!!data]}
       trigger={ProfileButton}
       wide
       hideOnScroll
