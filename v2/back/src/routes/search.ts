@@ -1,7 +1,8 @@
 import { Router } from "express";
+import { search } from "../controllers/search";
 
 const router = Router();
 
-router.post("/");
+router.get("/", search);
 
 export { router as search };

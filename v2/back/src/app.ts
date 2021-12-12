@@ -2,7 +2,8 @@ import express from "express";
 import helmet from "helmet";
 import cors from "cors";
 import { corsOrigins } from "./config/envs";
-import { search } from "./routes/";
+import { search, cars, garages } from "./routes/";
+import { verifyToken } from "./middleware/auth";
 
 export const createApp = () => {
   const app = express();
@@ -12,7 +13,11 @@ export const createApp = () => {
   app.set("trust proxy", "loopback");
   app.use(cors({ origin: corsOrigins }));
 
-  app.use("/search", search);
+  app.use(verifyToken);
+
+  app.use("/gta/search", search);
+  app.use("/gta/cars", cars);
+  app.use("/gta/garages", garages);
 
   return app;
 };

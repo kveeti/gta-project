@@ -2,6 +2,7 @@ import { NextFunction, Request, Response } from "express";
 import jwt from "jsonwebtoken";
 
 import { jwtSecret } from "../config/envs";
+import { db } from "../database";
 import { res401, res500 } from "../util/responseWith";
 
 export const verifyToken = async (req: Request, res: Response, next: NextFunction) => {
@@ -28,7 +29,13 @@ export const verifyToken = async (req: Request, res: Response, next: NextFunctio
   if (!decoded.sub) return res401(res, "invalid token");
   if (!(decoded as any).email) return res401(res, "invalid token");
 
-  req.auth = { userId: decoded.sub as string, email: (decoded as any).email };
+  const dbId = await db.users.get(decoded.sub as string, (decoded as any).email);
+
+  req.auth = {
+    dbId: dbId.toString(),
+    userId: decoded.sub as string,
+    email: (decoded as any).email,
+  };
 
   next();
 };

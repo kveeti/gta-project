@@ -1,30 +1,20 @@
 import mongoose, { ObjectId } from "mongoose";
 
-interface ICar {
-  name: string;
-  manufacturer: string;
-  price: number;
-  class: string;
+export interface Car {
+  modelCar: ObjectId;
   garage: ObjectId;
-  owner: string;
+  owner: ObjectId;
 }
 
-export interface Car extends ICar {
-  _id: ObjectId;
-}
-
-export interface GameDoc extends mongoose.Document, ICar {}
+export interface CarDoc extends mongoose.Document, Car {}
 
 const schema: mongoose.Schema = new mongoose.Schema(
   {
-    name: { type: String, required: true },
-    manufacturer: { type: String, required: true },
-    price: { type: Number, required: true },
-    class: { type: String, required: true },
-    garage: { type: mongoose.Schema.Types.ObjectId, required: true },
-    owner: { type: Boolean, required: true },
+    modelCar: { type: mongoose.Schema.Types.ObjectId, ref: "modelcar", required: true },
+    garage: { type: mongoose.Schema.Types.ObjectId, ref: "garage", required: true },
+    owner: { type: mongoose.Schema.Types.ObjectId, ref: "user", required: true },
   },
-  { timestamps: true }
+  { collection: "cars", timestamps: true }
 );
 
-export const CarModel = mongoose.model<GameDoc>("car", schema);
+export const CarModel = mongoose.model<CarDoc>("car", schema);
