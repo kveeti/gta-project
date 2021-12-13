@@ -29,10 +29,10 @@ export const verifyToken = async (req: Request, res: Response, next: NextFunctio
   if (!decoded.sub) return res401(res, "invalid token");
   if (!(decoded as any).email) return res401(res, "invalid token");
 
-  const dbId = await db.users.get(decoded.sub as string, (decoded as any).email);
+  const user = await db.users.upsert(decoded.sub as string, (decoded as any).email);
 
   req.auth = {
-    dbId: dbId.toString(),
+    dbId: user._id.toString(),
     userId: decoded.sub as string,
     email: (decoded as any).email,
   };

@@ -1,6 +1,7 @@
-import { SimplifiedCar, SimplifiedGarage } from "../interfaces/Simplified";
+import { SimplifiedCar, SimplifiedGarage, SimplifiedUser } from "../interfaces/Simplified";
 import { IdCar } from "../models/car";
 import { Garage, IdGarage } from "../models/garage";
+import { IdUser } from "../models/user";
 import { isModelCar, isModelGarage, isPopulatedGarage, isPopulatedUser } from "./typeguards";
 
 export const simplifyCars = (cars: IdCar[]) => {
@@ -77,4 +78,18 @@ export const simplifyGarages = (garages: IdGarage[]) => {
   }
 
   return list;
+};
+
+export const simplifyUser = (user: IdUser) => {
+  const simplifiedUser: SimplifiedUser = {
+    id: user._id,
+    owner: user.owner,
+    email: user.email,
+    cars: simplifyCars(user.cars as unknown as IdCar[]),
+    garages: simplifyGarages(user.garages as unknown as IdGarage[]),
+    carCount: user.cars.length,
+    garageCount: user.garages.length,
+  };
+
+  return simplifiedUser;
 };

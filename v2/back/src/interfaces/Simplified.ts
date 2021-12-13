@@ -25,3 +25,13 @@ export interface SimplifiedGarage {
   amountOfCars: number;
   owner: string;
 }
+
+export interface SimplifiedUser {
+  id: ObjectId;
+  owner: string;
+  email: string;
+  cars: (SimplifiedCar | null)[] | null;
+  garages: (SimplifiedGarage | null)[] | null;
+  carCount: number;
+  garageCount: number;
+}

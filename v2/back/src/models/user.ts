@@ -9,6 +9,14 @@ export interface User {
   garages: ObjectId[];
 }
 
+export interface IdUser {
+  _id: ObjectId;
+  owner: string;
+  email: string;
+  cars: ObjectId[];
+  garages: ObjectId[];
+}
+
 export interface UserDoc extends mongoose.Document, User {}
 
 export interface PopulatedUser {

@@ -4,6 +4,7 @@ import cors from "cors";
 import { corsOrigins } from "./config/envs";
 import { search, cars, garages } from "./routes/";
 import { verifyToken } from "./middleware/auth";
+import { users } from "./routes/users";
 
 export const createApp = () => {
   const app = express();
@@ -18,6 +19,7 @@ export const createApp = () => {
   app.use("/gta/search", search);
   app.use("/gta/cars", cars);
   app.use("/gta/garages", garages);
+  app.use("/gta/users", users);
 
   return app;
 };

@@ -26,8 +26,14 @@ export const remove = {
   },
 };
 
-export const get = async (owner: string, email: string): Promise<ObjectId> => {
-  const newUser = await mongo.users.get(owner, email);
+export const upsert = async (owner: string, email: string) => {
+  const user = await mongo.users.upsert(owner, email);
 
-  return newUser._id;
+  return user;
+};
+
+export const get = async (owner: string, email: string) => {
+  const user = await mongo.users.get(owner, email);
+
+  return user;
 };
