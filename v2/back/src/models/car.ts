@@ -6,6 +6,13 @@ export interface Car {
   owner: ObjectId;
 }
 
+export interface IdCar {
+  _id: ObjectId;
+  modelCar: ObjectId;
+  garage: ObjectId;
+  owner: ObjectId;
+}
+
 export interface CarDoc extends mongoose.Document, Car {}
 
 const schema: mongoose.Schema = new mongoose.Schema(

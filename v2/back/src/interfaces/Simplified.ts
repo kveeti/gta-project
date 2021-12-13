@@ -1,4 +1,7 @@
+import { ObjectId } from "mongoose";
+
 export interface SimplifiedCar {
+  id: ObjectId;
   name: string;
   manufacturer: string;
   price: number;
@@ -14,6 +17,7 @@ export interface SimplifiedCar {
 }
 
 export interface SimplifiedGarage {
+  id: ObjectId;
   name: string;
   desc: string;
   capacity: number;

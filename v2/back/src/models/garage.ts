@@ -9,6 +9,14 @@ export interface Garage {
   cars: ObjectId[];
 }
 
+export interface IdGarage {
+  _id: ObjectId;
+  modelGarage: ObjectId;
+  desc: string;
+  owner: ObjectId;
+  cars: ObjectId[];
+}
+
 export interface PopulatedGarage {
   _id: ObjectId;
   modelGarage: ModelGarage;

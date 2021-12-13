@@ -1,9 +1,9 @@
 import { SimplifiedCar, SimplifiedGarage } from "../interfaces/Simplified";
-import { Car } from "../models/car";
-import { Garage } from "../models/garage";
+import { IdCar } from "../models/car";
+import { Garage, IdGarage } from "../models/garage";
 import { isModelCar, isModelGarage, isPopulatedGarage, isPopulatedUser } from "./typeguards";
 
-export const simplifyCars = (cars: Car[]) => {
+export const simplifyCars = (cars: IdCar[]) => {
   const list = cars.map((car) => {
     if (!isModelCar(car.modelCar)) {
       console.log(car, "no model car");
@@ -23,6 +23,7 @@ export const simplifyCars = (cars: Car[]) => {
     }
 
     const simplifiedCar: SimplifiedCar = {
+      id: car._id,
       name: car.modelCar.name,
       manufacturer: car.modelCar.manufacturer,
       price: car.modelCar.price,
@@ -47,7 +48,7 @@ export const simplifyCars = (cars: Car[]) => {
   return list;
 };
 
-export const simplifyGarages = (garages: Garage[]) => {
+export const simplifyGarages = (garages: IdGarage[]) => {
   const list = garages.map((garage) => {
     if (!isModelGarage(garage.modelGarage)) {
       console.log(garage, "no model garage");
@@ -59,6 +60,7 @@ export const simplifyGarages = (garages: Garage[]) => {
     }
 
     const simplifiedGarage: SimplifiedGarage = {
+      id: garage._id,
       name: garage.modelGarage.name,
       desc: garage.desc,
       capacity: garage.modelGarage.capacity,
