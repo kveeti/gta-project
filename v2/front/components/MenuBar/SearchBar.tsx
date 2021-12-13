@@ -1,5 +1,7 @@
 import { useRouter } from "next/router";
+import { useDispatch } from "react-redux";
 import { Input } from "semantic-ui-react";
+import { search } from "../../state/actions/search";
 import { useISelector } from "../../state/hooks";
 
 import styles from "./SearchBar.module.css";
@@ -8,11 +10,16 @@ export const SearchBar = () => {
   if (typeof window === "undefined") return null;
 
   const searchState = useISelector((state) => state.search);
-
+  const dispatch = useDispatch();
   const router = useRouter();
 
   const onSearchTermChange = async (value: string) => {
-    if (!value) return router.push("/");
+    if (!value) {
+      dispatch(search.api.reset());
+      dispatch(search.set.cars([]));
+      dispatch(search.set.garages([]));
+      return router.push("/");
+    }
 
     router.push(
       {
@@ -37,8 +44,6 @@ export const SearchBar = () => {
       autoFocus
       loading={searchState.api.loading}
       error={searchState.api.notFound || searchState.api.error}
-      transparent
-      inverted
     />
   );
 };

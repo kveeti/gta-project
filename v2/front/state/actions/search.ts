@@ -73,6 +73,7 @@ export const search = {
 
       if (!res.data.cars.length && !res.data.garages.length) dispatch(search.api.setNotFound(true));
     } catch (err: any) {
+      dispatch(search.api.setLoading(false));
       dispatch(search.api.setError(true));
       if (!err.response) return;
       if (err.response.status === 401) return signIn();

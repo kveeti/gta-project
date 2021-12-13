@@ -9,9 +9,7 @@ interface data {
   garages: number;
 }
 
-const ProfileButton = (
-  <Icon link name="user circle" size="big" style={{ margin: "0", padding: "0", float: "right" }} />
-);
+const ProfileButton = <Icon link name="user circle" size="big" style={{ paddingLeft: "0.5rem" }} />;
 
 const ProfilePopup = () => {
   const [data, setData] = useState<null | data>(null);
