@@ -52,12 +52,24 @@ const reducer = (state = initState.search, action: any) => {
         },
       };
 
-    case constants.search.api.SET_SUCCESS:
+    case constants.search.api.SET_NOT_FOUND:
       return {
         ...state,
         api: {
           ...state.api,
-          success: action.payload,
+          notFound: action.payload,
+        },
+      };
+
+    case constants.search.api.RESET:
+      return {
+        ...state,
+        api: {
+          ...state.api,
+          notFound: null,
+          success: null,
+          error: null,
+          loading: null,
         },
       };
 

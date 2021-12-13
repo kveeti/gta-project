@@ -1,3 +1,4 @@
+import { signOut } from "next-auth/react";
 import { Placeholder, Button } from "semantic-ui-react";
 
 const ProfilePlaceholder = () => (
@@ -11,7 +12,7 @@ const ProfilePlaceholder = () => (
         <Placeholder.Line length="medium" />
       </Placeholder.Paragraph>
     </Placeholder>
-    <Button style={{ marginTop: "1rem" }} color="red" disabled>
+    <Button style={{ marginTop: "1rem" }} color="red" onClick={() => signOut()}>
       Logout
     </Button>
   </>

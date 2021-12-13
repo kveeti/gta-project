@@ -1,3 +1,5 @@
 .searchBar {
-  width: 50%;
+  width: 20ch;
+  margin: 0 auto;
+  height: 2.5rem;
 }

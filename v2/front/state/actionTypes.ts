@@ -8,7 +8,8 @@ export const constants = {
     api: {
       SET_LOADING: "SET_LOADING",
       SET_ERROR: "SET_ERROR",
-      SET_SUCCESS: "SET_SUCCESS",
+      SET_NOT_FOUND: "SET_NOT_FOUND",
+      RESET: "RESET",
     },
   },
 };

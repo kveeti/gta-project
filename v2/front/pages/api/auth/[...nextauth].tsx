@@ -2,7 +2,6 @@ import NextAuth from "next-auth/next";
 import GoogleProvider from "next-auth/providers/google";
 
 import jwt from "jsonwebtoken";
-import { JWT } from "next-auth/jwt";
 
 export default NextAuth({
   providers: [
@@ -18,7 +17,7 @@ export default NextAuth({
 
     encode: ({ token }) => {
       const encoded = jwt.sign(
-        { ...token, expire: Date.now() + 1000 * 30 * 60 },
+        { ...token, expire: Date.now() + 1000 * 60 * 60 * 24 * 30 }, // 30 days
         process.env.JWT_SECRET
       );
 

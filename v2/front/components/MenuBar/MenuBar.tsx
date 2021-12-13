@@ -2,15 +2,22 @@ import { SearchBar } from "./SearchBar";
 
 import styles from "./MenuBar.module.css";
 import Profile from "./Profile/Profile";
+import { useEffect } from "react";
+import { useRouter } from "next/router";
 
 export const MenuBar = () => {
+  const router = useRouter();
+
+  useEffect(() => {
+    router.prefetch("/search?q=s");
+  }, []);
+
   return (
-    <header className={styles.header}>
-      <div className={styles.menuBar}>
-        <div></div>
+    <nav className={styles.navBar}>
+      <div className={styles.nav}>
         <SearchBar />
         <Profile />
       </div>
-    </header>
+    </nav>
   );
 };

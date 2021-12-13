@@ -6,7 +6,7 @@ const Cars = ({ cars }) => {
     <div className={styles.gridWrapper}>
       <div className={styles.carGrid}>
         {cars.map((car) => {
-          return <Car key={car.name} car={car} />;
+          return <Car key={car.id} car={car} />;
         })}
       </div>
     </div>

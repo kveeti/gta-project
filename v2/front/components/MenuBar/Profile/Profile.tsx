@@ -10,7 +10,7 @@ interface data {
 }
 
 const ProfileButton = (
-  <Icon link name="user circle" size="big" style={{ margin: "0", padding: "0" }} />
+  <Icon link name="user circle" size="big" style={{ margin: "0", padding: "0", float: "right" }} />
 );
 
 const ProfilePopup = () => {
@@ -37,7 +37,6 @@ const ProfilePopup = () => {
       trigger={ProfileButton}
       wide
       hideOnScroll
-      offset={[3.2, 5]}
       position="bottom right"
       inverted
     >

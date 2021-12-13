@@ -19,7 +19,7 @@ export interface InitState {
     api: {
       loading: boolean | null;
       error: boolean | null;
-      success: boolean | null;
+      notFound: boolean | null;
     };
   };
 }
@@ -35,9 +35,9 @@ export const initState = {
     garages: [],
 
     api: {
-      loading: false,
-      error: false,
-      success: false,
+      loading: null,
+      error: null,
+      notFound: null,
     },
   },
 };
