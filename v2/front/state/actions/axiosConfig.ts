@@ -2,7 +2,7 @@ import { AxiosRequestConfig, Method } from "axios";
 
 export const getNextAxiosConfig = (path: string, method: Method, query: string) => {
   const config: AxiosRequestConfig = {
-    url: `${process.env.SITE_URL}/api${path}?q=${query}`,
+    url: `https://gta.veetik.fi/api${path}?q=${query}`,
     method: method,
   };
 
