@@ -1,10 +1,12 @@
 import Cars from "../../components/Cars/Cars";
 import { useISelector } from "../../state/hooks";
 import { MenuBar } from "../../components/MenuBar/MenuBar";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useRouter } from "next/router";
 import { useDispatch } from "react-redux";
-import { search } from "../../state/actions/search";
+import { actions } from "../../state/actions";
+import AddMenu from "../../components/Defaults/AddMenu";
+import DialogDemo from "../../components/Defaults/Dialog";
 
 const SearchPage = () => {
   const cars = useISelector((state) => state.search.cars);
@@ -12,17 +14,21 @@ const SearchPage = () => {
   const dispatch = useDispatch();
   const router = useRouter();
 
+  const [open, setOpen] = useState(false);
+
   useEffect(() => {
     if (typeof router.query.q !== "string") return;
 
-    dispatch(search.set.input(router.query.q));
-    dispatch(search.search(router.query.q));
+    dispatch(actions.search.set.input(router.query.q));
+    dispatch(actions.search.search(router.query.q));
   }, [router.query.q]);
 
   return (
     <>
       <MenuBar />
       <Cars cars={cars} />
+      <AddMenu />
+      <DialogDemo />
     </>
   );
 };

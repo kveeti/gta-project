@@ -1,11 +1,26 @@
-import styles from "./Car.module.css";
+import { useDispatch } from "react-redux";
+import { actions } from "../../../state/actions";
+import { useISelector } from "../../../state/hooks";
+import { Card } from "../../Defaults/Cards";
+import { Text, Title } from "../../Defaults/Text";
 
 const Car = ({ car }) => {
+  const dispatch = useDispatch();
+
+  const checkedCars = useISelector((state) => state.checked.cars);
+
+  const handleClick = () => {
+    dispatch(actions.check.car(car.id));
+  };
+
+  const checked = checkedCars.includes(car.id);
+
   return (
-    <div className={styles.card}>
-      <h2>{car.name}</h2>
-      <p>{car.garage.name}</p>
-    </div>
+    <Card checked={checked} onClick={() => handleClick()}>
+      <Text>{car.class}</Text>
+      <Title>{car.name}</Title>
+      <Text>{car.garage.name}</Text>
+    </Card>
   );
 };
 

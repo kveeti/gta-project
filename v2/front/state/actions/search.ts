@@ -5,78 +5,76 @@ import { Garage } from "../../interfaces/Garage";
 import { constants } from "../actionTypes";
 import { getNextAxiosConfig } from "./axiosConfig";
 
-export const search = {
-  set: {
-    input: (query: string) => {
-      return {
-        type: constants.search.SET_INPUT,
-        payload: query,
-      };
-    },
-
-    cars: (cars: Car[]) => {
-      return {
-        type: constants.search.SET_CARS,
-        payload: cars,
-      };
-    },
-
-    garages: (garages: Garage[]) => {
-      return {
-        type: constants.search.SET_GARAGES,
-        payload: garages,
-      };
-    },
+export const set = {
+  input: (query: string) => {
+    return {
+      type: constants.search.SET_INPUT,
+      payload: query,
+    };
   },
 
-  api: {
-    setLoading: (loading: boolean) => {
-      return {
-        type: constants.search.api.SET_LOADING,
-        payload: loading,
-      };
-    },
-
-    setError: (error: boolean) => {
-      return {
-        type: constants.search.api.SET_ERROR,
-        payload: error,
-      };
-    },
-
-    setNotFound: (notFound: boolean) => {
-      return {
-        type: constants.search.api.SET_NOT_FOUND,
-        payload: notFound,
-      };
-    },
-
-    reset: () => {
-      return {
-        type: constants.search.api.RESET,
-      };
-    },
+  cars: (cars: Car[]) => {
+    return {
+      type: constants.search.SET_CARS,
+      payload: cars,
+    };
   },
 
-  search: (query: string) => async (dispatch: any) => {
-    try {
-      if (!query.length) return;
-      if (!query) return;
-
-      dispatch(search.api.setLoading(true));
-
-      const res = await axios(getNextAxiosConfig("/search", "GET", query));
-
-      dispatch(search.set.cars(res.data.cars));
-      dispatch(search.set.garages(res.data.garages));
-      dispatch(search.api.setLoading(false));
-
-      if (!res.data.cars.length && !res.data.garages.length) dispatch(search.api.setNotFound(true));
-    } catch (err: any) {
-      dispatch(search.api.setLoading(false));
-      dispatch(search.api.setError(true));
-      if (!err.response) return;
-      if (err.response.status === 401) return signIn();
-    }
+  garages: (garages: Garage[]) => {
+    return {
+      type: constants.search.SET_GARAGES,
+      payload: garages,
+    };
   },
+};
+
+export const api = {
+  setLoading: (loading: boolean) => {
+    return {
+      type: constants.search.api.SET_LOADING,
+      payload: loading,
+    };
+  },
+
+  setError: (error: boolean) => {
+    return {
+      type: constants.search.api.SET_ERROR,
+      payload: error,
+    };
+  },
+
+  setNotFound: (notFound: boolean) => {
+    return {
+      type: constants.search.api.SET_NOT_FOUND,
+      payload: notFound,
+    };
+  },
+
+  reset: () => {
+    return {
+      type: constants.search.api.RESET,
+    };
+  },
+};
+
+export const search = (query: string) => async (dispatch: any) => {
+  try {
+    if (!query.length) return;
+    if (!query) return;
+
+    dispatch(api.setLoading(true));
+
+    const res = await axios(getNextAxiosConfig("/search", "GET", query));
+
+    dispatch(set.cars(res.data.cars));
+    dispatch(set.garages(res.data.garages));
+    dispatch(api.setLoading(false));
+
+    if (!res.data.cars.length && !res.data.garages.length) dispatch(api.setNotFound(true));
+  } catch (err: any) {
+    dispatch(api.setLoading(false));
+    dispatch(api.setError(true));
+    if (!err.response) return;
+    if (err.response.status === 401) return signIn();
+  }
 };

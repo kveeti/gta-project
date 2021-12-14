@@ -1,7 +1,7 @@
 import axios from "axios";
 import { NextApiRequest, NextApiResponse } from "next";
 import { getToken } from "next-auth/jwt";
-import { getApiAxiosConfig } from "../../state/actions/axiosConfig";
+import { getApiAxiosConfig } from "../../../state/actions/axiosConfig";
 
 const handler = async (req: NextApiRequest, res: NextApiResponse) => {
   const token = await getToken({

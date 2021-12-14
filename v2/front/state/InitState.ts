@@ -17,9 +17,68 @@ export interface InitState {
     };
 
     api: {
-      loading: boolean | null;
-      error: boolean | null;
-      notFound: boolean | null;
+      loading: boolean;
+      error: boolean;
+      notFound: boolean;
+    };
+  };
+
+  users: {
+    me: {
+      id: string;
+      owner: string;
+      email: string;
+      cars: Car[];
+      garages: Garage[];
+      carCount: number;
+      garageCount: number;
+    };
+
+    api: {
+      loading: boolean;
+      error: boolean;
+    };
+  };
+
+  checked: {
+    cars: string[];
+    garages: string[];
+  };
+
+  new: {
+    car: {
+      inputs: {
+        car: string;
+        garage: string;
+      };
+
+      dialog: boolean;
+
+      chosenCar: Car | null;
+      chosenGarage: Garage | null;
+
+      model: {
+        cars: {
+          matching: string[];
+          api: {
+            loading: boolean;
+            error: boolean;
+          };
+        };
+        garages: {
+          matching: string[];
+          api: {
+            loading: boolean;
+            error: boolean;
+          };
+        };
+      };
+    };
+
+    garages: {
+      chosenGarage: string | null;
+      modelGarages: [];
+      desc: string;
     };
   };
 }
@@ -35,9 +94,79 @@ export const initState = {
     garages: [],
 
     api: {
-      loading: null,
-      error: null,
-      notFound: null,
+      loading: false,
+      error: false,
+      notFound: false,
+    },
+  },
+
+  users: {
+    me: {
+      id: null,
+      owner: null,
+      email: null,
+      cars: [],
+      garages: [],
+      carCount: null,
+      garageCount: null,
+    },
+
+    api: {
+      loading: false,
+      error: false,
+    },
+  },
+
+  checked: {
+    cars: [],
+    garages: [],
+  },
+
+  new: {
+    car: {
+      inputs: {
+        car: "",
+        garage: "",
+      },
+
+      dialog: false,
+
+      chosenCar: null,
+      chosenGarage: null,
+
+      model: {
+        cars: {
+          matching: [],
+          api: {
+            loading: false,
+            error: false,
+          },
+        },
+        garages: {
+          matching: [],
+          api: {
+            loading: false,
+            error: false,
+          },
+        },
+      },
+    },
+    garage: {
+      inputs: {
+        garage: "",
+        desc: "",
+      },
+
+      dialog: false,
+
+      chosenGarage: null,
+      modelGarages: [],
+      desc: "",
+
+      api: {
+        loading: false,
+        error: false,
+      },
     },
   },
 };

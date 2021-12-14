@@ -5,3 +5,9 @@ export interface Garage {
   desc: string;
   cars: Car[];
 }
+
+export interface ModelGarage {
+  name: string;
+  capacity: number;
+  type: string;
+}

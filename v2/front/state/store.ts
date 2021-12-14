@@ -3,7 +3,8 @@ import thunk from "redux-thunk";
 import { reducers } from "./reducers";
 
 const composeEnchancers =
-  typeof window !== "undefined"
+  typeof window !== "undefined" &&
+  typeof (window as any).__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ !== "undefined"
     ? compose &&
       (window as any).__REDUX_DEVTOOLS_EXTENSION_COMPOSE__({
         trace: true,

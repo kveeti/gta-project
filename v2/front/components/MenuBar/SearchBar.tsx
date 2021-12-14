@@ -1,7 +1,7 @@
 import { useRouter } from "next/router";
 import { useDispatch } from "react-redux";
 import { Input } from "semantic-ui-react";
-import { search } from "../../state/actions/search";
+import { actions } from "../../state/actions";
 import { useISelector } from "../../state/hooks";
 
 import styles from "./SearchBar.module.css";
@@ -15,9 +15,9 @@ export const SearchBar = () => {
 
   const onSearchTermChange = async (value: string) => {
     if (!value) {
-      dispatch(search.api.reset());
-      dispatch(search.set.cars([]));
-      dispatch(search.set.garages([]));
+      dispatch(actions.search.api.reset());
+      dispatch(actions.search.set.cars([]));
+      dispatch(actions.search.set.garages([]));
       return router.push("/");
     }
 
