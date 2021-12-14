@@ -4,7 +4,7 @@ import { Auth } from "../../interfaces/Auth";
 import { res400, res500 } from "../../util/responseWith";
 
 export const createGarageValidation = async (req: Request, res: Response, next: NextFunction) => {
-  const auth = req.auth as unknown as Auth;
+  const auth = res.locals.auth as Auth;
   const modelGarageId = req.body.modelGarageId;
   const desc = req.body.desc;
 

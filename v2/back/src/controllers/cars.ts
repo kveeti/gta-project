@@ -7,7 +7,7 @@ import { res200, res500 } from "../util/responseWith";
 export const createCar = async (req: Request, res: Response) => {
   const modelCar = req.body.modelCar as ModelCarDoc;
   const garageId = req.body.garageId;
-  const auth = req.auth as unknown as Auth;
+  const auth = res.locals.auth as Auth;
 
   const newCar = {
     modelCar: modelCar._id,

@@ -13,19 +13,11 @@
     "forceConsistentCasingInFileNames": true
   },
 
-  "files": [
-    "custom.d.ts"
-  ],
-
   "include": ["src/**/*"],
 
   "ts-node": {
     "compilerOptions": {
       "module": "CommonJS"
     },
-
-    "files": [
-      "custom.d.ts"
-    ],
   }
 }

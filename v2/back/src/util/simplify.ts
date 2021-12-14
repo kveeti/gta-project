@@ -1,6 +1,6 @@
 import { SimplifiedCar, SimplifiedGarage, SimplifiedUser } from "../interfaces/Simplified";
 import { IdCar } from "../models/car";
-import { Garage, IdGarage } from "../models/garage";
+import { IdGarage } from "../models/garage";
 import { IdUser } from "../models/user";
 import { isModelCar, isModelGarage, isPopulatedGarage, isPopulatedUser } from "./typeguards";
 
@@ -28,7 +28,7 @@ export const simplifyCars = (cars: IdCar[]) => {
       name: car.modelCar.name,
       manufacturer: car.modelCar.manufacturer,
       price: car.modelCar.price,
-      class: car.modelCar.class,
+      class: getClass(car.modelCar.class),
       owner: car.owner.owner,
       garage: {
         name: car.garage.modelGarage.name,
@@ -49,6 +49,12 @@ export const simplifyCars = (cars: IdCar[]) => {
   return list;
 };
 
+const getClass = (original: string) => {
+  if (original === "ssports") return "sports";
+
+  return original;
+};
+
 export const simplifyGarages = (garages: IdGarage[]) => {
   const list = garages.map((garage) => {
     if (!isModelGarage(garage.modelGarage)) {
@@ -65,8 +71,9 @@ export const simplifyGarages = (garages: IdGarage[]) => {
       name: garage.modelGarage.name,
       desc: garage.desc,
       capacity: garage.modelGarage.capacity,
-      type: garage.modelGarage.type,
       amountOfCars: garage.cars.length,
+      full: garage.cars.length >= garage.modelGarage.capacity,
+      type: garage.modelGarage.type,
       owner: garage.owner.owner,
     };
     return simplifiedGarage;

@@ -48,9 +48,7 @@ export const get = {
   all: async (owner: ObjectId) => {
     const cars = await mongo.cars.get.all(owner);
 
-    if (!cars.length) return [];
-
-    return simplifyCars(cars);
+    return cars;
   },
 };
 

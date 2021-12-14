@@ -7,7 +7,7 @@ import { res200, res500 } from "../util/responseWith";
 export const createGarage = async (req: Request, res: Response) => {
   const modelGarage = req.body.modelGarage as ModelGarageDoc;
   const desc = req.body.desc;
-  const auth = req.auth as unknown as Auth;
+  const auth = res.locals.auth as Auth;
 
   const newGarage = {
     modelGarage: modelGarage._id,

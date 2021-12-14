@@ -1,14 +1,14 @@
 import { Request, Response } from "express";
 import { db } from "../database";
+import { Auth } from "../interfaces/Auth";
 import { res200Json, res500 } from "../util/responseWith";
 import { simplifyUser } from "../util/simplify";
 
 export const getUser = async (req: Request, res: Response) => {
-  const userId = req.auth.userId;
-  const email = req.auth.email;
+  const auth = res.locals.auth as Auth;
 
   try {
-    const user = await db.users.get(userId, email);
+    const user = await db.users.get(auth.userId, auth.email);
 
     res200Json(res, simplifyUser(user));
   } catch (err: any) {

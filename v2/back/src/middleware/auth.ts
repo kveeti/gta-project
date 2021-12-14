@@ -31,8 +31,8 @@ export const verifyToken = async (req: Request, res: Response, next: NextFunctio
 
   const user = await db.users.upsert(decoded.sub as string, (decoded as any).email);
 
-  req.auth = {
-    dbId: user._id.toString(),
+  res.locals.auth = {
+    dbId: user._id,
     userId: decoded.sub as string,
     email: (decoded as any).email,
   };

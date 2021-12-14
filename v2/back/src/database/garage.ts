@@ -2,15 +2,12 @@ import { ObjectId } from "mongoose";
 import { Garage } from "../models/garage";
 import { ModelGarage } from "../models/ModelGarage";
 import { mongo } from "../mongo";
-import { simplifyGarages } from "../util/simplify";
 
 export const get = {
   all: async (owner: ObjectId) => {
     const garages = await mongo.garages.get.all(owner);
 
-    if (!garages.length) return [];
-
-    return simplifyGarages(garages);
+    return garages;
   },
 
   one: async (id: string, owner: ObjectId) => {

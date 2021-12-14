@@ -24,6 +24,7 @@ export interface SimplifiedGarage {
   type: string;
   amountOfCars: number;
   owner: string;
+  full: boolean;
 }
 
 export interface SimplifiedUser {
