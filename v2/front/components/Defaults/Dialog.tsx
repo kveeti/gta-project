@@ -67,14 +67,12 @@ const StyledDescription = styled(DialogPrimitive.Description, {
   margin: "1rem 0 !important",
 });
 
-// Exports
 const Dialog = DialogPrimitive.Root;
 const DialogContent = Content;
 const DialogTitle = StyledTitle;
 const DialogDescription = StyledDescription;
 const DialogClose = DialogPrimitive.Close;
 
-// Your app...
 const Flex = styled("div", { display: "flex" });
 
 const Button = styled("button", {
@@ -139,13 +137,6 @@ const Fieldset = styled("fieldset", {
   marginBottom: 15,
 });
 
-const Label = styled("label", {
-  fontSize: 15,
-  color: "black",
-  width: 90,
-  textAlign: "right",
-});
-
 const Input = styled("input", {
   all: "unset",
   flex: "1",
@@ -167,7 +158,7 @@ const Input = styled("input", {
   "&:focus": { boxShadow: `0 0 0 2px ${"black"}` },
 });
 
-const DialogDemo = () => {
+export const NewCarDialog = () => {
   const dispatch = useDispatch();
 
   const openState = useISelector((state) => state.newCar.dialog);
@@ -175,8 +166,6 @@ const DialogDemo = () => {
   const carInputChange = (e: ChangeEvent<HTMLInputElement>) => {
     const input = e.target.value;
     dispatch(actions.newCar.set.input.car(input));
-
-    console.log(!input);
 
     if (!input) return dispatch(actions.newCar.set.model.cars.matching([]));
 
@@ -214,5 +203,3 @@ const DialogDemo = () => {
     </Dialog>
   );
 };
-
-export default DialogDemo;

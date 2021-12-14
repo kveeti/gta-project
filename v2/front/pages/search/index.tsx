@@ -6,15 +6,13 @@ import { useRouter } from "next/router";
 import { useDispatch } from "react-redux";
 import { actions } from "../../state/actions";
 import AddMenu from "../../components/Defaults/AddMenu";
-import DialogDemo from "../../components/Defaults/Dialog";
+import { NewCarDialog } from "../../components/Defaults/Dialog";
 
 const SearchPage = () => {
   const cars = useISelector((state) => state.search.cars);
 
   const dispatch = useDispatch();
   const router = useRouter();
-
-  const [open, setOpen] = useState(false);
 
   useEffect(() => {
     if (typeof router.query.q !== "string") return;
@@ -28,7 +26,7 @@ const SearchPage = () => {
       <MenuBar />
       <Cars cars={cars} />
       <AddMenu />
-      <DialogDemo />
+      <NewCarDialog />
     </>
   );
 };
