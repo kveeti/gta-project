@@ -1,10 +1,8 @@
 import { ObjectId } from "mongoose";
 import { Car } from "../models/car";
 import { ModelCar } from "../models/ModelCar";
-import { ModelGarage } from "../models/ModelGarage";
 import { mongo } from "../mongo";
-import { simplifyCars } from "../util/simplify";
-import { isModelCar, isPopulatedGarage, isModelGarage } from "../util/typeguards";
+import { isModelCar } from "../util/typeguards";
 
 export const get = {
   one: async (id: ObjectId) => {

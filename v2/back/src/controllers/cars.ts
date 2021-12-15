@@ -1,16 +1,16 @@
 import { Request, Response } from "express";
+import { ObjectId } from "mongoose";
 import { db } from "../database";
 import { Auth } from "../interfaces/Auth";
-import { ModelCarDoc } from "../models/ModelCar";
 import { res200, res500 } from "../util/responseWith";
 
 export const createCar = async (req: Request, res: Response) => {
-  const modelCar = req.body.modelCar as ModelCarDoc;
+  const modelCarId = req.body.modelCarId as ObjectId;
   const garageId = req.body.garageId;
   const auth = res.locals.auth as Auth;
 
   const newCar = {
-    modelCar: modelCar._id,
+    modelCar: modelCarId,
     owner: auth.dbId,
     garage: garageId,
   };

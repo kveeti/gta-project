@@ -1,6 +1,12 @@
-import { SimplifiedCar, SimplifiedGarage, SimplifiedUser } from "../interfaces/Simplified";
+import {
+  SimplifiedCar,
+  SimplifiedGarage,
+  SimplifiedModelCar,
+  SimplifiedUser,
+} from "../interfaces/Simplified";
 import { IdCar } from "../models/car";
 import { IdGarage } from "../models/garage";
+import { IdModelCar } from "../models/ModelCar";
 import { IdUser } from "../models/user";
 import { isModelCar, isModelGarage, isPopulatedGarage, isPopulatedUser } from "./typeguards";
 
@@ -99,4 +105,20 @@ export const simplifyUser = (user: IdUser) => {
   };
 
   return simplifiedUser;
+};
+
+export const simplifyModelCar = (cars: IdModelCar[]) => {
+  const simplified = cars.map((car) => {
+    const simplified: SimplifiedModelCar = {
+      id: car._id,
+      name: car.name,
+      manufacturer: car.manufacturer,
+      price: car.price,
+      class: getClass(car.class),
+    };
+
+    return simplified;
+  });
+
+  return simplified;
 };

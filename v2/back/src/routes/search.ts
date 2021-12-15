@@ -7,8 +7,8 @@ const router = Router();
 router.use(queryCleanUp);
 
 router.get("/garages", search.owned.garages);
-router.get("/model/cars", search.modelCars);
-router.get("/model/garages", search.modelGarages);
+router.get("/modelgarages", search.modelGarages);
+router.get("/modelcars", search.modelCars);
 router.get("/", search.owned.all);
 
 export { router as search };

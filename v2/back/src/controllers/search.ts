@@ -2,7 +2,7 @@ import { Request, Response } from "express";
 import { db } from "../database";
 import { Auth } from "../interfaces/Auth";
 import { res200Json, res400, res500 } from "../util/responseWith";
-import { simplifyCars, simplifyGarages } from "../util/simplify";
+import { simplifyCars, simplifyGarages, simplifyModelCar } from "../util/simplify";
 
 const emptyResponse = {
   cars: [],
@@ -76,7 +76,7 @@ export const search = {
     if (!query) return res400(res, "query was not provided");
 
     try {
-      const cars = await db.modelCars.get.all();
+      const cars = simplifyModelCar(await db.modelCars.get.all());
 
       let matchingCars = cars.filter(
         (car) => car.name.includes(query) || car.manufacturer?.includes(query)

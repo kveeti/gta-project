@@ -36,3 +36,11 @@ export interface SimplifiedUser {
   carCount: number;
   garageCount: number;
 }
+
+export interface SimplifiedModelCar {
+  id: ObjectId;
+  name: string;
+  manufacturer: string;
+  price: number;
+  class: string;
+}
