@@ -14,12 +14,6 @@ export const FloatingButton = styled("button", {
   width: "60px",
   height: "60px",
   borderRadius: "50%",
-  transition: "all 0.2s ease-in-out",
-
-  "&:hover": {
-    transform: "translateY(-0.2rem)",
-    transition: "all 0.2s ease-in-out",
-  },
 
   variants: {
     right: {

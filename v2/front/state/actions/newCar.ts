@@ -1,21 +1,21 @@
 import axios from "axios";
-import { ModelCar } from "../../interfaces/Car";
-import { ModelGarage } from "../../interfaces/Garage";
+import { ICar, ModelCar } from "../../interfaces/Car";
+import { IGarage, ModelGarage } from "../../interfaces/Garage";
 import { constants } from "../actionTypes";
 import { getNextAxiosConfig } from "./axiosConfig";
 
 export const set = {
   chosen: {
-    car: (id: string) => {
+    car: (car: ICar) => {
       return {
         type: constants.new.car.set.chosen.CAR,
-        payload: id,
+        payload: car,
       };
     },
-    garage: (id: string) => {
+    garage: (garage: IGarage) => {
       return {
         type: constants.new.car.set.chosen.GARAGE,
-        payload: id,
+        payload: garage,
       };
     },
   },
@@ -96,6 +96,8 @@ export const reset = () => {
 export const search = {
   modelCars: (query: string) => async (dispatch) => {
     try {
+      if (!query) return;
+
       dispatch(set.model.cars.api.setLoading(true));
       const response = await axios(getNextAxiosConfig(`/search/model/cars?q=${query}`, "GET"));
       dispatch(set.model.cars.api.setLoading(false));

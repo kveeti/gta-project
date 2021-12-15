@@ -4,24 +4,21 @@ import { useISelector } from "../../../state/hooks";
 import { CarCard } from "../../Defaults/Cards";
 import { Text, Title } from "../../Defaults/Text";
 
-const Car = ({ car }) => {
+const ModelCar = ({ car }) => {
   const dispatch = useDispatch();
-
-  const checkedCars = useISelector((state) => state.checked.cars);
+  const chosenCar = useISelector((state) => state.newCar.chosenCar);
 
   const handleClick = () => {
-    dispatch(actions.check.car(car.id));
+    if (chosenCar) return dispatch(actions.newCar.set.chosen.car(null));
+    dispatch(actions.newCar.set.chosen.car(car));
   };
 
-  const checked = checkedCars.includes(car.id);
-
   return (
-    <CarCard checked={checked} onClick={() => handleClick()}>
+    <CarCard model onClick={() => handleClick()}>
       <Text>{car.class}</Text>
       <Title>{car.name}</Title>
-      <Text>{car.garage.name}</Text>
     </CarCard>
   );
 };
 
-export default Car;
+export default ModelCar;

@@ -1,12 +1,13 @@
-import Cars from "../../components/Cars/Cars";
 import { useISelector } from "../../state/hooks";
 import { MenuBar } from "../../components/MenuBar/MenuBar";
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import { useRouter } from "next/router";
 import { useDispatch } from "react-redux";
 import { actions } from "../../state/actions";
 import AddMenu from "../../components/Defaults/AddMenu";
 import { NewCarDialog } from "../../components/Defaults/Dialog";
+import { CarGrid } from "../../components/Cars/Grid";
+import { GridWrapper } from "../../components/Defaults/Grid";
 
 const SearchPage = () => {
   const cars = useISelector((state) => state.search.cars);
@@ -24,7 +25,10 @@ const SearchPage = () => {
   return (
     <>
       <MenuBar />
-      <Cars cars={cars} />
+      <GridWrapper>
+        <CarGrid cars={cars} />
+      </GridWrapper>
+
       <AddMenu />
       <NewCarDialog />
     </>

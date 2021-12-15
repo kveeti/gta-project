@@ -1,9 +1,9 @@
-import { Car } from "./Car";
+import { ICar } from "./Car";
 
-export interface Garage {
+export interface IGarage {
   name: string;
   desc: string;
-  cars: Car[];
+  cars: ICar[];
 }
 
 export interface ModelGarage {

@@ -1,11 +1,14 @@
-import React, { ChangeEvent } from "react";
-import { styled, keyframes } from "@stitches/react";
-import { violet, blackA, mauve, green } from "@radix-ui/colors";
+import React, { ChangeEvent, useState } from "react";
+import { keyframes } from "@stitches/react";
+import { blackA, green } from "@radix-ui/colors";
 import { Cross2Icon } from "@radix-ui/react-icons";
 import * as DialogPrimitive from "@radix-ui/react-dialog";
 import { useDispatch } from "react-redux";
 import { actions } from "../../state/actions";
 import { useISelector } from "../../state/hooks";
+import { CarGrid } from "../Cars/Grid";
+import { styled } from "../../stitches.config";
+import ModelCar from "../Cars/Car/ModelCar";
 
 const overlayShow = keyframes({
   "0%": { opacity: 0 },
@@ -24,6 +27,7 @@ const StyledOverlay = styled(DialogPrimitive.Overlay, {
   "@media (prefers-reduced-motion: no-preference)": {
     animation: `${overlayShow} 150ms cubic-bezier(0.16, 1, 0.3, 1)`,
   },
+  transition: "all 0.2s ease-in-out",
 });
 
 const StyledContent = styled(DialogPrimitive.Content, {
@@ -38,6 +42,8 @@ const StyledContent = styled(DialogPrimitive.Content, {
   maxWidth: "450px",
   maxHeight: "85vh",
   padding: 25,
+  transition: "all 0.2s ease-in-out",
+
   "@media (prefers-reduced-motion: no-preference)": {
     animation: `${contentShow} 150ms cubic-bezier(0.16, 1, 0.3, 1)`,
   },
@@ -88,27 +94,10 @@ const Button = styled("button", {
   height: 35,
   cursor: "pointer",
 
-  variants: {
-    variant: {
-      violet: {
-        backgroundColor: "white",
-        color: "black",
-        boxShadow: `0 2px 10px ${blackA.blackA7}`,
-        "&:hover": { backgroundColor: mauve.mauve3 },
-        "&:focus": { boxShadow: `0 0 0 2px black` },
-      },
-      green: {
-        backgroundColor: green.green4,
-        color: green.green11,
-        "&:hover": { backgroundColor: green.green5 },
-        "&:focus": { boxShadow: `0 0 0 2px ${green.green7}` },
-      },
-    },
-  },
-
-  defaultVariants: {
-    variant: "violet",
-  },
+  backgroundColor: green.green4,
+  color: green.green11,
+  "&:hover": { backgroundColor: green.green5 },
+  "&:focus": { boxShadow: `0 0 0 2px ${green.green7}` },
 });
 
 const IconButton = styled("button", {
@@ -120,21 +109,21 @@ const IconButton = styled("button", {
   display: "inline-flex",
   alignItems: "center",
   justifyContent: "center",
-  color: violet.violet11,
+  color: "black",
   position: "absolute",
   top: 10,
   right: 10,
+  cursor: "pointer",
 
-  "&:hover": { backgroundColor: violet.violet4 },
-  "&:focus": { boxShadow: `0 0 0 2px ${violet.violet7}` },
+  "&:hover": { backgroundColor: "$gray200" },
 });
 
 const Fieldset = styled("fieldset", {
   all: "unset",
   display: "flex",
-  gap: 20,
+  gap: "0.5rem",
   alignItems: "center",
-  marginBottom: 15,
+  marginBottom: "1rem",
 });
 
 const Input = styled("input", {
@@ -160,16 +149,24 @@ const Input = styled("input", {
 
 export const NewCarDialog = () => {
   const dispatch = useDispatch();
+  const [timer, setTimer] = useState(null);
 
   const openState = useISelector((state) => state.newCar.dialog);
+  const matchingCars = useISelector((state) => state.newCar.model.cars.matching);
+  const chosenCar = useISelector((state) => state.newCar.chosenCar);
+  const inputs = useISelector((state) => state.newCar.inputs);
 
   const carInputChange = (e: ChangeEvent<HTMLInputElement>) => {
     const input = e.target.value;
     dispatch(actions.newCar.set.input.car(input));
 
-    if (!input) return dispatch(actions.newCar.set.model.cars.matching([]));
+    clearTimeout(timer);
 
-    dispatch(actions.newCar.search.modelCars(e.target.value));
+    const timeout = setTimeout(() => {
+      dispatch(actions.newCar.search.modelCars(input));
+    }, 160);
+
+    setTimer(timeout);
   };
 
   const garageInputChange = (e: ChangeEvent<HTMLInputElement>) => {
@@ -182,16 +179,19 @@ export const NewCarDialog = () => {
         <DialogTitle>New Car</DialogTitle>
         <DialogDescription>Save a new car to one of your garages.</DialogDescription>
         <Fieldset>
-          <Input placeholder="Name" onChange={(e) => carInputChange(e)} />
+          {chosenCar ? (
+            <ModelCar car={chosenCar}></ModelCar>
+          ) : (
+            <Input placeholder="Name" onChange={(e) => carInputChange(e)} value={inputs.car} />
+          )}
         </Fieldset>
+        {inputs.car && !chosenCar ? <CarGrid cars={matchingCars} single model /> : null}
         <Fieldset>
           <Input placeholder="Garage" onChange={(e) => garageInputChange(e)} />
         </Fieldset>
         <Flex css={{ marginTop: 25, justifyContent: "flex-end" }}>
           <DialogClose asChild>
-            <Button aria-label="Create" variant="green">
-              Save
-            </Button>
+            <Button>Save</Button>
           </DialogClose>
         </Flex>
         <DialogClose asChild>

@@ -1,5 +1,5 @@
-import { Car } from "../interfaces/Car";
-import { Garage } from "../interfaces/Garage";
+import { ICar } from "../interfaces/Car";
+import { IGarage } from "../interfaces/Garage";
 
 export interface InitState {
   search: {
@@ -8,13 +8,8 @@ export interface InitState {
       isEmpty: boolean;
     };
 
-    cars: {
-      cars: Car[];
-    };
-
-    garages: {
-      garages: Garage[];
-    };
+    cars: ICar[];
+    garages: IGarage[];
 
     api: {
       loading: boolean;
@@ -28,8 +23,8 @@ export interface InitState {
       id: string;
       owner: string;
       email: string;
-      cars: Car[];
-      garages: Garage[];
+      cars: ICar[];
+      garages: IGarage[];
       carCount: number;
       garageCount: number;
     };
@@ -54,8 +49,8 @@ export interface InitState {
 
       dialog: boolean;
 
-      chosenCar: Car | null;
-      chosenGarage: Garage | null;
+      chosenCar: ICar | null;
+      chosenGarage: IGarage | null;
 
       model: {
         cars: {
@@ -74,16 +69,10 @@ export interface InitState {
         };
       };
     };
-
-    garages: {
-      chosenGarage: string | null;
-      modelGarages: [];
-      desc: string;
-    };
   };
 }
 
-export const initState = {
+export const initState: InitState = {
   search: {
     input: {
       value: "",
@@ -149,23 +138,6 @@ export const initState = {
             error: false,
           },
         },
-      },
-    },
-    garage: {
-      inputs: {
-        garage: "",
-        desc: "",
-      },
-
-      dialog: false,
-
-      chosenGarage: null,
-      modelGarages: [],
-      desc: "",
-
-      api: {
-        loading: false,
-        error: false,
       },
     },
   },
