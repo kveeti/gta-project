@@ -1,7 +1,7 @@
 import axios from "axios";
 import { signIn } from "next-auth/react";
-import { Car } from "../../interfaces/Car";
-import { Garage } from "../../interfaces/Garage";
+import { ICar } from "../../interfaces/Car";
+import { IGarage } from "../../interfaces/Garage";
 import { constants } from "../actionTypes";
 import { getNextAxiosConfig } from "./axiosConfig";
 
@@ -13,14 +13,14 @@ export const set = {
     };
   },
 
-  cars: (cars: Car[]) => {
+  cars: (cars: ICar[]) => {
     return {
       type: constants.search.SET_CARS,
       payload: cars,
     };
   },
 
-  garages: (garages: Garage[]) => {
+  garages: (garages: IGarage[]) => {
     return {
       type: constants.search.SET_GARAGES,
       payload: garages,
