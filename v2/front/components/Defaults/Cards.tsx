@@ -12,14 +12,13 @@ export const Card = styled("div", {
     checked: {
       true: {
         backgroundColor: "$cardChecked",
+
         "&:hover": {
-          // backgroundColor: "$whiteCardHover",
-          all: "unset",
+          backgroundColor: "white",
         },
 
         "&:focus": {
-          // backgroundColor: "$whiteCardHover",
-          all: "unset",
+          backgroundColor: "white",
         },
       },
     },
@@ -30,15 +29,13 @@ export const CarCard = styled(Card, {
   color: "$text",
   width: "100%",
 
-  "&:hover": {
-    // backgroundColor: "$cardHover",
-    all: "unset",
-  },
+  // "&:hover": {
+  //   backgroundColor: "$cardHover",
+  // },
 
-  "&:focus": {
-    // backgroundColor: "$cardHover",
-    all: "unset",
-  },
+  // "&:focus": {
+  //   backgroundColor: "$cardHover",
+  // },
 
   variants: {
     model: {
@@ -48,13 +45,11 @@ export const CarCard = styled(Card, {
         boxShadow: "rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;",
 
         "&:hover": {
-          // backgroundColor: "$whiteCardHover",
-          all: "unset",
+          backgroundColor: "white",
         },
 
         "&:focus": {
-          // backgroundColor: "$whiteCardHover",
-          all: "unset",
+          backgroundColor: "white",
         },
       },
     },
@@ -65,15 +60,13 @@ export const GarageCard = styled(Card, {
   color: "$text",
   width: "100%",
 
-  "&:hover": {
-    // backgroundColor: "$cardHover",
-    all: "unset",
-  },
+  // "&:hover": {
+  //   backgroundColor: "$cardHover",
+  // },
 
-  "&:focus": {
-    // backgroundColor: "$cardHover",
-    all: "unset",
-  },
+  // "&:focus": {
+  //   backgroundColor: "$cardHover",
+  // },
 
   variants: {
     white: {
@@ -83,13 +76,11 @@ export const GarageCard = styled(Card, {
         boxShadow: "rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;",
 
         "&:hover": {
-          // backgroundColor: "$whiteCardHover",
-          all: "unset",
+          backgroundColor: "white",
         },
 
         "&:focus": {
-          // backgroundColor: "$whiteCardHover",
-          all: "unset",
+          backgroundColor: "white",
         },
       },
     },
