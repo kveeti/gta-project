@@ -1,23 +1,32 @@
-import { SearchBar } from "./SearchBar";
+import { styled } from "../../stitches.config";
 
-import styles from "./MenuBar.module.css";
+import { SearchBar } from "./SearchBar";
 import Profile from "./Profile/Profile";
-import { useEffect } from "react";
-import { useRouter } from "next/router";
+
+const MenubarContainer = styled("nav", {
+  height: "5rem",
+  position: "sticky",
+  top: "0px",
+  backgroundColor: "#212121",
+  color: "white",
+  display: "flex",
+  justifyContent: "flex-start",
+  alignItems: "center",
+});
+
+const RightSideContainer = styled("div", {
+  display: "flex",
+  justifyContent: "flex-end",
+  width: "430px",
+});
 
 export const MenuBar = () => {
-  const router = useRouter();
-
-  useEffect(() => {
-    router.prefetch("/search?q=s");
-  }, []);
-
   return (
-    <nav className={styles.navBar}>
-      <div className={styles.nav}>
-        <SearchBar />
+    <MenubarContainer>
+      <SearchBar />
+      <RightSideContainer>
         <Profile />
-      </div>
-    </nav>
+      </RightSideContainer>
+    </MenubarContainer>
   );
 };

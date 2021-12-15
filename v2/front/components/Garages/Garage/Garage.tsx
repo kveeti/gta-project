@@ -2,7 +2,7 @@ import { useDispatch } from "react-redux";
 import { IGarage } from "../../../interfaces/Garage";
 import { actions } from "../../../state/actions";
 import { useISelector } from "../../../state/hooks";
-import { GarageCard } from "../../Defaults/Cards";
+import { Card } from "../../Defaults/Cards";
 import { Text, Title } from "../../Defaults/Text";
 
 interface GarageProps {
@@ -15,9 +15,9 @@ export const Garage = ({ garage }: GarageProps) => {
   const handleClick = () => {};
 
   return (
-    <GarageCard onClick={() => handleClick()}>
+    <Card onClick={() => handleClick()}>
       <Text>{garage.name}</Text>
-    </GarageCard>
+    </Card>
   );
 };
 
@@ -34,7 +34,7 @@ export const NewCarDialogGarage = ({ garage }: GarageProps) => {
   };
 
   return (
-    <GarageCard white onClick={() => handleClick()}>
+    <Card white onClick={() => handleClick()}>
       <div
         style={{
           display: "flex",
@@ -48,6 +48,6 @@ export const NewCarDialogGarage = ({ garage }: GarageProps) => {
           {garage.amountOfCars} / {garage.capacity}
         </Text>
       </div>
-    </GarageCard>
+    </Card>
   );
 };

@@ -1,7 +1,7 @@
 import { useDispatch } from "react-redux";
 import { actions } from "../../../state/actions";
 import { useISelector } from "../../../state/hooks";
-import { CarCard } from "../../Defaults/Cards";
+import { Card } from "../../Defaults/Cards";
 import { Text, Title } from "../../Defaults/Text";
 
 const Car = ({ car }) => {
@@ -10,17 +10,17 @@ const Car = ({ car }) => {
   const checkedCars = useISelector((state) => state.checked.cars);
 
   const handleClick = () => {
-    dispatch(actions.check.car(car.id));
+    dispatch(actions.check.car(car));
   };
 
-  const checked = checkedCars.includes(car.id);
+  const checked = checkedCars.includes(car);
 
   return (
-    <CarCard checked={checked} onClick={() => handleClick()}>
+    <Card checked={checked} onClick={() => handleClick()}>
       <Text>{car.class}</Text>
       <Title>{car.name}</Title>
       <Text>{car.garage.name}</Text>
-    </CarCard>
+    </Card>
   );
 };
 

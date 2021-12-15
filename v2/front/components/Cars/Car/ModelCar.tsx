@@ -1,7 +1,7 @@
 import { useDispatch } from "react-redux";
 import { actions } from "../../../state/actions";
 import { useISelector } from "../../../state/hooks";
-import { CarCard } from "../../Defaults/Cards";
+import { Card } from "../../Defaults/Cards";
 import { Text, Title } from "../../Defaults/Text";
 
 const ModelCar = ({ car }) => {
@@ -14,10 +14,10 @@ const ModelCar = ({ car }) => {
   };
 
   return (
-    <CarCard model onClick={() => handleClick()}>
+    <Card white onClick={() => handleClick()}>
       <Text>{car.class}</Text>
       <Title>{car.name}</Title>
-    </CarCard>
+    </Card>
   );
 };
 

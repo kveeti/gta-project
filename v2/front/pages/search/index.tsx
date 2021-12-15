@@ -1,16 +1,19 @@
 import { useISelector } from "../../state/hooks";
-import { MenuBar } from "../../components/MenuBar/MenuBar";
 import { useEffect } from "react";
 import { useRouter } from "next/router";
 import { useDispatch } from "react-redux";
 import { actions } from "../../state/actions";
-import AddMenu from "../../components/Defaults/AddMenu";
-import { NewCarDialog } from "../../components/Defaults/Dialog";
+import { MenuBar } from "../../components/MenuBar/MenuBar";
+import { Content, Main, Section } from "../../components/Containers/Containers";
+import Sidebar from "../../components/Sidebar/Sidebar";
 import { CarGrid } from "../../components/Cars/Grid";
-import { GridWrapper } from "../../components/Defaults/Grid";
 
 const SearchPage = () => {
   const cars = useISelector((state) => state.search.cars);
+  const garages = useISelector((state) => state.search.garages);
+
+  const showCars = cars.length > 0;
+  const showGarages = garages.length > 0;
 
   const dispatch = useDispatch();
   const router = useRouter();
@@ -23,15 +26,13 @@ const SearchPage = () => {
   }, [router.query.q]);
 
   return (
-    <>
+    <Section>
       <MenuBar />
-      <GridWrapper>
-        <CarGrid cars={cars} />
-      </GridWrapper>
-
-      <AddMenu />
-      <NewCarDialog />
-    </>
+      <Content>
+        <Main>{showCars && <CarGrid cars={cars} />}</Main>
+        <Sidebar />
+      </Content>
+    </Section>
   );
 };
 

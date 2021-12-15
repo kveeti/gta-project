@@ -31,12 +31,12 @@ export const SearchBar = () => {
 
   return (
     <Input
-      style={{ width: "100%", height: "2.5rem", fontSize: "16px" }}
+      style={{ width: "calc(100% - (430px + 3rem))", fontSize: "16px", margin: "0.8rem" }}
       type="search"
       autoComplete="off"
       iconPosition="left"
       icon="search"
-      placeholder="Search for anything"
+      placeholder="Search for cars/garages..."
       value={router.query.q || ""}
       onChange={(e, { value }) => onSearchTermChange(value)}
       autoFocus

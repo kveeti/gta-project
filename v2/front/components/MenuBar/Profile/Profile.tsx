@@ -13,7 +13,7 @@ const ProfilePopup = () => {
 
   return (
     <Popup
-      style={{ backgroundColor: "#1c1c1d", color: "white", padding: "1rem", margin: "0" }}
+      style={{ backgroundColor: "#1c1c1d", color: "white" }}
       on="click"
       onOpen={() => {
         dispatch(actions.users.get.me());

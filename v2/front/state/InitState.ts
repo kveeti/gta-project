@@ -36,8 +36,8 @@ export interface InitState {
   };
 
   checked: {
-    cars: string[];
-    garages: string[];
+    cars: ICar[];
+    garages: IGarage[];
   };
 
   new: {
