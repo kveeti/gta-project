@@ -178,7 +178,7 @@ export const NewCarDialog = () => {
             <ModelCar car={newCarState.chosenCar}></ModelCar>
           ) : (
             <Input
-              style={{ width: "100%" }}
+              style={{ width: "100%", fontSize: "16px" }}
               type="text"
               autoComplete="off"
               placeholder="Car"
@@ -198,7 +198,7 @@ export const NewCarDialog = () => {
             <NewCarDialogGarage garage={newCarState.chosenGarage} />
           ) : (
             <Input
-              style={{ width: "100%" }}
+              style={{ width: "100%", fontSize: "16px" }}
               type="text"
               autoComplete="off"
               placeholder="Garage"
