@@ -13,9 +13,13 @@ export const Card = styled("div", {
       true: {
         backgroundColor: "$cardChecked",
 
-        // "&:hover": {
-        //   backgroundColor: "$cardCheckedHover",
-        // },
+        "&:hover": {
+          backgroundColor: "$cardCheckedHover",
+        },
+
+        "&:focus": {
+          backgroundColor: "$whiteCardHover",
+        },
       },
     },
   },
@@ -25,9 +29,13 @@ export const CarCard = styled(Card, {
   color: "$text",
   width: "100%",
 
-  // "&:hover": {
-  //   backgroundColor: "$cardHover",
-  // },
+  "&:hover": {
+    backgroundColor: "$cardHover",
+  },
+
+  "&:focus": {
+    backgroundColor: "$cardHover",
+  },
 
   variants: {
     model: {
@@ -36,9 +44,13 @@ export const CarCard = styled(Card, {
         color: "black",
         boxShadow: "rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;",
 
-        // "&:hover": {
-        //   backgroundColor: "$whiteCardHover",
-        // },
+        "&:hover": {
+          backgroundColor: "$whiteCardHover",
+        },
+
+        "&:focus": {
+          backgroundColor: "$whiteCardHover",
+        },
       },
     },
   },
@@ -48,9 +60,13 @@ export const GarageCard = styled(Card, {
   color: "$text",
   width: "100%",
 
-  // "&:hover": {
-  //   backgroundColor: "$cardHover",
-  // },
+  "&:hover": {
+    backgroundColor: "$cardHover",
+  },
+
+  "&:focus": {
+    backgroundColor: "$cardHover",
+  },
 
   variants: {
     white: {
@@ -59,9 +75,13 @@ export const GarageCard = styled(Card, {
         color: "black",
         boxShadow: "rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;",
 
-        // "&:hover": {
-        //   backgroundColor: "$whiteCardHover",
-        // },
+        "&:hover": {
+          backgroundColor: "$whiteCardHover",
+        },
+
+        "&:focus": {
+          backgroundColor: "$whiteCardHover",
+        },
       },
     },
   },
