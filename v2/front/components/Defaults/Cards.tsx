@@ -14,11 +14,11 @@ export const Card = styled("div", {
         backgroundColor: "$cardChecked",
 
         "&:hover": {
-          backgroundColor: "white",
+          backgroundColor: "$cardChecked",
         },
 
         "&:focus": {
-          backgroundColor: "white",
+          backgroundColor: "$cardChecked",
         },
       },
     },
