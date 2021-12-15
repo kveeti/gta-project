@@ -4,8 +4,6 @@ import { Input } from "semantic-ui-react";
 import { actions } from "../../state/actions";
 import { useISelector } from "../../state/hooks";
 
-import styles from "./SearchBar.module.css";
-
 export const SearchBar = () => {
   if (typeof window === "undefined") return null;
 
@@ -33,7 +31,7 @@ export const SearchBar = () => {
 
   return (
     <Input
-      className={styles.searchBar}
+      style={{ width: "100%", height: "2.5rem", fontSize: "16px" }}
       type="search"
       autoComplete="off"
       iconPosition="left"
