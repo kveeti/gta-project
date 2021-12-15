@@ -42,6 +42,11 @@ export interface InitState {
 
   new: {
     car: {
+      api: {
+        saving: boolean;
+        error: boolean;
+      };
+
       inputs: {
         car: string;
         garage: string;
@@ -52,20 +57,18 @@ export interface InitState {
       chosenCar: ICar | null;
       chosenGarage: IGarage | null;
 
-      model: {
-        cars: {
-          matching: string[];
-          api: {
-            loading: boolean;
-            error: boolean;
-          };
+      cars: {
+        matching: string[];
+        api: {
+          loading: boolean;
+          error: boolean;
         };
-        garages: {
-          matching: string[];
-          api: {
-            loading: boolean;
-            error: boolean;
-          };
+      };
+      garages: {
+        matching: string[];
+        api: {
+          loading: boolean;
+          error: boolean;
         };
       };
     };
@@ -113,6 +116,11 @@ export const initState: InitState = {
 
   new: {
     car: {
+      api: {
+        saving: false,
+        error: false,
+      },
+
       inputs: {
         car: "",
         garage: "",
@@ -123,20 +131,18 @@ export const initState: InitState = {
       chosenCar: null,
       chosenGarage: null,
 
-      model: {
-        cars: {
-          matching: [],
-          api: {
-            loading: false,
-            error: false,
-          },
+      cars: {
+        matching: [],
+        api: {
+          loading: false,
+          error: false,
         },
-        garages: {
-          matching: [],
-          api: {
-            loading: false,
-            error: false,
-          },
+      },
+      garages: {
+        matching: [],
+        api: {
+          loading: false,
+          error: false,
         },
       },
     },

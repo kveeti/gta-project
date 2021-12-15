@@ -9,6 +9,9 @@ import { useISelector } from "../../state/hooks";
 import { CarGrid } from "../Cars/Grid";
 import { styled } from "../../stitches.config";
 import ModelCar from "../Cars/Car/ModelCar";
+import { Input } from "semantic-ui-react";
+import { NewCarDialogGarage } from "../Garages/Garage/Garage";
+import { GarageGrid } from "../Garages/Grid";
 
 const overlayShow = keyframes({
   "0%": { opacity: 0 },
@@ -39,10 +42,9 @@ const StyledContent = styled(DialogPrimitive.Content, {
   left: "50%",
   transform: "translate(-50%, -50%)",
   width: "100%",
-  maxWidth: "450px",
+  maxWidth: "400px",
   maxHeight: "85vh",
   padding: 25,
-  transition: "all 0.2s ease-in-out",
 
   "@media (prefers-reduced-motion: no-preference)": {
     animation: `${contentShow} 150ms cubic-bezier(0.16, 1, 0.3, 1)`,
@@ -78,8 +80,6 @@ const DialogContent = Content;
 const DialogTitle = StyledTitle;
 const DialogDescription = StyledDescription;
 const DialogClose = DialogPrimitive.Close;
-
-const Flex = styled("div", { display: "flex" });
 
 const Button = styled("button", {
   all: "unset",
@@ -118,43 +118,18 @@ const IconButton = styled("button", {
   "&:hover": { backgroundColor: "$gray200" },
 });
 
-const Fieldset = styled("fieldset", {
-  all: "unset",
+const Flex = styled("div", {
   display: "flex",
-  gap: "0.5rem",
   alignItems: "center",
+  alignContent: "center",
   marginBottom: "1rem",
-});
-
-const Input = styled("input", {
-  all: "unset",
-  flex: "1",
-  display: "inline-flex",
-  alignItems: "center",
-  justifyContent: "center",
-  borderRadius: 4,
-  padding: "0 1rem",
-  fontSize: 15,
-  lineHeight: 1,
-  color: "black",
-  boxShadow: `0 0 0 1px ${"gray"}`,
-  height: 35,
-
-  "&::placeholder": {
-    opacity: 0.5,
-  },
-
-  "&:focus": { boxShadow: `0 0 0 2px ${"black"}` },
 });
 
 export const NewCarDialog = () => {
   const dispatch = useDispatch();
   const [timer, setTimer] = useState(null);
 
-  const openState = useISelector((state) => state.newCar.dialog);
-  const matchingCars = useISelector((state) => state.newCar.model.cars.matching);
-  const chosenCar = useISelector((state) => state.newCar.chosenCar);
-  const inputs = useISelector((state) => state.newCar.inputs);
+  const newCarState = useISelector((state) => state.newCar);
 
   const carInputChange = (e: ChangeEvent<HTMLInputElement>) => {
     const input = e.target.value;
@@ -163,35 +138,86 @@ export const NewCarDialog = () => {
     clearTimeout(timer);
 
     const timeout = setTimeout(() => {
-      dispatch(actions.newCar.search.modelCars(input));
+      dispatch(actions.newCar.search.cars(input));
     }, 160);
 
     setTimer(timeout);
   };
 
   const garageInputChange = (e: ChangeEvent<HTMLInputElement>) => {
-    dispatch(actions.newCar.set.input.garage(e.target.value));
+    const input = e.target.value;
+    dispatch(actions.newCar.set.input.garage(input));
+
+    clearTimeout(timer);
+
+    const timeout = setTimeout(() => {
+      dispatch(actions.newCar.search.garages(input));
+    }, 160);
+
+    setTimer(timeout);
+  };
+
+  const saveDisabled = !newCarState.chosenCar || !newCarState.chosenGarage;
+
+  const handleSave = () => {
+    if (saveDisabled) return;
+
+    dispatch(actions.newCar.save(newCarState.chosenCar.id, newCarState.chosenGarage.id));
   };
 
   return (
-    <Dialog open={openState} onOpenChange={(state) => dispatch(actions.newCar.set.dialog(state))}>
+    <Dialog
+      open={newCarState.dialog}
+      onOpenChange={(state) => dispatch(actions.newCar.set.dialog(state))}
+    >
       <DialogContent>
         <DialogTitle>New Car</DialogTitle>
-        <DialogDescription>Save a new car to one of your garages.</DialogDescription>
-        <Fieldset>
-          {chosenCar ? (
-            <ModelCar car={chosenCar}></ModelCar>
+        <DialogDescription>Save a new car.</DialogDescription>
+        <Flex>
+          {newCarState.chosenCar ? (
+            <ModelCar car={newCarState.chosenCar}></ModelCar>
           ) : (
-            <Input placeholder="Name" onChange={(e) => carInputChange(e)} value={inputs.car} />
+            <Input
+              style={{ width: "100%" }}
+              type="text"
+              autoComplete="off"
+              placeholder="Car"
+              value={newCarState.inputs.car}
+              onChange={(e) => carInputChange(e)}
+              autoFocus
+              loading={newCarState.cars.api.loading}
+              error={newCarState.cars.api.error}
+            />
           )}
-        </Fieldset>
-        {inputs.car && !chosenCar ? <CarGrid cars={matchingCars} single model /> : null}
-        <Fieldset>
-          <Input placeholder="Garage" onChange={(e) => garageInputChange(e)} />
-        </Fieldset>
+        </Flex>
+        {newCarState.inputs.car && !newCarState.chosenCar ? (
+          <CarGrid cars={newCarState.cars.matching} single model />
+        ) : null}
+        <Flex>
+          {newCarState.chosenGarage ? (
+            <NewCarDialogGarage garage={newCarState.chosenGarage} />
+          ) : (
+            <Input
+              style={{ width: "100%" }}
+              type="text"
+              autoComplete="off"
+              placeholder="Garage"
+              value={newCarState.inputs.garage}
+              onChange={(e) => garageInputChange(e)}
+              autoFocus
+              loading={newCarState.garages.api.loading}
+              error={newCarState.garages.api.error}
+            />
+          )}
+        </Flex>
+        {newCarState.inputs.garage && !newCarState.chosenGarage ? (
+          <GarageGrid garages={newCarState.garages.matching} single newCar />
+        ) : null}
         <Flex css={{ marginTop: 25, justifyContent: "flex-end" }}>
           <DialogClose asChild>
-            <Button>Save</Button>
+            <Button onClick={() => handleSave()} disabled={saveDisabled}>
+              Save
+            </Button>
           </DialogClose>
         </Flex>
         <DialogClose asChild>

@@ -19,49 +19,47 @@ export const set = {
       };
     },
   },
-  model: {
-    cars: {
-      matching: (cars: ModelCar[]) => {
+  cars: {
+    matching: (cars: ModelCar[]) => {
+      return {
+        type: constants.new.car.set.cars.MATCHING,
+        payload: cars,
+      };
+    },
+    api: {
+      setLoading: (loading: boolean) => {
         return {
-          type: constants.new.car.set.model.cars.MATCHING,
-          payload: cars,
+          type: constants.new.car.set.cars.api.LOADING,
+          payload: loading,
         };
       },
-      api: {
-        setLoading: (loading: boolean) => {
-          return {
-            type: constants.new.car.set.model.cars.api.LOADING,
-            payload: loading,
-          };
-        },
-        setError: (error: boolean) => {
-          return {
-            type: constants.new.car.set.model.cars.api.ERROR,
-            payload: error,
-          };
-        },
+      setError: (error: boolean) => {
+        return {
+          type: constants.new.car.set.cars.api.ERROR,
+          payload: error,
+        };
       },
     },
-    garages: {
-      matching: (garages: ModelGarage[]) => {
+  },
+  garages: {
+    matching: (garages: ModelGarage[]) => {
+      return {
+        type: constants.new.car.set.garages.MATCHING,
+        payload: garages,
+      };
+    },
+    api: {
+      setLoading: (loading: boolean) => {
         return {
-          type: constants.new.car.set.model.garages.MATCHING,
-          payload: garages,
+          type: constants.new.car.set.garages.api.LOADING,
+          payload: loading,
         };
       },
-      api: {
-        setLoading: (loading: boolean) => {
-          return {
-            type: constants.new.car.set.model.garages.api.LOADING,
-            payload: loading,
-          };
-        },
-        setError: (error: boolean) => {
-          return {
-            type: constants.new.car.set.model.garages.api.ERROR,
-            payload: error,
-          };
-        },
+      setError: (error: boolean) => {
+        return {
+          type: constants.new.car.set.garages.api.ERROR,
+          payload: error,
+        };
       },
     },
   },
@@ -85,6 +83,20 @@ export const set = {
       payload: open,
     };
   },
+  api: {
+    setSaving: (saving: boolean) => {
+      return {
+        type: constants.new.car.set.api.SAVING,
+        payload: saving,
+      };
+    },
+    setError: (error: boolean) => {
+      return {
+        type: constants.new.car.set.api.ERROR,
+        payload: error,
+      };
+    },
+  },
 };
 
 export const reset = () => {
@@ -94,30 +106,55 @@ export const reset = () => {
 };
 
 export const search = {
-  modelCars: (query: string) => async (dispatch) => {
+  cars: (query: string) => async (dispatch) => {
     try {
       if (!query) return;
 
-      dispatch(set.model.cars.api.setLoading(true));
-      const response = await axios(getNextAxiosConfig(`/search/model/cars?q=${query}`, "GET"));
-      dispatch(set.model.cars.api.setLoading(false));
+      dispatch(set.cars.api.setLoading(true));
+      const response = await axios(getNextAxiosConfig(`/search/cars?q=${query}`, "GET"));
+      dispatch(set.cars.api.setLoading(false));
 
-      dispatch(set.model.cars.matching(response.data.modelCars));
+      dispatch(set.cars.matching(response.data.modelCars));
     } catch (error) {
-      dispatch(set.model.cars.api.setLoading(false));
-      dispatch(set.model.cars.api.setError(true));
+      dispatch(set.cars.api.setLoading(false));
+      dispatch(set.cars.api.setError(true));
     }
   },
-  modelGarages: (query: string) => async (dispatch) => {
+  garages: (query: string) => async (dispatch) => {
     try {
-      dispatch(set.model.garages.api.setLoading(true));
-      const response = await axios(getNextAxiosConfig(`/search/model/garages?q=${query}`, "GET"));
-      dispatch(set.model.garages.api.setLoading(false));
+      if (!query) return;
 
-      dispatch(set.model.garages.matching(response.data.modelGarages));
+      dispatch(set.garages.api.setLoading(true));
+      const response = await axios(getNextAxiosConfig(`/search/garages?q=${query}`, "GET"));
+      dispatch(set.garages.api.setLoading(false));
+
+      dispatch(set.garages.matching(response.data.garages));
     } catch (error) {
-      dispatch(set.model.garages.api.setLoading(false));
-      dispatch(set.model.garages.api.setError(true));
+      dispatch(set.garages.api.setLoading(false));
+      dispatch(set.garages.api.setError(true));
     }
   },
+};
+
+export const save = (chosenCarId: string, chosenGarageId: string) => async (dispatch) => {
+  try {
+    console.log(chosenCarId, chosenGarageId);
+
+    if (!chosenCarId) return;
+    if (!chosenGarageId) return;
+
+    dispatch(set.api.setSaving(true));
+    const response = await axios(
+      getNextAxiosConfig(`/cars`, "POST", {
+        modelCarId: chosenCarId,
+        garageId: chosenGarageId,
+      })
+    );
+    dispatch(set.api.setSaving(false));
+
+    dispatch(set.cars.matching(response.data.modelCars));
+  } catch (error) {
+    dispatch(set.api.setSaving(false));
+    dispatch(set.api.setError(true));
+  }
 };

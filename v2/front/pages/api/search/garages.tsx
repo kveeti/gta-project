@@ -12,7 +12,7 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
 
   const query = req.query["q"].toString();
   try {
-    const response = await axios(getApiAxiosConfig("/search", "GET", token, query));
+    const response = await axios(getApiAxiosConfig("/search/garages", "GET", token, query));
 
     res.status(200).json(response.data);
   } catch (err) {

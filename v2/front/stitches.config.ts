@@ -9,7 +9,7 @@ export const { styled, getCssText } = createStitches({
       gray750: "#19191a",
       gray700: "#1c1c1d",
       gray200: "#e8e8e8",
-      gray150: "#ececec",
+      gray150: "#f7f7f7",
       gray100: "#fcfdfd",
 
       background: "$gray900",

@@ -8,7 +8,7 @@ import "semantic-ui-css/semantic.min.css";
 
 export default ({ Component, pageProps: { session, ...pageProps } }) => (
   <Provider store={store}>
-    <SessionProvider>
+    <SessionProvider session={session}>
       <Component {...pageProps} />
     </SessionProvider>
   </Provider>

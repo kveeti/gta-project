@@ -42,86 +42,68 @@ const reducer = (state = initState.new.car, action: any) => {
     /*
     MODEL
     */
-    case constants.new.car.set.model.cars.MATCHING:
+    case constants.new.car.set.cars.MATCHING:
       return {
         ...state,
-        model: {
-          ...state.model,
-          cars: {
-            ...state.model.cars,
-            matching: action.payload,
+        cars: {
+          ...state.cars,
+          matching: action.payload,
+        },
+      };
+
+    case constants.new.car.set.garages.MATCHING:
+      return {
+        ...state,
+        garages: {
+          ...state.garages,
+          matching: action.payload,
+        },
+      };
+
+    case constants.new.car.set.cars.api.LOADING:
+      return {
+        ...state,
+        cars: {
+          ...state.cars,
+          api: {
+            ...state.cars.api,
+            loading: action.payload,
           },
         },
       };
 
-    case constants.new.car.set.model.garages.MATCHING:
+    case constants.new.car.set.cars.api.ERROR:
       return {
         ...state,
-        model: {
-          ...state.model,
-          garages: {
-            ...state.model.garages,
-            matching: action.payload,
+        cars: {
+          ...state.cars,
+          api: {
+            ...state.cars.api,
+            error: action.payload,
           },
         },
       };
 
-    case constants.new.car.set.model.cars.api.LOADING:
+    case constants.new.car.set.garages.api.LOADING:
       return {
         ...state,
-        model: {
-          ...state.model,
-          cars: {
-            ...state.model.cars,
-            api: {
-              ...state.model.cars.api,
-              loading: action.payload,
-            },
+        garages: {
+          ...state.garages,
+          api: {
+            ...state.garages.api,
+            loading: action.payload,
           },
         },
       };
 
-    case constants.new.car.set.model.cars.api.ERROR:
+    case constants.new.car.set.garages.api.ERROR:
       return {
         ...state,
-        model: {
-          ...state.model,
-          cars: {
-            ...state.model.cars,
-            api: {
-              ...state.model.cars.api,
-              error: action.payload,
-            },
-          },
-        },
-      };
-
-    case constants.new.car.set.model.garages.api.LOADING:
-      return {
-        ...state,
-        model: {
-          ...state.model,
-          garage: {
-            ...state.model.garages,
-            api: {
-              ...state.model.garages.api,
-              loading: action.payload,
-            },
-          },
-        },
-      };
-
-    case constants.new.car.set.model.garages.api.ERROR:
-      return {
-        ...state,
-        model: {
-          ...state.model,
-          garage: {
-            ...state.model.garages,
-            api: {
-              ...state.model.garages.api,
-              error: action.payload,
-            },
+        garages: {
+          ...state.garages,
+          api: {
+            ...state.garages.api,
+            error: action.payload,
           },
         },
       };

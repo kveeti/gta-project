@@ -11,7 +11,7 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
   });
 
   try {
-    const response = await axios(getApiAxiosConfig("/gta/users", "GET", token, null));
+    const response = await axios(getApiAxiosConfig("/users", "GET", token, null));
 
     res.status(200).json(response.data);
   } catch (err) {

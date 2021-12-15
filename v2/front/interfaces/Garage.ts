@@ -1,9 +1,14 @@
 import { ICar } from "./Car";
 
 export interface IGarage {
+  id: string;
   name: string;
   desc: string;
-  cars: ICar[];
+  capacity: number;
+  amountOfCars: number;
+  full: boolean;
+  type: string;
+  owner: string;
 }
 
 export interface ModelGarage {
