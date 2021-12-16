@@ -1,4 +1,4 @@
-import { blue, gray, green, red } from "@radix-ui/colors";
+import { blackA, blue, gray, green, red } from "@radix-ui/colors";
 import { styled } from "../../stitches.config";
 
 export const FloatingButton = styled("button", {
@@ -52,6 +52,15 @@ export const BaseBtn = styled("button", {
         "&:focus:not(:focus-visible)": {
           outline: "none",
           boxShadow: "none",
+        },
+      },
+    },
+    transparent: {
+      true: {
+        backgroundColor: "transparent",
+
+        "@media (hover: hover)": {
+          "&:hover": { backgroundColor: blackA.blackA9 },
         },
       },
     },

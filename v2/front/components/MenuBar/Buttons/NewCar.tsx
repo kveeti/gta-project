@@ -10,8 +10,8 @@ const NewCarButton = () => {
   };
 
   return (
-    <MenubarBtn white onClick={() => onClick()}>
-      <PlusIcon />
+    <MenubarBtn transparent onClick={() => onClick()}>
+      <PlusIcon style={{ color: "white" }} />
       <img src="/icons/car-icon.png" alt="car icon" height={22} style={{ paddingTop: "4px" }} />
     </MenubarBtn>
   );

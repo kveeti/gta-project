@@ -10,9 +10,9 @@ const NewGarageButton = () => {
   };
 
   return (
-    <MenubarBtn white onClick={() => onClick()}>
-      <PlusIcon />
-      <img src="/icons/garage-icon.png" alt="car icon" height={23} />
+    <MenubarBtn transparent onClick={() => onClick()}>
+      <PlusIcon style={{ color: "white" }} />
+      <img src="/icons/garage-icon.png" alt="car icon" height={26} />
     </MenubarBtn>
   );
 };

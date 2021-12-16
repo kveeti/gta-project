@@ -3,8 +3,8 @@ import { MenubarBtn } from "../Buttons/Styles";
 
 export const ProfileButton = () => {
   return (
-    <MenubarBtn white small>
-      <PersonIcon />
+    <MenubarBtn transparent small>
+      <PersonIcon style={{ color: "white" }} transform="scale(1.6)" />
     </MenubarBtn>
   );
 };
