@@ -49,12 +49,12 @@ const reducer = (state = initState.new.garage, action: any) => {
     /*
     API
     */
-    case constants.new.garage.set.api.LOADING:
+    case constants.new.garage.set.api.SAVING:
       return {
         ...state,
         api: {
           ...state.api,
-          loading: action.payload,
+          saving: action.payload,
         },
       };
 
@@ -70,12 +70,12 @@ const reducer = (state = initState.new.garage, action: any) => {
     /*
     INPUTS
     */
-    case constants.new.garage.set.input.NAME:
+    case constants.new.garage.set.input.GARAGE:
       return {
         ...state,
         inputs: {
           ...state.inputs,
-          name: action.payload,
+          garage: action.payload,
         },
       };
 
