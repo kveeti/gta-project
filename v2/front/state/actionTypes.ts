@@ -72,11 +72,11 @@ export const constants = {
           },
         },
         input: {
-          NAME: "NEW_GARAGE__SET_INPUT_NAME",
+          GARAGE: "NEW_GARAGE__SET_INPUT_GARAGE",
           DESC: "NEW_GARAGE__SET_INPUT_DESC",
         },
         api: {
-          LOADING: "NEW_GARAGE__SET_API_SAVING",
+          SAVING: "NEW_GARAGE__SET_API_SAVING",
           ERROR: "NEW_GARAGE__SET_API_ERROR",
         },
       },
