@@ -15,6 +15,11 @@ export const BaseInput = styled("input", {
     fontSize: 16,
   },
 
+  "&:disabled": {
+    boxShadow: `0 0 0 1px ${blackA.blackA7}`,
+    opacity: 0.5,
+  },
+
   variants: {
     transparent: {
       true: {

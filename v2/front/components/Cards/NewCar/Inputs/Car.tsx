@@ -34,6 +34,8 @@ const TextField = () => {
 
   const [timer, setTimer] = useState(null);
 
+  const carChosen = newCarState.chosenCar;
+
   const onInputChange = (value: string) => {
     dispatch(actions.newCar.set.input.car(value));
 
