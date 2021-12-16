@@ -35,7 +35,7 @@ const NewCarCard = () => {
   return (
     <StyledCard>
       <Title>New Car</Title>
-      <Text>Save a new car here, choose the car first.</Text>
+      <Text>Save a new car here.</Text>
 
       <CarInput />
       <MatchingCars />
