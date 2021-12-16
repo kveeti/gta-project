@@ -1,6 +1,5 @@
 import { PlusIcon } from "@radix-ui/react-icons";
 import { useRouter } from "next/router";
-import { useDispatch } from "react-redux";
 import { MenubarBtn } from "./Styles";
 
 const NewCarButton = () => {
