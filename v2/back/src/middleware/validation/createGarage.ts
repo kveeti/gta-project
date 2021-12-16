@@ -16,7 +16,6 @@ export const createGarageValidation = async (req: Request, res: Response, next: 
     const modelGarage = await db.modelGarages.get.one(modelGarageId);
 
     if (!modelGarage) return res400(res, "'modelGarageId' was invalid");
-    req.body.modelGarage = modelGarage;
 
     // check if user already has that garage
     const existingGarage = await db.garages.get.byModelGarageId(modelGarageId, auth.dbId);
