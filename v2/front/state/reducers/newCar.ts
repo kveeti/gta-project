@@ -40,6 +40,27 @@ const reducer = (state = initState.new.car, action: any) => {
       };
 
     /*
+    API
+    */
+    case constants.new.car.set.api.SAVING:
+      return {
+        ...state,
+        api: {
+          ...state.api,
+          saving: action.payload,
+        },
+      };
+
+    case constants.new.car.set.api.ERROR:
+      return {
+        ...state,
+        api: {
+          ...state.api,
+          error: action.payload,
+        },
+      };
+
+    /*
     MODEL
     */
     case constants.new.car.set.cars.MATCHING:
