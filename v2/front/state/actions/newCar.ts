@@ -142,6 +142,7 @@ export const save = (chosenCarId: string, chosenGarageId: string) => async (disp
       })
     );
     dispatch(set.api.setSaving(false));
+    dispatch(reset());
   } catch (error) {
     dispatch(set.api.setSaving(false));
     dispatch(set.api.setError(true));
