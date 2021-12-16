@@ -20,8 +20,10 @@ const SaveButton = () => {
     dispatch(actions.newCar.save(newCarState.chosenCar.id, newCarState.chosenGarage.id));
   };
 
+  const bothChosen = newCarState.chosenCar && newCarState.chosenGarage;
+
   return (
-    <StyledButton green onClick={() => onClick()}>
+    <StyledButton disabled={!bothChosen} green onClick={() => onClick()}>
       Save
     </StyledButton>
   );
