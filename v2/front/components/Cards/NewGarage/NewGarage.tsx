@@ -30,11 +30,15 @@ const Title = styled("p", {
   fontWeight: 500,
 });
 
+const StyledText = styled(Text, {
+  paddingBottom: "1rem",
+});
+
 export const NewGarageCard = () => {
   return (
     <StyledCard>
       <Title>New Garage</Title>
-      <Text>Save a new garage here. The description is optional.</Text>
+      <StyledText>Save a new garage here. The description is optional.</StyledText>
 
       <GarageInput />
       <MatchingGarages />

@@ -31,11 +31,15 @@ const Title = styled("p", {
   fontWeight: 500,
 });
 
+const StyledText = styled(Text, {
+  paddingBottom: "1rem",
+});
+
 const NewCarCard = () => {
   return (
     <StyledCard>
       <Title>New Car</Title>
-      <Text>Save a new car here.</Text>
+      <StyledText>Save a new car here.</StyledText>
 
       <CarInput />
       <MatchingCars />

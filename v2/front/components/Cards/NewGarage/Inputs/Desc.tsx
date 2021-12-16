@@ -1,4 +1,3 @@
-import { useState } from "react";
 import { useDispatch } from "react-redux";
 import { actions } from "../../../../state/actions";
 import { useISelector } from "../../../../state/hooks";
@@ -18,8 +17,6 @@ const TextField = () => {
   const dispatch = useDispatch();
   const newGarageState = useISelector((state) => state.newGarage);
 
-  const [timer, setTimer] = useState(null);
-
   const onInputChange = (value: string) => {
     dispatch(actions.newGarage.set.input.desc(value));
   };
@@ -30,7 +27,7 @@ const TextField = () => {
       id="desc-input"
       type="text"
       autoComplete="off"
-      placeholder="Description (optional)"
+      placeholder="e.g. sports cars (optional)"
       onChange={(e) => onInputChange(e.target.value)}
       value={newGarageState.inputs.desc}
     />
