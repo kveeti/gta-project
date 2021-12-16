@@ -14,24 +14,24 @@ const Container = styled("div", {
 const MatchingGarages = () => {
   const dispatch = useDispatch();
 
-  const newCarState = useISelector((state) => state.newCar);
+  const newGarageState = useISelector((state) => state.newGarage);
 
   const onGarageClick = (garage: IGarage) => {
     if (garage.full) return;
 
-    dispatch(actions.newCar.set.chosen.garage(garage));
+    dispatch(actions.newGarage.set.chosenGarage(garage));
   };
 
-  if (!newCarState.garages.matching.length) return null;
-  if (newCarState.chosenGarage) return null;
-  if (!newCarState.inputs.garage) return null;
+  if (!newGarageState.garages.matching.length) return null;
+  if (newGarageState.chosenGarage) return null;
+  if (!newGarageState.inputs.garage) return null;
 
   return (
     <Container>
       <Label />
       <GarageGrid
         single
-        garages={newCarState.garages.matching}
+        garages={newGarageState.garages.matching}
         onClick={(garage) => onGarageClick(garage)}
       />
     </Container>
