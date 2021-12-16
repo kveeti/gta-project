@@ -77,14 +77,14 @@ export interface InitState {
       };
 
       inputs: {
-        name: string;
+        garage: string;
         desc: string;
       };
 
       chosenGarage: IGarage | null;
 
       garages: {
-        matching: string[];
+        matching: IGarage[];
         api: {
           loading: boolean;
           error: boolean;
@@ -170,7 +170,7 @@ export const initState: InitState = {
       },
 
       inputs: {
-        name: "",
+        garage: "",
         desc: "",
       },
 
