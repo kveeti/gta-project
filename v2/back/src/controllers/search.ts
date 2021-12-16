@@ -95,9 +95,11 @@ export const search = {
     const query = res.locals.q;
 
     try {
-      const cars = await db.modelGarages.get.all();
+      const garages = await db.modelGarages.get.all();
 
-      const matchingGarages = cars?.filter((garage) => garage?.name.includes(query));
+      let matchingGarages = garages?.filter((garage) => garage?.name.includes(query));
+
+      if (matchingGarages.length > 3) matchingGarages = matchingGarages.slice(0, 3);
 
       return res200Json(res, { modelGarages: matchingGarages });
     } catch (err: any) {
