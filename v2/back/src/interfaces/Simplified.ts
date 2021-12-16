@@ -44,3 +44,10 @@ export interface SimplifiedModelCar {
   price: number;
   class: string;
 }
+
+export interface SimpliefiedModelGarage {
+  id: ObjectId;
+  name: string;
+  capacity: number;
+  type: string;
+}

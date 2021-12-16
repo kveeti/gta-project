@@ -86,7 +86,7 @@ export const search = {
   },
 };
 
-export const save = (chosenGarageId: string) => async (dispatch) => {
+export const save = (chosenGarageId: string, description: string) => async (dispatch) => {
   try {
     if (!chosenGarageId) return;
 
@@ -94,6 +94,7 @@ export const save = (chosenGarageId: string) => async (dispatch) => {
     await axios(
       getNextAxiosConfig(`/garages`, "POST", {
         modelGarageId: chosenGarageId,
+        desc: description,
       })
     );
     dispatch(set.api.setSaving(false));

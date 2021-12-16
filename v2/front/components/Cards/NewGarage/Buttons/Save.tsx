@@ -1,4 +1,5 @@
 import { useDispatch } from "react-redux";
+import { actions } from "../../../../state/actions";
 import { useISelector } from "../../../../state/hooks";
 import { styled } from "../../../../stitches.config";
 import { BaseBtn } from "../../../Styles/Buttons";
@@ -13,7 +14,9 @@ const SaveButton = () => {
 
   const newGarageState = useISelector((state) => state.newGarage);
 
-  const onClick = () => {};
+  const onClick = () => {
+    dispatch(actions.newGarage.save(newGarageState.chosenGarage.id, newGarageState.inputs.desc));
+  };
 
   return (
     <StyledButton green onClick={() => onClick()} disabled={!newGarageState.chosenGarage}>

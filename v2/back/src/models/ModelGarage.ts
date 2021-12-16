@@ -1,6 +1,13 @@
-import mongoose from "mongoose";
+import mongoose, { ObjectId } from "mongoose";
 
 export interface ModelGarage {
+  name: string;
+  capacity: number;
+  type: string;
+}
+
+export interface IdModelGarage {
+  _id: ObjectId;
   name: string;
   capacity: number;
   type: string;

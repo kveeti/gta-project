@@ -1,4 +1,5 @@
 import {
+  SimpliefiedModelGarage,
   SimplifiedCar,
   SimplifiedGarage,
   SimplifiedModelCar,
@@ -7,6 +8,7 @@ import {
 import { IdCar } from "../models/car";
 import { IdGarage } from "../models/garage";
 import { IdModelCar } from "../models/ModelCar";
+import { IdModelGarage } from "../models/ModelGarage";
 import { IdUser } from "../models/user";
 import { isModelCar, isModelGarage, isPopulatedGarage, isPopulatedUser } from "./typeguards";
 
@@ -107,7 +109,7 @@ export const simplifyUser = (user: IdUser) => {
   return simplifiedUser;
 };
 
-export const simplifyModelCar = (cars: IdModelCar[]) => {
+export const simplifyModelCars = (cars: IdModelCar[]) => {
   const simplified = cars.map((car) => {
     const simplified: SimplifiedModelCar = {
       id: car._id,
@@ -115,6 +117,21 @@ export const simplifyModelCar = (cars: IdModelCar[]) => {
       manufacturer: car.manufacturer,
       price: car.price,
       class: getClass(car.class),
+    };
+
+    return simplified;
+  });
+
+  return simplified;
+};
+
+export const simplifyModelGarages = (garages: IdModelGarage[]) => {
+  const simplified = garages.map((garage) => {
+    const simplified: SimpliefiedModelGarage = {
+      id: garage._id,
+      name: garage.name,
+      capacity: garage.capacity,
+      type: garage.type,
     };
 
     return simplified;

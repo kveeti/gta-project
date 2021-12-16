@@ -65,7 +65,7 @@ export const constants = {
         CHOSEN_GARAGE: "NEW_GARAGE__SET_CHOSEN_GARAGE",
 
         garages: {
-          MATCHING: "NEW_GARAGE__SET_MATCHING_GARAGES_",
+          MATCHING: "NEW_GARAGE__SET_MATCHING_GARAGES",
           api: {
             LOADING: "NEW_GARAGE__SET_MATCHING_GARAGES_API_LOADING",
             ERROR: "NEW_GARAGE__SET_MATCHING_GARAGES_API_ERROR",
