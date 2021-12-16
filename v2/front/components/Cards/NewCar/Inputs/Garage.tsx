@@ -1,6 +1,5 @@
 import { useState } from "react";
 import { useDispatch } from "react-redux";
-import { Input } from "semantic-ui-react";
 import { actions } from "../../../../state/actions";
 import { useISelector } from "../../../../state/hooks";
 import { BaseInput } from "../../../Styles/Inputs";
@@ -25,7 +24,7 @@ const ChosenGarage = () => {
 
   const onClick = () => dispatch(actions.newCar.set.chosen.garage(null));
 
-  return <Garage garage={newCarState.chosenGarage} onClick={() => onClick()} />;
+  return <Garage garage={newCarState.chosenGarage} onClick={() => onClick()} wide />;
 };
 
 const TextField = () => {

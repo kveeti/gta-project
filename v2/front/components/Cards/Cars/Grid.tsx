@@ -1,15 +1,14 @@
 import { ICar } from "../../../interfaces/Car";
 import { Grid } from "../../Styles/Grid";
-import Car from "./Car/Car";
+import Car from "./Car";
 
 interface CarProps {
   cars: ICar[];
-  single?: boolean;
-  model?: boolean;
   onClick: any;
+  single?: boolean;
 }
 
-export const CarGrid = ({ cars, single, onClick }: CarProps) => {
+export const CarGrid = ({ cars, onClick, single }: CarProps) => {
   if (!cars.length) return null;
 
   return (

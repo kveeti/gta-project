@@ -1,7 +1,9 @@
+import { IGarage } from "./Garage";
+
 export interface ICar {
   id: string;
   name: string;
-  garage: string;
+  garage: IGarage;
   manufacturer: string;
   price: number;
   class: string;

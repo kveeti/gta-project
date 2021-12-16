@@ -39,5 +39,11 @@ export const Card = styled("div", {
         },
       },
     },
+
+    wide: {
+      true: {
+        width: "100%",
+      },
+    },
   },
 });

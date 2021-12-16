@@ -1,6 +1,6 @@
 import { IGarage } from "../../../interfaces/Garage";
 import { Grid } from "../../Styles/Grid";
-import { Garage, NewCarDialogGarage } from "./Garage";
+import { Garage } from "./Garage";
 
 interface CarProps {
   garages: IGarage[];

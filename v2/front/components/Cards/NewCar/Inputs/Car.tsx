@@ -1,10 +1,9 @@
 import { useState } from "react";
 import { useDispatch } from "react-redux";
-import { Input } from "semantic-ui-react";
 import { actions } from "../../../../state/actions";
 import { useISelector } from "../../../../state/hooks";
 import { BaseInput } from "../../../Styles/Inputs";
-import Car from "../../Cars/Car/Car";
+import Car from "../../Cars/Car";
 import { InputContainer, Label } from "../Styles/Inputs";
 
 const CarInput = () => {
@@ -25,7 +24,7 @@ const ChosenCar = () => {
 
   const onClick = () => dispatch(actions.newCar.set.chosen.car(null));
 
-  return <Car car={newCarState.chosenCar} onClick={() => onClick()} />;
+  return <Car car={newCarState.chosenCar} onClick={() => onClick()} wide />;
 };
 
 const TextField = () => {
@@ -33,8 +32,6 @@ const TextField = () => {
   const newCarState = useISelector((state) => state.newCar);
 
   const [timer, setTimer] = useState(null);
-
-  const carChosen = newCarState.chosenCar;
 
   const onInputChange = (value: string) => {
     dispatch(actions.newCar.set.input.car(value));
