@@ -10,10 +10,10 @@ const StyledCard = styled("div", {
   flexDirection: "column",
   width: "100%",
   maxWidth: "600px",
+  marginTop: "1rem",
   padding: "1rem",
   borderRadius: 4,
   boxShadow: "0 1px 3px 0 rgb(0 0 0 / 20%)",
-
   gap: "1rem",
 });
 
