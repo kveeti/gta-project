@@ -10,7 +10,11 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
     raw: true,
   });
 
-  const query = req.query["q"].toString();
+  let query = req.query.q;
+  if (!query) return;
+
+  query = query.toString();
+
   try {
     const response = await axios(getApiAxiosConfig("/search", "GET", token, query));
 
