@@ -10,5 +10,5 @@ export const Label = styled("label", {
   display: "flex",
   alignItems: "center",
   justifyContent: "flex-end",
-  width: 90,
+  width: 110,
 });

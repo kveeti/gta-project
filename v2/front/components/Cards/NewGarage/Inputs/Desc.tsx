@@ -8,7 +8,7 @@ import { InputContainer, Label } from "../Styles/Inputs";
 export const DescInput = () => {
   return (
     <InputContainer>
-      <Label htmlFor="desc-input">Car</Label>
+      <Label htmlFor="desc-input">Description</Label>
       <TextField />
     </InputContainer>
   );
@@ -38,7 +38,6 @@ const TextField = () => {
       id="desc-input"
       type="text"
       autoComplete="off"
-      autoFocus
       placeholder="Description (optional)"
       onChange={(e) => onInputChange(e.target.value)}
       value={newGarageState.inputs.desc}
