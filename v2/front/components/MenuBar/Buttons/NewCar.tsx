@@ -2,7 +2,7 @@ import { PlusIcon } from "@radix-ui/react-icons";
 import { useRouter } from "next/router";
 import { MenubarBtn } from "./Styles";
 
-const NewCarButton = () => {
+export const NewCarButton = () => {
   const router = useRouter();
 
   const onClick = () => {
@@ -16,5 +16,3 @@ const NewCarButton = () => {
     </MenubarBtn>
   );
 };
-
-export default NewCarButton;

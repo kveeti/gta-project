@@ -1,8 +1,9 @@
 import { styled } from "../../stitches.config";
 import { SearchBar } from "./SearchBar";
-import NewCarButton from "./Buttons/NewCar";
-import NewGarageButton from "./Buttons/NewGarage";
 import { ProfileButton } from "./Buttons/ProfileButton";
+import { NewCarButton } from "./Buttons/NewCar";
+import { NewGarageButton } from "./Buttons/NewGarage";
+import { HomeButton } from "./Buttons/Home";
 
 const MenubarContainer = styled("nav", {
   height: "5rem",
@@ -35,7 +36,7 @@ const RightContainer = styled("div", {
 
 const LeftButtons = styled("div", {
   display: "flex",
-  gap: "1rem",
+  gap: "0.5rem",
 });
 
 export const MenuBar = () => {
@@ -48,6 +49,7 @@ export const MenuBar = () => {
 
         <RightContainer>
           <LeftButtons>
+            <HomeButton />
             <NewCarButton />
             <NewGarageButton />
           </LeftButtons>
