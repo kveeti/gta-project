@@ -30,7 +30,7 @@ export const Garage = ({ garage, onClick }: GarageProps) => {
     <GarageCard full={garage.full} onClick={() => onClick(garage)}>
       <Text>{garage.name}</Text>
 
-      {garage.capacity && (
+      {garage.amountOfCars && (
         <Text>
           {garage.amountOfCars} / {garage.capacity}
         </Text>
@@ -52,7 +52,7 @@ export const NewCarDialogGarage = ({ garage }: GarageProps) => {
   };
 
   return (
-    <Card white onClick={() => handleClick()}>
+    <Card onClick={() => handleClick()}>
       <div
         style={{
           display: "flex",
