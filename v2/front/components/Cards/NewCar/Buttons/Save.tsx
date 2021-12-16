@@ -24,7 +24,7 @@ const SaveButton = () => {
   const saving = newCarState.api.saving;
 
   return (
-    <StyledButton disabled={saving} green onClick={() => onClick()}>
+    <StyledButton disabled={!bothChosen || saving} green onClick={() => onClick()}>
       Save
     </StyledButton>
   );
