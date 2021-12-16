@@ -30,7 +30,7 @@ const ChosenGarage = () => {
 const TextField = () => {
   const dispatch = useDispatch();
   const me = useISelector((state) => state.users.me);
-  const newCarState = useISelector((state) => state.newCar);
+  const newGarageState = useISelector((state) => state.newGarage);
 
   const [timer, setTimer] = useState(null);
 
@@ -40,12 +40,12 @@ const TextField = () => {
   };
 
   const onInputChange = (value: string) => {
-    dispatch(actions.newCar.set.input.garage(value));
+    dispatch(actions.newGarage.set.input.garage(value));
 
     clearTimeout(timer);
 
     const timeout = setTimeout(() => {
-      dispatch(actions.newCar.search.garages(value));
+      dispatch(actions.newGarage.search.garages(value));
     }, 200);
 
     setTimer(timeout);
@@ -60,7 +60,7 @@ const TextField = () => {
       autoFocus
       placeholder={me.garages.length ? `${me.garage[getRand()].name}` : "Popular street, unit 2"}
       onChange={(e) => onInputChange(e.target.value)}
-      value={newCarState.inputs.garage}
+      value={newGarageState.inputs.garage}
     />
   );
 };
