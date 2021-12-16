@@ -3,10 +3,9 @@ import { useEffect } from "react";
 import { useRouter } from "next/router";
 import { useDispatch } from "react-redux";
 import { actions } from "../../state/actions";
-import { MenuBar } from "../../components/MenuBar/MenuBar";
-import { Content, Main, Section } from "../../components/Containers/Containers";
-import Sidebar from "../../components/Sidebar/Sidebar";
-import { CarGrid } from "../../components/Cars/Grid";
+import { CarGrid } from "../../components/Cards/Cars/Grid";
+import Layout from "../../components/Layout";
+import { ICar } from "../../interfaces/Car";
 
 const SearchPage = () => {
   const cars = useISelector((state) => state.search.cars);
@@ -25,15 +24,11 @@ const SearchPage = () => {
     dispatch(actions.search.search(router.query.q));
   }, [router.query.q]);
 
-  return (
-    <Section>
-      <MenuBar />
-      <Content>
-        <Main>{showCars && <CarGrid cars={cars} />}</Main>
-        <Sidebar />
-      </Content>
-    </Section>
-  );
+  const onCarClick = (car: ICar) => {
+    dispatch(actions.check.car(car));
+  };
+
+  return <Layout>{showCars && <CarGrid cars={cars} onClick={(car) => onCarClick(car)} />}</Layout>;
 };
 
 export default SearchPage;

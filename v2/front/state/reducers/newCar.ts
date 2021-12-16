@@ -114,15 +114,6 @@ const reducer = (state = initState.new.car, action: any) => {
     case constants.new.car.RESET:
       return initState.new.car;
 
-    /*
-    DIALOG
-    */
-    case constants.new.car.set.dialog.OPEN:
-      return {
-        ...state,
-        dialog: action.payload,
-      };
-
     default:
       return state;
   }

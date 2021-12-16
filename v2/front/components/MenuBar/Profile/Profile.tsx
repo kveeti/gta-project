@@ -4,12 +4,18 @@ import ProfilePlaceholder from "./Placeholder";
 import { useISelector } from "../../../state/hooks";
 import { useDispatch } from "react-redux";
 import { actions } from "../../../state/actions";
-
-const ProfileButton = <Icon link name="user circle" size="big" style={{ paddingLeft: "0.5rem" }} />;
+import { PersonIcon } from "@radix-ui/react-icons";
+import { MenubarBtn } from "../Buttons/Styles";
 
 const ProfilePopup = () => {
   const users = useISelector((state) => state.users);
   const dispatch = useDispatch();
+
+  return (
+    <MenubarBtn white small>
+      <PersonIcon />
+    </MenubarBtn>
+  );
 
   return (
     <Popup

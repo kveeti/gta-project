@@ -8,7 +8,7 @@ const composeEnchancers =
     ? compose &&
       (window as any).__REDUX_DEVTOOLS_EXTENSION_COMPOSE__({
         trace: true,
-        traceLimit: 25,
+        traceLimit: 10,
       })
     : compose;
 

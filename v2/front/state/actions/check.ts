@@ -1,8 +1,9 @@
+import { ICar } from "../../interfaces/Car";
 import { constants } from "../actionTypes";
 
-export const car = (id: string) => {
+export const car = (car: ICar) => {
   return {
     type: constants.check.CAR,
-    payload: id,
+    payload: car,
   };
 };

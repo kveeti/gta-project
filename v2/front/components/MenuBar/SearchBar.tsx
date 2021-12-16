@@ -1,13 +1,18 @@
 import { useRouter } from "next/router";
 import { useDispatch } from "react-redux";
-import { Input } from "semantic-ui-react";
 import { actions } from "../../state/actions";
-import { useISelector } from "../../state/hooks";
+import { styled } from "../../stitches.config";
+import { BaseInput } from "../Styles/Inputs";
+
+const StyledInput = styled(BaseInput, {
+  width: "100%",
+  height: "2rem",
+  margin: "1rem 0.5rem 1rem 1rem",
+});
 
 export const SearchBar = () => {
   if (typeof window === "undefined") return null;
 
-  const searchState = useISelector((state) => state.search);
   const dispatch = useDispatch();
   const router = useRouter();
 
@@ -30,18 +35,15 @@ export const SearchBar = () => {
   };
 
   return (
-    <Input
-      style={{ width: "calc(100% - (430px + 3rem))", fontSize: "16px", margin: "0.8rem" }}
-      type="search"
+    <StyledInput
+      white
+      id="garage-input"
+      type="text"
       autoComplete="off"
-      iconPosition="left"
-      icon="search"
-      placeholder="Search for cars/garages..."
-      value={router.query.q || ""}
-      onChange={(e, { value }) => onSearchTermChange(value)}
       autoFocus
-      loading={searchState.api.loading}
-      error={searchState.api.notFound || searchState.api.error}
+      placeholder="Search for cars/garages..."
+      onChange={(e) => onSearchTermChange(e.target.value)}
+      value={router.query.q || ""}
     />
   );
 };

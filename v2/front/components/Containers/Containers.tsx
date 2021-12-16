@@ -2,9 +2,18 @@ import { styled } from "../../stitches.config";
 
 export const Main = styled("main", {
   width: "calc(100% - 430px)",
+  display: "flex",
   overflow: "auto",
   height: "auto",
-  padding: "0.5rem",
+
+  variants: {
+    center: {
+      true: {
+        justifyContent: "center",
+        alignItems: "flex-start",
+      },
+    },
+  },
 });
 
 export const Content = styled("div", {
@@ -16,8 +25,12 @@ export const Content = styled("div", {
   margin: "0 auto",
   height: "calc(100vh - 5rem)",
   maxWidth: "1800px",
+
+  overflow: "hidden",
 });
 
 export const Section = styled("section", {
   height: "100vh",
+  backgroundColor: "$background",
+  overflow: "hidden",
 });

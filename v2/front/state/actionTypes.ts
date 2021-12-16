@@ -52,10 +52,6 @@ export const constants = {
           GARAGE: "NEW_CAR__SET_INPUT_GARAGE",
         },
 
-        dialog: {
-          OPEN: "NEW_CAR__SET_DIALOG_OPEN",
-        },
-
         api: {
           SAVING: "NEW_CAR__SET_API_SAVING",
           ERROR: "NEW_CAR__SET_API_ERROR",
@@ -66,20 +62,21 @@ export const constants = {
 
     garage: {
       set: {
-        chosen: {
-          CAR: "NEW_GARAGE__SET_CHOSEN_CAR",
-          GARAGE: "NEW_GARAGE__SET_CHOSEN_GARAGE",
-        },
-        model: {
-          CARS: "NEW_GARAGE__SET_MODEL_CARS",
-          GARAGES: "NEW_GARAGE__SET_MODEL_GARAGES",
+        CHOSEN_GARAGE: "NEW_GARAGE__SET_CHOSEN_GARAGE",
+
+        garages: {
+          MATCHING: "NEW_GARAGE__SET_MATCHING_GARAGES_",
+          api: {
+            LOADING: "NEW_GARAGE__SET_MATCHING_GARAGES_API_LOADING",
+            ERROR: "NEW_GARAGE__SET_MATCHING_GARAGES_API_ERROR",
+          },
         },
         input: {
-          GARAGE: "NEW_GARAGE__SET_INPUT_GARAGE",
+          NAME: "NEW_GARAGE__SET_INPUT_NAME",
           DESC: "NEW_GARAGE__SET_INPUT_DESC",
         },
         api: {
-          LOADING: "NEW_GARAGE__SET_API_LOADING",
+          LOADING: "NEW_GARAGE__SET_API_SAVING",
           ERROR: "NEW_GARAGE__SET_API_ERROR",
         },
       },

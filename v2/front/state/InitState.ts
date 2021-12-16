@@ -52,18 +52,37 @@ export interface InitState {
         garage: string;
       };
 
-      dialog: boolean;
-
       chosenCar: ICar | null;
       chosenGarage: IGarage | null;
 
       cars: {
-        matching: string[];
+        matching: ICar[];
         api: {
           loading: boolean;
           error: boolean;
         };
       };
+      garages: {
+        matching: IGarage[];
+        api: {
+          loading: boolean;
+          error: boolean;
+        };
+      };
+    };
+    garage: {
+      api: {
+        saving: boolean;
+        error: boolean;
+      };
+
+      inputs: {
+        name: string;
+        desc: string;
+      };
+
+      chosenGarage: IGarage | null;
+
       garages: {
         matching: string[];
         api: {
@@ -126,8 +145,6 @@ export const initState: InitState = {
         garage: "",
       },
 
-      dialog: false,
-
       chosenCar: null,
       chosenGarage: null,
 
@@ -138,6 +155,27 @@ export const initState: InitState = {
           error: false,
         },
       },
+      garages: {
+        matching: [],
+        api: {
+          loading: false,
+          error: false,
+        },
+      },
+    },
+    garage: {
+      api: {
+        saving: false,
+        error: false,
+      },
+
+      inputs: {
+        name: "",
+        desc: "",
+      },
+
+      chosenGarage: null,
+
       garages: {
         matching: [],
         api: {

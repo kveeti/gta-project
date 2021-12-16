@@ -77,12 +77,6 @@ export const set = {
       };
     },
   },
-  dialog: (open: boolean) => {
-    return {
-      type: constants.new.car.set.dialog.OPEN,
-      payload: open,
-    };
-  },
   api: {
     setSaving: (saving: boolean) => {
       return {
@@ -138,21 +132,16 @@ export const search = {
 
 export const save = (chosenCarId: string, chosenGarageId: string) => async (dispatch) => {
   try {
-    console.log(chosenCarId, chosenGarageId);
-
-    if (!chosenCarId) return;
-    if (!chosenGarageId) return;
+    if (!chosenCarId || !chosenGarageId) return;
 
     dispatch(set.api.setSaving(true));
-    const response = await axios(
+    await axios(
       getNextAxiosConfig(`/cars`, "POST", {
         modelCarId: chosenCarId,
         garageId: chosenGarageId,
       })
     );
     dispatch(set.api.setSaving(false));
-
-    dispatch(set.cars.matching(response.data.modelCars));
   } catch (error) {
     dispatch(set.api.setSaving(false));
     dispatch(set.api.setError(true));
