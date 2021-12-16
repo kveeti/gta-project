@@ -7,27 +7,27 @@ import { getNextAxiosConfig } from "./axiosConfig";
 export const set = {
   chosenGarage: (garage: IGarage) => {
     return {
-      type: constants.new.car.set.chosen.GARAGE,
+      type: constants.new.garage.set.CHOSEN_GARAGE,
       payload: garage,
     };
   },
   garages: {
     matching: (garages: ModelGarage[]) => {
       return {
-        type: constants.new.car.set.garages.MATCHING,
+        type: constants.new.garage.set.garages.MATCHING,
         payload: garages,
       };
     },
     api: {
       setLoading: (loading: boolean) => {
         return {
-          type: constants.new.car.set.garages.api.LOADING,
+          type: constants.new.garage.set.garages.api.LOADING,
           payload: loading,
         };
       },
       setError: (error: boolean) => {
         return {
-          type: constants.new.car.set.garages.api.ERROR,
+          type: constants.new.garage.set.garages.api.ERROR,
           payload: error,
         };
       },
@@ -36,13 +36,13 @@ export const set = {
   input: {
     garage: (input: string) => {
       return {
-        type: constants.new.car.set.input.GARAGE,
+        type: constants.new.garage.set.input.GARAGE,
         payload: input,
       };
     },
     desc: (input: string) => {
       return {
-        type: constants.new.car.set.input.CAR,
+        type: constants.new.garage.set.input.DESC,
         payload: input,
       };
     },
@@ -50,13 +50,13 @@ export const set = {
   api: {
     setSaving: (saving: boolean) => {
       return {
-        type: constants.new.car.set.api.SAVING,
+        type: constants.new.garage.set.api.SAVING,
         payload: saving,
       };
     },
     setError: (error: boolean) => {
       return {
-        type: constants.new.car.set.api.ERROR,
+        type: constants.new.garage.set.api.ERROR,
         payload: error,
       };
     },
@@ -65,7 +65,7 @@ export const set = {
 
 export const reset = () => {
   return {
-    type: constants.new.car.RESET,
+    type: constants.new.garage.RESET,
   };
 };
 
@@ -75,10 +75,10 @@ export const search = {
       if (!query) return;
 
       dispatch(set.garages.api.setLoading(true));
-      const response = await axios(getNextAxiosConfig(`/search/garages?q=${query}`, "GET"));
+      const response = await axios(getNextAxiosConfig(`/search/modelgarages?q=${query}`, "GET"));
       dispatch(set.garages.api.setLoading(false));
 
-      dispatch(set.garages.matching(response.data.garages));
+      dispatch(set.garages.matching(response.data.modelGarages));
     } catch (error) {
       dispatch(set.garages.api.setLoading(false));
       dispatch(set.garages.api.setError(true));
@@ -86,15 +86,14 @@ export const search = {
   },
 };
 
-export const save = (chosenCarId: string, chosenGarageId: string) => async (dispatch) => {
+export const save = (chosenGarageId: string) => async (dispatch) => {
   try {
-    if (!chosenCarId || !chosenGarageId) return;
+    if (!chosenGarageId) return;
 
     dispatch(set.api.setSaving(true));
     await axios(
-      getNextAxiosConfig(`/cars`, "POST", {
-        modelCarId: chosenCarId,
-        garageId: chosenGarageId,
+      getNextAxiosConfig(`/garages`, "POST", {
+        modelGarageId: chosenGarageId,
       })
     );
     dispatch(set.api.setSaving(false));
