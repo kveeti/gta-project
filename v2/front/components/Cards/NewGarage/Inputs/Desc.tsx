@@ -21,15 +21,7 @@ const TextField = () => {
   const [timer, setTimer] = useState(null);
 
   const onInputChange = (value: string) => {
-    dispatch(actions.newCar.set.input.car(value));
-
-    clearTimeout(timer);
-
-    const timeout = setTimeout(() => {
-      dispatch(actions.newCar.search.cars(value));
-    }, 200);
-
-    setTimer(timeout);
+    dispatch(actions.newGarage.set.input.desc(value));
   };
 
   return (
