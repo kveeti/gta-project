@@ -2,8 +2,8 @@ import { blackA } from "@radix-ui/colors";
 import { MagnifyingGlassIcon } from "@radix-ui/react-icons";
 import { useRef } from "react";
 import { styled } from "../../stitches.config";
-import { ClearIcon } from "../Icons/ClearIcon";
-import { SearchIcon } from "../Icons/SearchIcon";
+import { ClearIcon } from "./Icons/ClearIcon";
+import { SearchIcon } from "./Icons/SearchIcon";
 
 export const BaseInput = styled("input", {
   all: "unset",

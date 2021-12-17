@@ -1,6 +1,6 @@
 import { Cross1Icon } from "@radix-ui/react-icons";
 import { MutableRefObject } from "react";
-import { styled } from "../../stitches.config";
+import { styled } from "../../../stitches.config";
 
 const StyledIcon = styled("div", {
   all: "unset",

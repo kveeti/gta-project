@@ -1,7 +1,7 @@
 import { useDispatch } from "react-redux";
 import { actions } from "../../../../state/actions";
 import { useISelector } from "../../../../state/hooks";
-import { BaseInput } from "../../../Styles/Inputs";
+import { BaseInput } from "../../../Input/Input";
 import { InputContainer, Label } from "../Styles/Inputs";
 
 export const DescInput = () => {

@@ -1,5 +1,5 @@
 import { MagnifyingGlassIcon } from "@radix-ui/react-icons";
-import { styled } from "../../stitches.config";
+import { styled } from "../../../stitches.config";
 
 const StyledIcon = styled("div", {
   all: "unset",

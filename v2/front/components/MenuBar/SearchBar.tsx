@@ -1,7 +1,7 @@
 import { useRouter } from "next/router";
 import { useDispatch } from "react-redux";
 import { actions } from "../../state/actions";
-import { Input } from "../Styles/Inputs";
+import { Input } from "../Input/Input";
 
 export const SearchBar = () => {
   if (typeof window === "undefined") return null;
