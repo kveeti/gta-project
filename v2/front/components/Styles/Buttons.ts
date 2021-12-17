@@ -89,12 +89,12 @@ export const BaseBtn = styled("button", {
     },
     blue: {
       true: {
-        backgroundColor: blue.blue7,
-        color: blue.blue12,
+        backgroundColor: blue.blue5,
+        color: blue.blue11,
 
         "@media (hover: hover)": {
-          "&:hover": { backgroundColor: blue.blue8 },
-          "&:focus": { boxShadow: `0 0 0 2px ${blue.blue8}` },
+          "&:hover": { backgroundColor: blue.blue6 },
+          "&:focus": { boxShadow: `0 0 0 2px ${blue.blue6}` },
         },
       },
     },
