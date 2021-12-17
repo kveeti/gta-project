@@ -86,12 +86,12 @@ const InputContainer = styled("div", {
 const StyledInput = styled("input", {
   all: "unset",
   width: "100%",
-  fontSize: 15,
   padding: "0.5rem",
   transition: "0.2s",
+  fontSize: 16,
 
-  "@media (min-width: 1000px)": {
-    fontSize: 16,
+  "@bp2": {
+    fontSize: 15,
   },
 
   variants: {
