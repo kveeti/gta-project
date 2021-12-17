@@ -13,6 +13,8 @@ export const get = {
   one: async (id: string, owner: ObjectId) => {
     const res = await mongo.garages.get.one(id, owner);
 
+    if (!res) return null;
+
     if (isModelGarage(res.modelGarage))
       return {
         _id: res._id,
