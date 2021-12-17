@@ -22,8 +22,18 @@ const MenubarContent = styled("div", {
 });
 
 const LeftContainer = styled("div", {
-  width: "calc(100% - 430px)",
+  width: "calc(100% - 478px)",
   display: "flex",
+  margin: "1rem 0.5rem 1rem 1rem",
+
+  variants: {
+    mobile: {
+      true: {
+        margin: "1rem 1rem 1rem 1rem",
+        width: "100%",
+      },
+    },
+  },
 });
 
 const RightContainer = styled("div", {
