@@ -1,7 +1,7 @@
 import { useDispatch } from "react-redux";
 import { actions } from "../../../../state/actions";
 import { useISelector } from "../../../../state/hooks";
-import { BaseInput } from "../../../Input/Input";
+import { Input } from "../../../Input/Input";
 import { InputContainer, Label } from "../Styles/Inputs";
 
 export const DescInput = () => {
@@ -22,11 +22,10 @@ const TextField = () => {
   };
 
   return (
-    <BaseInput
+    <Input
       transparent
       id="desc-input"
       type="text"
-      autoComplete="off"
       placeholder="E.g. sports cars (optional)"
       onChange={(e) => onInputChange(e.target.value)}
       value={newGarageState.inputs.desc}
