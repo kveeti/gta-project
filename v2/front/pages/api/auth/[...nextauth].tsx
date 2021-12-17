@@ -39,6 +39,6 @@ export default NextAuth({
   },
 
   theme: {
-    colorScheme: "dark",
+    colorScheme: "light",
   },
 });
