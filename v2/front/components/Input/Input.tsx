@@ -1,6 +1,6 @@
 import { blackA } from "@radix-ui/colors";
 import { MagnifyingGlassIcon } from "@radix-ui/react-icons";
-import { useRef } from "react";
+import { useRef, useState } from "react";
 import { styled } from "../../stitches.config";
 import { ClearIcon } from "./Icons/ClearIcon";
 import { SearchIcon } from "./Icons/SearchIcon";
@@ -53,6 +53,7 @@ const InputContainer = styled("div", {
   alignItems: "center",
   backgroundColor: "White",
   borderRadius: 4,
+  transition: "0.2s",
 
   "&:disabled": {
     boxShadow: `0 0 0 1px ${blackA.blackA7}`,
@@ -60,16 +61,17 @@ const InputContainer = styled("div", {
   },
 
   variants: {
+    focused: {
+      true: {
+        boxShadow: `0 0 0 2px ${blackA.blackA10}`,
+      },
+    },
+
     transparent: {
       true: {
-        boxShadow: `0 0 0 1px ${blackA.blackA10}`,
-        "&::placeholder": {
-          opacity: 0.5,
-        },
+        backgroundColor: "transparent",
 
-        "@media (hover: hover)": {
-          "&:focus": { boxShadow: `0 0 0 2px ${blackA.blackA10}` },
-        },
+        boxShadow: `0 0 0 1px ${blackA.blackA10}`,
       },
     },
 
@@ -85,9 +87,26 @@ const StyledInput = styled("input", {
   all: "unset",
   width: "100%",
   fontSize: 15,
+  padding: "0.5rem",
+  transition: "0.2s",
 
   "@media (min-width: 1000px)": {
     fontSize: 16,
+  },
+
+  variants: {
+    transparent: {
+      true: {
+        "&::placeholder": {
+          opacity: 0.5,
+        },
+      },
+    },
+    search: {
+      true: {
+        padding: "0",
+      },
+    },
   },
 });
 
@@ -99,6 +118,7 @@ interface InputProps {
   placeholder?: string;
   value: string;
   type: string;
+  ref?: any;
   onChange: any;
 }
 
@@ -111,20 +131,33 @@ export const Input = ({
   value,
   type,
   onChange,
+  ref,
 }: InputProps) => {
-  const inputRef = useRef<HTMLInputElement>(null);
+  const [contFocus, setContFocus] = useState(false);
+  const inputRef = useRef<HTMLInputElement>();
+
+  const isSearch = type === "search";
+
+  const onInputFocusChange = () => {
+    setContFocus(!contFocus);
+  };
 
   return (
-    <InputContainer white={white} transparent={transparent}>
-      {type === "search" && <SearchIcon />}
+    <InputContainer focused={contFocus} white={white} transparent={transparent}>
+      {isSearch && <SearchIcon />}
       <StyledInput
+        ref={inputRef || ref}
         id={id}
         type={type}
         onChange={(e) => onChange(e)}
         placeholder={placeholder}
         autoComplete="off"
         autoFocus={autoFocus}
+        onFocus={() => onInputFocusChange()}
+        onBlur={() => onInputFocusChange()}
         value={value}
+        transparent={transparent}
+        search={isSearch}
       />
       <ClearIcon input={inputRef} />
     </InputContainer>

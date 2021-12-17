@@ -5,7 +5,7 @@ import { styled } from "../../../stitches.config";
 const StyledIcon = styled("div", {
   all: "unset",
   display: "flex",
-  padding: "1rem",
+  padding: "0 1rem",
   cursor: "pointer",
 
   variants: {
@@ -23,7 +23,7 @@ interface Props {
 }
 
 export const ClearIcon = ({ hide, input }: Props) => {
-  const isInputEmpty = input.current?.value.length === 0;
+  const isInputEmpty = !input.current?.value;
 
   return (
     <StyledIcon
