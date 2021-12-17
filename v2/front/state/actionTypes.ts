@@ -1,4 +1,6 @@
 export const constants = {
+  SET_BREAKPOINT: "SET_BREAKPOINT",
+
   search: {
     SET_INPUT: "SEARCH__SET_INPUT",
 

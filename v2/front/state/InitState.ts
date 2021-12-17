@@ -2,6 +2,8 @@ import { ICar } from "../interfaces/Car";
 import { IGarage } from "../interfaces/Garage";
 
 export interface InitState {
+  bp: number;
+
   search: {
     input: {
       value: string;
@@ -95,6 +97,8 @@ export interface InitState {
 }
 
 export const initState: InitState = {
+  bp: 3,
+
   search: {
     input: {
       value: "",

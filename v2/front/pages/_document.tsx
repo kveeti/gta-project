@@ -5,7 +5,6 @@ export default () => {
   return (
     <Html lang="en">
       <Head>
-        <meta name="viewport" content="width=device-width, initial-scale=1" />
         <style id="stitches" dangerouslySetInnerHTML={{ __html: getCssText() }} />
 
         <link
