@@ -27,7 +27,7 @@ export const search = {
 
         const matchingGarages = garages.filter(
           (garage) =>
-            garage?.name.toLowerCase().includes(query) || garage?.desc.toLowerCase().includes(query)
+            garage.name.toLowerCase().includes(query) || garage.desc.toLowerCase().includes(query)
         );
 
         return res200Json(res, { garages: matchingGarages });
@@ -45,15 +45,15 @@ export const search = {
         const garages = simplifyGarages(await db.garages.get.all(auth.dbId));
         const cars = simplifyCars(await db.cars.get.all(auth.dbId));
 
-        const matchingGarages = garages?.filter(
-          (garage) => garage?.name.includes(query) || garage?.desc.includes(query)
+        const matchingGarages = garages.filter(
+          (garage) => garage.name.includes(query) || garage.desc.includes(query)
         );
 
-        const matchingCars = cars?.filter(
+        const matchingCars = cars.filter(
           (car) =>
-            car?.name.includes(query) ||
-            car?.garage.desc.includes(query) ||
-            car?.garage.name.includes(query)
+            car.name.includes(query) ||
+            car.garage.desc.includes(query) ||
+            car.garage.name.includes(query)
         );
 
         if (!matchingGarages && !matchingCars) return res200Json(res, emptyResponse);
@@ -84,7 +84,7 @@ export const search = {
       const cars = simplifyModelCars(await db.modelCars.get.all());
 
       let matchingCars = cars.filter(
-        (car) => car.name.includes(query) || car.manufacturer?.includes(query)
+        (car) => car.name.includes(query) || car.manufacturer.includes(query)
       );
 
       if (matchingCars.length > 3) matchingCars = matchingCars.slice(0, 3);
@@ -98,11 +98,15 @@ export const search = {
 
   modelGarages: async (req: Request, res: Response) => {
     const query = res.locals.q;
+    const auth = res.locals.auth as Auth;
 
     try {
-      const garages = simplifyModelGarages(await db.modelGarages.get.all());
+      const garages = simplifyModelGarages(
+        await db.modelGarages.get.all(),
+        await db.garages.get.all(auth.dbId)
+      );
 
-      let matchingGarages = garages?.filter((garage) => garage?.name.includes(query));
+      let matchingGarages = garages.filter((garage) => garage.name.includes(query));
 
       if (matchingGarages.length > 3) matchingGarages = matchingGarages.slice(0, 3);
 

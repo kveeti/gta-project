@@ -6,29 +6,25 @@ import {
   SimplifiedUser,
 } from "../interfaces/Simplified";
 import { IdCar } from "../models/car";
-import { IdGarage } from "../models/garage";
+import { GarageDoc, IdGarage } from "../models/garage";
 import { IdModelCar } from "../models/ModelCar";
 import { IdModelGarage } from "../models/ModelGarage";
 import { IdUser } from "../models/user";
-import { isModelCar, isModelGarage, isPopulatedGarage, isPopulatedUser } from "./typeguards";
+import { isIdModelGarage, isModelCar, isPopulatedGarage, isPopulatedUser } from "./typeguards";
 
 export const simplifyCars = (cars: IdCar[]) => {
   const list = cars.map((car) => {
     if (!isModelCar(car.modelCar)) {
-      console.log(car, "no model car");
-      return null;
+      throw new Error("couldn't simplify owned cars, car.modelCar wasn't populated");
     }
     if (!isPopulatedGarage(car.garage)) {
-      console.log(car, "no populated garage");
-      return null;
+      throw new Error("couldn't simplify owned cars, car.garage wasn't populated");
     }
-    if (!isModelGarage(car.garage.modelGarage)) {
-      console.log(car, "no model garage");
-      return null;
+    if (!isIdModelGarage(car.garage.modelGarage)) {
+      throw new Error("couldn't simplify owned cars, car.garage.modelGarage wasn't populated");
     }
     if (!isPopulatedUser(car.owner)) {
-      console.log(car, "no populated owner");
-      return null;
+      throw new Error("couldn't simplify owned cars, car.owner wasn't populated");
     }
 
     const simplifiedCar: SimplifiedCar = {
@@ -49,11 +45,6 @@ export const simplifyCars = (cars: IdCar[]) => {
     return simplifiedCar;
   });
 
-  if (list.includes(null)) {
-    console.log("couldnt simplify cars");
-    return null;
-  }
-
   return list;
 };
 
@@ -65,17 +56,16 @@ const getClass = (original: string) => {
 
 export const simplifyGarages = (garages: IdGarage[]) => {
   const list = garages.map((garage) => {
-    if (!isModelGarage(garage.modelGarage)) {
-      console.log(garage, "no model garage");
-      return null;
+    if (!isIdModelGarage(garage.modelGarage)) {
+      throw new Error("couldn't simplify owned garages, modelGarage wasn't populated");
     }
     if (!isPopulatedUser(garage.owner)) {
-      console.log(garage, "no populated owner");
-      return null;
+      throw new Error("couldn't simplify owned garages, owner wasn't populated");
     }
 
     const simplifiedGarage: SimplifiedGarage = {
       id: garage._id,
+      modelId: garage.modelGarage._id,
       name: garage.modelGarage.name,
       desc: garage.desc,
       capacity: garage.modelGarage.capacity,
@@ -86,11 +76,6 @@ export const simplifyGarages = (garages: IdGarage[]) => {
     };
     return simplifiedGarage;
   });
-
-  if (list.includes(null)) {
-    console.log("couldnt simplify garages");
-    return null;
-  }
 
   return list;
 };
@@ -125,17 +110,32 @@ export const simplifyModelCars = (cars: IdModelCar[]) => {
   return simplified;
 };
 
-export const simplifyModelGarages = (garages: IdModelGarage[]) => {
+export const simplifyModelGarages = (garages: IdModelGarage[], ownedGarages: GarageDoc[]) => {
   const simplified = garages.map((garage) => {
     const simplified: SimpliefiedModelGarage = {
       id: garage._id,
       name: garage.name,
       capacity: garage.capacity,
       type: garage.type,
+      alreadyOwned: isAlreadyOwned(garage, ownedGarages),
     };
 
     return simplified;
   });
 
   return simplified;
+};
+
+const isAlreadyOwned = (modelGarage: IdModelGarage, ownedGarages: GarageDoc[]) => {
+  if (!ownedGarages.length) return false;
+  const res = ownedGarages.some((ownedGarage) => {
+    if (!isIdModelGarage(ownedGarage.modelGarage))
+      throw new Error(
+        "failed simplifying model garages, couldnt determine if garage was already owned"
+      );
+
+    return ownedGarage.modelGarage._id === modelGarage._id;
+  });
+
+  return res;
 };

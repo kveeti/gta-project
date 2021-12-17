@@ -18,6 +18,7 @@ export interface SimplifiedCar {
 
 export interface SimplifiedGarage {
   id: ObjectId;
+  modelId: ObjectId;
   name: string;
   desc: string;
   capacity: number;
@@ -50,4 +51,5 @@ export interface SimpliefiedModelGarage {
   name: string;
   capacity: number;
   type: string;
+  alreadyOwned: boolean;
 }

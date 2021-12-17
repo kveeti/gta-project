@@ -1,6 +1,6 @@
 import { PopulatedGarage } from "../models/garage";
 import { ModelCar } from "../models/ModelCar";
-import { ModelGarage } from "../models/ModelGarage";
+import { IdModelGarage } from "../models/ModelGarage";
 import { PopulatedUser } from "../models/user";
 
 export const isModelCar = (obj: ModelCar | any): obj is ModelCar => {
@@ -11,7 +11,7 @@ export const isPopulatedGarage = (obj: PopulatedGarage | any): obj is PopulatedG
   return obj && obj.desc !== undefined && typeof obj.desc === "string";
 };
 
-export const isModelGarage = (obj: ModelGarage | any): obj is ModelGarage => {
+export const isIdModelGarage = (obj: IdModelGarage | any): obj is IdModelGarage => {
   return obj && obj.name && typeof obj.name === "string";
 };
 

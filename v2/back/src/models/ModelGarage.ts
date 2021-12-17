@@ -1,4 +1,5 @@
 import mongoose, { ObjectId } from "mongoose";
+import { SimpliefiedModelGarage } from "../interfaces/Simplified";
 
 export interface ModelGarage {
   name: string;
