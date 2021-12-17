@@ -18,8 +18,10 @@ const SaveButton = () => {
     dispatch(actions.newGarage.save(newGarageState.chosenGarage.id, newGarageState.inputs.desc));
   };
 
+  const saving = newGarageState.api.saving;
+
   return (
-    <StyledButton green onClick={() => onClick()} disabled={!newGarageState.chosenGarage}>
+    <StyledButton green onClick={() => onClick()} disabled={!newGarageState.chosenGarage || saving}>
       Save
     </StyledButton>
   );

@@ -27,7 +27,7 @@ const TextField = () => {
       id="desc-input"
       type="text"
       autoComplete="off"
-      placeholder="e.g. sports cars (optional)"
+      placeholder="E.g. sports cars (optional)"
       onChange={(e) => onInputChange(e.target.value)}
       value={newGarageState.inputs.desc}
     />

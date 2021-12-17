@@ -7,12 +7,12 @@ import { Garage } from "../../Garages/Garage";
 import { InputContainer, Label } from "../Styles/Inputs";
 
 export const GarageInput = () => {
-  const newCarState = useISelector((state) => state.newCar);
+  const newGarageState = useISelector((state) => state.newGarage);
 
   return (
     <InputContainer>
       <Label htmlFor="garage-input">Garage</Label>
-      {newCarState.chosenGarage ? <ChosenGarage /> : <TextField />}
+      {newGarageState.chosenGarage ? <ChosenGarage /> : <TextField />}
     </InputContainer>
   );
 };
@@ -20,11 +20,11 @@ export const GarageInput = () => {
 const ChosenGarage = () => {
   const dispatch = useDispatch();
 
-  const newCarState = useISelector((state) => state.newCar);
+  const newGarageState = useISelector((state) => state.newGarage);
 
-  const onClick = () => dispatch(actions.newCar.set.chosen.garage(null));
+  const onClick = () => dispatch(actions.newGarage.set.chosenGarage(null));
 
-  return <Garage garage={newCarState.chosenGarage} onClick={() => onClick()} wide />;
+  return <Garage garage={newGarageState.chosenGarage} onClick={() => onClick()} wide />;
 };
 
 const TextField = () => {
