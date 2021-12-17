@@ -33,7 +33,6 @@ export const SearchBar = () => {
     <Input
       white
       autoFocus
-      id="garage-input"
       type="search"
       placeholder="Search for garages/cars..."
       onChange={(e) => onSearchTermChange(e.target.value)}
