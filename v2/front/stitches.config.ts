@@ -3,7 +3,7 @@ import { createStitches } from "@stitches/react";
 
 export const { styled, getCssText } = createStitches({
   media: {
-    bp2: "(min-width: 1000px)",
+    bp2: "(min-width: 900px)",
   },
   theme: {
     colors: {
