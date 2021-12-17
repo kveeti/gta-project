@@ -58,7 +58,9 @@ const TextField = () => {
       type="text"
       autoComplete="off"
       autoFocus
-      placeholder={me.garages.length ? `${me.garage[getRand()].name}` : "Popular street, unit 2"}
+      placeholder={
+        me.garages.length ? `${me.garage[getRand()].name}` : "E.g. Popular street, unit 2"
+      }
       onChange={(e) => onInputChange(e.target.value)}
       value={newGarageState.inputs.garage}
     />
