@@ -15,4 +15,5 @@ export interface ModelGarage {
   name: string;
   capacity: number;
   type: string;
+  alreadyOwned: boolean;
 }
