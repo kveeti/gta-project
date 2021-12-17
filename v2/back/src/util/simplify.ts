@@ -131,10 +131,10 @@ const isAlreadyOwned = (modelGarage: IdModelGarage, ownedGarages: GarageDoc[]) =
   const res = ownedGarages.some((ownedGarage) => {
     if (!isIdModelGarage(ownedGarage.modelGarage))
       throw new Error(
-        "failed simplifying model garages, couldnt determine if garage was already owned"
+        "failed simplifying model garages, ownedGarage.modelGarage was not populated"
       );
 
-    return ownedGarage.modelGarage._id === modelGarage._id;
+    return "" + ownedGarage.modelGarage._id === "" + modelGarage._id;
   });
 
   return res;
