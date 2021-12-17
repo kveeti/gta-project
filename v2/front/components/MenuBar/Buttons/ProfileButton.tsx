@@ -1,9 +1,13 @@
 import { PersonIcon } from "@radix-ui/react-icons";
-import { signIn } from "next-auth/react";
+import { signIn, signOut, useSession } from "next-auth/react";
 import { MenubarBtn } from "../Buttons/Styles";
 
 export const ProfileButton = () => {
+  const { data } = useSession();
+
   const onClick = () => {
+    if (data) return signOut();
+
     signIn();
   };
 
