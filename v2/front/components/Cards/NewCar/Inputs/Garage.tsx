@@ -2,7 +2,7 @@ import { useState } from "react";
 import { useDispatch } from "react-redux";
 import { actions } from "../../../../state/actions";
 import { useISelector } from "../../../../state/hooks";
-import { BaseInput } from "../../../Input/Input";
+import { Input } from "../../../Input/Input";
 import { Garage } from "../../Garages/Garage";
 import { InputContainer, Label } from "../Styles/Inputs";
 
@@ -52,11 +52,10 @@ const TextField = () => {
   };
 
   return (
-    <BaseInput
+    <Input
       transparent
       id="garage-input"
       type="text"
-      autoComplete="off"
       placeholder={
         me.garages.length ? `${me.garage[getRand()].name}` : "E.g. Popular street, unit 2"
       }

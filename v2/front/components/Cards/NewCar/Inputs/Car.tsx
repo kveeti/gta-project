@@ -2,7 +2,7 @@ import { useState } from "react";
 import { useDispatch } from "react-redux";
 import { actions } from "../../../../state/actions";
 import { useISelector } from "../../../../state/hooks";
-import { BaseInput } from "../../../Input/Input";
+import { Input } from "../../../Input/Input";
 import Car from "../../Cars/Car";
 import { InputContainer, Label } from "../Styles/Inputs";
 
@@ -46,13 +46,12 @@ const TextField = () => {
   };
 
   return (
-    <BaseInput
+    <Input
       transparent
       id="car-input"
       type="text"
-      autoComplete="off"
       autoFocus
-      placeholder="8f drafter"
+      placeholder="E.g 8f drafter"
       onChange={(e) => onInputChange(e.target.value)}
       value={newCarState.inputs.car}
     />
