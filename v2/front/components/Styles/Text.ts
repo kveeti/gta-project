@@ -4,6 +4,14 @@ export const Text = styled("p", {
   fontSize: "1rem",
   margin: "0",
   padding: "0",
+
+  variants: {
+    lessOpaque: {
+      true: {
+        opacity: 0.3,
+      },
+    },
+  },
 });
 
 export const Title = styled("h1", {

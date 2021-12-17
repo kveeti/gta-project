@@ -4,6 +4,7 @@ import { MoveBtn } from "./Buttons/MoveBtn";
 import { gray } from "@radix-ui/colors";
 import { styled } from "../../stitches.config";
 import { CheckedCars } from "./CheckedCars/CheckedCars";
+import { Text } from "../Styles/Text";
 
 export const StyledSidebar = styled("div", {
   maxWidth: "430px",
@@ -52,7 +53,7 @@ export const Sidebar = () => {
         <MoveBtn />
       </Buttons>
       <LowerContainer text={!showCheckedCars}>
-        {showCheckedCars ? <CheckedCars /> : "Selected cars will appear here"}
+        {showCheckedCars ? <CheckedCars /> : <Text lessOpaque>Selected cars will appear here</Text>}
       </LowerContainer>
     </StyledSidebar>
   );
