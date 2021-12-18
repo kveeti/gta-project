@@ -6,8 +6,9 @@ export const Main = styled("main", {
   overflowX: "hidden",
   overflowY: "auto",
 
-  "@mobile": {
-    padding: "1rem",
+  "@tablet": {
+    padding: "0.5rem",
+    height: "calc(100vh - 5rem)",
   },
 });
 
@@ -20,7 +21,20 @@ export const Content = styled("div", {
   gridTemplateColumns: "6fr 2fr",
 
   "@tablet": {
+    height: "calc(100vh - 4rem)",
+  },
+
+  "@mobile": {
     gridTemplateColumns: "auto",
+  },
+
+  variants: {
+    single: {
+      // only used in new sites on tablet bp
+      true: {
+        gridTemplateColumns: "auto",
+      },
+    },
   },
 });
 
@@ -34,4 +48,9 @@ export const SidebarContainer = styled("div", {
   padding: "1rem 1rem 1rem 0.5rem",
   minWidth: "330px",
   height: "calc(100vh - 7rem)",
+
+  "@tablet": {
+    padding: "0.5rem 0.5rem 0.5rem 0rem",
+    height: "calc(100vh - 5rem)",
+  },
 });

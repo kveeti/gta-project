@@ -40,7 +40,7 @@ export const SignInCard = () => {
     <Wrapper>
       <StyledCard>
         <Title>Sign in</Title>
-        <Desc>Sign in with your socials or get a temporary test account.</Desc>
+        <Desc>Sign in or get a temporary test account.</Desc>
         <ButtonContainer>
           <SigninButton />
           <TestButton />

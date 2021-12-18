@@ -24,6 +24,7 @@ export const LowerContainer = styled("div", {
   flexDirection: "column",
   height: "100%",
   padding: "0.5rem",
+  overflowY: "auto",
 
   variants: {
     text: {

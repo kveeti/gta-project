@@ -11,6 +11,10 @@ const MenubarContainer = styled("nav", {
   top: "0px",
   backgroundColor: "#212121",
   zIndex: "1",
+
+  "@tablet": {
+    height: "4rem",
+  },
 });
 
 const MenubarContent = styled("div", {
@@ -19,10 +23,18 @@ const MenubarContent = styled("div", {
   display: "grid",
   gridTemplateColumns: "6fr 2fr",
   height: "100%",
+
+  "@mobile": {
+    gridTemplateColumns: "10fr 1fr",
+  },
 });
 
 const LeftContainer = styled("div", {
   padding: "1rem 0.5rem 1rem 1rem",
+
+  "@tablet": {
+    padding: "0.5rem 0rem 0.5rem 0.5rem",
+  },
 });
 
 const RightContainer = styled("div", {
@@ -32,6 +44,16 @@ const RightContainer = styled("div", {
   gap: "2rem",
   alignItems: "center",
   minWidth: "330px",
+
+  "@tablet": {
+    minWidth: "340px",
+    padding: "0.5rem 0.5rem 0.5rem 0rem",
+  },
+
+  "@mobile": {
+    minWidth: "58px",
+    padding: 0,
+  },
 });
 
 const LeftButtons = styled("div", {
@@ -39,7 +61,7 @@ const LeftButtons = styled("div", {
   gap: "0.5rem",
 });
 
-export const MenuBar = () => {
+export const MenuBar = ({ mobile }) => {
   return (
     <MenubarContainer>
       <MenubarContent>
@@ -48,12 +70,18 @@ export const MenuBar = () => {
         </LeftContainer>
 
         <RightContainer>
-          <LeftButtons>
+          {mobile ? (
             <HomeButton />
-            <NewCarButton />
-            <NewGarageButton />
-          </LeftButtons>
-          <ProfileButton />
+          ) : (
+            <>
+              <LeftButtons>
+                <HomeButton />
+                <NewCarButton />
+                <NewGarageButton />
+              </LeftButtons>
+              <ProfileButton />
+            </>
+          )}
         </RightContainer>
       </MenubarContent>
     </MenubarContainer>

@@ -1,7 +1,7 @@
-import { styled } from "../../../stitches.config";
-import { BaseBtn } from "../../Styles/Buttons";
+import { styled } from "../../stitches.config";
 
-export const MenubarBtn = styled(BaseBtn, {
+export const IconContainer = styled("div", {
+  all: "unset",
   display: "inline-flex",
   alignItems: "center",
   justifyContent: "center",

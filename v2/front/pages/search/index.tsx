@@ -10,6 +10,7 @@ import { ICar } from "../../interfaces/Car";
 const SearchPage = () => {
   const cars = useISelector((state) => state.search.cars);
   const garages = useISelector((state) => state.search.garages);
+  const state = useISelector((state) => state);
 
   const showCars = cars.length > 0;
   const showGarages = garages.length > 0;

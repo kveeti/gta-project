@@ -1,5 +1,4 @@
 import { blackA } from "@radix-ui/colors";
-import { MagnifyingGlassIcon } from "@radix-ui/react-icons";
 import { useRef, useState } from "react";
 import { styled } from "../../stitches.config";
 import { ClearIcon } from "./Icons/ClearIcon";

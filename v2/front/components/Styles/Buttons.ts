@@ -1,38 +1,6 @@
 import { blackA, blue, gray, green, red } from "@radix-ui/colors";
 import { styled } from "../../stitches.config";
 
-export const FloatingButton = styled("button", {
-  position: "fixed",
-  display: "flex",
-  appearance: "none",
-  border: "none",
-  justifyContent: "center",
-  alignItems: "center",
-  alignContent: "center",
-  cursor: "pointer",
-  backgroundColor: "white",
-  color: "black",
-  width: "60px",
-  height: "60px",
-  borderRadius: "50%",
-
-  variants: {
-    right: {
-      true: {
-        bottom: "40px",
-        right: "40px",
-      },
-    },
-
-    left: {
-      true: {
-        bottom: "40px",
-        left: "40px",
-      },
-    },
-  },
-});
-
 export const BaseBtn = styled("button", {
   all: "unset",
   appearance: "none",
