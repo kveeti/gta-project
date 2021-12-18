@@ -1,3 +1,3 @@
 import { StyledButton } from "./Styles";
 
-export const TestButton = () => <StyledButton blue>Test account</StyledButton>;
+export const TestButton = () => <StyledButton gray>Test account</StyledButton>;

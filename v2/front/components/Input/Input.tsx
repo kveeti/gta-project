@@ -15,7 +15,7 @@ export const BaseInput = styled("input", {
   transition: "0.2s",
   color: "Black",
 
-  "@media (min-width: 1000px)": {
+  "@tablet": {
     fontSize: 16,
   },
 

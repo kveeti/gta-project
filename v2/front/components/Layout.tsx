@@ -14,12 +14,14 @@ const Layout = ({ children }) => {
   const dispatch = useDispatch();
   const state = useISelector((state) => state);
   const mobile = state.bp === 1;
+  const tablet = state.bp === 2;
 
   useEffect(() => {
     const handleResize = () => {
       let bp = 3;
 
-      if (window.innerWidth < 900) bp = 1;
+      if (window.innerWidth < 690) bp = 1;
+      if (window.innerWidth < 1050) bp = 2;
 
       if (state.bp !== bp) dispatch(actions.bp.set(bp));
     };
@@ -40,9 +42,11 @@ const Layout = ({ children }) => {
       <MenuBar />
       <Content>
         <Main>{children}</Main>
-        <SidebarContainer>
-          <Sidebar />
-        </SidebarContainer>
+        {!mobile && !tablet && (
+          <SidebarContainer>
+            <Sidebar />
+          </SidebarContainer>
+        )}
       </Content>
     </Section>
   );

@@ -8,7 +8,6 @@ import { Text } from "../Styles/Text";
 
 export const StyledSidebar = styled("div", {
   height: "100%",
-
   boxShadow: "0 1px 3px 0 rgb(0 0 0 / 20%)",
 });
 

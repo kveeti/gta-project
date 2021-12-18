@@ -1,7 +1,7 @@
 import { styled } from "../../stitches.config";
 
 export const Text = styled("p", {
-  fontSize: "0.9rem",
+  fontSize: "0.8rem",
   margin: "0",
   padding: "0",
 
@@ -40,12 +40,11 @@ export const Title = styled("h1", {
 
 export const Desc = styled("p", {
   all: "unset",
-  fontSize: "0.8rem",
-  paddingTop: "1rem",
-  paddingBottom: "2rem",
+  fontSize: "1.1rem",
+  paddingBottom: "1rem",
 
   "@grid1to2": {
-    fontSize: "1rem",
+    fontSize: "1.1rem",
   },
 
   "@grid2to3": {

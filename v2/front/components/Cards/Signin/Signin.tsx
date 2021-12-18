@@ -1,5 +1,4 @@
 import { styled } from "@stitches/react";
-import { BaseBtn } from "../../Styles/Buttons";
 import { Desc, Title } from "../../Styles/Text";
 import { SigninButton } from "./Buttons/SigninButton";
 import { TestButton } from "./Buttons/TestButton";
@@ -23,6 +22,8 @@ const StyledCard = styled("div", {
   margin: "1rem",
   marginBottom: "10rem",
   backgroundColor: "White",
+  gap: "1rem",
+  maxWidth: "380px",
 });
 
 const ButtonContainer = styled("div", {

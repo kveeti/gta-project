@@ -1,5 +1,5 @@
 import { styled } from "../../../stitches.config";
-import { Text } from "../../Styles/Text";
+import { Desc } from "../../Styles/Text";
 import SaveButton from "./Buttons/Save";
 import CarInput from "./Inputs/Car";
 import GarageInput from "./Inputs/Garage";
@@ -9,9 +9,8 @@ import MatchingGarages from "./Matching/MatchingGarages";
 const StyledCard = styled("div", {
   display: "flex",
   flexDirection: "column",
-  width: "100%",
   maxWidth: "600px",
-  marginTop: "1rem",
+  margin: "0 auto",
   padding: "1rem",
   borderRadius: 4,
   boxShadow: "0 1px 3px 0 rgb(0 0 0 / 20%)",
@@ -31,15 +30,11 @@ const Title = styled("p", {
   fontWeight: 500,
 });
 
-const StyledText = styled(Text, {
-  paddingBottom: "1rem",
-});
-
 const NewCarCard = () => {
   return (
     <StyledCard>
       <Title>New Car</Title>
-      <StyledText>Save a new car here.</StyledText>
+      <Desc>Save a new car here.</Desc>
 
       <CarInput />
       <MatchingCars />
