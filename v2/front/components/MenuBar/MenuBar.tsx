@@ -46,8 +46,8 @@ const RightContainer = styled("div", {
   minWidth: "330px",
 
   "@tablet": {
-    minWidth: "340px",
-    padding: "0.5rem 0.5rem 0.5rem 0rem",
+    minWidth: "330px",
+    padding: "0.5rem",
   },
 
   "@mobile": {
