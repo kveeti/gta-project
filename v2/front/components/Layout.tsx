@@ -42,8 +42,6 @@ const Layout = ({ children }) => {
   const location = window.location.pathname;
   const newSite = location.includes("new");
 
-  console.log(tablet);
-
   let showSideBar;
 
   if (newSite) {
