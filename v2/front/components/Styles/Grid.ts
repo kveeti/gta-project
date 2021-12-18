@@ -2,16 +2,25 @@ import { styled } from "../../stitches.config";
 
 export const Grid = styled("div", {
   display: "grid",
-  gridTemplateColumns: "repeat(auto-fill,minmax(250px, 1fr))",
+  gridTemplateColumns: "auto",
   gap: "0.5rem",
-  padding: "1rem 0.5rem 1rem 1rem",
-  width: "100%",
+
+  "@grid1to2": {
+    gridTemplateColumns: "auto auto",
+  },
+
+  "@grid2to3": {
+    gridTemplateColumns: "auto auto auto",
+  },
+
+  "@grid3to4": {
+    gridTemplateColumns: "auto auto auto auto",
+  },
 
   variants: {
     single: {
       true: {
         gridTemplateColumns: "auto",
-        padding: 0,
       },
     },
   },

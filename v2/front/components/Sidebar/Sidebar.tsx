@@ -7,12 +7,7 @@ import { CheckedCars } from "./CheckedCars/CheckedCars";
 import { Text } from "../Styles/Text";
 
 export const StyledSidebar = styled("div", {
-  maxWidth: "430px",
-  width: "100%",
-  height: "calc(100vh - 7rem)",
-  overflowX: "hidden",
-  overflowY: "auto",
-  margin: "1rem 1rem 1rem 0.5rem",
+  height: "100%",
 
   boxShadow: "0 1px 3px 0 rgb(0 0 0 / 20%)",
 });

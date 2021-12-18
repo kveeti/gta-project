@@ -4,6 +4,10 @@ import { createStitches } from "@stitches/react";
 export const { styled, getCssText } = createStitches({
   media: {
     bp2: "(min-width: 900px)",
+
+    grid3to4: "(min-width: 1450px)",
+    grid2to3: "(min-width: 1180px)",
+    grid1to2: "(min-width: 830px)",
   },
   theme: {
     colors: {
@@ -15,6 +19,15 @@ export const { styled, getCssText } = createStitches({
     },
     fonts: {
       font: "Open Sans",
+    },
+    sizes: {
+      maxWidth: "1800px",
+
+      fullRight: "480px",
+      fullLeft: "calc($maxWidth - $fullRight)",
+
+      sRight: "400px",
+      sLeft: "calc($maxWidth - $sRight)",
     },
   },
 });

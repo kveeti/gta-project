@@ -4,7 +4,7 @@ import { useDispatch } from "react-redux";
 import { actions } from "../state/actions";
 import { useISelector } from "../state/hooks";
 import { SignInCard } from "./Cards/Signin/Signin";
-import { Content, Main, Section } from "./Containers/Containers";
+import { Content, Main, Section, SidebarContainer } from "./Containers/Containers";
 import { MenuBar } from "./MenuBar/MenuBar";
 import { Sidebar } from "./Sidebar/Sidebar";
 
@@ -39,8 +39,10 @@ const Layout = ({ children }) => {
     <Section>
       <MenuBar />
       <Content>
-        <Main center>{children}</Main>
-        {!mobile && <Sidebar />}
+        <Main>{children}</Main>
+        <SidebarContainer>
+          <Sidebar />
+        </SidebarContainer>
       </Content>
     </Section>
   );

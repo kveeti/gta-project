@@ -10,38 +10,28 @@ const MenubarContainer = styled("nav", {
   position: "sticky",
   top: "0px",
   backgroundColor: "#212121",
-  display: "flex",
   zIndex: "1",
 });
 
 const MenubarContent = styled("div", {
-  display: "flex",
   margin: "0 auto",
   maxWidth: "1800px",
-  width: "100%",
+  display: "grid",
+  gridTemplateColumns: "6fr 2fr",
+  height: "100%",
 });
 
 const LeftContainer = styled("div", {
-  width: "calc(100% - 478px)",
-  display: "flex",
-  margin: "1rem 0.5rem 1rem 1rem",
-
-  variants: {
-    mobile: {
-      true: {
-        margin: "1rem 1rem 1rem 1rem",
-        width: "100%",
-      },
-    },
-  },
+  padding: "1rem 0.5rem 1rem 1rem",
 });
 
 const RightContainer = styled("div", {
   display: "flex",
-  justifyContent: "space-between",
   padding: "1rem 1rem 1rem 0.5rem",
-  maxWidth: "430px",
-  width: "100%",
+  justifyContent: "space-between",
+  gap: "2rem",
+  alignItems: "center",
+  minWidth: "330px",
 });
 
 const LeftButtons = styled("div", {
