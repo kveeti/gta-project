@@ -16,10 +16,10 @@ export const createApp = () => {
 
   app.use(verifyToken);
 
-  app.use("/gta/search", search);
-  app.use("/gta/cars", cars);
-  app.use("/gta/garages", garages);
-  app.use("/gta/users", users);
+  app.use("/gta-api/search", search);
+  app.use("/gta-api/cars", cars);
+  app.use("/gta-api/garages", garages);
+  app.use("/gta-api/users", users);
 
   return app;
 };

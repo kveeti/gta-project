@@ -1,6 +1,6 @@
 import mongoose from "mongoose";
 import { createApp } from "./app";
-import { mongoUri, port } from "./config/envs";
+import { mongoUri } from "./config/envs";
 
 (async () => {
   await mongoose.connect(mongoUri);
@@ -8,7 +8,7 @@ import { mongoUri, port } from "./config/envs";
 
   const app = createApp();
 
-  app.listen(port, () => {
-    console.log(`Api listening on port ${port}`);
+  app.listen(5000, () => {
+    console.log(`Api listening on port 5000`);
   });
 })();

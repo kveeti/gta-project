@@ -1,0 +1,14 @@
+version: '3'
+services:
+  gta-back:
+    build: .
+    image: gta-back
+    container_name: gta-back
+    restart: unless-stopped
+    ports:
+      - "6000:5000"
+    volumes:
+      - type: bind
+        source: .
+        target: /app
+        read_only: true
