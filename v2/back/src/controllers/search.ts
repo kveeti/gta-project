@@ -84,7 +84,7 @@ export const search = {
       const cars = simplifyModelCars(await db.modelCars.get.all());
 
       let matchingCars = cars.filter(
-        (car) => car.name.includes(query) || car.manufacturer.includes(query)
+        (car) => car.name?.includes(query) || car.manufacturer?.includes(query)
       );
 
       if (matchingCars.length > 3) matchingCars = matchingCars.slice(0, 3);
