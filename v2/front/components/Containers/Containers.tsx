@@ -30,7 +30,7 @@ export const Content = styled("div", {
 
   variants: {
     single: {
-      // only used in new sites on tablet bp
+      // only used in "new" sites on tablet bp
       true: {
         gridTemplateColumns: "auto",
       },

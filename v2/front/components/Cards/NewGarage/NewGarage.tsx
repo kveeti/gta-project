@@ -8,7 +8,6 @@ import MatchingGarages from "./Matching/MatchingGarages";
 const StyledCard = styled("div", {
   display: "flex",
   flexDirection: "column",
-  width: "100%",
   maxWidth: "600px",
   margin: "0 auto",
   padding: "1rem",

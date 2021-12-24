@@ -1,7 +1,7 @@
 import { useDispatch } from "react-redux";
 import { actions } from "../../../state/actions";
 import { useISelector } from "../../../state/hooks";
-import { CarGrid } from "../../Cards/Cars/Grid";
+import { CarGrid } from "../../Cards/Cars/CarGrids";
 
 export const CheckedCars = () => {
   const checkedCars = useISelector((state) => state.checked.cars);

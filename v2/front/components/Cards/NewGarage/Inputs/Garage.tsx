@@ -3,15 +3,16 @@ import { useDispatch } from "react-redux";
 import { actions } from "../../../../state/actions";
 import { useISelector } from "../../../../state/hooks";
 import { Input } from "../../../Input/Input";
+import { InputContainer } from "../../../Styles/New-cards";
 import { Garage } from "../../Garages/Garage";
-import { InputContainer, Label } from "../Styles/Inputs";
+import { StyledLabel } from "../Styles";
 
 export const GarageInput = () => {
   const newGarageState = useISelector((state) => state.newGarage);
 
   return (
     <InputContainer>
-      <Label htmlFor="garage-input">Garage</Label>
+      <StyledLabel htmlFor="garage-input">Garage</StyledLabel>
       {newGarageState.chosenGarage ? <ChosenGarage /> : <TextField />}
     </InputContainer>
   );
@@ -29,15 +30,9 @@ const ChosenGarage = () => {
 
 const TextField = () => {
   const dispatch = useDispatch();
-  const me = useISelector((state) => state.users.me);
   const newGarageState = useISelector((state) => state.newGarage);
 
   const [timer, setTimer] = useState(null);
-
-  const getRand = () => {
-    const rand = Math.floor(Math.random() * me.garages.length);
-    return rand;
-  };
 
   const onInputChange = (value: string) => {
     dispatch(actions.newGarage.set.input.garage(value));
@@ -57,9 +52,7 @@ const TextField = () => {
       id="garage-input"
       type="text"
       autoFocus
-      placeholder={
-        me.garages.length ? `${me.garage[getRand()].name}` : "E.g. Popular street, unit 2"
-      }
+      placeholder={"E.g. Popular street, unit 2"}
       onChange={(e) => onInputChange(e.target.value)}
       value={newGarageState.inputs.garage}
     />

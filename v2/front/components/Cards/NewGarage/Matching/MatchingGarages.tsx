@@ -2,19 +2,15 @@ import { useDispatch } from "react-redux";
 import { IGarage } from "../../../../interfaces/Garage";
 import { actions } from "../../../../state/actions";
 import { useISelector } from "../../../../state/hooks";
-import { styled } from "../../../../stitches.config";
-import { GarageGrid } from "../../Garages/Grid";
-import { Label } from "../Styles/Inputs";
-
-const Container = styled("div", {
-  display: "flex",
-  gap: "1.1rem",
-});
+import { MatchingContainer } from "../../../Styles/New-cards";
+import { NewCardGarageGrid } from "../../Garages/GarageGrids";
+import { StyledLabel } from "../Styles";
 
 const MatchingGarages = () => {
   const dispatch = useDispatch();
 
   const newGarageState = useISelector((state) => state.newGarage);
+  const bp = useISelector((state) => state.bp);
 
   const onGarageClick = (garage: IGarage) => {
     if (garage.full) return;
@@ -27,14 +23,13 @@ const MatchingGarages = () => {
   if (!newGarageState.inputs.garage) return null;
 
   return (
-    <Container>
-      <Label />
-      <GarageGrid
-        single
+    <MatchingContainer>
+      {bp > 1 && <StyledLabel />}
+      <NewCardGarageGrid
         garages={newGarageState.garages.matching}
         onClick={(garage) => onGarageClick(garage)}
       />
-    </Container>
+    </MatchingContainer>
   );
 };
 

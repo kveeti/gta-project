@@ -2,12 +2,13 @@ import { useDispatch } from "react-redux";
 import { actions } from "../../../../state/actions";
 import { useISelector } from "../../../../state/hooks";
 import { Input } from "../../../Input/Input";
-import { InputContainer, Label } from "../Styles/Inputs";
+import { InputContainer } from "../../../Styles/New-cards";
+import { StyledLabel } from "../Styles";
 
 export const DescInput = () => {
   return (
     <InputContainer>
-      <Label htmlFor="desc-input">Description</Label>
+      <StyledLabel htmlFor="desc-input">Description</StyledLabel>
       <TextField />
     </InputContainer>
   );

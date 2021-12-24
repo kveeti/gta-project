@@ -2,32 +2,28 @@ import { useDispatch } from "react-redux";
 import { ICar } from "../../../../interfaces/Car";
 import { actions } from "../../../../state/actions";
 import { useISelector } from "../../../../state/hooks";
-import { styled } from "../../../../stitches.config";
-import { CarGrid } from "../../Cars/Grid";
-import { Label } from "../Styles/Inputs";
-
-const Container = styled("div", {
-  display: "flex",
-  gap: "1.1rem",
-});
+import { MatchingContainer } from "../../../Styles/New-cards";
+import { NewCardCarGrid } from "../../Cars/CarGrids";
+import { StyledLabel } from "../Styles";
 
 const MatchingCars = () => {
   const dispatch = useDispatch();
 
   const newCarState = useISelector((state) => state.newCar);
+  const bp = useISelector((state) => state.bp);
 
   const onCarClick = (car: ICar) => {
     dispatch(actions.newCar.set.chosen.car(car));
   };
 
-  // if a car has been chosen or there are no matching cars, don't show the cars
-  if (!newCarState.cars.matching.length || newCarState.chosenCar) return null;
+  if (!newCarState.cars.matching.length || newCarState.chosenCar || !newCarState.inputs.car)
+    return null;
 
   return (
-    <Container>
-      <Label />
-      <CarGrid single cars={newCarState.cars.matching} onClick={(car) => onCarClick(car)} />
-    </Container>
+    <MatchingContainer>
+      {bp > 1 && <StyledLabel />}
+      <NewCardCarGrid cars={newCarState.cars.matching} onClick={(car) => onCarClick(car)} />
+    </MatchingContainer>
   );
 };
 
