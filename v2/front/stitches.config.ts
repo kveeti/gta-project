@@ -23,14 +23,5 @@ export const { styled, getCssText } = createStitches({
     fonts: {
       font: "Open Sans",
     },
-    sizes: {
-      maxWidth: "1800px",
-
-      fullRight: "480px",
-      fullLeft: "calc($maxWidth - $fullRight)",
-
-      sRight: "400px",
-      sLeft: "calc($maxWidth - $sRight)",
-    },
   },
 });
