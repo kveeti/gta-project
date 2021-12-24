@@ -1,4 +1,4 @@
-import { IGarage } from "../../../interfaces/Garage";
+import { IGarage, ModelGarage } from "../../../interfaces/Garage";
 import { Grid, SingleGrid } from "../../Styles/Grid";
 import { Garage } from "./Garage";
 
@@ -10,7 +10,7 @@ interface GarageGridProps {
 
 interface NewCardGarageGridProps {
   garages: IGarage[];
-  onClick: (garage: IGarage) => void;
+  onClick: (garage: IGarage | ModelGarage) => void;
 }
 
 export const GarageGrid = ({ garages, single, onClick }: GarageGridProps) => {
