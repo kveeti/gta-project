@@ -3,14 +3,13 @@ import { useEffect } from "react";
 import { useRouter } from "next/router";
 import { useDispatch } from "react-redux";
 import { actions } from "../../state/actions";
-import { CarGrid } from "../../components/Cards/Cars/Grid";
+import { CarGrid } from "../../components/Cards/Cars/CarGrids";
 import Layout from "../../components/Layout";
 import { ICar } from "../../interfaces/Car";
 
 const SearchPage = () => {
   const cars = useISelector((state) => state.search.cars);
   const garages = useISelector((state) => state.search.garages);
-  const state = useISelector((state) => state);
 
   const showCars = cars.length > 0;
   const showGarages = garages.length > 0;

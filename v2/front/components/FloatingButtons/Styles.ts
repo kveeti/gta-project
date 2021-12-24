@@ -12,22 +12,6 @@ export const FloatingButton = styled("button", {
   height: "60px",
   borderRadius: "50%",
   boxShadow: "0 1px 3px 0 rgb(0 0 0 / 20%)",
-
-  variants: {
-    right: {
-      true: {
-        bottom: "40px",
-        right: "40px",
-      },
-    },
-
-    left: {
-      true: {
-        bottom: "40px",
-        left: "40px",
-      },
-    },
-  },
 });
 
 export const SmallFloatingButton = styled(FloatingButton, {

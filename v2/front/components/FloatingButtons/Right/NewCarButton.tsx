@@ -10,7 +10,7 @@ export const FloatingNewCarButton = () => {
   };
 
   return (
-    <SmallFloatingButton right onClick={() => onClick()}>
+    <SmallFloatingButton onClick={() => onClick()}>
       <NewCarIcon />
     </SmallFloatingButton>
   );
