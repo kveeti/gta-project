@@ -16,9 +16,16 @@ const Layout = ({ children }) => {
   const state = useISelector((state) => state);
   const mobile = state.bp === 1;
   const tablet = state.bp === 2;
-  const showFloatingButtons = state.bp <= 2;
+  const showFloatingButtons = mobile;
 
   useEffect(() => {
+    let bp = 3;
+
+    if (window.innerWidth < 1060) bp = 2;
+    if (window.innerWidth < 690) bp = 1;
+
+    if (state.bp !== bp) dispatch(actions.bp.set(bp));
+
     const handleResize = () => {
       let bp = 3;
 
@@ -33,17 +40,18 @@ const Layout = ({ children }) => {
     return () => window.removeEventListener("resize", handleResize);
   });
 
+  // if user doesnt have a session, redirect to sign in
   const { data, status } = useSession();
-
   if (status === "loading") return null;
-
   if (!data) return <SignInCard />;
 
   const location = window.location.pathname;
   const newSite = location.includes("new");
 
-  let showSideBar;
+  let showSideBar: boolean;
 
+  // if on "new" site hide sidebar on mobile and tablet
+  // everywhere else only hide sidebar on mobile
   if (newSite) {
     showSideBar = !mobile && !tablet;
   } else {
