@@ -1,11 +1,10 @@
 import axios from "axios";
-import { ICar, ModelCar } from "../../interfaces/Car";
-import { IGarage, ModelGarage } from "../../interfaces/Garage";
+import { ModelGarage } from "../../interfaces/Garage";
 import { constants } from "../actionTypes";
 import { getNextAxiosConfig } from "./axiosConfig";
 
 export const set = {
-  chosenGarage: (garage: IGarage) => {
+  chosenGarage: (garage: ModelGarage) => {
     return {
       type: constants.new.garage.set.CHOSEN_GARAGE,
       payload: garage,
