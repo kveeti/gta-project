@@ -14,9 +14,7 @@ const MatchingGarages = () => {
   const bp = useISelector((state) => state.bp);
 
   const onGarageClick = (garage: IGarage | ModelGarage) => {
-    if (isModelGarage(garage)) return;
-    if (garage.full) return;
-
+    if (!isModelGarage(garage)) return;
     dispatch(actions.newGarage.set.chosenGarage(garage));
   };
 
