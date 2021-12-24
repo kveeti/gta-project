@@ -9,7 +9,7 @@ export const Card = styled("div", {
   color: "black",
   transition: "0.2s",
   backgroundColor: "White",
-  minWidth: "150px",
+  minWidth: "200px",
 
   boxShadow: "0 1px 3px 0 rgb(0 0 0 / 20%)",
 
