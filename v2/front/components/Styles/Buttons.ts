@@ -36,10 +36,8 @@ export const BaseBtn = styled("button", {
         backgroundColor: gray.gray6,
         color: gray.gray12,
 
-        "@media (hover: hover)": {
-          "&:hover": { backgroundColor: gray.gray7 },
-          "&:focus": { boxShadow: `0 0 0 2px ${gray.gray9}` },
-        },
+        "&:focus": { boxShadow: `0 0 0 2px ${gray.gray9}` },
+        "&:hover": { backgroundColor: gray.gray7 },
       },
     },
 
@@ -48,10 +46,8 @@ export const BaseBtn = styled("button", {
         backgroundColor: "white",
         color: "black",
 
-        "@media (hover: hover)": {
-          "&:hover": { backgroundColor: gray.gray5 },
-          "&:focus": { boxShadow: `0 0 0 2px ${gray.gray6}` },
-        },
+        "&:focus": { boxShadow: `0 0 0 2px ${gray.gray6}` },
+        "&:hover": { backgroundColor: gray.gray5 },
       },
     },
     blue: {
@@ -59,10 +55,8 @@ export const BaseBtn = styled("button", {
         backgroundColor: blue.blue5,
         color: blue.blue11,
 
-        "@media (hover: hover)": {
-          "&:hover": { backgroundColor: blue.blue6 },
-          "&:focus": { boxShadow: `0 0 0 2px ${blue.blue6}` },
-        },
+        "&:focus": { boxShadow: `0 0 0 2px ${blue.blue6}` },
+        "&:hover": { backgroundColor: blue.blue6 },
       },
     },
     red: {
@@ -70,10 +64,8 @@ export const BaseBtn = styled("button", {
         backgroundColor: red.red7,
         color: red.red12,
 
-        "@media (hover: hover)": {
-          "&:hover": { backgroundColor: red.red8 },
-          "&:focus": { boxShadow: `0 0 0 2px ${red.red8}` },
-        },
+        "&:hover": { backgroundColor: red.red8 },
+        "&:focus": { boxShadow: `0 0 0 2px ${red.red8}` },
       },
     },
     green: {
@@ -81,10 +73,8 @@ export const BaseBtn = styled("button", {
         backgroundColor: green.green5,
         color: green.green11,
 
-        "@media (hover: hover)": {
-          "&:hover": { backgroundColor: green.green6 },
-          "&:focus": { boxShadow: `0 0 0 2px ${green.green6}` },
-        },
+        "&:hover": { backgroundColor: green.green6 },
+        "&:focus": { boxShadow: `0 0 0 2px ${green.green6}` },
       },
     },
   },
