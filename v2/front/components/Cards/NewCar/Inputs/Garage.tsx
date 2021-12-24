@@ -35,11 +35,6 @@ const TextField = () => {
 
   const [timer, setTimer] = useState(null);
 
-  const getRand = () => {
-    const rand = Math.floor(Math.random() * me.garages.length);
-    return rand;
-  };
-
   const onInputChange = (value: string) => {
     dispatch(actions.newCar.set.input.garage(value));
 
@@ -57,9 +52,7 @@ const TextField = () => {
       transparent
       id="garage-input"
       type="text"
-      placeholder={
-        me.garages.length ? `${me.garage[getRand()].name}` : "E.g. Popular street, unit 2"
-      }
+      placeholder={"E.g. Popular street, unit 2"}
       onChange={(e) => onInputChange(e.target.value)}
       value={newCarState.inputs.garage}
     />
