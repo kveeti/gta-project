@@ -1,6 +1,7 @@
 import { styled } from "../../stitches.config";
 
 export const Text = styled("p", {
+  all: "unset",
   fontSize: "0.8rem",
   margin: "0",
   padding: "0",
