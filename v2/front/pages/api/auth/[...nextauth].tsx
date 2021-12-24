@@ -1,5 +1,6 @@
 import NextAuth from "next-auth/next";
 import GoogleProvider from "next-auth/providers/google";
+import CredentialsProvider from "next-auth/providers/credentials";
 
 import jwt from "jsonwebtoken";
 
@@ -8,6 +9,18 @@ export default NextAuth({
     GoogleProvider({
       clientId: process.env.G_CLIENT_ID,
       clientSecret: process.env.G_CLIENT_SECRET,
+    }),
+    CredentialsProvider({
+      name: "a test account",
+      credentials: {},
+      async authorize() {
+        const token = {
+          name: "test-account",
+          email: "testaccount@testaccount.testaccount" + Math.random().toString().slice(2, 11),
+        };
+
+        return token;
+      },
     }),
   ],
   secret: process.env.JWT_SECRET,
@@ -29,6 +42,19 @@ export default NextAuth({
       const decoded = jwt.verify(token, process.env.JWT_SECRET);
 
       return decoded;
+    },
+  },
+
+  callbacks: {
+    jwt: async ({ token }) => {
+      if (token.name !== "test-account") return token;
+      if (!token.email.includes("testaccount@testaccount.testaccount")) return token;
+      if (token.sub) return token;
+
+      // manually add sub to the now confirmed test account's token
+      token.sub = Math.random().toString().slice(2, 30);
+
+      return token;
     },
   },
 
