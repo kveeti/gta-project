@@ -51,8 +51,8 @@ const RightContainer = styled("div", {
   },
 
   "@mobile": {
-    minWidth: "58px",
-    padding: 0,
+    minWidth: "49px",
+    padding: "0 20",
   },
 });
 

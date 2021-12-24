@@ -10,9 +10,14 @@ export const MenubarBtn = styled(BaseBtn, {
   gap: "0.3rem",
 
   variants: {
-    small: {
+    profile: {
       true: {
         padding: "0 1rem",
+      },
+    },
+    home: {
+      true: {
+        padding: "0 0.8rem",
       },
     },
   },

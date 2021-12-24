@@ -9,7 +9,7 @@ export const HomeButton = () => {
   };
 
   return (
-    <MenubarBtn transparent small onClick={() => onClick()}>
+    <MenubarBtn transparent home onClick={() => onClick()}>
       <img src="/icons/home-icon.png" alt="home icon" height={25} />
     </MenubarBtn>
   );

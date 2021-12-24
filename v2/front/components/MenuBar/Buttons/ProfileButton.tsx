@@ -12,7 +12,7 @@ export const ProfileButton = () => {
   };
 
   return (
-    <MenubarBtn transparent small onClick={() => onClick()}>
+    <MenubarBtn transparent profile onClick={() => onClick()}>
       <PersonIcon style={{ color: "white" }} transform="scale(1.6)" />
     </MenubarBtn>
   );

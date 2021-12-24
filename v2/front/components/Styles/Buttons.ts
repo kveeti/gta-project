@@ -27,9 +27,8 @@ export const BaseBtn = styled("button", {
       true: {
         backgroundColor: "transparent",
 
-        "@media (hover: hover)": {
-          "&:hover": { backgroundColor: blackA.blackA9 },
-        },
+        "&:focus": { backgroundColor: blackA.blackA9 },
+        "&:hover": { backgroundColor: blackA.blackA9 },
       },
     },
     gray: {
