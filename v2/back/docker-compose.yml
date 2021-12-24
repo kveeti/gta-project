@@ -1,14 +1,41 @@
-version: '3'
+version: '3.9'
 services:
-  gta-back:
-    build: .
-    image: gta-back
-    container_name: gta-back
-    restart: unless-stopped
+  database: 
+    image: mongo:4.4.7
+    container_name: gta-api-db
     ports:
-      - "6000:5000"
+      - "27018:27017"
     volumes:
-      - type: bind
-        source: .
-        target: /app
-        read_only: true
+      - ./database/db:/data/db
+      - ./database/config:/data/configdb
+    networks:
+      - gta-backend
+    restart: unless-stopped
+
+  api:
+    depends_on:
+      - database
+    build: .
+    expose:
+      - 5000
+    networks:
+      - gta-backend
+    restart: unless-stopped
+
+  loadbalancer:
+    depends_on:
+      - api
+      - database
+    image: nginx
+    container_name: gta-api-nginx
+    ports:
+      - "15000:15000"
+    volumes:
+      - ./nginx.conf:/etc/nginx/nginx.conf
+    networks:
+      - gta-backend
+    restart: unless-stopped
+
+networks:
+  gta-backend:
+    driver: bridge

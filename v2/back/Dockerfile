@@ -4,12 +4,15 @@ USER root
 
 WORKDIR /app
 
-COPY package*.json ./
+COPY package.json ./
+COPY yarn.lock ./
+COPY tsconfig.json ./
+COPY .env .env
+COPY src src
 
 RUN yarn
-
-COPY . .
+RUN yarn build
 
 EXPOSE 5000
 
-CMD ["./node_modules/ts-node-dev/lib/bin.js", "--poll", "src/index.ts"]
+CMD ["yarn", "start"]

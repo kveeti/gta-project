@@ -9,6 +9,6 @@ import { mongoUri } from "./config/envs";
   const app = createApp();
 
   app.listen(5000, () => {
-    console.log(`Api listening on port 5000`);
+    console.log(`Ready`);
   });
 })();

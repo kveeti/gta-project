@@ -18,6 +18,7 @@ node_modules
 /build
 /ts-out
 ts-out
+database
 
 # misc
 .DS_Store
@@ -36,3 +37,4 @@ yarn-error.log*
 
 # vercel
 .vercel
+
