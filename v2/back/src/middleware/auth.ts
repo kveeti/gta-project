@@ -29,7 +29,14 @@ export const verifyToken = async (req: Request, res: Response, next: NextFunctio
   if (!decoded.sub) return res401(res, "invalid token");
   if (!(decoded as any).email) return res401(res, "invalid token");
 
-  const user = await db.users.upsert(decoded.sub as string, (decoded as any).email);
+  let user;
+
+  try {
+    user = await db.users.upsert(decoded.sub as string, (decoded as any).email);
+  } catch (err) {
+    console.log(err);
+    return res500(res, "server error");
+  }
 
   res.locals.auth = {
     dbId: user._id,

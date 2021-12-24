@@ -29,7 +29,7 @@ export interface PopulatedUser {
 const schema: mongoose.Schema = new mongoose.Schema(
   {
     owner: { type: String },
-    email: { type: String },
+    email: { type: String, unique: true },
     cars: [{ type: mongoose.Schema.Types.ObjectId, ref: "car" }],
     garages: [{ type: mongoose.Schema.Types.ObjectId, ref: "garage" }],
   },
