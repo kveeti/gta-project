@@ -6,7 +6,6 @@ interface CarProps {
   cars: ICar[];
   onClick: (car: ICar) => void;
   single?: boolean;
-  wide?: boolean;
 }
 
 interface NewCardCarGridProps {
@@ -14,13 +13,13 @@ interface NewCardCarGridProps {
   onClick: (car: ICar) => void;
 }
 
-export const CarGrid = ({ cars, onClick, single, wide }: CarProps) => {
+export const CarGrid = ({ cars, onClick, single }: CarProps) => {
   if (!cars.length) return null;
 
   return (
     <Grid single={single}>
       {cars.map((car: ICar) => (
-        <Car onClick={(car: ICar) => onClick(car)} key={car.id} car={car} wide={wide} />
+        <Car onClick={(car: ICar) => onClick(car)} key={car.id} car={car} />
       ))}
     </Grid>
   );

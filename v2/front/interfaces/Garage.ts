@@ -12,6 +12,7 @@ export interface IGarage {
 }
 
 export interface ModelGarage {
+  id: string;
   name: string;
   capacity: number;
   type: string;
