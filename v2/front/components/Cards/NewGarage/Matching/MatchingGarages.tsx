@@ -15,6 +15,7 @@ const MatchingGarages = () => {
 
   const onGarageClick = (garage: IGarage | ModelGarage) => {
     if (!isModelGarage(garage)) return;
+    if (garage.alreadyOwned) return;
     dispatch(actions.newGarage.set.chosenGarage(garage));
   };
 
