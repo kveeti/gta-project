@@ -25,7 +25,7 @@ const ChosenGarage = () => {
 
   const onClick = () => dispatch(actions.newCar.set.chosen.garage(null));
 
-  return <Garage garage={newCarState.chosenGarage} onClick={() => onClick()} wide />;
+  return <Garage garage={newCarState.chosenGarage} onClick={() => onClick()} />;
 };
 
 const TextField = () => {
