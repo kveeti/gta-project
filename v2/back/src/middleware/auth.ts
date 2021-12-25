@@ -2,7 +2,7 @@ import { NextFunction, Request, Response } from "express";
 import jwt from "jsonwebtoken";
 
 import { jwtSecret } from "../config/envs";
-import { db } from "../database";
+import { db } from "../db";
 import { res401, res500 } from "../util/responseWith";
 
 export const verifyToken = async (req: Request, res: Response, next: NextFunction) => {

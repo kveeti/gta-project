@@ -1,6 +1,6 @@
 import { Request, Response } from "express";
 import { ObjectId } from "mongoose";
-import { db } from "../database";
+import { db } from "../db";
 import { Auth } from "../interfaces/Auth";
 import { SimplifiedCar } from "../interfaces/Simplified";
 import { res200, res500 } from "../util/responseWith";

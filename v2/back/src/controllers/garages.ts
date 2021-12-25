@@ -1,5 +1,5 @@
 import { Request, Response } from "express";
-import { db } from "../database";
+import { db } from "../db";
 import { Auth } from "../interfaces/Auth";
 import { res200, res500 } from "../util/responseWith";
 
