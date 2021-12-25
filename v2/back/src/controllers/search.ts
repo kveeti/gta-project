@@ -87,7 +87,7 @@ export const search = {
         (car) => car.name?.includes(query) || car.manufacturer?.includes(query)
       );
 
-      if (matchingCars.length > 3) matchingCars = matchingCars.slice(0, 3);
+      if (matchingCars.length > 5) matchingCars = matchingCars.slice(0, 5);
 
       return res200Json(res, { modelCars: matchingCars });
     } catch (err: any) {
