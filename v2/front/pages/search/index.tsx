@@ -37,7 +37,7 @@ const SearchPage = () => {
   }, [router.query.q]);
 
   const onCarClick = (car: ICar) => {
-    dispatch(actions.check.car(car));
+    dispatch(actions.checkedCars.check(car));
   };
 
   const onGarageClick = (garage: IGarage) => {};

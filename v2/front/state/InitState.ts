@@ -37,10 +37,7 @@ export interface InitState {
     };
   };
 
-  checked: {
-    cars: ICar[];
-    garages: IGarage[];
-  };
+  checkedCars: ICar[];
 
   new: {
     car: {
@@ -132,10 +129,7 @@ export const initState: InitState = {
     },
   },
 
-  checked: {
-    cars: [],
-    garages: [],
-  },
+  checkedCars: [],
 
   new: {
     car: {

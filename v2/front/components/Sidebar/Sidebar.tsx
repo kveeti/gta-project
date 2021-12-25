@@ -37,7 +37,7 @@ export const LowerContainer = styled("div", {
 });
 
 export const Sidebar = () => {
-  const checkedCars = useISelector((state) => state.checked.cars);
+  const checkedCars = useISelector((state) => state.checkedCars);
 
   const showCheckedCars = checkedCars.length > 0;
 

@@ -24,8 +24,14 @@ export const constants = {
     },
   },
 
-  check: {
-    CAR: "CHECK__CAR",
+  checkedCars: {
+    CHECK: "CHECK__CAR",
+    REMOVE: "REMOVE_CHECKED_CARS",
+    RESET: "RESET_CHECKED_CARS",
+    removeApi: {
+      REMOVING: "REMOVE_CHECKED_CARS__API_REMOVING",
+      ERROR: "REMOVE_CHECKED_CARS__API_ERROR",
+    },
   },
 
   new: {
