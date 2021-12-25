@@ -25,12 +25,11 @@ const ChosenGarage = () => {
 
   const onClick = () => dispatch(actions.newCar.set.chosen.garage(null));
 
-  return <Garage garage={newCarState.chosenGarage} onClick={() => onClick()} />;
+  return <Garage garage={newCarState.chosenGarage} onClick={() => onClick()} wide />;
 };
 
 const TextField = () => {
   const dispatch = useDispatch();
-  const me = useISelector((state) => state.users.me);
   const newCarState = useISelector((state) => state.newCar);
 
   const [timer, setTimer] = useState(null);

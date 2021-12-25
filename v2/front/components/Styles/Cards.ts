@@ -10,6 +10,7 @@ export const Card = styled("div", {
   transition: "0.2s",
   backgroundColor: "White",
   minWidth: "200px",
+  flex: 1,
 
   boxShadow: "0 1px 3px 0 rgb(0 0 0 / 20%)",
 
@@ -37,12 +38,6 @@ export const Card = styled("div", {
             backgroundColor: "$cardCheckedHover",
           },
         },
-      },
-    },
-
-    wide: {
-      true: {
-        width: "100%",
       },
     },
   },

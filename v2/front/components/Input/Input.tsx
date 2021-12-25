@@ -46,7 +46,7 @@ export const BaseInput = styled("input", {
 });
 
 const InputContainer = styled("div", {
-  width: "100%",
+  flex: 1,
   height: "100%",
   display: "flex",
   alignItems: "center",

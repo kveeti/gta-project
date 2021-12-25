@@ -29,6 +29,6 @@ export const Grid = styled("div", {
 export const SingleGrid = styled("div", {
   display: "flex",
   flexDirection: "column",
-  width: "100%",
   gap: "0.5rem",
+  flex: 1,
 });
