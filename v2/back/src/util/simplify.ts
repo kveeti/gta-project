@@ -35,6 +35,7 @@ export const simplifyCars = (cars: IdCar[]) => {
       class: getClass(car.modelCar.class),
       owner: car.owner.owner,
       garage: {
+        id: car.garage._id,
         name: car.garage.modelGarage.name,
         desc: car.garage.desc,
         type: car.garage.modelGarage.type,

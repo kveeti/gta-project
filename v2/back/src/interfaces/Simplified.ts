@@ -8,6 +8,7 @@ export interface SimplifiedCar {
   class: string;
   owner: string;
   garage: {
+    id: ObjectId;
     name: string;
     desc: string;
     type: string;

@@ -1,4 +1,6 @@
 import { ObjectId } from "mongoose";
+import { Auth } from "../interfaces/Auth";
+import { SimplifiedCar } from "../interfaces/Simplified";
 import { Car } from "../models/car";
 import { ModelCar } from "../models/ModelCar";
 import { mongo } from "../mongo";
@@ -56,4 +58,8 @@ export const move = async (id: ObjectId, garage: ObjectId) => {
 
 export const create = async (car: Car) => {
   return await mongo.cars.create(car);
+};
+
+export const remove = async (id: ObjectId, owner: ObjectId) => {
+  await mongo.cars.remove(id, owner);
 };

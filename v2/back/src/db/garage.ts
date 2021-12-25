@@ -1,4 +1,5 @@
 import { ObjectId } from "mongoose";
+import { Auth } from "../interfaces/Auth";
 import { Garage } from "../models/garage";
 import { ModelGarage } from "../models/ModelGarage";
 import { mongo } from "../mongo";

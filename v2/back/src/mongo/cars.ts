@@ -45,3 +45,7 @@ export const create = async (car: Car) => {
 
   return newCar._id;
 };
+
+export const remove = async (id: ObjectId, owner: ObjectId) => {
+  await CarModel.deleteOne({ _id: id, owner });
+};
