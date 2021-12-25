@@ -13,10 +13,6 @@ export const Label = styled("label", {
   "@grid1to2": {
     fontSize: "1rem",
   },
-
-  "@grid2to3": {
-    fontSize: "1.1rem",
-  },
 });
 
 export const InputContainer = styled("div", {
