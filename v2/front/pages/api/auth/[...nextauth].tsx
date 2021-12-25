@@ -3,6 +3,7 @@ import GoogleProvider from "next-auth/providers/google";
 import CredentialsProvider from "next-auth/providers/credentials";
 
 import jwt from "jsonwebtoken";
+import { jwtSecret } from "../../../envs";
 
 export default NextAuth({
   providers: [
@@ -23,15 +24,15 @@ export default NextAuth({
       },
     }),
   ],
-  secret: process.env.JWT_SECRET,
+  secret: jwtSecret,
 
   jwt: {
-    secret: process.env.JWT_SECRET,
+    secret: jwtSecret,
 
     encode: ({ token }) => {
       const encoded = jwt.sign(
         { ...token, expire: Date.now() + 1000 * 60 * 60 * 24 * 30 }, // 30 days
-        process.env.JWT_SECRET
+        jwtSecret
       );
 
       return encoded;
@@ -39,7 +40,7 @@ export default NextAuth({
 
     // @ts-ignore
     decode: ({ token }) => {
-      const decoded = jwt.verify(token, process.env.JWT_SECRET);
+      const decoded = jwt.verify(token, jwtSecret);
 
       return decoded;
     },

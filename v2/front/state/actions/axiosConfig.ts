@@ -1,8 +1,9 @@
 import { AxiosRequestConfig, Method } from "axios";
+import { apiBaseUrl, siteUrl } from "../../envs";
 
 export const getNextAxiosConfig = (path: string, method: Method, body?: any) => {
   const config: AxiosRequestConfig = {
-    url: `${process.env.NEXT_PUBLIC_SITE_URL}/api${path}`,
+    url: `${siteUrl}/api${path}`,
     method: method,
     data: body,
   };
@@ -12,7 +13,7 @@ export const getNextAxiosConfig = (path: string, method: Method, body?: any) => 
 
 export const getApiAxiosConfig = (path: string, method: Method, token: string, query: string) => {
   const config: AxiosRequestConfig = {
-    url: `${process.env.API_BASE_URL}${path}`,
+    url: `${apiBaseUrl}${path}`,
     method: method,
     params: {
       q: query,
@@ -32,7 +33,7 @@ export const getApiAxiosConfigWithBody = (
   body: any
 ) => {
   const config: AxiosRequestConfig = {
-    url: `${process.env.API_BASE_URL}${path}`,
+    url: `${apiBaseUrl}${path}`,
     method: method,
     data: body,
     headers: {
