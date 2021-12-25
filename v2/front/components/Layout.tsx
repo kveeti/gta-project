@@ -5,6 +5,7 @@ import { actions } from "../state/actions";
 import { useISelector } from "../state/hooks";
 import { SignInCard } from "./Cards/Signin/Signin";
 import { Content, Main, Section, SidebarContainer } from "./Containers/Containers";
+import { LeftFloatingButton } from "./FloatingButtons/Left/LeftButtons";
 import { RightFloatingButtons } from "./FloatingButtons/Right/RightButtons";
 import { MenuBar } from "./MenuBar/MenuBar";
 import { Sidebar } from "./Sidebar/Sidebar";
@@ -68,7 +69,12 @@ const Layout = ({ children }) => {
             <Sidebar />
           </SidebarContainer>
         )}
-        {showFloatingButtons && <RightFloatingButtons />}
+        {showFloatingButtons && (
+          <>
+            <RightFloatingButtons />
+            <LeftFloatingButton />
+          </>
+        )}
       </Content>
     </Section>
   );

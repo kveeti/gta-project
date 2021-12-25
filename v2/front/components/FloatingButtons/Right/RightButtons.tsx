@@ -13,7 +13,7 @@ export const RightFloatingButtons = () => {
   const car = route.includes("car");
 
   return (
-    <FloatingButtons>
+    <FloatingButtons right>
       {showBtns && (
         <>
           {car ? <HomeButton /> : <FloatingNewCarButton />}

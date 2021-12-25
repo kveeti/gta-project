@@ -1,3 +1,4 @@
+import { blue, red } from "@radix-ui/colors";
 import { styled } from "../../stitches.config";
 
 export const FloatingButton = styled("button", {
@@ -11,7 +12,21 @@ export const FloatingButton = styled("button", {
   width: "60px",
   height: "60px",
   borderRadius: "50%",
-  boxShadow: "0 1px 3px 0 rgb(0 0 0 / 20%)",
+  boxShadow: "rgba(50, 50, 93, 0.25) 0px 13px 27px -5px, rgba(0, 0, 0, 0.3) 0px 8px 16px -8px",
+  transition: "all 0.2s ",
+
+  variants: {
+    red: {
+      true: {
+        backgroundColor: red.red9,
+      },
+    },
+    big: {
+      true: {
+        transform: "scale(1.5)",
+      },
+    },
+  },
 });
 
 export const SmallFloatingButton = styled(FloatingButton, {
@@ -29,6 +44,18 @@ export const FloatingButtons = styled("div", {
   height: "300px",
   width: "60px",
 
-  bottom: "40px",
-  right: "40px",
+  variants: {
+    right: {
+      true: {
+        bottom: "40px",
+        right: "40px",
+      },
+    },
+    left: {
+      true: {
+        bottom: "40px",
+        left: "40px",
+      },
+    },
+  },
 });
