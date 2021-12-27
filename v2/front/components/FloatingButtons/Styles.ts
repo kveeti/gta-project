@@ -41,7 +41,6 @@ export const FloatingButtons = styled("div", {
   gap: "0.5rem",
   alignItems: "center",
 
-  height: "60px",
   width: "60px",
 
   variants: {
@@ -55,11 +54,6 @@ export const FloatingButtons = styled("div", {
       true: {
         bottom: "40px",
         left: "40px",
-      },
-    },
-    open: {
-      true: {
-        height: "300px",
       },
     },
   },

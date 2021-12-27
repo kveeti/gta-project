@@ -3,7 +3,7 @@ import { FloatingButton } from "../Styles";
 
 export const NewButton = ({ onClick }) => {
   return (
-    <FloatingButton onClick={() => onClick()} style={{ marginTop: "1rem" }}>
+    <FloatingButton onClick={() => onClick()}>
       <PlusIcon />
     </FloatingButton>
   );

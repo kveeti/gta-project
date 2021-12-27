@@ -7,9 +7,5 @@ export const LeftFloatingButton = () => {
 
   const showButton = checkedCars.length > 0;
 
-  return (
-    <FloatingButtons left open={showButton}>
-      {showButton && <DeleteButton />}
-    </FloatingButtons>
-  );
+  return <FloatingButtons left>{showButton && <DeleteButton />}</FloatingButtons>;
 };

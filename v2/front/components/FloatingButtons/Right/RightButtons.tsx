@@ -13,12 +13,12 @@ export const RightFloatingButtons = () => {
   const car = route.includes("car");
 
   return (
-    <FloatingButtons right open={showBtns}>
+    <FloatingButtons right>
       {showBtns && (
-        <>
+        <div style={{ marginBottom: "1rem" }}>
           {car ? <HomeButton /> : <FloatingNewCarButton />}
           {garage ? <HomeButton /> : <FloatingNewGarageButton />}
-        </>
+        </div>
       )}
       <NewButton onClick={() => setShowBtns(!showBtns)} />
     </FloatingButtons>
