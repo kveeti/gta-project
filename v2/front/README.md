@@ -4,7 +4,7 @@ This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next
 Global state is handled with [`react-redux`](https://react-redux.js.org/) and [`redux-thunk`](https://github.com/reduxjs/redux-thunk).
 
 ## Styling
-Styling is done with [`@stitches/react`](https://stitches.dev/) and icons are from [`@radix-ui/react-icons`](https://icons.modulz.app/) and the game Grand Theft Auto V.
+Styling is done with [`@stitches/react`](https://stitches.dev/) and icons are from [`@radix-ui/react-icons`](https://icons.modulz.app/) and from the game Grand Theft Auto V.
 
 ## Authentication
 Authentication is done with [`next-auth`](https://next-auth.js.org/) using [JWTs](https://jwt.io/).
