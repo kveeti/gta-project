@@ -38,7 +38,6 @@ export const FloatingButtons = styled("div", {
   position: "fixed",
   flexDirection: "column",
   justifyContent: "flex-end",
-  gap: "0.5rem",
   alignItems: "center",
 
   width: "60px",
@@ -57,4 +56,11 @@ export const FloatingButtons = styled("div", {
       },
     },
   },
+});
+
+export const SmallFloatingButtonsContainer = styled("div", {
+  display: "flex",
+  flexDirection: "column",
+  marginBottom: "1rem",
+  gap: "0.5rem",
 });

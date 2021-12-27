@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { FloatingButtons } from "../Styles";
+import { FloatingButtons, SmallFloatingButtonsContainer } from "../Styles";
 import { HomeButton } from "./HomeButton";
 import { NewButton } from "./NewButton";
 import { FloatingNewCarButton } from "./NewCarButton";
@@ -15,10 +15,10 @@ export const RightFloatingButtons = () => {
   return (
     <FloatingButtons right>
       {showBtns && (
-        <div style={{ marginBottom: "1rem" }}>
+        <SmallFloatingButtonsContainer>
           {car ? <HomeButton /> : <FloatingNewCarButton />}
           {garage ? <HomeButton /> : <FloatingNewGarageButton />}
-        </div>
+        </SmallFloatingButtonsContainer>
       )}
       <NewButton onClick={() => setShowBtns(!showBtns)} />
     </FloatingButtons>
