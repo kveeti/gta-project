@@ -1,20 +1,14 @@
-import { useDispatch } from "react-redux";
 import { useISelector } from "../../../state/hooks";
 import { SidebarBtn } from "./Styles";
 
-export const MoveBtn = () => {
-  const dispatch = useDispatch();
+export const MoveBtn = ({ onClick, open }) => {
   const checkedCars = useISelector((state) => state.checkedCars);
 
-  const showCheckedCars = checkedCars.length > 0;
-
-  const onClick = () => {
-    // move
-  };
+  const showButton = checkedCars.length > 0;
 
   return (
-    <SidebarBtn blue disabled={!showCheckedCars}>
-      Move
+    <SidebarBtn onClick={(e) => showButton && onClick(e)} blue disabled={!showButton}>
+      {open ? "Click again to confirm" : "Move"}
     </SidebarBtn>
   );
 };

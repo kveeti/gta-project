@@ -9,7 +9,7 @@ export const BaseBtn = styled("button", {
   justifyContent: "center",
   cursor: "pointer",
   borderRadius: 3,
-  transition: "0.2s",
+  transition: "0.2s all",
 
   variants: {
     disabled: {

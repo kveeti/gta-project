@@ -5,6 +5,9 @@ import { gray } from "@radix-ui/colors";
 import { styled } from "../../stitches.config";
 import { CheckedCars } from "./CheckedCars/CheckedCars";
 import { Text } from "../Styles/Text";
+import { useState } from "react";
+import { useDispatch } from "react-redux";
+import { actions } from "../../state/actions";
 
 export const StyledSidebar = styled("div", {
   height: "100%",
@@ -37,15 +40,55 @@ export const LowerContainer = styled("div", {
 });
 
 export const Sidebar = () => {
+  const dispatch = useDispatch();
+
+  const [deleteOpen, setDeleteOpen] = useState(false);
+  const [deleteTimer, setDeleteTimer] = useState(null);
+
+  const [moveOpen, setMoveOpen] = useState(false);
+  const [moveTimer, setMoveTimer] = useState(null);
+
   const checkedCars = useISelector((state) => state.checkedCars);
+  const searchInput = useISelector((state) => state.search.input.value);
 
   const showCheckedCars = checkedCars.length > 0;
+
+  const deleteOnClick = () => {
+    if (deleteOpen) {
+      dispatch(actions.checkedCars.remove(checkedCars, searchInput));
+      setDeleteOpen(false);
+      return clearTimeout(deleteTimer);
+    }
+
+    setDeleteOpen(!deleteOpen);
+
+    clearTimeout(deleteTimer);
+    const timer = setTimeout(() => {
+      setDeleteOpen(false);
+    }, 2000);
+    setDeleteTimer(timer);
+  };
+
+  const moveOnClick = () => {
+    if (moveOpen) {
+      setMoveOpen(false);
+      return clearTimeout(deleteTimer);
+    }
+
+    setMoveOpen(!moveOpen);
+
+    clearTimeout(moveTimer);
+    const timer = setTimeout(() => {
+      setMoveOpen(false);
+    }, 2000);
+    setMoveTimer(timer);
+  };
 
   return (
     <StyledSidebar>
       <Buttons>
-        <DeleteBtn />
-        <MoveBtn />
+        {!moveOpen && <DeleteBtn onClick={() => deleteOnClick()} open={deleteOpen} />}
+        {!deleteOpen && <MoveBtn onClick={() => moveOnClick()} open={moveOpen} />}
       </Buttons>
       <LowerContainer text={!showCheckedCars}>
         {showCheckedCars ? <CheckedCars /> : <Text lessOpaque>Selected cars will appear here</Text>}
