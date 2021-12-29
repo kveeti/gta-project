@@ -10,6 +10,7 @@ import { GarageGrid } from "../../components/Cards/Garages/GarageGrids";
 import { IGarage } from "../../interfaces/Garage";
 import { Title } from "../../components/Styles/Text";
 import { styled } from "../../stitches.config";
+import Head from "next/head";
 
 const Div = styled("div", {
   display: "flex",
@@ -43,20 +44,27 @@ const SearchPage = () => {
   const onGarageClick = (garage: IGarage) => {};
 
   return (
-    <Layout>
-      {showGarages && (
-        <Div>
-          <Title>Garages</Title>
-          <GarageGrid garages={garages} onClick={(garage) => onGarageClick(garage)} />
-        </Div>
-      )}
-      {showCars && (
-        <Div>
-          <Title>Cars</Title>
-          <CarGrid cars={cars} onClick={(car) => onCarClick(car)} />
-        </Div>
-      )}
-    </Layout>
+    <>
+      <Head>
+        <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate" />
+        <meta http-equiv="Pragma" content="no-cache" />
+        <meta http-equiv="Expires" content="0" />
+      </Head>
+      <Layout>
+        {showGarages && (
+          <Div>
+            <Title>Garages</Title>
+            <GarageGrid garages={garages} onClick={(garage) => onGarageClick(garage)} />
+          </Div>
+        )}
+        {showCars && (
+          <Div>
+            <Title>Cars</Title>
+            <CarGrid cars={cars} onClick={(car) => onCarClick(car)} />
+          </Div>
+        )}
+      </Layout>
+    </>
   );
 };
 
