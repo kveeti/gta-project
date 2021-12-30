@@ -32,7 +32,7 @@ export const verifyToken = async (req: Request, res: Response, next: NextFunctio
   let user;
 
   try {
-    user = await db.users.upsert(decoded.sub as string, (decoded as any).email);
+    user = await db.user.upsert(decoded.sub as string, (decoded as any).email);
   } catch (err) {
     console.log(err);
     return res500(res, "server error");
