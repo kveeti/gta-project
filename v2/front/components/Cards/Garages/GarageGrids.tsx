@@ -1,10 +1,11 @@
+import { useRouter } from "next/router";
 import { IGarage, ModelGarage } from "../../../interfaces/Garage";
 import { Grid, SingleGrid } from "../../Styles/Grid";
 import { Garage } from "./Garage";
 
 interface GarageGridProps {
   garages: IGarage[];
-  onClick: (garage: IGarage) => void;
+  onClick?: (garage: IGarage) => void;
 }
 
 interface NewCardGarageGridProps {
@@ -19,6 +20,26 @@ export const GarageGrid = ({ garages, onClick }: GarageGridProps) => {
     <Grid>
       {garages.map((garage: IGarage) => (
         <Garage key={garage.id} garage={garage} onClick={(garage: IGarage) => onClick(garage)} />
+      ))}
+    </Grid>
+  );
+};
+
+export const SearchGarageGrid = ({ garages }: GarageGridProps) => {
+  if (!garages.length) return null;
+  const router = useRouter();
+
+  return (
+    <Grid>
+      {garages.map((garage: IGarage) => (
+        <Garage
+          key={garage.id}
+          garage={garage}
+          onClick={(garage: IGarage) => () => {
+            // router.push(`/garage/${garage.id}`)
+          }}
+          search
+        />
       ))}
     </Grid>
   );

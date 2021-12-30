@@ -7,6 +7,7 @@ import { Text } from "../../Styles/Text";
 interface GarageProps {
   garage: IGarage | ModelGarage;
   onClick?: (garage: IGarage | ModelGarage) => void;
+  search?: boolean;
 }
 
 const GarageCard = styled(Card, {
@@ -23,12 +24,12 @@ const GarageCard = styled(Card, {
   },
 });
 
-export const Garage = ({ garage, onClick }: GarageProps) => {
+export const Garage = ({ garage, onClick, search }: GarageProps) => {
   const isGarage = !isModelGarage(garage);
   const notAllowed = (!isGarage && garage.alreadyOwned) || (isGarage && garage.full);
 
   return (
-    <GarageCard notAllowed={notAllowed} onClick={() => onClick(garage)}>
+    <GarageCard notAllowed={!search && notAllowed} onClick={() => onClick(garage)}>
       <Text>{garage.name}</Text>
 
       {isGarage && (
