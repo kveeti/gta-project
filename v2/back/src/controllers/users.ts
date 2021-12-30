@@ -8,7 +8,7 @@ export const getUser = async (req: Request, res: Response) => {
   const auth = res.locals.auth as Auth;
 
   try {
-    const user = await db.users.get(auth.userId, auth.email);
+    const user = await db.user.get(auth.userId, auth.email);
 
     res200Json(res, simplifyUser(user));
   } catch (err: any) {

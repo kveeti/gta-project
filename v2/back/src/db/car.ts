@@ -1,14 +1,18 @@
 import { ObjectId } from "mongoose";
-import { Auth } from "../interfaces/Auth";
-import { SimplifiedCar } from "../interfaces/Simplified";
-import { Car } from "../models/car";
+import { Car, CarModel } from "../models/car";
 import { ModelCar } from "../models/ModelCar";
-import { mongo } from "../mongo";
 import { isModelCar } from "../util/typeguards";
 
 export const get = {
   one: async (id: ObjectId) => {
-    const res = await mongo.cars.get.one(id);
+    const res = await CarModel.findOne({ _id: id })
+      .select("-__v")
+      .populate("modelCar")
+      .populate("owner")
+      .populate({
+        path: "garage",
+        populate: [{ path: "modelGarage" }],
+      });
 
     if (isModelCar(res.modelCar))
       return {
@@ -23,7 +27,14 @@ export const get = {
   },
 
   byGarage: async (garage: ObjectId, owner: ObjectId) => {
-    const res = await mongo.cars.get.byGarage(garage, owner);
+    const res = await CarModel.find({ garage, owner })
+      .select("-__v")
+      .populate("modelCar")
+      .populate("owner")
+      .populate({
+        path: "garage",
+        populate: [{ path: "modelGarage" }],
+      });
 
     const garages = res.map((garage) => {
       if (isModelCar(garage.modelCar)) {
@@ -46,20 +57,27 @@ export const get = {
   },
 
   all: async (owner: ObjectId) => {
-    const cars = await mongo.cars.get.all(owner);
+    const cars = await CarModel.find({ owner })
+      .select("-__v")
+      .populate("modelCar")
+      .populate("owner")
+      .populate({
+        path: "garage",
+        populate: [{ path: "modelGarage" }],
+      });
 
     return cars;
   },
 };
 
-export const move = async (id: ObjectId, garage: ObjectId) => {
-  await mongo.cars.setGarage(id, garage);
+export const setGarage = async (id: ObjectId, garage: ObjectId) => {
+  await CarModel.updateOne({ _id: id }, { garage });
 };
 
 export const create = async (car: Car) => {
-  return await mongo.cars.create(car);
+  return await new CarModel(car).save();
 };
 
 export const remove = async (id: ObjectId, owner: ObjectId) => {
-  await mongo.cars.remove(id, owner);
+  await CarModel.deleteOne({ _id: id, owner });
 };

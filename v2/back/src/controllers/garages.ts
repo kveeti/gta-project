@@ -8,16 +8,15 @@ export const createGarage = async (req: Request, res: Response) => {
   const desc = req.body.desc;
   const auth = res.locals.auth as Auth;
 
-  const newGarage = {
-    modelGarage: modelGarageId,
-    desc,
-    owner: auth.dbId,
-    cars: [],
-  };
-
   try {
-    const newGarageId = await db.garages.create(newGarage);
-    await db.users.add.garage(newGarageId, auth);
+    const newGarage = await db.garages.create({
+      modelGarage: modelGarageId,
+      desc,
+      owner: auth.dbId,
+      cars: [],
+    });
+
+    await db.user.garages.add(newGarage._id, auth);
     res200(res);
   } catch (err: any) {
     console.log(err);

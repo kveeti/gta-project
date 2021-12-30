@@ -1,16 +1,12 @@
 import { ObjectId } from "mongoose";
-import { mongo } from "../mongo";
+import { ModelCarModel } from "../models/ModelCar";
 
 export const get = {
   one: async (id: ObjectId) => {
-    const res = await mongo.possibleCars.get.one(id);
-
-    return res;
+    return await ModelCarModel.findOne({ _id: id }).select("-__v");
   },
 
   all: async () => {
-    const res = await mongo.possibleCars.get.all();
-
-    return res;
+    return await ModelCarModel.find({}).select("-__v");
   },
 };

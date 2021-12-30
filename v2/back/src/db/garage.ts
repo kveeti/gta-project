@@ -1,60 +1,62 @@
 import { ObjectId } from "mongoose";
-import { Auth } from "../interfaces/Auth";
-import { Garage } from "../models/garage";
+import { Garage, GarageModel } from "../models/garage";
 import { ModelGarage } from "../models/ModelGarage";
-import { mongo } from "../mongo";
 
 export const get = {
   all: async (owner: ObjectId) => {
-    const garages = await mongo.garages.get.all(owner);
+    const garages = await GarageModel.find({ owner })
+      .select("-__v")
+      .populate("modelGarage")
+      .populate("owner");
 
     return garages;
   },
 
   one: async (id: string, owner: ObjectId) => {
-    const res = await mongo.garages.get.one(id, owner);
+    const one = await GarageModel.findOne({ _id: id, owner })
+      .select("-_id -__v")
+      .populate("modelGarage")
+      .populate("owner");
 
-    if (!res) return null;
+    if (!one) return null;
 
-    if (isModelGarage(res.modelGarage))
+    if (isModelGarage(one.modelGarage))
       return {
-        _id: res._id,
-        modelGarage: res.modelGarage as ModelGarage,
-        owner: res.owner,
+        _id: one._id,
+        modelGarage: one.modelGarage as ModelGarage,
+        owner: one.owner,
       };
 
-    console.log("db.garages.get.one, res.modelGarage was not a valid modelGarage");
+    console.log("db.garages.get.one, one.modelGarage was not a valid modelGarage");
 
     return null;
   },
 
   byModelGarageId: async (modelGarageId: ObjectId, owner: ObjectId) => {
-    const res = await mongo.garages.get.byModelGarageId(modelGarageId, owner);
+    const one = await GarageModel.findOne({ modelGarage: modelGarageId, owner }).select("-__v");
 
-    return res;
+    return one;
   },
 };
 
 export const set = {
   desc: async (id: ObjectId, desc: string) => {
-    return await mongo.garages.set.desc(id, desc);
+    return await GarageModel.updateOne({ _id: id }, { $set: { desc } });
   },
 };
 
 export const cars = {
   add: async (garageId: ObjectId, carId: ObjectId, owner: ObjectId) => {
-    return mongo.garages.cars.add(garageId, carId, owner);
+    return await GarageModel.updateOne({ _id: garageId, owner }, { $addToSet: { cars: carId } });
   },
 
   remove: async (garageId: ObjectId, carId: ObjectId, owner: ObjectId) => {
-    return mongo.garages.cars.remove(garageId, carId, owner);
+    return await GarageModel.updateOne({ _id: garageId, owner }, { $pull: { cars: carId } });
   },
 };
 
 export const create = async (garage: Garage) => {
-  const newGarageId = await mongo.garages.create(garage);
-
-  return newGarageId;
+  return await new GarageModel(garage).save();
 };
 
 const isModelGarage = (obj: ModelGarage | any): obj is ModelGarage => {

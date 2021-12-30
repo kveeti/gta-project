@@ -10,16 +10,15 @@ export const createCar = async (req: Request, res: Response) => {
   const garageId = req.body.garageId;
   const auth = res.locals.auth as Auth;
 
-  const newCar = {
-    modelCar: modelCarId,
-    owner: auth.dbId,
-    garage: garageId,
-  };
-
   try {
-    const newCarId = await db.cars.create(newCar);
-    await db.users.add.car(newCarId, auth);
-    await db.garages.cars.add(garageId, newCarId, auth.dbId);
+    const newCar = await db.cars.create({
+      modelCar: modelCarId,
+      owner: auth.dbId,
+      garage: garageId,
+    });
+
+    await db.user.cars.add(newCar._id, auth);
+    await db.garages.cars.add(garageId, newCar._id, auth.dbId);
     res200(res);
   } catch (err: any) {
     console.log(err);
@@ -35,7 +34,7 @@ export const deleteCars = async (req: Request, res: Response) => {
     for (const car of cars) {
       await db.cars.remove(car.id, auth.dbId);
       await db.garages.cars.remove(car.garage.id, car.id, auth.dbId);
-      await db.users.remove.car(car.id, auth);
+      await db.user.cars.remove(car.id, auth);
     }
 
     res200(res);

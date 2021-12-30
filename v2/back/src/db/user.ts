@@ -1,27 +1,40 @@
 import { ObjectId } from "mongoose";
+import { Auth } from "../interfaces/Auth";
 import { UserModel } from "../models/user";
 
-export const add = {
-  car: async (carId: ObjectId, owner: string, dbId: ObjectId) => {
-    return await UserModel.updateOne({ _id: dbId, owner }, { $addToSet: { cars: carId } });
+export const add = async (owner: string, email: string) => {
+  await new UserModel({ owner, email, cars: [], garages: [] }).save();
+};
+
+export const cars = {
+  add: async (carId: ObjectId, auth: Auth) => {
+    return await UserModel.updateOne(
+      { _id: auth.dbId, owner: auth.userId },
+      { $addToSet: { cars: carId } }
+    );
   },
 
-  garage: async (garageId: ObjectId, owner: string, dbId: ObjectId) => {
-    return await UserModel.updateOne({ _id: dbId, owner }, { $addToSet: { garages: garageId } });
-  },
-
-  user: async (owner: string, email: string) => {
-    await new UserModel({ owner, email, cars: [], garages: [] }).save();
+  remove: async (carId: ObjectId, auth: Auth) => {
+    return await UserModel.updateOne(
+      { _id: auth.dbId, owner: auth.userId },
+      { $pull: { cars: carId } }
+    );
   },
 };
 
-export const remove = {
-  car: async (carId: ObjectId, owner: string, dbId: ObjectId) => {
-    return await UserModel.updateOne({ _id: dbId, owner }, { $pull: { cars: carId } });
+export const garages = {
+  add: async (garageId: ObjectId, auth: Auth) => {
+    return await UserModel.updateOne(
+      { _id: auth.dbId, owner: auth.userId },
+      { $addToSet: { garages: garageId } }
+    );
   },
 
-  garage: async (garageId: ObjectId, owner: string, dbId: ObjectId) => {
-    return await UserModel.updateOne({ _id: dbId, owner }, { $pull: { garages: garageId } });
+  remove: async (garageId: ObjectId, auth: Auth) => {
+    return await UserModel.updateOne(
+      { _id: auth.dbId, owner: auth.userId },
+      { $pull: { garages: garageId } }
+    );
   },
 };
 
