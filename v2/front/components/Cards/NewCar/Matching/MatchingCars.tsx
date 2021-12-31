@@ -2,7 +2,7 @@ import { useDispatch } from "react-redux";
 import { ICar } from "../../../../interfaces/Car";
 import { actions } from "../../../../state/actions";
 import { useISelector } from "../../../../state/hooks";
-import { MatchingContainer } from "../../../Styles/New-cards";
+import { MatchingContainer } from "../../../Styles/Page-cards";
 import { NewCardCarGrid } from "../../Cars/CarGrids";
 import { StyledLabel } from "../Styles";
 

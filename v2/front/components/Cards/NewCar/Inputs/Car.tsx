@@ -3,7 +3,7 @@ import { useDispatch } from "react-redux";
 import { actions } from "../../../../state/actions";
 import { useISelector } from "../../../../state/hooks";
 import { Input } from "../../../Input/Input";
-import { InputContainer } from "../../../Styles/New-cards";
+import { InputContainer } from "../../../Styles/Page-cards";
 import Car from "../../Cars/Car";
 import { StyledLabel } from "../Styles";
 

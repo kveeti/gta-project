@@ -3,7 +3,7 @@ import { IGarage, ModelGarage } from "../../../../interfaces/Garage";
 import { actions } from "../../../../state/actions";
 import { useISelector } from "../../../../state/hooks";
 import { isModelGarage } from "../../../../util/typeguards";
-import { MatchingContainer } from "../../../Styles/New-cards";
+import { MatchingContainer } from "../../../Styles/Page-cards";
 import { NewCardGarageGrid } from "../../Garages/GarageGrids";
 import { StyledLabel } from "../Styles";
 
