@@ -1,13 +1,7 @@
 import { useDispatch } from "react-redux";
 import { actions } from "../../../../state/actions";
 import { useISelector } from "../../../../state/hooks";
-import { styled } from "../../../../stitches.config";
-import { BaseBtn } from "../../../Styles/Buttons";
-
-const StyledButton = styled(BaseBtn, {
-  padding: "0 2rem",
-  height: "100%",
-});
+import { PageButton } from "../../../Styles/Page-cards";
 
 const SaveButton = () => {
   const dispatch = useDispatch();
@@ -21,9 +15,9 @@ const SaveButton = () => {
   const saving = newGarageState.api.saving;
 
   return (
-    <StyledButton green onClick={() => onClick()} disabled={!newGarageState.chosenGarage || saving}>
+    <PageButton green onClick={() => onClick()} disabled={!newGarageState.chosenGarage || saving}>
       Save
-    </StyledButton>
+    </PageButton>
   );
 };
 

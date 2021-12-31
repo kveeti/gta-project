@@ -4,18 +4,8 @@ import { useDispatch } from "react-redux";
 import { actions } from "../../../state/actions";
 import { useISelector } from "../../../state/hooks";
 import { styled } from "../../../stitches.config";
+import { PageCard } from "../../Styles/Page-cards";
 import { Text, Title } from "../../Styles/Text";
-
-const StyledCard = styled("div", {
-  display: "flex",
-  flexDirection: "column",
-  maxWidth: "600px",
-  margin: "0 auto",
-  padding: "1rem",
-  borderRadius: 4,
-  boxShadow: "0 1px 3px 0 rgb(0 0 0 / 20%)",
-  gap: "1rem",
-});
 
 const Specs = styled("div", {
   display: "flex",
@@ -36,7 +26,7 @@ export const UserInfo = () => {
   if (status === "loading") return null;
 
   return (
-    <StyledCard>
+    <PageCard>
       <Title>User info</Title>
       <Text>
         <b>{data.user.name}</b> - {data.user.email}
@@ -49,6 +39,6 @@ export const UserInfo = () => {
           <b>Garages:</b> {me.garageCount}
         </Text>
       </Specs>
-    </StyledCard>
+    </PageCard>
   );
 };

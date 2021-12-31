@@ -10,6 +10,7 @@ export const PageCard = styled("div", {
   borderRadius: 4,
   boxShadow: "0 1px 3px 0 rgb(0 0 0 / 20%)",
   gap: "1rem",
+  backgroundColor: "white",
 });
 
 export const Label = styled("label", {
@@ -47,7 +48,7 @@ export const PageButton = styled(BaseBtn, {
   height: "100%",
 });
 
-export const ButtonContainer = styled("div", {
+export const PageButtonContainer = styled("div", {
   display: "flex",
   alignItems: "center",
   justifyContent: "flex-end",

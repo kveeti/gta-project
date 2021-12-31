@@ -64,11 +64,13 @@ const Layout = ({ children }) => {
       <MenuBar mobile={mobile} />
       <Content single={newSite && tablet}>
         <Main>{children}</Main>
+
         {showSideBar && (
           <SidebarContainer>
             <Sidebar />
           </SidebarContainer>
         )}
+
         {showFloatingButtons && (
           <>
             <RightFloatingButtons />
