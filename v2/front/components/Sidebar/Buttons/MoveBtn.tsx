@@ -1,14 +1,16 @@
+import { useRouter } from "next/router";
 import { useISelector } from "../../../state/hooks";
 import { SidebarBtn } from "./Styles";
 
-export const MoveBtn = ({ onClick, open }) => {
+export const MoveBtn = () => {
+  const router = useRouter();
   const checkedCars = useISelector((state) => state.checkedCars);
 
   const showButton = checkedCars.length > 0;
 
   return (
-    <SidebarBtn onClick={(e) => showButton && onClick(e)} blue disabled={!showButton}>
-      {open ? "Click again to confirm" : "Move"}
+    <SidebarBtn blue disabled={!showButton} onClick={() => router.push("/move")}>
+      Move
     </SidebarBtn>
   );
 };

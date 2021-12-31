@@ -34,6 +34,30 @@ export const constants = {
     },
   },
 
+  move: {
+    set: {
+      GARAGE_INPUT: "MOVE__SET_GARAGE_INPUT",
+      CHOSEN_GARAGE: "MOVE__SET_CHOSEN_GARAGE",
+    },
+
+    matchingGarages: {
+      SET: "MOVE__MATCHING_GARAGES_SET",
+      api: {
+        SET_LOADING: "MOVE__MATCHING_GARAGES_API_SET_LOADING",
+        SET_SUCCESS: "MOVE__MATCHING_GARAGES_API_SET_SUCCESS",
+        SET_ERROR: "MOVE__MATCHING_GARAGES_API_SET_ERROR",
+      },
+    },
+
+    api: {
+      SET_SAVING: "MOVE__API_SET_SAVING",
+      SET_SUCCESS: "MOVE__API_SET_SUCCESS",
+      SET_ERROR: "MOVE__API_SET_ERROR",
+    },
+
+    RESET: "MOVE__RESET",
+  },
+
   new: {
     car: {
       set: {

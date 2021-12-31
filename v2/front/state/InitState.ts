@@ -39,6 +39,27 @@ export interface InitState {
 
   checkedCars: ICar[];
 
+  move: {
+    garageInput: string;
+    chosenGarage: IGarage;
+
+    matchingGarages: {
+      matching: IGarage[];
+
+      api: {
+        loading: boolean;
+        success: boolean;
+        error: boolean;
+      };
+    };
+
+    api: {
+      saving: boolean;
+      success: boolean;
+      error: boolean;
+    };
+  };
+
   new: {
     car: {
       api: {
@@ -130,6 +151,27 @@ export const initState: InitState = {
   },
 
   checkedCars: [],
+
+  move: {
+    garageInput: "",
+    chosenGarage: null,
+
+    matchingGarages: {
+      matching: [],
+
+      api: {
+        loading: false,
+        success: false,
+        error: false,
+      },
+    },
+
+    api: {
+      saving: false,
+      success: false,
+      error: false,
+    },
+  },
 
   new: {
     car: {

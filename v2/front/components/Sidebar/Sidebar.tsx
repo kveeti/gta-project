@@ -45,9 +45,6 @@ export const Sidebar = () => {
   const [deleteOpen, setDeleteOpen] = useState(false);
   const [deleteTimer, setDeleteTimer] = useState(null);
 
-  const [moveOpen, setMoveOpen] = useState(false);
-  const [moveTimer, setMoveTimer] = useState(null);
-
   const checkedCars = useISelector((state) => state.checkedCars);
   const searchInput = useISelector((state) => state.search.input.value);
 
@@ -69,26 +66,11 @@ export const Sidebar = () => {
     setDeleteTimer(timer);
   };
 
-  const moveOnClick = () => {
-    if (moveOpen) {
-      setMoveOpen(false);
-      return clearTimeout(deleteTimer);
-    }
-
-    setMoveOpen(!moveOpen);
-
-    clearTimeout(moveTimer);
-    const timer = setTimeout(() => {
-      setMoveOpen(false);
-    }, 2000);
-    setMoveTimer(timer);
-  };
-
   return (
     <StyledSidebar>
       <Buttons>
-        {!moveOpen && <DeleteBtn onClick={() => deleteOnClick()} open={deleteOpen} />}
-        {!deleteOpen && <MoveBtn onClick={() => moveOnClick()} open={moveOpen} />}
+        <DeleteBtn onClick={() => deleteOnClick()} open={deleteOpen} />
+        {!deleteOpen && <MoveBtn />}
       </Buttons>
       <LowerContainer text={!showCheckedCars}>
         {showCheckedCars ? <CheckedCars /> : <Text lessOpaque>Selected cars will appear here</Text>}
