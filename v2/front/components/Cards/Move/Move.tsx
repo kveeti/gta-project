@@ -1,5 +1,5 @@
 import { useISelector } from "../../../state/hooks";
-import { ButtonContainer, PageCard } from "../../Styles/Page-cards";
+import { PageButtonContainer, PageCard } from "../../Styles/Page-cards";
 import { Desc, Title } from "../../Styles/Text";
 import { GarageInput } from "./GarageInput";
 import MatchingGarages from "./MatchingGarages";
@@ -21,9 +21,9 @@ export const MoveCard = () => {
       <GarageInput />
       <MatchingGarages />
 
-      <ButtonContainer>
+      <PageButtonContainer>
         <MoveButton />
-      </ButtonContainer>
+      </PageButtonContainer>
     </PageCard>
   );
 };
