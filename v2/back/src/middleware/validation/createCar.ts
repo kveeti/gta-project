@@ -2,6 +2,7 @@ import { Request, Response, NextFunction } from "express";
 import { db } from "../../db";
 import { Auth } from "../../interfaces/Auth";
 import { res400, res500 } from "../../util/responseWith";
+import { simplifyGarages } from "../../util/simplify";
 
 export const createCarValidation = async (req: Request, res: Response, next: NextFunction) => {
   const auth = res.locals.auth as Auth;
@@ -19,12 +20,13 @@ export const createCarValidation = async (req: Request, res: Response, next: Nex
 
     // check if garage exists and belongs to user
     const garage = await db.garages.get.one(garageId, auth.dbId);
-    if (!garage) return res400(res, "'garageId' was invalid");
+    if (!garage) return res400(res, "You don't own this garage");
+    const simplifiedGarage = simplifyGarages([garage])[0];
+
+    if (!simplifiedGarage) return res400(res, "You don't own this garage");
 
     // check garage's capacity
-    const carsInGarage = await db.cars.get.byGarage(garageId, auth.dbId);
-    if (carsInGarage && carsInGarage.length >= garage.modelGarage.capacity)
-      return res400(res, `garage is full, max: ${garage.modelGarage.capacity}`);
+    if (simplifiedGarage.room < 1) return res400(res, "There isn't enough room in the garage");
 
     next();
   } catch (err: any) {

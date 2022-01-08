@@ -23,8 +23,9 @@ export interface SimplifiedGarage {
   name: string;
   desc: string;
   capacity: number;
-  type: string;
   amountOfCars: number;
+  room: number;
+  type: string;
   owner: string;
   full: boolean;
 }

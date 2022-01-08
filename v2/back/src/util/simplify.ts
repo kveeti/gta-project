@@ -56,7 +56,9 @@ const getClass = (original: string) => {
 };
 
 export const simplifyGarages = (garages: IdGarage[]) => {
-  const list = garages.map((garage) => {
+  if (!garages.length) return [];
+
+  return garages.map((garage) => {
     if (!isIdModelGarage(garage.modelGarage)) {
       throw new Error("couldn't simplify owned garages, modelGarage wasn't populated");
     }
@@ -72,13 +74,12 @@ export const simplifyGarages = (garages: IdGarage[]) => {
       capacity: garage.modelGarage.capacity,
       amountOfCars: garage.cars.length,
       full: garage.cars.length >= garage.modelGarage.capacity,
+      room: garage.modelGarage.capacity - garage.cars.length,
       type: garage.modelGarage.type,
       owner: garage.owner.owner,
     };
     return simplifiedGarage;
   });
-
-  return list;
 };
 
 export const simplifyUser = (user: IdUser) => {
