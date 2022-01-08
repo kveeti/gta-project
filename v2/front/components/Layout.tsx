@@ -57,7 +57,11 @@ const Layout = ({ children }) => {
   if (newSite) {
     showSideBar = !mobile && !tablet;
   } else {
-    showSideBar = !mobile;
+    showSideBar = true;
+
+    if (mobile) {
+      showSideBar = showOnlySidebar;
+    }
   }
 
   return (
@@ -66,12 +70,11 @@ const Layout = ({ children }) => {
       <Content single={newSite && tablet}>
         {!showOnlySidebar && <Main>{children}</Main>}
 
-        {showSideBar ||
-          (showOnlySidebar && (
-            <SidebarContainer>
-              <Sidebar />
-            </SidebarContainer>
-          ))}
+        {showSideBar && (
+          <SidebarContainer>
+            <Sidebar />
+          </SidebarContainer>
+        )}
 
         {showFloatingButtons && (
           <>

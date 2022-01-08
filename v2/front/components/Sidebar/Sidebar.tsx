@@ -4,21 +4,24 @@ import { MoveBtn } from "./Buttons/MoveBtn";
 import { gray } from "@radix-ui/colors";
 import { styled } from "../../stitches.config";
 import { CheckedCars } from "./CheckedCars/CheckedCars";
-import { Text } from "../Styles/Text";
+import { Text, Title } from "../Styles/Text";
 import { useState } from "react";
 import { useDispatch } from "react-redux";
 import { actions } from "../../state/actions";
 
 export const StyledSidebar = styled("div", {
+  display: "flex",
+  flexDirection: "column",
   height: "100%",
   boxShadow: "0 1px 3px 0 rgb(0 0 0 / 20%)",
   backgroundColor: "white",
+  padding: "0.5rem",
+  gap: "0.5rem",
 });
 
 export const Buttons = styled("div", {
   display: "flex",
   gap: "0.5rem",
-  padding: "0.5rem",
 
   borderBottom: `1px solid ${gray.gray6}`,
 });
@@ -27,7 +30,6 @@ export const LowerContainer = styled("div", {
   display: "flex",
   flexDirection: "column",
   height: "100%",
-  padding: "0.5rem",
   overflowY: "auto",
 
   variants: {
@@ -48,6 +50,7 @@ export const Sidebar = () => {
 
   const checkedCars = useISelector((state) => state.checked.cars);
   const searchInput = useISelector((state) => state.search.input.value);
+  const mobile = useISelector((state) => state.checked.show);
 
   const showCheckedCars = checkedCars.length > 0;
 
@@ -69,10 +72,14 @@ export const Sidebar = () => {
 
   return (
     <StyledSidebar>
-      <Buttons>
-        <DeleteBtn onClick={() => deleteOnClick()} open={deleteOpen} />
-        {!deleteOpen && <MoveBtn />}
-      </Buttons>
+      {mobile ? (
+        <Title>Selected cars</Title>
+      ) : (
+        <Buttons>
+          <DeleteBtn onClick={() => deleteOnClick()} open={deleteOpen} />
+          {!deleteOpen && <MoveBtn />}
+        </Buttons>
+      )}
       <LowerContainer text={!showCheckedCars}>
         {showCheckedCars ? <CheckedCars /> : <Text lessOpaque>Selected cars will appear here</Text>}
       </LowerContainer>

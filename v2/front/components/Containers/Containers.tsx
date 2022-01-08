@@ -53,4 +53,9 @@ export const SidebarContainer = styled("div", {
     padding: "0.5rem 0.5rem 0.5rem 0rem",
     height: "calc(100vh - 5rem)",
   },
+
+  "@mobile": {
+    minWidth: "auto",
+    padding: "0.5rem",
+  },
 });
