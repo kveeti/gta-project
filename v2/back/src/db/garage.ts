@@ -13,23 +13,10 @@ export const get = {
   },
 
   one: async (id: string, owner: ObjectId) => {
-    const one = await GarageModel.findOne({ _id: id, owner })
-      .select("-_id -__v")
+    return await GarageModel.findOne({ _id: id, owner })
+      .select("-__v")
       .populate("modelGarage")
       .populate("owner");
-
-    if (!one) return null;
-
-    if (isModelGarage(one.modelGarage))
-      return {
-        _id: one._id,
-        modelGarage: one.modelGarage as ModelGarage,
-        owner: one.owner,
-      };
-
-    console.log("db.garages.get.one, one.modelGarage was not a valid modelGarage");
-
-    return null;
   },
 
   byModelGarageId: async (modelGarageId: ObjectId, owner: ObjectId) => {

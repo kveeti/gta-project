@@ -27,7 +27,7 @@ export const get = {
   },
 
   byGarage: async (garage: ObjectId, owner: ObjectId) => {
-    const res = await CarModel.find({ garage, owner })
+    return await CarModel.find({ garage, owner })
       .select("-__v")
       .populate("modelCar")
       .populate("owner")
@@ -35,25 +35,17 @@ export const get = {
         path: "garage",
         populate: [{ path: "modelGarage" }],
       });
+  },
 
-    const garages = res.map((garage) => {
-      if (isModelCar(garage.modelCar)) {
-        return {
-          id: garage._id,
-          modelCar: garage.modelCar as ModelCar,
-          owner: garage.owner,
-        };
-      }
-
-      return null;
-    });
-
-    if (garages.includes(null)) {
-      console.log("db.cars.get.all, a car was not a vaild modelCar");
-      return null;
-    }
-
-    return garages;
+  byIds: async (ids: ObjectId[], owner: ObjectId) => {
+    return await CarModel.find({ _id: { $in: ids }, owner })
+      .select("-__v")
+      .populate("modelCar")
+      .populate("owner")
+      .populate({
+        path: "garage",
+        populate: [{ path: "modelGarage" }],
+      });
   },
 
   all: async (owner: ObjectId) => {
@@ -63,15 +55,16 @@ export const get = {
       .populate("owner")
       .populate({
         path: "garage",
-        populate: [{ path: "modelGarage" }],
+        select: "-__v",
+        populate: [{ path: "modelGarage", select: "-__v" }],
       });
 
     return cars;
   },
 };
 
-export const setGarage = async (id: ObjectId, garage: ObjectId) => {
-  await CarModel.updateOne({ _id: id }, { garage });
+export const setGarage = async (id: ObjectId, owner: ObjectId, garage: ObjectId) => {
+  await CarModel.updateOne({ _id: id, owner }, { garage });
 };
 
 export const create = async (car: Car) => {
