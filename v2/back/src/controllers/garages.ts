@@ -1,7 +1,7 @@
 import { Request, Response } from "express";
 import { db } from "../db";
 import { Auth } from "../interfaces/Auth";
-import { res200, res500 } from "../util/responseWith";
+import { res200Json, res500 } from "../util/responseWith";
 
 export const createGarage = async (req: Request, res: Response) => {
   const modelGarageId = req.body.modelGarageId;
@@ -17,7 +17,7 @@ export const createGarage = async (req: Request, res: Response) => {
     });
 
     await db.user.garages.add(newGarage._id, auth);
-    res200(res);
+    res200Json(res, newGarage);
   } catch (err: any) {
     console.log(err);
     res500(res, "db error");
