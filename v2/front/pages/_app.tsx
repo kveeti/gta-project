@@ -5,10 +5,12 @@ import { store } from "../state/store";
 
 import "../styles/globals.css";
 
-export default ({ Component, pageProps: { session, ...pageProps } }) => (
+const App = ({ Component, pageProps: { session, ...pageProps } }) => (
   <Provider store={store}>
     <SessionProvider session={session}>
       <Component {...pageProps} />
     </SessionProvider>
   </Provider>
 );
+
+export default App;
