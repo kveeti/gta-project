@@ -1,20 +1,20 @@
-import { TrashIcon, QuestionMarkIcon } from "@radix-ui/react-icons";
+import { QuestionMarkIcon, TrashIcon } from "@radix-ui/react-icons";
 import { useState } from "react";
 import { useDispatch } from "react-redux";
 import { actions } from "../../../state/actions";
 import { useISelector } from "../../../state/hooks";
-import { FloatingButton } from "../Styles";
+import { SmallFloatingButton } from "../Styles";
 
-export const DeleteButton = ({}) => {
+export const FloatingDeleteButton = () => {
   const [activated, setActivated] = useState(false);
   const [timer, setTimer] = useState(null);
   const dispatch = useDispatch();
-  const checkedCars = useISelector((state) => state.checkedCars);
+  const checkedCars = useISelector((state) => state.checked.cars);
   const searchInput = useISelector((state) => state.search.input.value);
 
   const onClick = () => {
     if (activated) {
-      dispatch(actions.checkedCars.remove(checkedCars, searchInput));
+      dispatch(actions.checked.remove(checkedCars, searchInput));
       setActivated(false);
       return clearTimeout(timer);
     }
@@ -29,12 +29,17 @@ export const DeleteButton = ({}) => {
   };
 
   return (
-    <FloatingButton big={activated} red style={{ marginTop: "1rem" }} onClick={() => onClick()}>
+    <SmallFloatingButton
+      big={activated}
+      red
+      style={{ marginTop: "1rem" }}
+      onClick={() => onClick()}
+    >
       {activated ? (
         <QuestionMarkIcon style={{ transform: "scale(1.5)" }} />
       ) : (
-        <TrashIcon style={{ transform: "scale(1.4)" }} />
+        <TrashIcon style={{ transform: "scale(1.5)" }} />
       )}
-    </FloatingButton>
+    </SmallFloatingButton>
   );
 };

@@ -102,9 +102,12 @@ export const move = (cars: ICar[], garageId: string, searchInput: string) => asy
   try {
     if (!cars.length) return;
 
+    const carIds = cars.map((car) => car.id);
+
     dispatch(api.setLoading(true));
-    // await axios(getNextAxiosConfig(`/cars`, "DELETE", cars));
+    await axios(getNextAxiosConfig(`/garages/${garageId}`, "PATCH", { carIds }));
     dispatch(api.setLoading(false));
+    dispatch(api.setError(false));
     dispatch(reset());
 
     if (searchInput) {

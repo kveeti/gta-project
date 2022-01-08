@@ -21,9 +21,9 @@ export const FloatingButton = styled("button", {
         backgroundColor: red.red9,
       },
     },
-    big: {
+    blue: {
       true: {
-        transform: "scale(1.5)",
+        backgroundColor: blue.blue8,
       },
     },
   },
@@ -31,6 +31,14 @@ export const FloatingButton = styled("button", {
 
 export const SmallFloatingButton = styled(FloatingButton, {
   transform: "scale(0.8)",
+
+  variants: {
+    big: {
+      true: {
+        transform: "scale(1.2)",
+      },
+    },
+  },
 });
 
 export const FloatingButtons = styled("div", {

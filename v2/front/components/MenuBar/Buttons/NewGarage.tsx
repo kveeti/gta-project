@@ -6,7 +6,7 @@ export const NewGarageButton = () => {
   const router = useRouter();
 
   const onClick = () => {
-    router.push("/new/garage");
+    router.push("/new/garage", "/new/garage", { shallow: true });
   };
 
   return (

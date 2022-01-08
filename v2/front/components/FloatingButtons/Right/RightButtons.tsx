@@ -1,26 +1,34 @@
 import { useState } from "react";
+import { useISelector } from "../../../state/hooks";
 import { FloatingButtons, SmallFloatingButtonsContainer } from "../Styles";
-import { HomeButton } from "./HomeButton";
-import { NewButton } from "./NewButton";
+import { FloatingDeleteButton } from "./DeleteButton";
+import { MainButton } from "./MainButton";
+import { FloatingMoveButton } from "./MoveButton";
 import { FloatingNewCarButton } from "./NewCarButton";
 import { FloatingNewGarageButton } from "./NewGarageButton";
 
 export const RightFloatingButtons = () => {
   const [showBtns, setShowBtns] = useState(false);
-  const route = window.location.pathname;
-
-  const garage = route.includes("garage");
-  const car = route.includes("car");
+  const showSidebar = useISelector((state) => state.checked.show);
 
   return (
     <FloatingButtons right>
       {showBtns && (
         <SmallFloatingButtonsContainer>
-          {car ? <HomeButton /> : <FloatingNewCarButton />}
-          {garage ? <HomeButton /> : <FloatingNewGarageButton />}
+          {showSidebar ? (
+            <>
+              <FloatingDeleteButton />
+              <FloatingMoveButton />
+            </>
+          ) : (
+            <>
+              <FloatingNewCarButton />
+              <FloatingNewGarageButton />
+            </>
+          )}
         </SmallFloatingButtonsContainer>
       )}
-      <NewButton onClick={() => setShowBtns(!showBtns)} />
+      <MainButton onClick={() => setShowBtns(!showBtns)} />
     </FloatingButtons>
   );
 };

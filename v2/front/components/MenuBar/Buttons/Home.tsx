@@ -5,7 +5,7 @@ export const HomeButton = () => {
   const router = useRouter();
 
   const onClick = () => {
-    router.push("/");
+    router.push("/", "/", { shallow: true });
   };
 
   return (
