@@ -24,9 +24,9 @@ export const constants = {
     },
   },
 
-  checkedCars: {
-    CHECK: "CHECK__CAR",
-    REMOVE: "REMOVE_CHECKED_CARS",
+  checked: {
+    SET_SHOW: "CHECKED__SET_SHOW",
+    CHECK_CAR: "CHECK__CAR",
     RESET: "RESET_CHECKED_CARS",
     removeApi: {
       REMOVING: "REMOVE_CHECKED_CARS__API_REMOVING",

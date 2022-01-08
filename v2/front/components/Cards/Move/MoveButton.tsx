@@ -9,7 +9,7 @@ export const MoveButton = () => {
   const chosenGarage = useISelector((state) => state.move.chosenGarage);
   const saving = useISelector((state) => state.move.api.saving);
 
-  const checkedCars = useISelector((state) => state.checkedCars);
+  const checkedCars = useISelector((state) => state.checked.cars);
   const searchInput = useISelector((state) => state.search.input.value);
 
   const onClick = () => {

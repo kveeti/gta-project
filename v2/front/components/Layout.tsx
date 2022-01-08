@@ -15,6 +15,7 @@ const Layout = ({ children }) => {
 
   const dispatch = useDispatch();
   const state = useISelector((state) => state);
+  const showOnlySidebar = useISelector((state) => state.checked.show);
   const mobile = state.bp === 1;
   const tablet = state.bp === 2;
   const showFloatingButtons = mobile;
@@ -63,13 +64,14 @@ const Layout = ({ children }) => {
     <Section>
       <MenuBar mobile={mobile} />
       <Content single={newSite && tablet}>
-        <Main>{children}</Main>
+        {!showOnlySidebar && <Main>{children}</Main>}
 
-        {showSideBar && (
-          <SidebarContainer>
-            <Sidebar />
-          </SidebarContainer>
-        )}
+        {showSideBar ||
+          (showOnlySidebar && (
+            <SidebarContainer>
+              <Sidebar />
+            </SidebarContainer>
+          ))}
 
         {showFloatingButtons && (
           <>

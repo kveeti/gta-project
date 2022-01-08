@@ -4,7 +4,7 @@ import { SidebarBtn } from "./Styles";
 
 export const MoveBtn = () => {
   const router = useRouter();
-  const checkedCars = useISelector((state) => state.checkedCars);
+  const checkedCars = useISelector((state) => state.checked.cars);
 
   const showButton = checkedCars.length > 0;
 

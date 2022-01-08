@@ -37,7 +37,10 @@ export interface InitState {
     };
   };
 
-  checkedCars: ICar[];
+  checked: {
+    show: boolean;
+    cars: ICar[];
+  };
 
   move: {
     garageInput: string;
@@ -150,7 +153,10 @@ export const initState: InitState = {
     },
   },
 
-  checkedCars: [],
+  checked: {
+    show: false,
+    cars: [],
+  },
 
   move: {
     garageInput: "",

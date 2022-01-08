@@ -4,33 +4,40 @@ import { ICar } from "../../interfaces/Car";
 import { constants } from "../actionTypes";
 import { getNextAxiosConfig } from "./axiosConfig";
 
-export const check = (car: ICar) => {
+export const checkCar = (car: ICar) => {
   return {
-    type: constants.checkedCars.CHECK,
+    type: constants.checked.CHECK_CAR,
     payload: car,
   };
 };
 
 export const reset = () => {
   return {
-    type: constants.checkedCars.RESET,
+    type: constants.checked.RESET,
   };
 };
 
 export const removeApi = {
   setLoading: (loading: boolean) => {
     return {
-      type: constants.checkedCars.removeApi.REMOVING,
+      type: constants.checked.removeApi.REMOVING,
       payload: loading,
     };
   },
 
   setError: (error: boolean) => {
     return {
-      type: constants.checkedCars.removeApi.ERROR,
+      type: constants.checked.removeApi.ERROR,
       payload: error,
     };
   },
+};
+
+export const setShow = (show: boolean) => {
+  return {
+    type: constants.checked.SET_SHOW,
+    payload: show,
+  };
 };
 
 export const remove = (cars: ICar[], searchInput: string) => async (dispatch) => {

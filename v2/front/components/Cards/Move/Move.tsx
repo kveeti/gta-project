@@ -6,7 +6,7 @@ import MatchingGarages from "./MatchingGarages";
 import { MoveButton } from "./MoveButton";
 
 export const MoveCard = () => {
-  const checkedCars = useISelector((state) => state.checkedCars);
+  const checkedCars = useISelector((state) => state.checked.cars);
 
   const plural = checkedCars.length === 1 ? "" : "s";
 
@@ -14,8 +14,10 @@ export const MoveCard = () => {
     <PageCard>
       <Title>Move</Title>
       <Desc>
-        {checkedCars.length} car{plural} selected. <br />
         Select a garage below to move the selected car{plural} there.
+        <br />
+        <br />
+        {checkedCars.length} car{plural} selected.
       </Desc>
 
       <GarageInput />

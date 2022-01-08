@@ -9,9 +9,9 @@ interface CarProps {
 }
 
 const Car = ({ car, onClick }: CarProps) => {
-  const checkedCars = useISelector((state) => state.checkedCars);
+  const checkedCars = useISelector((state) => state.checked.cars);
 
-  const checked = checkedCars.includes(car);
+  const checked = checkedCars.some((checkedCar) => checkedCar.id === car.id);
 
   return (
     <Card checked={checked} onClick={() => onClick(car)}>

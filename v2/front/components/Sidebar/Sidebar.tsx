@@ -46,14 +46,14 @@ export const Sidebar = () => {
   const [deleteOpen, setDeleteOpen] = useState(false);
   const [deleteTimer, setDeleteTimer] = useState(null);
 
-  const checkedCars = useISelector((state) => state.checkedCars);
+  const checkedCars = useISelector((state) => state.checked.cars);
   const searchInput = useISelector((state) => state.search.input.value);
 
   const showCheckedCars = checkedCars.length > 0;
 
   const deleteOnClick = () => {
     if (deleteOpen) {
-      dispatch(actions.checkedCars.remove(checkedCars, searchInput));
+      dispatch(actions.checked.remove(checkedCars, searchInput));
       setDeleteOpen(false);
       return clearTimeout(deleteTimer);
     }
