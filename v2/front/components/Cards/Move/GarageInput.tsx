@@ -60,7 +60,7 @@ const TextField = () => {
       type="text"
       autoFocus
       placeholder={"E.g. Popular street, unit 2"}
-      onChange={(e) => onInputChange(e.target.value)}
+      onChange={(value) => onInputChange(value)}
       value={garageInput}
     />
   );

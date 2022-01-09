@@ -52,7 +52,7 @@ const TextField = () => {
       id="garage-input"
       type="text"
       placeholder={"E.g. Popular street, unit 2"}
-      onChange={(e) => onInputChange(e.target.value)}
+      onChange={(value) => onInputChange(value)}
       value={newCarState.inputs.garage}
     />
   );

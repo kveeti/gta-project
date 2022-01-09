@@ -53,7 +53,7 @@ const TextField = () => {
       type="text"
       autoFocus
       placeholder="E.g 8f drafter"
-      onChange={(e) => onInputChange(e.target.value)}
+      onChange={(value) => onInputChange(value)}
       value={newCarState.inputs.car}
     />
   );

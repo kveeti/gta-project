@@ -1,5 +1,5 @@
 import { blackA } from "@radix-ui/colors";
-import { useRef, useState } from "react";
+import { ChangeEvent, useRef, useState } from "react";
 import { styled } from "../../stitches.config";
 import { ClearIcon } from "./Icons/ClearIcon";
 import { SearchIcon } from "./Icons/SearchIcon";
@@ -118,7 +118,7 @@ interface InputProps {
   value: string;
   type: string;
   ref?: any;
-  onChange: any;
+  onChange: (value: string) => void;
 }
 
 export const Input = ({
@@ -130,10 +130,9 @@ export const Input = ({
   value,
   type,
   onChange,
-  ref,
 }: InputProps) => {
   const [contFocus, setContFocus] = useState(false);
-  const inputRef = useRef<HTMLInputElement>();
+  const [inputVal, setInputVal] = useState(value);
 
   const isSearch = type === "search";
 
@@ -141,24 +140,28 @@ export const Input = ({
     setContFocus(!contFocus);
   };
 
+  const onInputChange = (value: string) => {
+    setInputVal(value);
+    onChange(value);
+  };
+
   return (
     <InputContainer focused={contFocus} white={white} transparent={transparent}>
       {isSearch && <SearchIcon />}
       <StyledInput
-        ref={inputRef || ref}
         id={id}
         type={type}
-        onChange={(e) => onChange(e)}
+        onChange={(e) => onInputChange(e.target.value)}
         placeholder={placeholder}
         autoComplete="off"
         autoFocus={autoFocus}
         onFocus={() => onInputFocusChange()}
         onBlur={() => onInputFocusChange()}
-        value={value}
+        value={inputVal}
         transparent={transparent}
         search={isSearch}
       />
-      <ClearIcon input={inputRef} />
+      <ClearIcon onChange={onInputChange} value={inputVal} />
     </InputContainer>
   );
 };

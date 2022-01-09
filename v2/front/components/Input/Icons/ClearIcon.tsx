@@ -1,5 +1,5 @@
 import { Cross1Icon } from "@radix-ui/react-icons";
-import { MutableRefObject } from "react";
+import { Dispatch, SetStateAction } from "react";
 import { styled } from "../../../stitches.config";
 
 const StyledIcon = styled("div", {
@@ -19,17 +19,16 @@ const StyledIcon = styled("div", {
 
 interface Props {
   hide?: boolean;
-  input: MutableRefObject<HTMLInputElement>;
+  value: string;
+  onChange: (value: string) => void;
 }
 
-export const ClearIcon = ({ hide, input }: Props) => {
-  const isInputEmpty = !input.current?.value;
-
+export const ClearIcon = ({ hide, value, onChange }: Props) => {
   return (
     <StyledIcon
-      hide={hide || isInputEmpty}
+      hide={hide || !value}
       onClick={() => {
-        input.current.value = "";
+        onChange("");
       }}
     >
       <Cross1Icon />
