@@ -11,7 +11,7 @@ export const NewCarButton = () => {
 
   return (
     <MenubarBtn transparent onClick={() => onClick()}>
-      <NewCarIcon color={"white"} height={23} />
+      <NewCarIcon color={"white"} height={22} iconStyle={{ paddingTop: "4px" }} />
     </MenubarBtn>
   );
 };

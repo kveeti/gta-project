@@ -9,7 +9,11 @@ export const MoveBtn = () => {
   const showButton = checkedCars.length > 0;
 
   return (
-    <SidebarBtn blue disabled={!showButton} onClick={() => router.push("/move")}>
+    <SidebarBtn
+      blue
+      disabled={!showButton}
+      onClick={() => router.push("/move", "/move", { shallow: true })}
+    >
       Move
     </SidebarBtn>
   );
