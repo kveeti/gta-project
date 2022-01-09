@@ -6,7 +6,7 @@ export const getNextAxiosConfig = (path: string, method: Method, body?: any) => 
     url: `${siteUrl}/api${path}`,
     method: method,
     data: body,
-    timeout: 2000,
+    timeout: 10000,
   };
 
   return config;
@@ -22,7 +22,7 @@ export const getApiAxiosConfig = (path: string, method: Method, token: string, q
     headers: {
       authorization: `Bearer ${token}`,
     },
-    timeout: 2000,
+    timeout: 10000,
   };
 
   return config;
@@ -41,7 +41,7 @@ export const getApiAxiosConfigWithBody = (
     headers: {
       authorization: `Bearer ${token}`,
     },
-    timeout: 2000,
+    timeout: 10000,
   };
 
   return config;
