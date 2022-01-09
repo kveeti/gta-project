@@ -1,4 +1,5 @@
 import { useDispatch } from "react-redux";
+import { toast } from "react-toastify";
 import { actions } from "../../../../state/actions";
 import { useISelector } from "../../../../state/hooks";
 import { PageButton } from "../../../Styles/Page-cards";
@@ -9,7 +10,8 @@ const SaveButton = () => {
   const newCarState = useISelector((state) => state.newCar);
 
   const onClick = () => {
-    if (!newCarState.chosenCar || !newCarState.chosenGarage) return;
+    if (!newCarState.chosenCar) return toast.error("No car chosen");
+    if (!newCarState.chosenGarage) return toast.error("No garage chosen");
 
     dispatch(actions.newCar.save(newCarState.chosenCar, newCarState.chosenGarage));
   };
