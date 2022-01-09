@@ -11,7 +11,7 @@ const SaveButton = () => {
   const onClick = () => {
     if (!newCarState.chosenCar || !newCarState.chosenGarage) return;
 
-    dispatch(actions.newCar.save(newCarState.chosenCar.id, newCarState.chosenGarage.id));
+    dispatch(actions.newCar.save(newCarState.chosenCar, newCarState.chosenGarage));
   };
 
   const bothChosen = newCarState.chosenCar && newCarState.chosenGarage;

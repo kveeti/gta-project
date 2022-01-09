@@ -1,4 +1,5 @@
 import axios from "axios";
+import { toast } from "react-toastify";
 import { ICar, ModelCar } from "../../interfaces/Car";
 import { IGarage, ModelGarage } from "../../interfaces/Garage";
 import { constants } from "../actionTypes";
@@ -130,21 +131,23 @@ export const search = {
   },
 };
 
-export const save = (chosenCarId: string, chosenGarageId: string) => async (dispatch) => {
+export const save = (chosenCar: ICar, chosenGarage: IGarage) => async (dispatch) => {
   try {
-    if (!chosenCarId || !chosenGarageId) return;
+    if (!chosenCar || !chosenGarage) return;
 
     dispatch(set.api.setSaving(true));
     await axios(
       getNextAxiosConfig(`/cars`, "POST", {
-        modelCarId: chosenCarId,
-        garageId: chosenGarageId,
+        modelCarId: chosenCar.id,
+        garageId: chosenGarage.id,
       })
     );
     dispatch(set.api.setSaving(false));
+    toast.success(`Successfully saved ${chosenCar.name} to ${chosenGarage.name}`);
     dispatch(reset());
   } catch (error) {
     dispatch(set.api.setSaving(false));
     dispatch(set.api.setError(true));
+    toast.error(`Error saving ${chosenCar.name} to ${chosenGarage.name}`);
   }
 };

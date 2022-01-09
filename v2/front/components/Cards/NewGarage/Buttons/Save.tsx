@@ -9,7 +9,7 @@ const SaveButton = () => {
   const newGarageState = useISelector((state) => state.newGarage);
 
   const onClick = () => {
-    dispatch(actions.newGarage.save(newGarageState.chosenGarage.id, newGarageState.inputs.desc));
+    dispatch(actions.newGarage.save(newGarageState.chosenGarage, newGarageState.inputs.desc));
   };
 
   const saving = newGarageState.api.saving;
