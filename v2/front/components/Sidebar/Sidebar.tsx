@@ -15,13 +15,17 @@ export const StyledSidebar = styled("div", {
   height: "100%",
   boxShadow: "0 1px 3px 0 rgb(0 0 0 / 20%)",
   backgroundColor: "white",
-  padding: "0.5rem",
-  gap: "0.5rem",
+
+  "@mobile": {
+    padding: "0.5rem",
+    gap: "0.5rem",
+  },
 });
 
 export const Buttons = styled("div", {
   display: "flex",
   gap: "0.5rem",
+  padding: "0.5rem",
 
   borderBottom: `1px solid ${gray.gray6}`,
 });
@@ -31,6 +35,11 @@ export const LowerContainer = styled("div", {
   flexDirection: "column",
   height: "100%",
   overflowY: "auto",
+  padding: "0.5rem",
+
+  "@mobile": {
+    padding: "0",
+  },
 
   variants: {
     text: {
