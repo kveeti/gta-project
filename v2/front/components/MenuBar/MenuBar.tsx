@@ -4,6 +4,7 @@ import { ProfileButton } from "./Buttons/ProfileButton";
 import { NewCarButton } from "./Buttons/NewCar";
 import { NewGarageButton } from "./Buttons/NewGarage";
 import { HomeButton } from "./Buttons/Home";
+import { useISelector } from "../../state/hooks";
 
 const MenubarContainer = styled("nav", {
   height: "5rem",
@@ -62,6 +63,8 @@ const LeftButtons = styled("div", {
 });
 
 export const MenuBar = ({ mobile }) => {
+  const me = useISelector((state) => state.users.me);
+
   return (
     <MenubarContainer>
       <MenubarContent>
@@ -76,7 +79,7 @@ export const MenuBar = ({ mobile }) => {
             <>
               <LeftButtons>
                 <HomeButton />
-                <NewCarButton />
+                {me.carCount && <NewCarButton />}
                 <NewGarageButton />
               </LeftButtons>
               <ProfileButton />

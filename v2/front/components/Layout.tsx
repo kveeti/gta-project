@@ -10,9 +10,12 @@ import { RightFloatingButtons } from "./FloatingButtons/Right/RightButtons";
 import { MenuBar } from "./MenuBar/MenuBar";
 import { Sidebar } from "./Sidebar/Sidebar";
 import { ToastContainer } from "react-toastify";
+import { useRouter } from "next/router";
 
 const Layout = ({ children }) => {
   if (typeof window === "undefined") return null;
+
+  const router = useRouter();
 
   const dispatch = useDispatch();
   const state = useISelector((state) => state);
@@ -46,7 +49,10 @@ const Layout = ({ children }) => {
   // if user doesnt have a session, redirect to sign in
   const { data, status } = useSession();
   if (status === "loading") return null;
-  if (!data) return <SignInCard />;
+  if (!data) {
+    router.push("/login", "/login", { shallow: true });
+    return null;
+  }
 
   const location = window.location.pathname;
   const newSite = location.includes("new");

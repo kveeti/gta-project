@@ -29,7 +29,7 @@ export const UserInfo = () => {
     <PageCard>
       <Title>User info</Title>
       <Text>
-        <b>{data.user.name}</b> - {data.user.email}
+        <b>{data?.user?.name}</b> - {data?.user?.email}
       </Text>
       <Specs>
         <Text>
