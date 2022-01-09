@@ -5,11 +5,17 @@ const reducer = (state = initState.checked, action: any) => {
   switch (action.type) {
     case constants.checked.CHECK_CAR:
       // if car is already checked, return a filtered array without the car
-      if (state.cars.some((car) => car.id === action.payload.id))
+      if (state.cars.some((car) => car.id === action.payload.id)) {
+        const filtered = state.cars.filter((car) => car.id !== action.payload.id);
+
+        // if there wont be any cars left, hide the selected cars on mobile
+        if (!filtered.length) return { ...state, cars: filtered, show: false };
+
         return {
           ...state,
-          cars: state.cars.filter((car) => car.id !== action.payload.id),
+          cars: filtered,
         };
+      }
 
       // if car is not checked add the car to the array and return the new array
       return {
