@@ -9,6 +9,7 @@ import { LeftFloatingButton } from "./FloatingButtons/Left/LeftButtons";
 import { RightFloatingButtons } from "./FloatingButtons/Right/RightButtons";
 import { MenuBar } from "./MenuBar/MenuBar";
 import { Sidebar } from "./Sidebar/Sidebar";
+import { ToastContainer } from "react-toastify";
 
 const Layout = ({ children }) => {
   if (typeof window === "undefined") return null;
@@ -67,6 +68,18 @@ const Layout = ({ children }) => {
   return (
     <Section>
       <MenuBar mobile={mobile} />
+      <ToastContainer
+        position="top-left"
+        autoClose={5000}
+        hideProgressBar={false}
+        newestOnTop={true}
+        closeOnClick
+        theme="colored"
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
+      />
       <Content single={newSite && tablet}>
         {!showOnlySidebar && <Main>{children}</Main>}
 

@@ -4,6 +4,7 @@ import { Provider } from "react-redux";
 import { store } from "../state/store";
 
 import "../styles/globals.css";
+import "react-toastify/dist/ReactToastify.min.css";
 
 const App = ({ Component, pageProps: { session, ...pageProps } }) => (
   <Provider store={store}>
