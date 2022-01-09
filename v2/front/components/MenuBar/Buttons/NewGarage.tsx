@@ -1,5 +1,5 @@
-import { PlusIcon } from "@radix-ui/react-icons";
 import { useRouter } from "next/router";
+import { NewGarageIcon } from "../../Icons/NewGarageIcon";
 import { MenubarBtn } from "./Styles";
 
 export const NewGarageButton = () => {
@@ -11,8 +11,7 @@ export const NewGarageButton = () => {
 
   return (
     <MenubarBtn transparent onClick={() => onClick()}>
-      <PlusIcon style={{ color: "white" }} />
-      <img src="/icons/garage-icon.png" alt="garage icon" height={26} />
+      <NewGarageIcon color={"white"} height={25} />
     </MenubarBtn>
   );
 };
