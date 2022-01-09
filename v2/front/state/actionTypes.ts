@@ -25,6 +25,7 @@ export const constants = {
   },
 
   checked: {
+    SET_CHECKED_CARS: "CHECKED__SET_CHECKED_CARS",
     SET_SHOW: "CHECKED__SET_SHOW",
     CHECK_CAR: "CHECK__CAR",
     RESET: "RESET_CHECKED_CARS",

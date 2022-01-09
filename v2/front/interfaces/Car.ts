@@ -7,6 +7,7 @@ export interface ICar {
   manufacturer: string;
   price: number;
   class: string;
+  reason?: string;
 }
 
 export interface ModelCar {

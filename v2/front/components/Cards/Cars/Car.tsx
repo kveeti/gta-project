@@ -14,10 +14,16 @@ const Car = ({ car, onClick }: CarProps) => {
   const checked = checkedCars.some((checkedCar) => checkedCar.id === car.id);
 
   return (
-    <Card checked={checked} onClick={() => onClick(car)}>
+    <Card red={car.reason && true} checked={checked} onClick={() => onClick(car)}>
       <Text>{car.class}</Text>
       <Title>{car.name}</Title>
       {car.garage && <Text>{car.garage.name}</Text>}
+
+      {car.reason && (
+        <Text style={{ paddingTop: "1rem" }}>
+          <b>Error:</b> {car.reason}
+        </Text>
+      )}
     </Card>
   );
 };

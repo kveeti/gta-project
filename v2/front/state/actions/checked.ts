@@ -40,6 +40,13 @@ export const setShow = (show: boolean) => {
   };
 };
 
+export const setCheckedCars = (checkedCars: ICar[]) => {
+  return {
+    type: constants.checked.SET_CHECKED_CARS,
+    payload: checkedCars,
+  };
+};
+
 export const remove = (cars: ICar[], searchInput: string) => async (dispatch) => {
   try {
     if (!cars.length) return;

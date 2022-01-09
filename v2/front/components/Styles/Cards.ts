@@ -1,3 +1,4 @@
+import { red } from "@radix-ui/colors";
 import { styled } from "../../stitches.config";
 
 export const Card = styled("div", {
@@ -36,6 +37,25 @@ export const Card = styled("div", {
         "@media (hover: hover)": {
           "&:hover, &:focus": {
             backgroundColor: "$cardCheckedHover",
+          },
+        },
+      },
+    },
+    red: {
+      true: {
+        backgroundColor: red.red7,
+
+        "&:hover": {
+          backgroundColor: red.red8,
+        },
+
+        "&:focus": {
+          backgroundColor: red.red8,
+        },
+
+        "@media (hover: hover)": {
+          "&:hover, &:focus": {
+            backgroundColor: red.red8,
           },
         },
       },

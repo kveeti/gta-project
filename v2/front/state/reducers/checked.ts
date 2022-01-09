@@ -32,6 +32,12 @@ const reducer = (state = initState.checked, action: any) => {
         show: action.payload,
       };
 
+    case constants.checked.SET_CHECKED_CARS:
+      return {
+        ...state,
+        cars: action.payload,
+      };
+
     default:
       return state;
   }

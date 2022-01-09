@@ -1,4 +1,5 @@
 import { useDispatch } from "react-redux";
+import { toast } from "react-toastify";
 import { actions } from "../../../state/actions";
 import { useISelector } from "../../../state/hooks";
 import { PageButton } from "../../Styles/Page-cards";
@@ -13,9 +14,10 @@ export const MoveButton = () => {
   const searchInput = useISelector((state) => state.search.input.value);
 
   const onClick = () => {
-    if (!chosenGarage || !checkedCars.length) return;
+    if (!checkedCars.length) return toast.error("No cars selected");
+    if (!chosenGarage) return toast.error("No garage selected");
 
-    dispatch(actions.move.move(checkedCars, chosenGarage.id, searchInput));
+    dispatch(actions.move.move(checkedCars, chosenGarage, searchInput));
   };
 
   return (
