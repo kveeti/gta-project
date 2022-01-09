@@ -1,7 +1,7 @@
 import { Request, Response, NextFunction } from "express";
 import { db } from "../../db";
 import { Auth } from "../../interfaces/Auth";
-import { ErrorCars } from "../../interfaces/ErrorCars";
+import { ErrorCar } from "../../interfaces/ErrorCars";
 import { SimplifiedCar } from "../../interfaces/Simplified";
 import { res400, res500 } from "../../util/responseWith";
 import { simplifyCars, simplifyGarages } from "../../util/simplify";
@@ -14,18 +14,18 @@ export const moveCarValidation = async (req: Request, res: Response, next: NextF
   if (!Array.isArray(carIds)) return res400(res, "'carIds' were invalid");
   if (!garageId) return res400(res, "'garageId' was not provided");
 
-  const errorCars: ErrorCars[] = [];
+  const errorCars: ErrorCar[] = [];
 
   try {
     let ownedCars = simplifyCars(await db.cars.get.byIds(carIds, auth.dbId));
 
     ownedCars = ownedCars.filter((car: SimplifiedCar) => {
       if (!carIds.includes("" + car.id)) {
-        errorCars.push({ id: car.id, reason: "not owned" });
+        errorCars.push({ ...car, reason: "not owned" });
         return false;
       }
       if ("" + car.garage.id === garageId) {
-        errorCars.push({ id: car.id, reason: "already in target" });
+        errorCars.push({ ...car, reason: "already in target" });
         return false;
       }
 

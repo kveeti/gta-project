@@ -4,6 +4,7 @@ import { db } from "../db";
 import { Auth } from "../interfaces/Auth";
 import { SimplifiedCar, SimplifiedGarage } from "../interfaces/Simplified";
 import { res200, res200Json, res400, res500 } from "../util/responseWith";
+import { simplifyCars } from "../util/simplify";
 
 export const createCar = async (req: Request, res: Response) => {
   const modelCarId = req.body.modelCarId as ObjectId;
@@ -62,7 +63,17 @@ export const moveCars = async (req: Request, res: Response) => {
       await db.garages.cars.add(targetGarage.id, car.id, auth.dbId);
     }
 
-    res200Json(res, { errorCars });
+    const movedCars = simplifyCars(
+      await db.cars.get.byIds(
+        cars.map((car) => car.id),
+        auth.dbId
+      )
+    );
+
+    res200Json(res, {
+      errorCars,
+      movedCars,
+    });
   } catch (err: any) {
     console.log(err);
     res500(res, "db error");

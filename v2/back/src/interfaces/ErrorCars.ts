@@ -1,6 +1,5 @@
-import { ObjectId } from "mongoose";
+import { SimplifiedCar } from "./Simplified";
 
-export interface ErrorCars {
+export interface ErrorCar extends SimplifiedCar {
   reason: string;
-  id: ObjectId;
 }
