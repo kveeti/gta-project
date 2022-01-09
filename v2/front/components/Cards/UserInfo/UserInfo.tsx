@@ -33,10 +33,10 @@ export const UserInfo = () => {
       </Text>
       <Specs>
         <Text>
-          <b>Cars:</b> {me.carCount}
+          <b>Cars:</b> {me?.carCount}
         </Text>
         <Text>
-          <b>Garages:</b> {me.garageCount}
+          <b>Garages:</b> {me?.garageCount}
         </Text>
       </Specs>
     </PageCard>
