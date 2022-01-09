@@ -37,14 +37,9 @@ const TextField = () => {
   const onInputChange = (value: string) => {
     dispatch(actions.move.set.garageInput(value));
 
-    if (!value) {
-      clearTimeout(timer);
-      dispatch(actions.move.matchingGarages.set([]));
-      dispatch(actions.move.matchingGarages.api.setLoading(false));
-      return;
-    }
-
     clearTimeout(timer);
+
+    if (!value) return dispatch(actions.move.matchingGarages.set([]));
 
     const timeout = setTimeout(() => {
       dispatch(actions.move.matchingGarages.search(value));

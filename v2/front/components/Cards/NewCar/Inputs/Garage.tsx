@@ -39,6 +39,8 @@ const TextField = () => {
 
     clearTimeout(timer);
 
+    if (!value) return dispatch(actions.newCar.set.garages.matching([]));
+
     const timeout = setTimeout(() => {
       dispatch(actions.newCar.search.garages(value));
     }, 200);
