@@ -6,6 +6,7 @@ export interface IGarage {
   desc: string;
   capacity: number;
   amountOfCars: number;
+  room: number;
   full: boolean;
   type: string;
   owner: string;

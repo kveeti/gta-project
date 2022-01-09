@@ -7,7 +7,9 @@ import { Text } from "../../Styles/Text";
 interface GarageProps {
   garage: IGarage | ModelGarage;
   onClick?: (garage: IGarage | ModelGarage) => void;
-  search?: boolean;
+  notAllowed?: boolean;
+  showCapacity?: boolean;
+  showAlreadyOwned?: boolean;
 }
 
 const GarageCard = styled(Card, {
@@ -24,21 +26,36 @@ const GarageCard = styled(Card, {
   },
 });
 
-export const Garage = ({ garage, onClick, search }: GarageProps) => {
-  const isGarage = !isModelGarage(garage);
-  const notAllowed = (!isGarage && garage.alreadyOwned) || (isGarage && garage.full);
+export const Garage = ({
+  garage,
+  onClick,
+  notAllowed,
+  showCapacity,
+  showAlreadyOwned,
+}: GarageProps) => {
+  const isGarage = isModelGarage(garage);
+
+  if (showCapacity && isGarage) {
+    console.log("Show capacity is true, but garage is a model garage");
+    return null;
+  }
+
+  if (showAlreadyOwned && !isGarage) {
+    console.log("showAlreadyOwned is true, but garage is not a model garage");
+    return null;
+  }
 
   return (
-    <GarageCard notAllowed={!search && notAllowed} onClick={() => onClick(garage)}>
+    <GarageCard notAllowed={notAllowed} onClick={() => onClick(garage)}>
       <Text>{garage.name}</Text>
 
-      {isGarage && (
+      {showCapacity && !isGarage && (
         <Text>
           {garage.amountOfCars} / {garage.capacity}
         </Text>
       )}
 
-      {!isGarage && garage.alreadyOwned && <Text>Already owned</Text>}
+      {showAlreadyOwned && isGarage && garage.alreadyOwned && <Text>Already owned</Text>}
     </GarageCard>
   );
 };

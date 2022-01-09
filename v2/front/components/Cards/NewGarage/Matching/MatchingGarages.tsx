@@ -1,10 +1,11 @@
 import { useDispatch } from "react-redux";
-import { IGarage, ModelGarage } from "../../../../interfaces/Garage";
+import { toast } from "react-toastify";
+import { ModelGarage } from "../../../../interfaces/Garage";
 import { actions } from "../../../../state/actions";
 import { useISelector } from "../../../../state/hooks";
-import { isModelGarage } from "../../../../util/typeguards";
+import { SingleGrid } from "../../../Styles/Grid";
 import { MatchingContainer } from "../../../Styles/Page-cards";
-import { NewCardGarageGrid } from "../../Garages/GarageGrids";
+import { Garage } from "../../Garages/Garage";
 import { StyledLabel } from "../Styles";
 
 const MatchingGarages = () => {
@@ -13,9 +14,8 @@ const MatchingGarages = () => {
   const newGarageState = useISelector((state) => state.newGarage);
   const bp = useISelector((state) => state.bp);
 
-  const onGarageClick = (garage: IGarage | ModelGarage) => {
-    if (!isModelGarage(garage)) return;
-    if (garage.alreadyOwned) return;
+  const onGarageClick = (garage: ModelGarage) => {
+    if (garage.alreadyOwned) return toast.error(`You already own ${garage.name}.`);
     dispatch(actions.newGarage.set.chosenGarage(garage));
   };
 
@@ -26,10 +26,17 @@ const MatchingGarages = () => {
   return (
     <MatchingContainer>
       {bp > 1 && <StyledLabel />}
-      <NewCardGarageGrid
-        garages={newGarageState.garages.matching}
-        onClick={(garage) => onGarageClick(garage)}
-      />
+      <SingleGrid>
+        {newGarageState.garages.matching.map((garage: ModelGarage) => (
+          <Garage
+            key={garage.id}
+            garage={garage}
+            onClick={(garage: ModelGarage) => onGarageClick(garage)}
+            showAlreadyOwned={true}
+            notAllowed={garage.alreadyOwned}
+          />
+        ))}
+      </SingleGrid>
     </MatchingContainer>
   );
 };

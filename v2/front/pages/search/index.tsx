@@ -6,7 +6,7 @@ import { actions } from "../../state/actions";
 import { CarGrid } from "../../components/Cards/Cars/CarGrids";
 import Layout from "../../components/Layout";
 import { ICar } from "../../interfaces/Car";
-import { SearchGarageGrid } from "../../components/Cards/Garages/GarageGrids";
+import { SearchGarageGrid } from "../../components/Cards/Garages/GarageGrid";
 import { IGarage } from "../../interfaces/Garage";
 import { Title } from "../../components/Styles/Text";
 import { styled } from "../../stitches.config";
