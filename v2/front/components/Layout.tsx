@@ -3,7 +3,6 @@ import { useEffect } from "react";
 import { useDispatch } from "react-redux";
 import { actions } from "../state/actions";
 import { useISelector } from "../state/hooks";
-import { SignInCard } from "./Cards/Signin/Signin";
 import { Content, Main, Section, SidebarContainer } from "./Containers/Containers";
 import { LeftFloatingButton } from "./FloatingButtons/Left/LeftButtons";
 import { RightFloatingButtons } from "./FloatingButtons/Right/RightButtons";
