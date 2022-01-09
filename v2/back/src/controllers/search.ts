@@ -25,10 +25,12 @@ export const search = {
 
         if (!garages) return res200Json(res, { garages: [] });
 
-        const matchingGarages = garages.filter(
+        let matchingGarages = garages.filter(
           (garage) =>
             garage.name.toLowerCase().includes(query) || garage.desc.toLowerCase().includes(query)
         );
+
+        if (matchingGarages.length > 5) matchingGarages = matchingGarages.slice(0, 5);
 
         return res200Json(res, { garages: matchingGarages });
       } catch (err: any) {
@@ -45,16 +47,19 @@ export const search = {
         const garages = simplifyGarages(await db.garages.get.all(auth.dbId));
         const cars = simplifyCars(await db.cars.get.all(auth.dbId));
 
-        const matchingGarages = garages.filter(
+        let matchingGarages = garages.filter(
           (garage) => garage.name.includes(query) || garage.desc.includes(query)
         );
 
-        const matchingCars = cars.filter(
+        let matchingCars = cars.filter(
           (car) =>
             car.name.includes(query) ||
             car.garage.desc.includes(query) ||
             car.garage.name.includes(query)
         );
+
+        if (matchingGarages.length > 5) matchingGarages = matchingGarages.slice(0, 5);
+        if (matchingCars.length > 21) matchingCars = matchingCars.slice(0, 21);
 
         if (!matchingGarages && !matchingCars) return res200Json(res, emptyResponse);
 
@@ -108,7 +113,7 @@ export const search = {
 
       let matchingGarages = garages.filter((garage) => garage.name.includes(query));
 
-      if (matchingGarages.length > 3) matchingGarages = matchingGarages.slice(0, 3);
+      if (matchingGarages.length > 5) matchingGarages = matchingGarages.slice(0, 5);
 
       return res200Json(res, { modelGarages: matchingGarages });
     } catch (err: any) {
