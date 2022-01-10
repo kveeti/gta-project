@@ -24,8 +24,8 @@ const SearchPage = () => {
   const cars = useISelector((state) => state.search.cars);
   const garages = useISelector((state) => state.search.garages);
 
-  const showCars = cars.length > 0;
-  const showGarages = garages.length > 0;
+  const showCars = cars?.length > 0;
+  const showGarages = garages?.length > 0;
 
   const dispatch = useDispatch();
   const router = useRouter();
@@ -41,7 +41,11 @@ const SearchPage = () => {
     dispatch(actions.checked.checkCar(car));
   };
 
-  const onGarageClick = (garage: IGarage) => {};
+  const onGarageClick = (garage: IGarage) => {
+    console.log("click");
+
+    router.push(`/garage/${garage.id}`, `/garage/${garage.id}`, { shallow: true });
+  };
 
   return (
     <>
