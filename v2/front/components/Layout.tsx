@@ -97,7 +97,7 @@ const Layout = ({ children }) => {
         {showFloatingButtons && (
           <>
             <RightFloatingButtons />
-            <LeftFloatingButton />
+            {!newSite && <LeftFloatingButton />}
           </>
         )}
       </Content>
