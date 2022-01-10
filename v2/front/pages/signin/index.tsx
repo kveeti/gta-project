@@ -1,4 +1,5 @@
 import { useSession } from "next-auth/react";
+import Head from "next/head";
 import { useRouter } from "next/router";
 import { SignInCard } from "../../components/Cards/Signin/Signin";
 
@@ -12,7 +13,14 @@ const Login = () => {
     return null;
   }
 
-  return <SignInCard />;
+  return (
+    <>
+      <Head>
+        <title>Sign in</title>
+      </Head>
+      <SignInCard />
+    </>
+  );
 };
 
 export default Login;
