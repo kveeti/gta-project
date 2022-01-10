@@ -1,8 +1,8 @@
 import { IGarage, ModelGarage } from "../../../interfaces/Garage";
 import { styled } from "../../../stitches.config";
-import { isModelGarage } from "../../../util/typeguards";
+import { isTypeModelGarage } from "../../../util/typeguards";
 import { Card } from "../../Styles/Cards";
-import { Text } from "../../Styles/Text";
+import { Desc, Text, Title } from "../../Styles/Text";
 
 interface GarageProps {
   garage: IGarage | ModelGarage;
@@ -13,9 +13,6 @@ interface GarageProps {
 }
 
 const GarageCard = styled(Card, {
-  flexDirection: "row",
-  justifyContent: "space-between",
-
   variants: {
     notAllowed: {
       true: {
@@ -26,6 +23,11 @@ const GarageCard = styled(Card, {
   },
 });
 
+const Div = styled("div", {
+  display: "flex",
+  justifyContent: "space-between",
+});
+
 export const Garage = ({
   garage,
   onClick,
@@ -33,29 +35,33 @@ export const Garage = ({
   showCapacity,
   showAlreadyOwned,
 }: GarageProps) => {
-  const isGarage = isModelGarage(garage);
+  const isModelGarage = isTypeModelGarage(garage);
 
-  if (showCapacity && isGarage) {
+  if (showCapacity && isModelGarage) {
     console.log("Show capacity is true, but garage is a model garage");
     return null;
   }
 
-  if (showAlreadyOwned && !isGarage) {
+  if (showAlreadyOwned && !isModelGarage) {
     console.log("showAlreadyOwned is true, but garage is not a model garage");
     return null;
   }
 
   return (
     <GarageCard notAllowed={notAllowed} onClick={() => onClick(garage)}>
-      <Text>{garage.name}</Text>
+      <Div>
+        <Title>{garage.name}</Title>
 
-      {showCapacity && !isGarage && (
-        <Text>
-          {garage.amountOfCars} / {garage.capacity}
-        </Text>
-      )}
+        {showCapacity && !isModelGarage && (
+          <Text>
+            {garage.amountOfCars} / {garage.capacity}
+          </Text>
+        )}
+      </Div>
 
-      {showAlreadyOwned && isGarage && garage.alreadyOwned && <Text>Already owned</Text>}
+      {!isModelGarage && <Text>{garage?.desc}</Text>}
+
+      {showAlreadyOwned && isModelGarage && garage.alreadyOwned && <Text>Already owned</Text>}
     </GarageCard>
   );
 };
