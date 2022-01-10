@@ -57,3 +57,7 @@ export const cars = {
 export const create = async (garage: Garage) => {
   return await new GarageModel(garage).save();
 };
+
+export const remove = async (id: string, owner: ObjectId) => {
+  return await GarageModel.findOneAndDelete({ _id: id, owner });
+};

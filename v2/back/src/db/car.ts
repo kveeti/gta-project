@@ -74,3 +74,7 @@ export const create = async (car: Car) => {
 export const remove = async (id: ObjectId, owner: ObjectId) => {
   await CarModel.deleteOne({ _id: id, owner });
 };
+
+export const removeMany = async (ids: ObjectId[], owner: ObjectId) => {
+  await CarModel.deleteMany({ _id: { $in: ids }, owner });
+};

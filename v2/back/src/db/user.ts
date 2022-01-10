@@ -20,6 +20,13 @@ export const cars = {
       { $pull: { cars: carId } }
     );
   },
+
+  removeMany: async (carIds: ObjectId[], auth: Auth) => {
+    return await UserModel.updateOne(
+      { _id: auth.dbId, owner: auth.userId },
+      { $pullAll: { cars: carIds } }
+    );
+  },
 };
 
 export const garages = {

@@ -60,4 +60,5 @@ export const PageButtonContainer = styled("div", {
   alignItems: "center",
   justifyContent: "flex-end",
   height: "2rem",
+  gap: "0.5rem",
 });

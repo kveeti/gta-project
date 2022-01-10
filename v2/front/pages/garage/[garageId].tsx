@@ -32,7 +32,7 @@ const garagePage = (props) => {
     <Layout>
       <Div>
         <GaragePageCard garage={garage} />
-        <Title>{garage.amountOfCars ? "Cars" : "Garage is empty"}</Title>
+        <Title>{garage.amountOfCars !== 0 && "Cars"}</Title>
         {garage.amountOfCars !== 0 && (
           <CarGrid cars={garage?.cars} onClick={(car) => onCarClick(car)} />
         )}
@@ -43,23 +43,13 @@ const garagePage = (props) => {
 
 export const getServerSideProps: GetServerSideProps = async ({ req, params }) => {
   const { garageId } = params;
-
-  const token = await getToken({
-    // @ts-ignore
-    req,
-    secret: "doesnt_matter_but_has_to_be_passed_through",
-    raw: true,
-  });
+  const cookie = req.cookies["__Secure-next-auth.session-token"];
 
   const res = await fetch(`${apiBaseUrl}/garages/${garageId}`, {
-    headers: {
-      authorization: `Bearer ${token}`,
-    },
+    headers: { cookie: `__Secure-next-auth.session-token=${cookie}` },
   });
 
   const data = await res.json();
-
-  console.log(data);
 
   return {
     props: {

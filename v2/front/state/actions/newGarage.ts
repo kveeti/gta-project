@@ -1,5 +1,6 @@
 import axios from "axios";
 import { toast } from "react-toastify";
+import { actions } from ".";
 import { ModelGarage } from "../../interfaces/Garage";
 import { config } from "../../util/axios";
 import { constants } from "../actionTypes";
@@ -97,6 +98,8 @@ export const save = (chosenGarage: ModelGarage, description: string) => async (d
         desc: description,
       })
     );
+    dispatch(actions.users.get.me());
+
     dispatch(set.api.setSaving(false));
     toast.success(`${chosenGarage.name} saved successfully`);
     dispatch(reset());

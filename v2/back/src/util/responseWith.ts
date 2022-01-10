@@ -5,6 +5,11 @@ export const res200 = async (res: Response) => {
   res.locals.sentInfo = "OK";
 };
 
+export const res204 = async (res: Response) => {
+  res.status(204).send();
+  res.locals.sentInfo = "No content";
+};
+
 export const res200Json = async (res: Response, json: any) => {
   res.status(200).json(json);
   res.locals.sentInfo = "json";

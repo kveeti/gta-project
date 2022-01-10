@@ -14,7 +14,7 @@ interface NewCardCarGridProps {
 }
 
 export const CarGrid = ({ cars, onClick, single }: CarProps) => {
-  if (!cars.length) return null;
+  if (!cars || !cars.length) return null;
 
   return (
     <Grid single={single}>
@@ -26,7 +26,7 @@ export const CarGrid = ({ cars, onClick, single }: CarProps) => {
 };
 
 export const NewCardCarGrid = ({ cars, onClick }: NewCardCarGridProps) => {
-  if (!cars.length) return null;
+  if (!cars || !cars.length) return null;
 
   return (
     <SingleGrid>

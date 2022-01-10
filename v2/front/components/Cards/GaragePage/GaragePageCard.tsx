@@ -8,6 +8,7 @@ import { toast } from "react-toastify";
 import { styled } from "../../../stitches.config";
 import axios from "axios";
 import { config } from "../../../util/axios";
+import { DeleteButton } from "./DeleteButton";
 
 interface Props {
   garage: IGarageDeep;
@@ -20,10 +21,11 @@ const Div = styled("div", {
 
 export const GaragePageCard = ({ garage }: Props) => {
   const [descVal, setDescVal] = useState(garage.desc);
+  const [originalDesc, setOriginalDesc] = useState(garage.desc);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(false);
 
-  const descHasChanged = descVal !== garage.desc;
+  const descHasChanged = descVal !== originalDesc;
 
   const onChange = (value: string) => setDescVal(value);
 
@@ -35,6 +37,8 @@ export const GaragePageCard = ({ garage }: Props) => {
       const res = await axios(config(`/garages/${garage.id}/desc`, "PATCH", { desc: descVal }));
       setLoading(false);
       toast.success("Description updated successfully!");
+
+      if (res?.data) setOriginalDesc(res.data.desc);
     } catch (err) {
       setLoading(false);
       setError(true);
@@ -59,6 +63,7 @@ export const GaragePageCard = ({ garage }: Props) => {
       </InputContainer>
 
       <PageButtonContainer>
+        <DeleteButton garage={garage} />
         <PageButton green disabled={!descHasChanged} onClick={() => onSaveClick()}>
           Save
         </PageButton>
