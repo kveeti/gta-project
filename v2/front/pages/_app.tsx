@@ -5,7 +5,7 @@ import { store } from "../state/store";
 
 import "../styles/globals.css";
 import "react-toastify/dist/ReactToastify.min.css";
-import "../util/axiosInterceptors";
+import "../util/axios";
 
 const App = ({ Component, pageProps: { session, ...pageProps } }) => (
   <Provider store={store}>

@@ -1,6 +1,7 @@
 import express from "express";
 import helmet from "helmet";
 import cors from "cors";
+import cookieParser from "cookie-parser";
 import { corsOrigins } from "./config/envs";
 import { search, cars, garages } from "./routes/";
 import { verifyToken } from "./middleware/auth";
@@ -10,6 +11,7 @@ export const createApp = () => {
   const app = express();
 
   app.use(express.json());
+  app.use(cookieParser());
   app.use(helmet());
   app.set("trust proxy", "loopback");
   app.use(cors({ origin: corsOrigins }));

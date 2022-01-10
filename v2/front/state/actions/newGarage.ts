@@ -1,8 +1,8 @@
 import axios from "axios";
 import { toast } from "react-toastify";
 import { ModelGarage } from "../../interfaces/Garage";
+import { config } from "../../util/axios";
 import { constants } from "../actionTypes";
-import { getNextAxiosConfig } from "./axiosConfig";
 
 export const set = {
   chosenGarage: (garage: ModelGarage) => {
@@ -75,7 +75,7 @@ export const search = {
       if (!query) return;
 
       dispatch(set.garages.api.setLoading(true));
-      const response = await axios(getNextAxiosConfig(`/search/modelgarages?q=${query}`, "GET"));
+      const response = await axios(config(`/search/modelgarages?q=${query}`, "GET"));
       dispatch(set.garages.api.setLoading(false));
 
       dispatch(set.garages.matching(response.data.modelGarages));
@@ -92,7 +92,7 @@ export const save = (chosenGarage: ModelGarage, description: string) => async (d
 
     dispatch(set.api.setSaving(true));
     await axios(
-      getNextAxiosConfig(`/garages`, "POST", {
+      config(`/garages`, "POST", {
         modelGarageId: chosenGarage.id,
         desc: description,
       })

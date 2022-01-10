@@ -1,8 +1,8 @@
 import axios from "axios";
 import { actions } from ".";
 import { ICar } from "../../interfaces/Car";
+import { config } from "../../util/axios";
 import { constants } from "../actionTypes";
-import { getNextAxiosConfig } from "./axiosConfig";
 
 export const checkCar = (car: ICar) => {
   return {
@@ -52,7 +52,7 @@ export const remove = (cars: ICar[], searchInput: string) => async (dispatch) =>
     if (!cars.length) return;
 
     dispatch(removeApi.setLoading(true));
-    await axios(getNextAxiosConfig(`/cars`, "DELETE", cars));
+    await axios(config(`/cars`, "DELETE", cars));
     dispatch(removeApi.setLoading(false));
     dispatch(reset());
 

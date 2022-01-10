@@ -6,15 +6,10 @@ import { db } from "../db";
 import { res401, res500 } from "../util/responseWith";
 
 export const verifyToken = async (req: Request, res: Response, next: NextFunction) => {
-  if (!req.headers) return res401(res, "no auth");
-  if (!req.headers.authorization) return res401(res, "no auth");
+  if (!req.cookies) return res401(res, "no auth");
+  if (!req.cookies["__Secure-next-auth.session-token"]) return res401(res, "no auth");
 
-  const auth = req.headers.authorization.split(" ");
-
-  if (auth.length < 2) return res401(res, "bad auth");
-  if (auth[0] !== "Bearer") return res401(res, "bad auth");
-
-  const token = auth[1];
+  const token = req.cookies["__Secure-next-auth.session-token"];
 
   let decoded = null;
 

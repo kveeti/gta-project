@@ -3,8 +3,8 @@ import { toast } from "react-toastify";
 import { actions } from ".";
 import { ICar } from "../../interfaces/Car";
 import { IGarage } from "../../interfaces/Garage";
+import { config } from "../../util/axios";
 import { constants } from "../actionTypes";
-import { getNextAxiosConfig } from "./axiosConfig";
 
 export const reset = () => {
   return {
@@ -18,7 +18,7 @@ export const matchingGarages = {
       if (!query) return;
 
       dispatch(matchingGarages.api.setLoading(true));
-      const response = await axios(getNextAxiosConfig(`/search/garages?q=${query}`, "GET"));
+      const response = await axios(config(`/search/garages?q=${query}`, "GET"));
       dispatch(matchingGarages.api.setLoading(false));
       dispatch(matchingGarages.api.setSuccess(false));
 
@@ -106,7 +106,7 @@ export const move = (cars: ICar[], garage: IGarage, searchInput: string) => asyn
     const carIds = cars.map((car) => car.id);
 
     dispatch(api.setLoading(true));
-    const { data } = await axios(getNextAxiosConfig(`/garages/${garage.id}`, "PATCH", { carIds }));
+    const { data } = await axios(config(`/garages/${garage.id}`, "PATCH", { carIds }));
     dispatch(api.setLoading(false));
     dispatch(api.setError(false));
     dispatch(reset());

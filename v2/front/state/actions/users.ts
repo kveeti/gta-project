@@ -1,12 +1,12 @@
 import axios from "axios";
+import { config } from "../../util/axios";
 import { constants } from "../actionTypes";
-import { getNextAxiosConfig } from "./axiosConfig";
 
 export const get = {
   me: () => async (dispatch: any) => {
     try {
       dispatch(api.setLoading(true));
-      const res = await axios(getNextAxiosConfig("/users", "GET"));
+      const res = await axios(config("/users", "GET"));
       dispatch(api.setLoading(false));
 
       dispatch(set.me(res.data));

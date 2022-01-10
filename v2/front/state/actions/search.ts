@@ -2,8 +2,8 @@ import axios from "axios";
 import { signIn } from "next-auth/react";
 import { ICar } from "../../interfaces/Car";
 import { IGarage } from "../../interfaces/Garage";
+import { config } from "../../util/axios";
 import { constants } from "../actionTypes";
-import { getNextAxiosConfig } from "./axiosConfig";
 
 export const set = {
   input: (query: string) => {
@@ -64,7 +64,7 @@ export const search = (query: string) => async (dispatch: any) => {
 
     dispatch(api.setLoading(true));
 
-    const res = await axios(getNextAxiosConfig(`/search?q=${query}`, "GET"));
+    const res = await axios(config(`/search?q=${query}`, "GET"));
 
     dispatch(set.cars(res.data.cars));
     dispatch(set.garages(res.data.garages));
