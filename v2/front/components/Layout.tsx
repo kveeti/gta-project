@@ -1,3 +1,4 @@
+import Head from "next/head";
 import { useSession } from "next-auth/react";
 import { useEffect } from "react";
 import { useDispatch } from "react-redux";
@@ -11,7 +12,12 @@ import { Sidebar } from "./Sidebar/Sidebar";
 import { ToastContainer } from "react-toastify";
 import { useRouter } from "next/router";
 
-const Layout = ({ children }) => {
+interface Props {
+  children: React.ReactNode;
+  title?: string;
+}
+
+const Layout = ({ children, title }: Props) => {
   if (typeof window === "undefined") return null;
 
   const router = useRouter();
@@ -49,7 +55,7 @@ const Layout = ({ children }) => {
   const { data, status } = useSession();
   if (status === "loading") return null;
   if (!data) {
-    router.push("/login", "/login", { shallow: true });
+    router.push("/signin", "/signin", { shallow: true });
     return null;
   }
 
@@ -71,37 +77,42 @@ const Layout = ({ children }) => {
   }
 
   return (
-    <Section>
-      <MenuBar mobile={mobile} />
-      <ToastContainer
-        position="top-left"
-        autoClose={5000}
-        hideProgressBar={false}
-        newestOnTop={true}
-        closeOnClick
-        theme="colored"
-        rtl={false}
-        pauseOnFocusLoss
-        draggable
-        pauseOnHover
-      />
-      <Content single={newSite && tablet}>
-        {!showOnlySidebar && <Main>{children}</Main>}
+    <>
+      <Head>
+        <title>{title ? title : "Gta-project"}</title>
+      </Head>
+      <Section>
+        <MenuBar mobile={mobile} />
+        <ToastContainer
+          position="top-left"
+          autoClose={5000}
+          hideProgressBar={false}
+          newestOnTop={true}
+          closeOnClick
+          theme="colored"
+          rtl={false}
+          pauseOnFocusLoss
+          draggable
+          pauseOnHover
+        />
+        <Content single={newSite && tablet}>
+          {!showOnlySidebar && <Main>{children}</Main>}
 
-        {showSideBar && (
-          <SidebarContainer>
-            <Sidebar />
-          </SidebarContainer>
-        )}
+          {showSideBar && (
+            <SidebarContainer>
+              <Sidebar />
+            </SidebarContainer>
+          )}
 
-        {showFloatingButtons && (
-          <>
-            <RightFloatingButtons />
-            {!newSite && <LeftFloatingButton />}
-          </>
-        )}
-      </Content>
-    </Section>
+          {showFloatingButtons && (
+            <>
+              <RightFloatingButtons />
+              {!newSite && <LeftFloatingButton />}
+            </>
+          )}
+        </Content>
+      </Section>
+    </>
   );
 };
 

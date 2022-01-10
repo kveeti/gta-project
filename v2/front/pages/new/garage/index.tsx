@@ -3,7 +3,7 @@ import Layout from "../../../components/Layout";
 
 const NewGaragePage = () => {
   return (
-    <Layout>
+    <Layout title="New garage">
       <NewGarageCard />
     </Layout>
   );

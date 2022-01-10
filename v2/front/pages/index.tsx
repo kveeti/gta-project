@@ -3,7 +3,7 @@ import Layout from "../components/Layout";
 
 const Index = () => {
   return (
-    <Layout>
+    <Layout title="Home">
       <UserInfo />
     </Layout>
   );

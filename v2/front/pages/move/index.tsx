@@ -3,7 +3,7 @@ import Layout from "../../components/Layout";
 
 const MovePage = () => {
   return (
-    <Layout>
+    <Layout title="Move">
       <MoveCard />
     </Layout>
   );
