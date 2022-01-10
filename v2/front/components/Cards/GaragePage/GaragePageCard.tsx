@@ -6,9 +6,8 @@ import { DescInput } from "./DescInput";
 import { Label } from "../../Styles/Page-cards";
 import { toast } from "react-toastify";
 import { styled } from "../../../stitches.config";
-import { apiBaseUrl } from "../../../envs";
 import axios from "axios";
-import { getNextAxiosConfig } from "../../../state/actions/axiosConfig";
+import { config } from "../../../util/axios";
 
 interface Props {
   garage: IGarageDeep;
@@ -21,6 +20,8 @@ const Div = styled("div", {
 
 export const GaragePageCard = ({ garage }: Props) => {
   const [descVal, setDescVal] = useState(garage.desc);
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState(false);
 
   const descHasChanged = descVal !== garage.desc;
 
@@ -29,9 +30,16 @@ export const GaragePageCard = ({ garage }: Props) => {
   const onSaveClick = async () => {
     if (!descHasChanged) return toast.error("You haven't changed the description");
 
-    const res = await axios(
-      getNextAxiosConfig(`/garages/${garage.id}/desc`, "PATCH", { desc: descVal })
-    );
+    try {
+      setLoading(true);
+      const res = await axios(config(`/garages/${garage.id}/desc`, "PATCH", { desc: descVal }));
+      setLoading(false);
+      toast.success("Description updated successfully!");
+    } catch (err) {
+      setLoading(false);
+      setError(true);
+      toast.error("Error updating description");
+    }
   };
 
   return (
