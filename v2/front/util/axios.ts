@@ -1,6 +1,6 @@
 import axios, { AxiosRequestConfig, Method } from "axios";
 import { toast } from "react-toastify";
-import { apiBaseUrlTest } from "../envs";
+import { apiBaseUrl } from "../envs";
 
 axios.interceptors.response.use(
   (response) => response,
@@ -9,7 +9,7 @@ axios.interceptors.response.use(
 
 export const config = (path: string, method: Method, data?: any) => {
   const config: AxiosRequestConfig = {
-    url: `${apiBaseUrlTest}${path}`,
+    url: `${apiBaseUrl}${path}`,
     method,
     data,
     timeout: 10000,
