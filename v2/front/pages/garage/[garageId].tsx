@@ -1,6 +1,4 @@
 import { GetServerSideProps } from "next";
-import { getToken } from "next-auth/jwt";
-import Head from "next/head";
 import { useDispatch } from "react-redux";
 import { CarGrid } from "../../components/Cards/Cars/CarGrids";
 import { GaragePageCard } from "../../components/Cards/GaragePage/GaragePageCard";
@@ -30,20 +28,15 @@ const GaragePage = (props) => {
   };
 
   return (
-    <>
-      <Head>
-        <title>{garage.name}</title>
-      </Head>
-      <Layout>
-        <Div>
-          <GaragePageCard garage={garage} />
-          <Title>{garage.amountOfCars !== 0 && "Cars"}</Title>
-          {garage.amountOfCars !== 0 && (
-            <CarGrid cars={garage?.cars} onClick={(car) => onCarClick(car)} />
-          )}
-        </Div>
-      </Layout>
-    </>
+    <Layout title={garage.name}>
+      <Div>
+        <GaragePageCard garage={garage} />
+        <Title>{garage.amountOfCars !== 0 && "Cars"}</Title>
+        {garage.amountOfCars !== 0 && (
+          <CarGrid cars={garage?.cars} onClick={(car) => onCarClick(car)} />
+        )}
+      </Div>
+    </Layout>
   );
 };
 
