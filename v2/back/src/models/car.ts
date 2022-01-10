@@ -1,4 +1,5 @@
 import mongoose, { ObjectId } from "mongoose";
+import { ModelCar } from "./ModelCar";
 
 export interface Car {
   modelCar: ObjectId;
@@ -9,6 +10,13 @@ export interface Car {
 export interface IdCar {
   _id: ObjectId;
   modelCar: ObjectId;
+  garage: ObjectId;
+  owner: ObjectId;
+}
+
+export interface PopulatedCar {
+  _id: ObjectId;
+  modelCar: ModelCar;
   garage: ObjectId;
   owner: ObjectId;
 }

@@ -17,6 +17,20 @@ export interface SimplifiedCar {
   };
 }
 
+export interface SimplifiedGarageDeep {
+  id: ObjectId;
+  modelId: ObjectId;
+  name: string;
+  desc: string;
+  cars: SimplifiedCar[];
+  capacity: number;
+  amountOfCars: number;
+  room: number;
+  type: string;
+  owner: string;
+  full: boolean;
+}
+
 export interface SimplifiedGarage {
   id: ObjectId;
   modelId: ObjectId;

@@ -1,6 +1,5 @@
 import { ObjectId } from "mongoose";
 import { Garage, GarageModel } from "../models/garage";
-import { ModelGarage } from "../models/ModelGarage";
 
 export const get = {
   all: async (owner: ObjectId) => {
@@ -16,7 +15,16 @@ export const get = {
     return await GarageModel.findOne({ _id: id, owner })
       .select("-__v")
       .populate("modelGarage")
-      .populate("owner");
+      .populate("owner")
+      .populate({
+        path: "cars",
+        select: "-__v",
+        populate: [
+          { path: "garage", select: "-__v", populate: { path: "modelGarage" } },
+          { path: "modelCar", select: "-__v" },
+          { path: "owner", select: "-__v" },
+        ],
+      });
   },
 
   byModelGarageId: async (modelGarageId: ObjectId, owner: ObjectId) => {
@@ -27,8 +35,12 @@ export const get = {
 };
 
 export const set = {
-  desc: async (id: ObjectId, desc: string) => {
-    return await GarageModel.updateOne({ _id: id }, { $set: { desc } });
+  desc: async (id: string, owner: ObjectId, desc: string) => {
+    return await GarageModel.findOneAndUpdate(
+      { _id: id, owner },
+      { $set: { desc } },
+      { new: true }
+    );
   },
 };
 
@@ -44,8 +56,4 @@ export const cars = {
 
 export const create = async (garage: Garage) => {
   return await new GarageModel(garage).save();
-};
-
-const isModelGarage = (obj: ModelGarage | any): obj is ModelGarage => {
-  return obj && obj.name && typeof obj.name === "string";
 };

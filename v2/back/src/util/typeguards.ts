@@ -1,3 +1,4 @@
+import { PopulatedCar } from "../models/car";
 import { PopulatedGarage } from "../models/garage";
 import { ModelCar } from "../models/ModelCar";
 import { IdModelGarage } from "../models/ModelGarage";
@@ -17,4 +18,12 @@ export const isIdModelGarage = (obj: IdModelGarage | any): obj is IdModelGarage 
 
 export const isPopulatedUser = (obj: PopulatedUser | any): obj is PopulatedUser => {
   return obj && obj.owner && typeof obj.owner === "string";
+};
+
+export const isPopulatedCar = (
+  obj: PopulatedCar[] | any[],
+  amountOfCars: number
+): obj is PopulatedCar[] => {
+  if (obj && Array.isArray(obj) && !obj.length && amountOfCars === 0) return true;
+  return obj && obj[0] && obj[0].modelCar.name && typeof obj[0].modelCar.name === "string";
 };

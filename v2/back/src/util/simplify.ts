@@ -2,17 +2,24 @@ import {
   SimpliefiedModelGarage,
   SimplifiedCar,
   SimplifiedGarage,
+  SimplifiedGarageDeep,
   SimplifiedModelCar,
   SimplifiedUser,
 } from "../interfaces/Simplified";
-import { IdCar } from "../models/car";
+import { IdCar, PopulatedCar } from "../models/car";
 import { GarageDoc, IdGarage } from "../models/garage";
 import { IdModelCar } from "../models/ModelCar";
 import { IdModelGarage } from "../models/ModelGarage";
 import { IdUser } from "../models/user";
-import { isIdModelGarage, isModelCar, isPopulatedGarage, isPopulatedUser } from "./typeguards";
+import {
+  isIdModelGarage,
+  isModelCar,
+  isPopulatedCar,
+  isPopulatedGarage,
+  isPopulatedUser,
+} from "./typeguards";
 
-export const simplifyCars = (cars: IdCar[]) => {
+export const simplifyCars = (cars: IdCar[] | PopulatedCar[]) => {
   const list = cars.map((car) => {
     if (!isModelCar(car.modelCar)) {
       throw new Error("couldn't simplify owned cars, car.modelCar wasn't populated");
@@ -53,6 +60,37 @@ const getClass = (original: string) => {
   if (original === "ssports") return "sports";
 
   return original;
+};
+
+export const simplifyGaragesDeep = (garages: IdGarage[]) => {
+  if (!garages.length) return [];
+
+  return garages.map((garage) => {
+    if (!isIdModelGarage(garage.modelGarage)) {
+      throw new Error("couldn't simplify owned garages, modelGarage wasn't populated");
+    }
+    if (!isPopulatedUser(garage.owner)) {
+      throw new Error("couldn't simplify owned garages, owner wasn't populated");
+    }
+    if (!isPopulatedCar(garage.cars, garage.cars.length)) {
+      throw new Error("couldn't simplify owned garages, cars weren't populated");
+    }
+
+    const simplifiedGarage: SimplifiedGarageDeep = {
+      id: garage._id,
+      modelId: garage.modelGarage._id,
+      cars: simplifyCars(garage.cars),
+      name: garage.modelGarage.name,
+      desc: garage.desc,
+      capacity: garage.modelGarage.capacity,
+      amountOfCars: garage.cars.length,
+      full: garage.cars.length >= garage.modelGarage.capacity,
+      room: garage.modelGarage.capacity - garage.cars.length,
+      type: garage.modelGarage.type,
+      owner: garage.owner.owner,
+    };
+    return simplifiedGarage;
+  });
 };
 
 export const simplifyGarages = (garages: IdGarage[]) => {
