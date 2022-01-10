@@ -1,0 +1,27 @@
+version: '3.9'
+
+services:
+  front:
+    build: .
+    expose:
+      - 5000
+    networks:
+      - gta-frontend
+    restart: unless-stopped
+
+  loadbalancer:
+    depends_on:
+      - api
+      - database
+    image: nginx
+    container_name: gta-api-nginx
+    ports:
+      - "30000:5000"
+    volumes:
+      - ./nginx.conf:/etc/nginx/nginx.conf
+    networks:
+      - gta-frontend
+    restart: unless-stopped
+
+networks:
+  gta-frontend:

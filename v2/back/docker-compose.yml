@@ -34,7 +34,7 @@ services:
     image: nginx
     container_name: gta-api-nginx
     ports:
-      - "12000:5000"
+      - "41000:5000"
     volumes:
       - ./nginx.conf:/etc/nginx/nginx.conf
     networks:

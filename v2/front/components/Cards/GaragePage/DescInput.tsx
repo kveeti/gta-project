@@ -11,7 +11,6 @@ export const DescInput = ({ onChange, value }: Props) => {
       transparent
       id="desc-input"
       type="text"
-      autoFocus
       placeholder="E.g sports cars (optional)"
       onChange={(value) => onChange(value)}
       value={value}
