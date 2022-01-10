@@ -1,4 +1,3 @@
-import { useRouter } from "next/router";
 import { IGarage } from "../../../interfaces/Garage";
 import { Grid } from "../../Styles/Grid";
 import { Garage } from "./Garage";
@@ -8,9 +7,8 @@ interface GarageGridProps {
   onClick?: (garage: IGarage) => void;
 }
 
-export const SearchGarageGrid = ({ garages }: GarageGridProps) => {
+export const SearchGarageGrid = ({ garages, onClick }: GarageGridProps) => {
   if (!garages.length) return null;
-  const router = useRouter();
 
   return (
     <Grid>
@@ -18,9 +16,7 @@ export const SearchGarageGrid = ({ garages }: GarageGridProps) => {
         <Garage
           key={garage.id}
           garage={garage}
-          onClick={(garage: IGarage) => () => {
-            // router.push(`/garage/${garage.id}`)
-          }}
+          onClick={(garage: IGarage) => onClick(garage)}
           showCapacity={true}
         />
       ))}

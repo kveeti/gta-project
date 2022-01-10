@@ -11,7 +11,7 @@ export const MoveCard = () => {
   const plural = checkedCars.length === 1 ? "" : "s";
 
   return (
-    <PageCard>
+    <PageCard centered>
       <Title>Move</Title>
       <Desc>
         Select a garage below to move the selected car{plural} there.

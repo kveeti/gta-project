@@ -7,7 +7,7 @@ import MatchingGarages from "./Matching/MatchingGarages";
 
 export const NewGarageCard = () => {
   return (
-    <PageCard>
+    <PageCard centered>
       <Title>New Garage</Title>
       <Desc>Save a new garage here. The description is optional.</Desc>
 

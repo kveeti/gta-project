@@ -12,6 +12,10 @@ export interface IGarage {
   owner: string;
 }
 
+export interface IGarageDeep extends IGarage {
+  cars: ICar[];
+}
+
 export interface ModelGarage {
   id: string;
   name: string;

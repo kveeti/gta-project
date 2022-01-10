@@ -4,13 +4,20 @@ import { BaseBtn } from "./Buttons";
 export const PageCard = styled("div", {
   display: "flex",
   flexDirection: "column",
-  maxWidth: "600px",
-  margin: "0 auto",
   padding: "1rem",
   borderRadius: 4,
-  boxShadow: "0 1px 3px 0 rgb(0 0 0 / 20%)",
+  boxShadow: "$theShadow",
   gap: "1rem",
   backgroundColor: "white",
+  maxWidth: "600px",
+
+  variants: {
+    centered: {
+      true: {
+        margin: "0 auto",
+      },
+    },
+  },
 });
 
 export const Label = styled("label", {

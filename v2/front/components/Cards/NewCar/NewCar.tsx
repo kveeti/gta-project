@@ -8,7 +8,7 @@ import MatchingGarages from "./Matching/MatchingGarages";
 
 const NewCarCard = () => {
   return (
-    <PageCard>
+    <PageCard centered>
       <Title>New Car</Title>
       <Desc>Save a new car here.</Desc>
 

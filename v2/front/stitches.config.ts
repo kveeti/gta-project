@@ -23,5 +23,8 @@ export const { styled, getCssText } = createStitches({
     fonts: {
       font: "Open Sans",
     },
+    shadows: {
+      theShadow: "0 1px 3px 0 rgb(0 0 0 / 20%)",
+    },
   },
 });

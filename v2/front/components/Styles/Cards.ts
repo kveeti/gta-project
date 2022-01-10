@@ -12,7 +12,7 @@ export const Card = styled("div", {
   backgroundColor: "White",
   flex: 1,
 
-  boxShadow: "0 1px 3px 0 rgb(0 0 0 / 20%)",
+  boxShadow: "$theShadow",
 
   "@media (hover: hover)": {
     "&:hover, &:focus": {
