@@ -5,6 +5,9 @@ import { NewCarButton } from "./Buttons/NewCar";
 import { NewGarageButton } from "./Buttons/NewGarage";
 import { HomeButton } from "./Buttons/Home";
 import { useISelector } from "../../state/hooks";
+import { useEffect } from "react";
+import { useDispatch } from "react-redux";
+import { actions } from "../../state/actions";
 
 const MenubarContainer = styled("nav", {
   height: "5rem",
@@ -64,6 +67,13 @@ const LeftButtons = styled("div", {
 
 export const MenuBar = ({ mobile }) => {
   const me = useISelector((state) => state.users.me);
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    if (me?.owner) return;
+
+    dispatch(actions.users.get.me());
+  }, []);
 
   return (
     <MenubarContainer>
