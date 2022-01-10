@@ -1,7 +1,7 @@
 import { MoveCard } from "../../components/Cards/Move/Move";
 import Layout from "../../components/Layout";
 
-const SearchPage = () => {
+const MovePage = () => {
   return (
     <Layout>
       <MoveCard />
@@ -9,4 +9,4 @@ const SearchPage = () => {
   );
 };
 
-export default SearchPage;
+export default MovePage;

@@ -1,7 +1,7 @@
 import { Html, Head, Main, NextScript } from "next/document";
 import { getCssText } from "../stitches.config";
 
-export default () => {
+const Doc = () => {
   return (
     <Html lang="en">
       <Head>
@@ -19,3 +19,5 @@ export default () => {
     </Html>
   );
 };
+
+export default Doc;

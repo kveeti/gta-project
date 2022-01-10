@@ -19,7 +19,7 @@ const Div = styled("div", {
   paddingBottom: "0.5rem",
 });
 
-const garagePage = (props) => {
+const GaragePage = (props) => {
   const dispatch = useDispatch();
 
   const garage = props.garage as IGarageDeep;
@@ -58,4 +58,4 @@ export const getServerSideProps: GetServerSideProps = async ({ req, params }) =>
   };
 };
 
-export default garagePage;
+export default GaragePage;
