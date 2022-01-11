@@ -2,8 +2,8 @@
 {
     public class Settings
     {
-        public string JWT_Key { get; set; }
-        public string JWT_Issuer { get; set; }
-        public string JWT_Audience { get; set; }
+        public string JWT_Secret { get; set; }
+        public string JWT_Iss { get; set; }
+        public string JWT_Aud { get; set; }
     }
 }
