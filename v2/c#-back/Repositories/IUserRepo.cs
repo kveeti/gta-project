@@ -1,4 +1,5 @@
-﻿using Backend.Models;
+﻿using Backend.Dtos;
+using Backend.Models;
 
 namespace Backend.Repositories
 {
@@ -8,7 +9,7 @@ namespace Backend.Repositories
 
         Task<User> GetById(int Id);
 
-        IEnumerable<User> GetAll();
+        IEnumerable<ReturnUser> GetAll();
 
         Task Add(User user);
 

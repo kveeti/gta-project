@@ -1,4 +1,5 @@
 ﻿using Backend.Data;
+using Backend.Dtos;
 using Backend.Models;
 
 namespace Backend.Repositories
@@ -24,9 +25,14 @@ namespace Backend.Repositories
                 .FirstOrDefault<User>();
         }
 
-        public IEnumerable<User> GetAll()
+        public IEnumerable<ReturnUser> GetAll()
         {
-            return _context.Users.ToList();
+            return _context.Users.ToList().Select(x => new ReturnUser()
+            {
+                Id = x.Id,
+                Username = x.Username,
+                Role = x.Role,
+            });
         }
 
         public async Task Add(User user)

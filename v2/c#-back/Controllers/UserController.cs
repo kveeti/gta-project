@@ -71,17 +71,24 @@ namespace Backend.Controllers
 
         [HttpGet("{id}")]
         [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme, Roles = "Admin")]
-        public async Task<ActionResult<User>> GetOne(int id)
+        public async Task<ActionResult<ReturnUser>> GetOne(int id)
         {
             User user = await _db.GetById(id);
             if (user == null) return NotFound();
 
-            return Ok(user);
+            ReturnUser returnUser = new()
+            {
+                Id = user.Id,
+                Username = user.Username,
+                Role = user.Role,
+            };
+
+            return Ok(returnUser);
         }
 
         [HttpGet]
         [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme, Roles = "Admin")]
-        public ActionResult<IEnumerable<User>> GetAll()
+        public ActionResult<IEnumerable<ReturnUser>> GetAll()
         {
             var users = _db.GetAll();
             return Ok(users);
@@ -89,11 +96,18 @@ namespace Backend.Controllers
 
         [HttpPatch("{id}")]
         [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme, Roles = "Admin")]
-        public async Task<ActionResult<User>> UpdateRole(int id, UpdateUser userDto)
+        public async Task<ActionResult<ReturnUser>> UpdateRole(int id, UpdateUser userDto)
         {
             User user = await _db.UpdateRole(id, userDto.NewRole);
 
-            return Ok(user);
+            ReturnUser returnUser = new()
+            {
+                Id = user.Id,
+                Username = user.Username,
+                Role = user.Role
+            };
+
+            return Ok(returnUser);
         }
 
         [HttpDelete("{id}")]
