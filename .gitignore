@@ -23,6 +23,8 @@ database
 # misc
 .DS_Store
 *.pem
+$RECYCLE.BIN/
+Desktop.ini
 
 # debug
 npm-debug.log*
@@ -37,4 +39,14 @@ yarn-error.log*
 
 # vercel
 .vercel
+
+# c# backend
+[Mm]igrations/
+
+bin/
+obj/
+.vs/
+
+*.csproj.user
+appsettings.Development.json
 
