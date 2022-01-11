@@ -89,7 +89,7 @@ export const MenuBar = ({ mobile }) => {
             <>
               <LeftButtons>
                 <HomeButton />
-                {me?.garageCount !== 0 && <NewCarButton />}
+                {me?.garageCount && <NewCarButton />}
                 <NewGarageButton />
               </LeftButtons>
               <ProfileButton />
