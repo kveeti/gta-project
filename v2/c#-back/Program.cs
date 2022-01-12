@@ -14,6 +14,8 @@ builder.Services.AddControllers();
 builder.Services.AddDbContext<DataContext>(options => options.UseNpgsql(builder.Configuration.GetConnectionString("DefaultConnection")));
 builder.Services.AddScoped<IUserRepo, UserRepo>();
 
+builder.Services.AddRouting(options => options.LowercaseUrls = true);
+
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen(options =>
 {
