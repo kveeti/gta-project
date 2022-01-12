@@ -27,7 +27,7 @@ namespace Backend.Controllers
         [HttpPost("register")]
         public async Task<ActionResult<string>> Register(AuthUser authUser)
         {
-            string hash = Hashing.HashToString(authUser.Password);
+            var hash = Hashing.HashToString(authUser.Password);
 
             User user = new()
             {
@@ -36,7 +36,7 @@ namespace Backend.Controllers
                 Role = "Standard"
             };
 
-            string token = JWT.BuildToken(user.Username, user.Role, _settings.Value.JWT_Iss, _settings.Value.JWT_Aud, _settings.Value.JWT_Secret);
+            var token = JWT.BuildToken(user.Username, user.Role, _settings.Value.JWT_Iss, _settings.Value.JWT_Aud, _settings.Value.JWT_Secret);
 
             try
             {
@@ -57,14 +57,14 @@ namespace Backend.Controllers
         [HttpPost("login")]
         public ActionResult<string> Login(AuthUser authUser)
         {
-            User user = _db.GetByUsername(authUser.Username);
+            var user = _db.GetByUsername(authUser.Username);
             if (user == null) return NotFound();
 
-            bool match = Hashing.Verify(authUser.Password, user.Password);
+            var match = Hashing.Verify(authUser.Password, user.Password);
 
             if (!match) return Unauthorized();
 
-            string token = JWT.BuildToken(user.Username, user.Role, _settings.Value.JWT_Iss, _settings.Value.JWT_Aud, _settings.Value.JWT_Secret);
+            var token = JWT.BuildToken(user.Username, user.Role, _settings.Value.JWT_Iss, _settings.Value.JWT_Aud, _settings.Value.JWT_Secret);
 
             return Ok(token);
         }
@@ -73,7 +73,7 @@ namespace Backend.Controllers
         [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme, Roles = "Admin")]
         public async Task<ActionResult<ReturnUser>> GetOne(int id)
         {
-            User user = await _db.GetById(id);
+            var user = await _db.GetById(id);
             if (user == null) return NotFound();
 
             ReturnUser returnUser = new()
@@ -98,7 +98,7 @@ namespace Backend.Controllers
         [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme, Roles = "Admin")]
         public async Task<ActionResult<ReturnUser>> UpdateRole(int id, UpdateUser userDto)
         {
-            User user = await _db.UpdateRole(id, userDto.NewRole);
+            var user = await _db.UpdateRole(id, userDto.NewRole);
 
             ReturnUser returnUser = new()
             {
