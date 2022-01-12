@@ -36,7 +36,7 @@ namespace Backend.Controllers
                 Role = "Standard"
             };
 
-            var token = JWT.BuildToken(user.Username, user.Role, _settings.Value.JWT_Iss, _settings.Value.JWT_Aud, _settings.Value.JWT_Secret);
+            var token = Jwt.BuildToken(user.Username, user.Role, _settings);
 
             try
             {
@@ -64,7 +64,7 @@ namespace Backend.Controllers
 
             if (!match) return Unauthorized();
 
-            var token = JWT.BuildToken(user.Username, user.Role, _settings.Value.JWT_Iss, _settings.Value.JWT_Aud, _settings.Value.JWT_Secret);
+            var token = Jwt.BuildToken(user.Username, user.Role, _settings);
 
             return Ok(token);
         }
