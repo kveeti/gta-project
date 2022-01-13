@@ -9,7 +9,7 @@ using Microsoft.Extensions.Options;
 namespace Backend.Controllers;
 
 [ApiController]
-[Route("users")]
+[Route("auth")]
 public class AuthController : ControllerBase
 {
     private readonly IUserRepo _db;
