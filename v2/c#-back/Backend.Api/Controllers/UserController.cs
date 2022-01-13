@@ -55,7 +55,7 @@ public class UserController : ControllerBase
 
     User updatedUser = new()
     {
-      Id = id,
+      Id = existingUser.Id,
       Username = existingUser.Username,
       Password = existingUser.Password,
       Role = userDto.NewRole
