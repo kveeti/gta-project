@@ -24,6 +24,9 @@ public class AuthController : ControllerBase
   [HttpPost("register")]
   public async Task<ActionResult<string>> Register(AuthUserDto authUser)
   {
+    var existingUser = _db.GetByUsername(authUser.Username);
+    if (existingUser != null) return BadRequest("Username taken");
+    
     var hash = Hashing.HashToString(authUser.Password);
 
     User user = new()
@@ -35,19 +38,8 @@ public class AuthController : ControllerBase
 
     var token = Jwt.Encode(user.Username, user.Role, _settings);
 
-    try
-    {
-      await _db.Add(user);
-    }
-    catch (DbUpdateException)
-    {
-      return BadRequest("Username taken");
-    }
-    catch
-    {
-      return StatusCode(500);
-    }
-
+    await _db.Add(user);
+    
     return Ok(token);
   }
 
@@ -58,7 +50,6 @@ public class AuthController : ControllerBase
     if (user == null) return NotFound();
 
     var match = Hashing.Verify(userDto.Password, user.Password);
-
     if (!match) return Unauthorized();
 
     var token = Jwt.Encode(user.Username, user.Role, _settings);
