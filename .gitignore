@@ -50,3 +50,6 @@ obj/
 *.csproj.user
 appsettings.Development.json
 
+.idea/
+.vscode/
+
