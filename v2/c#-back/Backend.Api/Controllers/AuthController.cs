@@ -33,7 +33,7 @@ public class AuthController : ControllerBase
       Role = "Standard"
     };
 
-    var token = Jwt.BuildToken(user.Username, user.Role, _settings);
+    var token = Jwt.Encode(user.Username, user.Role, _settings);
 
     try
     {
@@ -61,7 +61,7 @@ public class AuthController : ControllerBase
 
     if (!match) return Unauthorized();
 
-    var token = Jwt.BuildToken(user.Username, user.Role, _settings);
+    var token = Jwt.Encode(user.Username, user.Role, _settings);
 
     return Ok(token);
   }
