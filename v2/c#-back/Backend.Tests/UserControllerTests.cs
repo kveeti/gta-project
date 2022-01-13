@@ -33,11 +33,11 @@ public class UserControllerTests
     [Fact]
     public async Task GetOne_WithExistingUser_ReturnsExpectedUser()
     {
-        var expectedUser = CreateFakeUser();
-        var expectedReturnUser = FakeUserToDto(expectedUser);
+        var fakeUser = CreateFakeUser();
+        var expectedReturnUser = FakeUserToDto(fakeUser);
         
         _fakeRepo.Setup(repo => repo.GetById(It.IsAny<Guid>()))
-            .ReturnsAsync(expectedUser);
+            .ReturnsAsync(fakeUser);
 
         var controller = new UserController(_fakeRepo.Object, _fakeSettings);
 
