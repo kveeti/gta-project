@@ -1,20 +1,19 @@
 ﻿using Backend.Dtos;
 using Backend.Models;
 
-namespace Backend.Repositories
+namespace Backend.Repositories;
+    
+public interface IUserRepo
 {
-    public interface IUserRepo
-    {
-        User GetByUsername(string Username);
+    User GetByUsername(string username);
 
-        Task<User> GetById(int Id);
+    Task<User> GetById(Guid id);
 
-        IEnumerable<ReturnUser> GetAll();
+    IEnumerable<ReturnUserDto> GetAll();
 
-        Task Add(User user);
+    Task Add(User user);
 
-        Task<User> UpdateRole(int Id, string NewRole);
+    Task Update(User user);
 
-        Task Delete(int Id);
-    }
+    Task Delete(User user);
 }

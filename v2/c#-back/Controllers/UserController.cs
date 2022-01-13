@@ -1,122 +1,87 @@
 ﻿using Backend.Dtos;
-using Backend.Helpers;
-using Backend.Helpers.testApi.Helpers;
 using Backend.Models;
 using Backend.Repositories;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Options;
 
-namespace Backend.Controllers
+namespace Backend.Controllers;
+
+[ApiController]
+[Route("users")]
+public class UserController : ControllerBase
 {
-    [ApiController]
-    [Route("users")]
-    public class UserController : ControllerBase
+    private readonly IUserRepo _db;
+    private readonly IOptions<Settings> _settings;
+
+    public UserController(IUserRepo userRepo, IOptions<Settings> settings)
     {
-        private readonly IUserRepo _db;
-        private readonly IOptions<Settings> _settings;
+        _db = userRepo;
+        _settings = settings;
+    }
 
-        public UserController(IUserRepo userRepo, IOptions<Settings> settings)
+    [HttpGet("{id}")]
+    [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme, Roles = "Admin")]
+    public async Task<ActionResult<ReturnUserDto>> GetOne(Guid id)
+    {
+        var user = await _db.GetById(id);
+        if (user == null) return NotFound();
+
+        ReturnUserDto returnUser = new()
         {
-            _db = userRepo;
-            _settings = settings;
-        }
+            Id = user.Id,
+            Username = user.Username,
+            Role = user.Role,
+        };
 
-        [HttpPost("register")]
-        public async Task<ActionResult<string>> Register(AuthUser authUser)
+        return Ok(returnUser);
+    }
+
+    [HttpGet]
+    [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme, Roles = "Admin")]
+    public ActionResult<IEnumerable<ReturnUserDto>> GetAll()
+    {
+        var users = _db.GetAll();
+        return Ok(users);
+    }
+
+    [HttpPatch("{id}")]
+    [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme, Roles = "Admin")]
+    public async Task<ActionResult<ReturnUserDto>> UpdateRole(Guid id, UpdateUserDto userDto)
+    {
+        var existingUser = await _db.GetById(id);
+        if (existingUser == null) return NotFound();
+
+        User updatedUser = new()
         {
-            var hash = Hashing.HashToString(authUser.Password);
+            Id = id,
+            Username = existingUser.Username,
+            Password = existingUser.Password,
+            Role = userDto.NewRole
+        };
+        
+        await _db.Update(updatedUser);
 
-            User user = new()
-            {
-                Username = authUser.Username,
-                Password = hash,
-                Role = "Standard"
-            };
-
-            var token = Jwt.BuildToken(user.Username, user.Role, _settings);
-
-            try
-            {
-                await _db.Add(user);
-            }
-            catch (DbUpdateException)
-            {
-                return BadRequest("Username taken");
-            }
-            catch
-            {
-                return StatusCode(500);
-            }
-
-            return Ok(token);
-        }
-
-        [HttpPost("login")]
-        public ActionResult<string> Login(AuthUser authUser)
+        ReturnUserDto returnUser = new()
         {
-            var user = _db.GetByUsername(authUser.Username);
-            if (user == null) return NotFound();
+            Id = updatedUser.Id,
+            Username = updatedUser.Username,
+            Role = updatedUser.Role
+        };
 
-            var match = Hashing.Verify(authUser.Password, user.Password);
+        return Ok(returnUser);
+    }
 
-            if (!match) return Unauthorized();
+    [HttpDelete("{id}")]
+    [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme, Roles = "Admin")]
+    public async Task<ActionResult<User>> Delete(Guid id)
+    {
+        var userToDelete = await _db.GetById(id);
+        if (userToDelete == null) return NotFound();
+        
+        await _db.Delete(userToDelete);
 
-            var token = Jwt.BuildToken(user.Username, user.Role, _settings);
-
-            return Ok(token);
-        }
-
-        [HttpGet("{id}")]
-        [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme, Roles = "Admin")]
-        public async Task<ActionResult<ReturnUser>> GetOne(int id)
-        {
-            var user = await _db.GetById(id);
-            if (user == null) return NotFound();
-
-            ReturnUser returnUser = new()
-            {
-                Id = user.Id,
-                Username = user.Username,
-                Role = user.Role,
-            };
-
-            return Ok(returnUser);
-        }
-
-        [HttpGet]
-        [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme, Roles = "Admin")]
-        public ActionResult<IEnumerable<ReturnUser>> GetAll()
-        {
-            var users = _db.GetAll();
-            return Ok(users);
-        }
-
-        [HttpPatch("{id}")]
-        [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme, Roles = "Admin")]
-        public async Task<ActionResult<ReturnUser>> UpdateRole(int id, UpdateUser userDto)
-        {
-            var user = await _db.UpdateRole(id, userDto.NewRole);
-
-            ReturnUser returnUser = new()
-            {
-                Id = user.Id,
-                Username = user.Username,
-                Role = user.Role
-            };
-
-            return Ok(returnUser);
-        }
-
-        [HttpDelete("{id}")]
-        [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme, Roles = "Admin")]
-        public async Task<ActionResult<User>> Delete(int id)
-        {
-            await _db.Delete(id);
-
-            return NoContent();
-        }
+        return NoContent();
     }
 }
