@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Cryptography.KeyDerivation;
 using System.Security.Cryptography;
 
 namespace Backend.Api.Helpers;
+
 /// <summary>
 /// Provides methods Hashing and Verification of clear texts
 /// </summary>
@@ -29,17 +30,17 @@ internal static class Hashing
   /// Holds all possible Hash Versions
   /// </summary>
   private static readonly Dictionary<short, HashVersion> _versions = new Dictionary<short, HashVersion>
-{
+  {
     {
-        1, new HashVersion
-        {
-            Version = 1,
-            KeyDerivation = KeyDerivationPrf.HMACSHA512,
-            HashSize = 256 / 8,
-            SaltSize = 128 / 8
-        }
+      1, new HashVersion
+      {
+        Version = 1,
+        KeyDerivation = KeyDerivationPrf.HMACSHA512,
+        HashSize = 256 / 8,
+        SaltSize = 128 / 8
+      }
     }
-};
+  };
 
   /// <summary>
   /// The default Hash Version, which should be used, if a new Hash is Created
@@ -80,6 +81,7 @@ internal static class Hashing
     {
       randomNumberGenerator.GetBytes(data);
     }
+
     return data;
   }
 
@@ -98,7 +100,8 @@ internal static class Hashing
     var saltBytes = GetRandomBytes(currentVersion.SaltSize);
     var versionBytes = BitConverter.GetBytes(currentVersion.Version);
     var iterationBytes = BitConverter.GetBytes(iterations);
-    var hashBytes = KeyDerivation.Pbkdf2(clearText, saltBytes, currentVersion.KeyDerivation, iterations, currentVersion.HashSize);
+    var hashBytes = KeyDerivation.Pbkdf2(clearText, saltBytes, currentVersion.KeyDerivation, iterations,
+      currentVersion.HashSize);
 
     //calculate the indexes for the combined hash
     var indexVersion = 0;
@@ -152,7 +155,8 @@ internal static class Hashing
     Array.Copy(data, indexHash, hashBytes, 0, currentVersion.HashSize);
 
     //Hash the current clearText with the parameters given via the data
-    var verificationHashBytes = KeyDerivation.Pbkdf2(clearText, saltBytes, currentVersion.KeyDerivation, iteration, currentVersion.HashSize);
+    var verificationHashBytes = KeyDerivation.Pbkdf2(clearText, saltBytes, currentVersion.KeyDerivation, iteration,
+      currentVersion.HashSize);
 
     //Check if generated hashes are equal
     return hashBytes.SequenceEqual(verificationHashBytes);

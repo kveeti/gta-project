@@ -26,7 +26,7 @@ public class AuthController : ControllerBase
   {
     var existingUser = _db.GetByUsername(authUser.Username);
     if (existingUser != null) return BadRequest("Username taken");
-    
+
     var hash = Hashing.HashToString(authUser.Password);
 
     User user = new()
@@ -39,7 +39,7 @@ public class AuthController : ControllerBase
     var token = Jwt.Encode(user.Username, user.Role, _settings);
 
     await _db.Add(user);
-    
+
     return Ok(token);
   }
 

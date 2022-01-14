@@ -21,7 +21,7 @@ public class UserRepo : IUserRepo
   public User GetByUsername(string username)
   {
     return _context.Users
-        .FirstOrDefault(x => x.Username == username);
+      .FirstOrDefault(x => x.Username == username);
   }
 
   public IEnumerable<ReturnUserDto> GetAll()

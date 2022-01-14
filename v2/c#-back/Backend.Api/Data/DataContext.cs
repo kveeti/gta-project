@@ -14,7 +14,7 @@ public class DataContext : DbContext, IDataContext
   protected override void OnModelCreating(ModelBuilder builder)
   {
     builder.Entity<User>(entity =>
-        entity.HasIndex(e => e.Username).IsUnique()
+      entity.HasIndex(e => e.Username).IsUnique()
     );
   }
 }

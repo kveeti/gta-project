@@ -11,7 +11,8 @@ var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddControllers();
 
-builder.Services.AddDbContext<DataContext>(options => options.UseNpgsql(builder.Configuration.GetConnectionString("DefaultConnection")));
+builder.Services.AddDbContext<DataContext>(options =>
+  options.UseNpgsql(builder.Configuration.GetConnectionString("DefaultConnection")));
 builder.Services.AddScoped<IUserRepo, UserRepo>();
 
 builder.Services.AddRouting(options => options.LowercaseUrls = true);
@@ -29,35 +30,35 @@ builder.Services.AddSwaggerGen(options =>
     Type = SecuritySchemeType.Http
   });
   options.AddSecurityRequirement(new OpenApiSecurityRequirement
+  {
     {
+      new OpenApiSecurityScheme
+      {
+        Reference = new OpenApiReference
         {
-            new OpenApiSecurityScheme
-            {
-                Reference = new OpenApiReference
-                {
-                    Id = "Bearer",
-                    Type = ReferenceType.SecurityScheme
-                }
-            },
-            new List<string>()
+          Id = "Bearer",
+          Type = ReferenceType.SecurityScheme
         }
-    });
+      },
+      new List<string>()
+    }
+  });
 });
 
 builder.Services.Configure<Settings>(builder.Configuration.GetSection("Settings"));
 
 builder.Services.AddAuthorization();
 builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme).AddJwtBearer(opt =>
-    opt.TokenValidationParameters = new()
-    {
-      ValidateIssuer = true,
-      ValidateAudience = true,
-      ValidateLifetime = true,
-      ValidateIssuerSigningKey = true,
-      ValidIssuer = builder.Configuration["Settings:JWT_Iss"],
-      ValidAudience = builder.Configuration["Settings:JWT_Aud"],
-      IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(builder.Configuration["Settings:JWT_Secret"]))
-    }
+  opt.TokenValidationParameters = new()
+  {
+    ValidateIssuer = true,
+    ValidateAudience = true,
+    ValidateLifetime = true,
+    ValidateIssuerSigningKey = true,
+    ValidIssuer = builder.Configuration["Settings:JWT_Iss"],
+    ValidAudience = builder.Configuration["Settings:JWT_Aud"],
+    IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(builder.Configuration["Settings:JWT_Secret"]))
+  }
 );
 
 var app = builder.Build();
