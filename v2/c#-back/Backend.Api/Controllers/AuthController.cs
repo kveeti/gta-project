@@ -1,9 +1,8 @@
-﻿using Backend.Api.Dtos;
+﻿using Backend.Api.Dtos.UserDtos;
 using Backend.Api.Helpers;
 using Backend.Api.Models;
 using Backend.Api.Repositories;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Options;
 
 namespace Backend.Api.Controllers;
