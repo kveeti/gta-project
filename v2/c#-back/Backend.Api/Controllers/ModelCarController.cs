@@ -3,6 +3,7 @@ using Backend.Api.Attributes;
 using Backend.Api.Dtos.ModelCarDtos;
 using Backend.Api.Models;
 using Backend.Api.Repositories;
+using JetBrains.Annotations;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
@@ -21,9 +22,20 @@ public class ModelCarController : ControllerBase
 
   [HttpGet]
   [Authorize]
-  public ActionResult<IEnumerable<ModelCar>> GetAll()
+  public async Task<ActionResult<IEnumerable<ModelCar>>> GetAll([CanBeNull] string query)
   {
-    return Ok(_db.GetAll());
+    var cars = await _db.GetAll();
+    if (query == null) return Ok(cars);
+
+    var allModelCars = await _db.GetAll();
+
+    var filtered = allModelCars.Where(car => car.Name.Contains(query) || car.Manufacturer.Contains(query));
+
+    var toReturn = filtered
+      .OrderBy(car => car.Manufacturer.IndexOf(query, StringComparison.OrdinalIgnoreCase) != 0)
+      .ThenBy(car => car.Name.IndexOf(query, StringComparison.OrdinalIgnoreCase) != 0);
+    
+    return Ok(toReturn);
   }
 
   [HttpGet("{id}")]
@@ -40,6 +52,9 @@ public class ModelCarController : ControllerBase
   [Authorization.CustomAuth(ClaimTypes.Role, "Admin")]
   public async Task<ActionResult<ModelCar>> Add(ModelCarDto dto)
   {
+    var existing = await _db.GetByName(dto.Name);
+    if (existing != null) return Conflict(existing);
+    
     ModelCar newModelCar = new()
     {
       Id = Guid.NewGuid(),
@@ -60,16 +75,12 @@ public class ModelCarController : ControllerBase
     var existingModelCar = await _db.GetById(id);
     if (existingModelCar == null) return NotFound();
 
-    ModelCar updated = new()
-    {
-      Id = existingModelCar.Id,
-      Name = dto.Name,
-      Manufacturer = dto.Manufacturer,
-      Class = dto.Class
-    };
-
+    existingModelCar.Name = dto.Name;
+    existingModelCar.Manufacturer = dto.Manufacturer;
+    existingModelCar.Class = dto.Class;
+    
     await _db.Update();
 
-    return Ok(updated);
+    return Ok(existingModelCar);
   }
 }
