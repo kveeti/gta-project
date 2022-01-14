@@ -61,7 +61,7 @@ public class UserController : ControllerBase
       Role = userDto.NewRole
     };
 
-    await _db.Update(updatedUser);
+    await _db.Update();
 
     ReturnUserDto returnUser = new()
     {

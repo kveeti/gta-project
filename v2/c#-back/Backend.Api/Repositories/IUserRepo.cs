@@ -13,7 +13,7 @@ public interface IUserRepo
 
   Task Add(User user);
 
-  Task Update(User user);
+  Task Update();
 
   Task Delete(User user);
 }
