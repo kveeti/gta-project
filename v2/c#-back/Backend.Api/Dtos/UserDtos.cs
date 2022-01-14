@@ -1,4 +1,4 @@
-﻿namespace Backend.Api.Dtos;
+﻿namespace Backend.Api.Dtos.UserDtos;
 
 public record AuthUserDto
 {
