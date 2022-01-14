@@ -7,7 +7,6 @@ using Backend.Api.Dtos.ModelCarDtos;
 using Backend.Api.Models;
 using Backend.Api.Repositories;
 using FluentAssertions;
-using JetBrains.Annotations;
 using Microsoft.AspNetCore.Mvc;
 using Moq;
 using Xunit;
@@ -38,7 +37,7 @@ public class ModelCarControllerTests
   public async Task GetOne_WithNoExistingCar_ReturnsNotFound()
   {
     _fakeRepo.Setup(repo => repo.GetById(It.IsAny<Guid>()))
-      .ReturnsAsync((ModelCar)null);
+      .ReturnsAsync((ModelCar) null);
 
     var controller = new ModelCarController(_fakeRepo.Object);
 
@@ -64,7 +63,7 @@ public class ModelCarControllerTests
     result.Result.Should().BeOfType<OkObjectResult>();
     (result.Result as OkObjectResult).Value.Should().BeEquivalentTo(newCar);
   }
-  
+
   [Fact]
   public async Task Add_WithConflictingName_ReturnsConflictExistingCar()
   {
@@ -75,7 +74,7 @@ public class ModelCarControllerTests
       Class = Guid.NewGuid().ToString()
     };
     var conflictingCar = CreateFakeModelCar();
-    
+
     _fakeRepo.Setup(repo => repo.GetByName(It.IsAny<string>()))
       .ReturnsAsync(conflictingCar);
 
@@ -96,7 +95,7 @@ public class ModelCarControllerTests
       CreateFakeModelCar(),
       CreateFakeModelCar()
     };
-    
+
     _fakeRepo.Setup(repo => repo.GetAll())
       .ReturnsAsync(expectedCars);
 
@@ -107,7 +106,7 @@ public class ModelCarControllerTests
     result.Result.Should().BeOfType<OkObjectResult>();
     (result.Result as OkObjectResult).Value.Should().BeEquivalentTo(expectedCars);
   }
-  
+
   [Fact]
   public async Task GetAll_WithQuery_ReturnsOnlyMatchingCars()
   {
@@ -119,7 +118,7 @@ public class ModelCarControllerTests
     };
 
     IEnumerable<ModelCar> expectedCars = allCars.Take(2);
-    
+
     _fakeRepo.Setup(repo => repo.GetAll())
       .ReturnsAsync(allCars);
 
@@ -148,7 +147,7 @@ public class ModelCarControllerTests
       Manufacturer = dto.Manufacturer,
       Class = dto.Class
     };
-    
+
     _fakeRepo.Setup(repo => repo.GetById(It.IsAny<Guid>()))
       .ReturnsAsync(existingCar);
 
@@ -169,9 +168,9 @@ public class ModelCarControllerTests
       Manufacturer = Guid.NewGuid().ToString(),
       Class = Guid.NewGuid().ToString()
     };
-    
+
     _fakeRepo.Setup(repo => repo.GetById(It.IsAny<Guid>()))
-      .ReturnsAsync((ModelCar)null);
+      .ReturnsAsync((ModelCar) null);
 
     var controller = new ModelCarController(_fakeRepo.Object);
 
@@ -179,7 +178,7 @@ public class ModelCarControllerTests
 
     result.Result.Should().BeOfType<NotFoundResult>();
   }
-  
+
   private ModelCar CreateFakeModelCar(string? aAllProps = null)
   {
     return new()
