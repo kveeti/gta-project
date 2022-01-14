@@ -7,9 +7,9 @@ namespace Backend.Api.Attributes;
 
 public class Authorization
 {
-  public class ClaimRequirementAttribute : TypeFilterAttribute
+  public class CustomAuth : TypeFilterAttribute
   {
-    public ClaimRequirementAttribute(string claimType, string claimValue) : base(typeof(ClaimRequirementFilter))
+    public CustomAuth(string claimType, string claimValue) : base(typeof(ClaimRequirementFilter))
     {
       Arguments = new object[] {new Claim(claimType, claimValue) };
     }
@@ -44,9 +44,7 @@ public class Authorization
 
       var user = repo.GetByUsername(username.Value);
 
-      if (user != null) return;
-      
-      context.Result = new ForbidResult();
+      if (user == null || user.Role != role.Value) context.Result = new ForbidResult();
     }
   }
 }
