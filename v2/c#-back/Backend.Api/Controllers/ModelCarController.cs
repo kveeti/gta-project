@@ -19,6 +19,13 @@ public class ModelCarController : ControllerBase
     _db = userRepo;
   }
 
+  [HttpGet]
+  [Authorize]
+  public ActionResult<IEnumerable<ModelCar>> GetAll()
+  {
+    return Ok(_db.GetAll());
+  }
+
   [HttpGet("{id}")]
   [Authorize]
   public async Task<ActionResult<ModelCar>> GetOne(Guid id)

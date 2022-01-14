@@ -11,7 +11,12 @@ public class ModelCarRepo : IModelCarRepo
   {
     _context = context;
   }
-  
+
+  public IEnumerable<ModelCar> GetAll()
+  {
+    return _context.ModelCars.ToList();
+  }
+
   public async Task<ModelCar> GetById(Guid id)
   {
     return await _context.ModelCars.FindAsync(id);
