@@ -4,16 +4,14 @@ using System.Security.Claims;
 using System.Threading.Tasks;
 using Backend.Api;
 using Backend.Api.Controllers;
-using Backend.Api.Dtos;
+using Backend.Api.Dtos.UserDtos;
 using Backend.Api.Repositories;
 using Backend.Api.Helpers;
 using Backend.Api.Models;
 using FluentAssertions;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Options;
 using Moq;
-using Moq.Language;
 using Xunit;
 
 namespace Backend.Tests;

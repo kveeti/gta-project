@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using Backend.Api;
 using Backend.Api.Controllers;
-using Backend.Api.Dtos;
+using Backend.Api.Dtos.UserDtos;
 using Backend.Api.Models;
 using Backend.Api.Repositories;
 using FluentAssertions;

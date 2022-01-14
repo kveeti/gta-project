@@ -1,4 +1,4 @@
-﻿using Backend.Api.Dtos;
+﻿using Backend.Api.Dtos.UserDtos;
 using Backend.Api.Models;
 
 namespace Backend.Api.Repositories;
