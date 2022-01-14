@@ -27,9 +27,7 @@ public class ModelCarController : ControllerBase
     var cars = await _db.GetAll();
     if (query == null) return Ok(cars);
 
-    var allModelCars = await _db.GetAll();
-
-    var filtered = allModelCars.Where(car => car.Name.Contains(query) || car.Manufacturer.Contains(query));
+    var filtered = cars.Where(car => car.Name.Contains(query) || car.Manufacturer.Contains(query));
 
     var toReturn = filtered
       .OrderBy(car => car.Manufacturer.IndexOf(query, StringComparison.OrdinalIgnoreCase) != 0)
