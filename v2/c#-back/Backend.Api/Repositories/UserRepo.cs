@@ -8,20 +8,20 @@ public class UserRepo : IUserRepo
 {
   private readonly DataContext _context;
 
-  public UserRepo(DataContext context)
+  public UserRepo(DataContext aContext)
   {
-    _context = context;
+    _context = aContext;
   }
 
-  public async Task<User> GetById(Guid id)
+  public async Task<User> GetById(Guid aId)
   {
-    return await _context.Users.FindAsync(id);
+    return await _context.Users.FindAsync(aId);
   }
 
-  public User GetByUsername(string username)
+  public User GetByUsername(string aUsername)
   {
     return _context.Users
-      .FirstOrDefault(x => x.Username == username);
+      .FirstOrDefault(x => x.Username == aUsername);
   }
 
   public IEnumerable<ReturnUserDto> GetAll()
@@ -34,9 +34,9 @@ public class UserRepo : IUserRepo
     });
   }
 
-  public async Task Add(User user)
+  public async Task Add(User aUser)
   {
-    _context.Users.Add(user);
+    _context.Users.Add(aUser);
     await _context.SaveChangesAsync();
   }
 
@@ -45,9 +45,9 @@ public class UserRepo : IUserRepo
     await _context.SaveChangesAsync();
   }
 
-  public async Task Delete(User user)
+  public async Task Delete(User aUser)
   {
-    _context.Users.Remove(user);
+    _context.Users.Remove(aUser);
     await _context.SaveChangesAsync();
   }
 }

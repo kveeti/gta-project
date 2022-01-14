@@ -15,32 +15,32 @@ public class ModelCarController : ControllerBase
 {
   private readonly IModelCarRepo _db;
 
-  public ModelCarController(IModelCarRepo userRepo)
+  public ModelCarController(IModelCarRepo aModelCarRepo)
   {
-    _db = userRepo;
+    _db = aModelCarRepo;
   }
 
   [HttpGet]
   [Authorize]
-  public async Task<ActionResult<IEnumerable<ModelCar>>> GetAll([CanBeNull] string query)
+  public async Task<ActionResult<IEnumerable<ModelCar>>> GetAll([CanBeNull] string aQuery)
   {
     var cars = await _db.GetAll();
-    if (query == null) return Ok(cars);
+    if (aQuery == null) return Ok(cars);
 
-    var filtered = cars.Where(car => car.Name.Contains(query) || car.Manufacturer.Contains(query));
+    var filtered = cars.Where(car => car.Name.Contains(aQuery) || car.Manufacturer.Contains(aQuery));
 
     var toReturn = filtered
-      .OrderBy(car => car.Manufacturer.IndexOf(query, StringComparison.OrdinalIgnoreCase) != 0)
-      .ThenBy(car => car.Name.IndexOf(query, StringComparison.OrdinalIgnoreCase) != 0);
+      .OrderBy(car => car.Manufacturer.IndexOf(aQuery, StringComparison.OrdinalIgnoreCase) != 0)
+      .ThenBy(car => car.Name.IndexOf(aQuery, StringComparison.OrdinalIgnoreCase) != 0);
     
     return Ok(toReturn);
   }
 
-  [HttpGet("{id}")]
+  [HttpGet("{aId:Guid}")]
   [Authorize]
-  public async Task<ActionResult<ModelCar>> GetOne(Guid id)
+  public async Task<ActionResult<ModelCar>> GetOne(Guid aId)
   {
-    var found = await _db.GetById(id);
+    var found = await _db.GetById(aId);
     if (found == null) return NotFound();
 
     return Ok(found);
@@ -48,17 +48,17 @@ public class ModelCarController : ControllerBase
 
   [HttpPost]
   [Authorization.CustomAuth(ClaimTypes.Role, "Admin")]
-  public async Task<ActionResult<ModelCar>> Add(ModelCarDto dto)
+  public async Task<ActionResult<ModelCar>> Add(ModelCarDto aDto)
   {
-    var existing = await _db.GetByName(dto.Name);
+    var existing = await _db.GetByName(aDto.Name);
     if (existing != null) return Conflict(existing);
     
     ModelCar newModelCar = new()
     {
       Id = Guid.NewGuid(),
-      Name = dto.Name,
-      Manufacturer = dto.Manufacturer,
-      Class = dto.Class
+      Name = aDto.Name,
+      Manufacturer = aDto.Manufacturer,
+      Class = aDto.Class
     };
 
     await _db.Add(newModelCar);
@@ -66,16 +66,16 @@ public class ModelCarController : ControllerBase
     return Ok(newModelCar);
   }
 
-  [HttpPatch("{id}")]
+  [HttpPatch("{aId:Guid}")]
   [Authorization.CustomAuth(ClaimTypes.Role, "Admin")]
-  public async Task<ActionResult<ModelCar>> Update(Guid id, ModelCarDto dto)
+  public async Task<ActionResult<ModelCar>> Update(Guid aId, ModelCarDto aDto)
   {
-    var existingModelCar = await _db.GetById(id);
+    var existingModelCar = await _db.GetById(aId);
     if (existingModelCar == null) return NotFound();
 
-    existingModelCar.Name = dto.Name;
-    existingModelCar.Manufacturer = dto.Manufacturer;
-    existingModelCar.Class = dto.Class;
+    existingModelCar.Name = aDto.Name;
+    existingModelCar.Manufacturer = aDto.Manufacturer;
+    existingModelCar.Class = aDto.Class;
     
     await _db.Update();
 

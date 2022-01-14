@@ -17,6 +17,7 @@ builder.Services.AddDbContext<DataContext>(options =>
 builder.Services.AddScoped<IDataContext, DataContext>();
 builder.Services.AddScoped<IUserRepo, UserRepo>();
 builder.Services.AddScoped<IModelCarRepo, ModelCarRepo>();
+builder.Services.AddScoped<IModelGarageRepo, ModelGarageRepo>();
 builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
 
 

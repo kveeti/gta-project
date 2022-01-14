@@ -5,15 +5,15 @@ namespace Backend.Api.Repositories;
 
 public interface IUserRepo
 {
-  User GetByUsername(string username);
+  User GetByUsername(string aUsername);
 
-  Task<User> GetById(Guid id);
+  Task<User> GetById(Guid aId);
 
   IEnumerable<ReturnUserDto> GetAll();
 
-  Task Add(User user);
+  Task Add(User aUser);
 
   Task Update();
 
-  Task Delete(User user);
+  Task Delete(User aUser);
 }

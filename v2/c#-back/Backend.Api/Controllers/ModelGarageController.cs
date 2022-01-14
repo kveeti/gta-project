@@ -15,9 +15,9 @@ public class ModelGarageController : ControllerBase
 {
   private readonly IModelGarageRepo _db;
 
-  public ModelGarageController(IModelGarageRepo modelGarageRepo)
+  public ModelGarageController(IModelGarageRepo aModelGarageRepo)
   {
-    _db = modelGarageRepo;
+    _db = aModelGarageRepo;
   }
 
   [HttpGet]

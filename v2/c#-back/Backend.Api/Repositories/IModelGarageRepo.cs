@@ -10,7 +10,7 @@ public interface IModelGarageRepo
 
   public Task<ModelGarage> GetByName(string aName);
 
-  public Task Add(ModelGarage modelGarage);
+  public Task Add(ModelGarage aModelGarage);
 
   public Task Update();
 }

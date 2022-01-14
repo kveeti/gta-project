@@ -15,17 +15,17 @@ public class UserController : ControllerBase
   private readonly IUserRepo _db;
   private readonly IOptions<Settings> _settings;
 
-  public UserController(IUserRepo userRepo, IOptions<Settings> settings)
+  public UserController(IUserRepo aUserRepo, IOptions<Settings> aSettings)
   {
-    _db = userRepo;
-    _settings = settings;
+    _db = aUserRepo;
+    _settings = aSettings;
   }
 
-  [HttpGet("{id}")]
+  [HttpGet("{aId:Guid}")]
   [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme, Roles = "Admin")]
-  public async Task<ActionResult<ReturnUserDto>> GetOne(Guid id)
+  public async Task<ActionResult<ReturnUserDto>> GetOne(Guid aId)
   {
-    var user = await _db.GetById(id);
+    var user = await _db.GetById(aId);
     if (user == null) return NotFound();
 
     ReturnUserDto returnUser = new()
@@ -46,11 +46,11 @@ public class UserController : ControllerBase
     return Ok(users);
   }
 
-  [HttpPatch("{id}")]
+  [HttpPatch("{aId:Guid}")]
   [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme, Roles = "Admin")]
-  public async Task<ActionResult<ReturnUserDto>> UpdateRole(Guid id, UpdateUserDto userDto)
+  public async Task<ActionResult<ReturnUserDto>> UpdateRole(Guid aId, UpdateUserDto aUserDto)
   {
-    var existingUser = await _db.GetById(id);
+    var existingUser = await _db.GetById(aId);
     if (existingUser == null) return NotFound();
 
     User updatedUser = new()
@@ -58,7 +58,7 @@ public class UserController : ControllerBase
       Id = existingUser.Id,
       Username = existingUser.Username,
       Password = existingUser.Password,
-      Role = userDto.NewRole
+      Role = aUserDto.NewRole
     };
 
     await _db.Update();
@@ -73,11 +73,11 @@ public class UserController : ControllerBase
     return Ok(returnUser);
   }
 
-  [HttpDelete("{id}")]
+  [HttpDelete("{aId:Guid}")]
   [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme, Roles = "Admin")]
-  public async Task<ActionResult<User>> Delete(Guid id)
+  public async Task<ActionResult<User>> Delete(Guid aId)
   {
-    var userToDelete = await _db.GetById(id);
+    var userToDelete = await _db.GetById(aId);
     if (userToDelete == null) return NotFound();
 
     await _db.Delete(userToDelete);

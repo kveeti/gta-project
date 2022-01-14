@@ -50,33 +50,33 @@ internal static class Hashing
   /// <summary>
   /// Checks if a given hash uses the latest version
   /// </summary>
-  /// <param name="data">The hash</param>
+  /// <param name="aData">The hash</param>
   /// <returns>Is the hash of the latest version?</returns>
-  public static bool IsLatestHashVersion(byte[] data)
+  public static bool IsLatestHashVersion(byte[] aData)
   {
-    var version = BitConverter.ToInt16(data, 0);
+    var version = BitConverter.ToInt16(aData, 0);
     return version == DefaultVersion.Version;
   }
 
   /// <summary>
   /// Checks if a given hash uses the latest version
   /// </summary>
-  /// <param name="data">The hash</param>
+  /// <param name="aData">The hash</param>
   /// <returns>Is the hash of the latest version?</returns>
-  public static bool IsLatestHashVersion(string data)
+  public static bool IsLatestHashVersion(string aData)
   {
-    var dataBytes = Convert.FromBase64String(data);
+    var dataBytes = Convert.FromBase64String(aData);
     return IsLatestHashVersion(dataBytes);
   }
 
   /// <summary>
   /// Gets a random byte array
   /// </summary>
-  /// <param name="length">The length of the byte array</param>
+  /// <param name="aLength">The length of the byte array</param>
   /// <returns>The random byte array</returns>
-  public static byte[] GetRandomBytes(int length)
+  public static byte[] GetRandomBytes(int aLength)
   {
-    var data = new byte[length];
+    var data = new byte[aLength];
     using (var randomNumberGenerator = RandomNumberGenerator.Create())
     {
       randomNumberGenerator.GetBytes(data);
@@ -88,10 +88,10 @@ internal static class Hashing
   /// <summary>
   /// Creates a Hash of a clear text
   /// </summary>
-  /// <param name="clearText">the clear text</param>
-  /// <param name="iterations">the number of iteration the hash alogrythm should run</param>
+  /// <param name="aClearText">the clear text</param>
+  /// <param name="aIterations">the number of iteration the hash alogrythm should run</param>
   /// <returns>the Hash</returns>
-  public static byte[] Hash(string clearText, int iterations = DefaultIterations)
+  public static byte[] Hash(string aClearText, int aIterations = DefaultIterations)
   {
     //get current version
     var currentVersion = DefaultVersion;
@@ -99,8 +99,8 @@ internal static class Hashing
     //get the byte arrays of the hash and meta information
     var saltBytes = GetRandomBytes(currentVersion.SaltSize);
     var versionBytes = BitConverter.GetBytes(currentVersion.Version);
-    var iterationBytes = BitConverter.GetBytes(iterations);
-    var hashBytes = KeyDerivation.Pbkdf2(clearText, saltBytes, currentVersion.KeyDerivation, iterations,
+    var iterationBytes = BitConverter.GetBytes(aIterations);
+    var hashBytes = KeyDerivation.Pbkdf2(aClearText, saltBytes, currentVersion.KeyDerivation, aIterations,
       currentVersion.HashSize);
 
     //calculate the indexes for the combined hash
@@ -121,26 +121,26 @@ internal static class Hashing
   /// <summary>
   /// Creates a Hash of a clear text and convert it to a Base64 String representation
   /// </summary>
-  /// <param name="clearText">the clear text</param>
-  /// <param name="iterations">the number of iteration the hash alogrythm should run</param>
+  /// <param name="aClearText">the clear text</param>
+  /// <param name="aIterations">the number of iteration the hash alogrythm should run</param>
   /// <returns>the Hash</returns>
-  public static string HashToString(string clearText, int iterations = DefaultIterations)
+  public static string HashToString(string aClearText, int aIterations = DefaultIterations)
   {
-    var data = Hash(clearText, iterations);
+    var data = Hash(aClearText, aIterations);
     return Convert.ToBase64String(data);
   }
 
   /// <summary>
   /// Verifies a given clear Text against a hash
   /// </summary>
-  /// <param name="clearText">The clear text</param>
-  /// <param name="data">The hash</param>
+  /// <param name="aClearText">The clear text</param>
+  /// <param name="aData">The hash</param>
   /// <returns>Is the hash equal to the clear text?</returns>
-  public static bool Verify(string clearText, byte[] data)
+  public static bool Verify(string aClearText, byte[] aData)
   {
     //Get the current version and number of iterations
-    var currentVersion = _versions[BitConverter.ToInt16(data, 0)];
-    var iteration = BitConverter.ToInt32(data, 2);
+    var currentVersion = _versions[BitConverter.ToInt16(aData, 0)];
+    var iteration = BitConverter.ToInt32(aData, 2);
 
     //Create the byte arrays for the salt and hash
     var saltBytes = new byte[currentVersion.SaltSize];
@@ -151,11 +151,11 @@ internal static class Hashing
     var indexHash = indexSalt + currentVersion.SaltSize;
 
     //Fill the byte arrays with salt and hash
-    Array.Copy(data, indexSalt, saltBytes, 0, currentVersion.SaltSize);
-    Array.Copy(data, indexHash, hashBytes, 0, currentVersion.HashSize);
+    Array.Copy(aData, indexSalt, saltBytes, 0, currentVersion.SaltSize);
+    Array.Copy(aData, indexHash, hashBytes, 0, currentVersion.HashSize);
 
     //Hash the current clearText with the parameters given via the data
-    var verificationHashBytes = KeyDerivation.Pbkdf2(clearText, saltBytes, currentVersion.KeyDerivation, iteration,
+    var verificationHashBytes = KeyDerivation.Pbkdf2(aClearText, saltBytes, currentVersion.KeyDerivation, iteration,
       currentVersion.HashSize);
 
     //Check if generated hashes are equal
@@ -165,12 +165,12 @@ internal static class Hashing
   /// <summary>
   /// Verifies a given clear Text against a hash
   /// </summary>
-  /// <param name="clearText">The clear text</param>
-  /// <param name="data">The hash</param>
+  /// <param name="aClearText">The clear text</param>
+  /// <param name="aData">The hash</param>
   /// <returns>Is the hash equal to the clear text?</returns>
-  public static bool Verify(string clearText, string data)
+  public static bool Verify(string aClearText, string aData)
   {
-    var dataBytes = Convert.FromBase64String(data);
-    return Verify(clearText, dataBytes);
+    var dataBytes = Convert.FromBase64String(aData);
+    return Verify(aClearText, dataBytes);
   }
 }

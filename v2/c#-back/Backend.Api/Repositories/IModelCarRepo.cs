@@ -6,11 +6,11 @@ public interface IModelCarRepo
 {
   public Task<IEnumerable<ModelCar>> GetAll();
   
-  public Task<ModelCar> GetById(Guid id);
+  public Task<ModelCar> GetById(Guid aId);
 
-  public Task<ModelCar> GetByName(string name);
+  public Task<ModelCar> GetByName(string aName);
 
-  public Task Add(ModelCar modelCar);
+  public Task Add(ModelCar aModelCar);
 
   public Task Update();
 }

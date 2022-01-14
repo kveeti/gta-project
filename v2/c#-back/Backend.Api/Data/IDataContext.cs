@@ -11,5 +11,5 @@ public interface IDataContext
 
   DbSet<ModelGarage> ModelGarages { get; set; }
 
-  Task<int> SaveChangesAsync(CancellationToken cancellationToken = default);
+  Task<int> SaveChangesAsync(CancellationToken aCancellationToken = default);
 }

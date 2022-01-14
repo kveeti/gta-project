@@ -5,7 +5,7 @@ namespace Backend.Api.Data;
 
 public class DataContext : DbContext, IDataContext
 {
-  public DataContext(DbContextOptions<DataContext> options) : base(options)
+  public DataContext(DbContextOptions<DataContext> aOptions) : base(aOptions)
   {
   }
 
@@ -14,9 +14,9 @@ public class DataContext : DbContext, IDataContext
 
   public DbSet<ModelGarage> ModelGarages { get; set; }
 
-  protected override void OnModelCreating(ModelBuilder builder)
+  protected override void OnModelCreating(ModelBuilder aBuilder)
   {
-    builder.Entity<User>(entity =>
+    aBuilder.Entity<User>(entity =>
       entity.HasIndex(e => e.Username).IsUnique()
     );
   }

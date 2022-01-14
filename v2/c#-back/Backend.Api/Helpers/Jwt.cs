@@ -9,26 +9,26 @@ namespace Backend.Api.Helpers;
 
 internal static class Jwt
 {
-  public static string Encode(string username, string role, IOptions<Settings> settings)
+  public static string Encode(string aUsername, string aRole, IOptions<Settings> aSettings)
   {
     var claims = new[]
     {
-      new Claim(ClaimTypes.NameIdentifier, username),
-      new Claim(ClaimTypes.Role, role)
+      new Claim(ClaimTypes.NameIdentifier, aUsername),
+      new Claim(ClaimTypes.Role, aRole)
     };
 
-    var securityKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(settings.Value.JWT_Secret));
+    var securityKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(aSettings.Value.JWT_Secret));
     var credentials = new SigningCredentials(securityKey, SecurityAlgorithms.HmacSha256Signature);
-    var tokenDescriptor = new JwtSecurityToken(settings.Value.JWT_Iss, settings.Value.JWT_Aud, claims,
+    var tokenDescriptor = new JwtSecurityToken(aSettings.Value.JWT_Iss, aSettings.Value.JWT_Aud, claims,
       expires: DateTime.Now.AddMinutes(15), signingCredentials: credentials);
 
     return new JwtSecurityTokenHandler().WriteToken(tokenDescriptor);
   }
 
-  public static JwtSecurityToken Decode(string token)
+  public static JwtSecurityToken Decode(string aToken)
   {
     var handler = new JwtSecurityTokenHandler();
-    var jwtToken = handler.ReadJwtToken(token);
+    var jwtToken = handler.ReadJwtToken(aToken);
 
     return jwtToken;
   }

@@ -8,9 +8,9 @@ public class ModelGarageRepo : IModelGarageRepo
 {
   private readonly DataContext _context;
 
-  public ModelGarageRepo(DataContext context)
+  public ModelGarageRepo(DataContext aContext)
   {
-    _context = context;
+    _context = aContext;
   }
 
   public async Task<IEnumerable<ModelGarage>> GetAll()
@@ -29,9 +29,9 @@ public class ModelGarageRepo : IModelGarageRepo
       .FirstOrDefaultAsync(garage => garage.Name == aName);
   }
 
-  public async Task Add(ModelGarage modelGarage)
+  public async Task Add(ModelGarage aModelGarage)
   {
-    await _context.AddAsync(modelGarage);
+    await _context.AddAsync(aModelGarage);
   }
 
   public async Task Update()

@@ -6,11 +6,11 @@ public class UnitOfWork : IUnitOfWork, IDisposable
 {
   private readonly DataContext _context;
 
-  public UnitOfWork(DataContext context, IUserRepo userRepo, IModelCarRepo modelCarRepo)
+  public UnitOfWork(DataContext aContext, IUserRepo aUserRepo, IModelCarRepo aModelCarRepo)
   {
-    _context = context;
-    UserRepo = userRepo;
-    ModelCarRepo = modelCarRepo;
+    _context = aContext;
+    UserRepo = aUserRepo;
+    ModelCarRepo = aModelCarRepo;
   }
 
   public IUserRepo UserRepo { get; }
@@ -24,11 +24,11 @@ public class UnitOfWork : IUnitOfWork, IDisposable
 
   private bool _disposed = false;
 
-  private void Dispose(bool disposing)
+  private void Dispose(bool aDisposing)
   {
     if (!_disposed)
     {
-      if (disposing) _context.Dispose();
+      if (aDisposing) _context.Dispose();
     }
 
     _disposed = true;

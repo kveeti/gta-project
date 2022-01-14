@@ -14,23 +14,23 @@ public class AuthController : ControllerBase
   private readonly IUserRepo _db;
   private readonly IOptions<Settings> _settings;
 
-  public AuthController(IUserRepo userRepo, IOptions<Settings> settings)
+  public AuthController(IUserRepo aUserRepo, IOptions<Settings> aSettings)
   {
-    _db = userRepo;
-    _settings = settings;
+    _db = aUserRepo;
+    _settings = aSettings;
   }
 
   [HttpPost("register")]
-  public async Task<ActionResult<string>> Register(AuthUserDto authUser)
+  public async Task<ActionResult<string>> Register(AuthUserDto aDto)
   {
-    var existingUser = _db.GetByUsername(authUser.Username);
+    var existingUser = _db.GetByUsername(aDto.Username);
     if (existingUser != null) return BadRequest("Username taken");
 
-    var hash = Hashing.HashToString(authUser.Password);
+    var hash = Hashing.HashToString(aDto.Password);
 
     User user = new()
     {
-      Username = authUser.Username,
+      Username = aDto.Username,
       Password = hash,
       Role = "Standard"
     };
@@ -43,12 +43,12 @@ public class AuthController : ControllerBase
   }
 
   [HttpPost("login")]
-  public ActionResult<string> Login(AuthUserDto userDto)
+  public ActionResult<string> Login(AuthUserDto aDto)
   {
-    var user = _db.GetByUsername(userDto.Username);
+    var user = _db.GetByUsername(aDto.Username);
     if (user == null) return NotFound();
 
-    var match = Hashing.Verify(userDto.Password, user.Password);
+    var match = Hashing.Verify(aDto.Password, user.Password);
     if (!match) return Unauthorized();
 
     var token = Jwt.Encode(user.Username, user.Role, _settings);
