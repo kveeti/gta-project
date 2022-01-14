@@ -1,5 +1,6 @@
 using Backend.Api.Data;
 using Backend.Api.Models;
+using Microsoft.EntityFrameworkCore;
 
 namespace Backend.Api.Repositories;
 
@@ -12,14 +13,19 @@ public class ModelCarRepo : IModelCarRepo
     _context = context;
   }
 
-  public IEnumerable<ModelCar> GetAll()
+  public async Task<IEnumerable<ModelCar>> GetAll()
   {
-    return _context.ModelCars.ToList();
+    return await _context.ModelCars.ToListAsync();
   }
 
   public async Task<ModelCar> GetById(Guid id)
   {
     return await _context.ModelCars.FindAsync(id);
+  }
+
+  public async Task<ModelCar> GetByName(string name)
+  {
+    return await _context.ModelCars.FirstOrDefaultAsync(car => car.Name == name);
   }
 
   public async Task Add(ModelCar modelCar)
