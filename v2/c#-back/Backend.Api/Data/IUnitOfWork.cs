@@ -12,6 +12,8 @@ public interface IUnitOfWork
   public IGenericRepo<User> UserRepo { get; }
   
   public IGenericRepo<Garage> GarageRepo { get; }
+  
+  public IGenericRepo<Car> CarRepo { get; }
 
   public Task SaveChangesAsync();
 }
