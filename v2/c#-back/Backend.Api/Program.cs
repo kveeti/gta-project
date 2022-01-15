@@ -20,6 +20,7 @@ builder.Services.AddScoped<IGenericRepo<User>, GenericRepo<User>>();
 builder.Services.AddScoped<IGenericRepo<ModelCar>, GenericRepo<ModelCar>>();
 builder.Services.AddScoped<IGenericRepo<ModelGarage>, GenericRepo<ModelGarage>>();
 builder.Services.AddScoped<IGenericRepo<Garage>, GenericRepo<Garage>>();
+builder.Services.AddScoped<IGenericRepo<Car>, GenericRepo<Car>>();
 
 builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
 
