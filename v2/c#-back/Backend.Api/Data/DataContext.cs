@@ -13,6 +13,8 @@ public class DataContext : DbContext, IDataContext
   public DbSet<ModelCar> ModelCars { get; set; }
 
   public DbSet<ModelGarage> ModelGarages { get; set; }
+  
+  public DbSet<Garage> Garages { get; set; }
 
   protected override void OnModelCreating(ModelBuilder aBuilder)
   {

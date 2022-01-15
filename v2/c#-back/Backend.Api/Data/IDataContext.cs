@@ -10,6 +10,8 @@ public interface IDataContext
   DbSet<ModelCar> ModelCars { get; set; }
 
   DbSet<ModelGarage> ModelGarages { get; set; }
+  
+  DbSet<Garage> Garages { get; set; }
 
   Task<int> SaveChangesAsync(CancellationToken aCancellationToken = default);
 }
