@@ -2,11 +2,20 @@ namespace Backend.Api.GarageDtos;
 
 public record GarageDto
 {
-  public Guid Id { get; init; }
-  
   public Guid ModelGarageId { get; init; }
 
-  public Guid OwnerId { get; set; }
+  public string Desc { get; init; }
+}
 
-  public string Desc { get; set; }
+public record SimplifiedGarageDto
+{
+  public Guid Id { get; init; }
+  
+  public string Name { get; init; }
+  
+  public string Desc { get; init; }
+  
+  public string Type { get; init; }
+  
+  public int Capacity { get; init; }
 }
