@@ -1,6 +1,6 @@
 using System.Security.Claims;
 using Backend.Api.Attributes;
-using Backend.Api.Dtos.ModelCarDtos;
+using Backend.Api.ModelCarDtos;
 using Backend.Api.Models;
 using Backend.Api.Repositories;
 using JetBrains.Annotations;

@@ -1,4 +1,4 @@
-namespace Backend.Api.Dtos.ModelCarDtos;
+namespace Backend.Api.ModelCarDtos;
 
 public record ModelCarDto
 {
