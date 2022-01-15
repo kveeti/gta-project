@@ -50,11 +50,15 @@ public class AuthControllerTests
 
         var decoded = Jwt.Decode(token);
 
-        var RoleClaim = decoded.Claims.First(claim => claim.Type == ClaimTypes.Role);
-        var UsernameClaim = decoded.Claims.First((claim => claim.Type == ClaimTypes.NameIdentifier));
+        var roleClaim = decoded.Claims.First(claim => claim.Type == ClaimTypes.Role);
+        var usernameClaim = decoded.Claims.First(claim => claim.Type == ClaimTypes.Name);
+        var idClaim = decoded.Claims.First(claim => claim.Type == ClaimTypes.NameIdentifier);
 
-        RoleClaim.Value.Should().Be("Standard");
-        UsernameClaim.Value.Should().Be(newUser.Username);
+        roleClaim.Value.Should().Be("Standard");
+        usernameClaim.Value.Should().Be(newUser.Username);
+
+        var isValidGuid = Guid.TryParse(idClaim.Value, out _);
+        isValidGuid.Should().BeTrue();
     }
     
     [Fact]
@@ -103,7 +107,7 @@ public class AuthControllerTests
         var decoded = Jwt.Decode(token);
         
         var RoleClaim = decoded.Claims.First(claim => claim.Type == ClaimTypes.Role);
-        var UsernameClaim = decoded.Claims.First((claim => claim.Type == ClaimTypes.NameIdentifier));
+        var UsernameClaim = decoded.Claims.First((claim => claim.Type == ClaimTypes.Name));
 
         RoleClaim.Value.Should().Be("Standard");
         UsernameClaim.Value.Should().Be(authUser.Username);

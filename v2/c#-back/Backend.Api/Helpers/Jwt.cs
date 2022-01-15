@@ -1,6 +1,5 @@
 ﻿using Microsoft.IdentityModel.Tokens;
 using System.IdentityModel.Tokens.Jwt;
-using System.Runtime.CompilerServices;
 using System.Security.Claims;
 using System.Text;
 using Microsoft.Extensions.Options;
@@ -9,12 +8,13 @@ namespace Backend.Api.Helpers;
 
 internal static class Jwt
 {
-  public static string Encode(string aUsername, string aRole, IOptions<Settings> aSettings)
+  public static string Encode(string aUsername, string aRole, Guid aId, IOptions<Settings> aSettings)
   {
     var claims = new[]
     {
-      new Claim(ClaimTypes.NameIdentifier, aUsername),
-      new Claim(ClaimTypes.Role, aRole)
+      new Claim(ClaimTypes.NameIdentifier, aId.ToString()),
+      new Claim(ClaimTypes.Role, aRole),
+      new Claim(ClaimTypes.Name, aUsername)
     };
 
     var securityKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(aSettings.Value.JWT_Secret));

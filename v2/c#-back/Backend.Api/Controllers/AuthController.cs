@@ -30,14 +30,15 @@ public class AuthController : ControllerBase
 
     User user = new()
     {
+      Id = Guid.NewGuid(),
       Username = aDto.Username,
       Password = hash,
       Role = "Standard"
     };
 
-    var token = Jwt.Encode(user.Username, user.Role, _settings);
-
     await _db.Add(user);
+    
+    var token = Jwt.Encode(user.Username, user.Role, user.Id, _settings);
 
     return Ok(token);
   }
@@ -51,7 +52,7 @@ public class AuthController : ControllerBase
     var match = Hashing.Verify(aDto.Password, user.Password);
     if (!match) return Unauthorized();
 
-    var token = Jwt.Encode(user.Username, user.Role, _settings);
+    var token = Jwt.Encode(user.Username, user.Role, user.Id, _settings);
 
     return Ok(token);
   }
