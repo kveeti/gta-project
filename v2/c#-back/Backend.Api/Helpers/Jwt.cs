@@ -32,4 +32,14 @@ internal static class Jwt
 
     return jwtToken;
   }
+
+  public static Guid GetUserId(HttpContext context)
+  {
+    var jwt = context.Request.Headers.Authorization.ToString().Split(" ")[1];
+
+    var decoded = Jwt.Decode(jwt);
+    var userIdClaim = decoded.Claims.FirstOrDefault(c => c.Type == ClaimTypes.NameIdentifier);
+    
+    return Guid.Parse(userIdClaim.Value);
+  }
 }
