@@ -1,11 +1,17 @@
+using Backend.Api.Models;
 using Backend.Api.Repositories;
 
 namespace Backend.Api.Data;
 
 public interface IUnitOfWork
 {
-  public IModelCarRepo ModelCarRepo { get; }
-  public IUserRepo UserRepo { get; }
-  Task SaveChangesAsync();
-  void Dispose();
+  public IGenericRepo<ModelCar> ModelCarRepo { get; }
+  
+  public IGenericRepo<ModelGarage> ModelGarageRepo { get; }
+  
+  public IGenericRepo<User> UserRepo { get; }
+  
+  public IGenericRepo<Garage> GarageRepo { get; }
+
+  public Task SaveChangesAsync();
 }
