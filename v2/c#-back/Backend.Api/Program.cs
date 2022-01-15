@@ -6,6 +6,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 using System.Text;
+using Backend.Api.Models;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -14,12 +15,13 @@ builder.Services.AddControllers();
 builder.Services.AddDbContext<DataContext>(options =>
   options.UseNpgsql(builder.Configuration.GetConnectionString("DefaultConnection")));
 
-builder.Services.AddScoped<IDataContext, DataContext>();
-builder.Services.AddScoped<IUserRepo, UserRepo>();
-builder.Services.AddScoped<IModelCarRepo, ModelCarRepo>();
-builder.Services.AddScoped<IModelGarageRepo, ModelGarageRepo>();
-builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
+builder.Services.AddTransient<IDataContext, DataContext>();
+builder.Services.AddScoped<IGenericRepo<User>, GenericRepo<User>>();
+builder.Services.AddScoped<IGenericRepo<ModelCar>, GenericRepo<ModelCar>>();
+builder.Services.AddScoped<IGenericRepo<ModelGarage>, GenericRepo<ModelGarage>>();
+builder.Services.AddScoped<IGenericRepo<Garage>, GenericRepo<Garage>>();
 
+builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
 
 builder.Services.AddRouting(options => options.LowercaseUrls = true);
 

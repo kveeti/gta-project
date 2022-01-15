@@ -12,20 +12,20 @@ namespace Backend.Api.Controllers;
 [Route("users")]
 public class UserController : ControllerBase
 {
-  private readonly IUserRepo _db;
+  private readonly IGenericRepo<User> _db;
   private readonly IOptions<Settings> _settings;
 
-  public UserController(IUserRepo aUserRepo, IOptions<Settings> aSettings)
+  public UserController(IGenericRepo<User> aUserRepo, IOptions<Settings> aSettings)
   {
     _db = aUserRepo;
     _settings = aSettings;
   }
 
-  [HttpGet("{aId:Guid}")]
+  [HttpGet("{id:Guid}")]
   [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme, Roles = "Admin")]
-  public async Task<ActionResult<ReturnUserDto>> GetOne(Guid aId)
+  public async Task<ActionResult<ReturnUserDto>> GetOne(Guid id)
   {
-    var user = await _db.GetById(aId);
+    var user = await _db.GetOneByFilter(u => u.Id == id);
     if (user == null) return NotFound();
 
     ReturnUserDto returnUser = new()
@@ -46,11 +46,11 @@ public class UserController : ControllerBase
     return Ok(users);
   }
 
-  [HttpPatch("{aId:Guid}")]
+  [HttpPatch("{id:Guid}")]
   [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme, Roles = "Admin")]
-  public async Task<ActionResult<ReturnUserDto>> UpdateRole(Guid aId, UpdateUserDto aUserDto)
+  public async Task<ActionResult<ReturnUserDto>> UpdateRole(Guid id, UpdateUserDto aUserDto)
   {
-    var existingUser = await _db.GetById(aId);
+    var existingUser = await _db.GetOneByFilter(u => u.Id == id);
     if (existingUser == null) return NotFound();
 
     User updatedUser = new()
@@ -61,7 +61,7 @@ public class UserController : ControllerBase
       Role = aUserDto.NewRole
     };
 
-    await _db.Update();
+    await _db.Save();
 
     ReturnUserDto returnUser = new()
     {
@@ -77,10 +77,11 @@ public class UserController : ControllerBase
   [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme, Roles = "Admin")]
   public async Task<ActionResult<User>> Delete(Guid aId)
   {
-    var userToDelete = await _db.GetById(aId);
+    var userToDelete = await _db.GetOneByFilter(u => u.Id == aId);
     if (userToDelete == null) return NotFound();
 
-    await _db.Delete(userToDelete);
+    _db.Delete(userToDelete);
+    await _db.Save();
 
     return NoContent();
   }

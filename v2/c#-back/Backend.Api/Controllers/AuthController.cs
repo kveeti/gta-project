@@ -11,10 +11,10 @@ namespace Backend.Api.Controllers;
 [Route("auth")]
 public class AuthController : ControllerBase
 {
-  private readonly IUserRepo _db;
+  private readonly IGenericRepo<User> _db;
   private readonly IOptions<Settings> _settings;
 
-  public AuthController(IUserRepo aUserRepo, IOptions<Settings> aSettings)
+  public AuthController(IGenericRepo<User> aUserRepo, IOptions<Settings> aSettings)
   {
     _db = aUserRepo;
     _settings = aSettings;
@@ -23,7 +23,7 @@ public class AuthController : ControllerBase
   [HttpPost("register")]
   public async Task<ActionResult<string>> Register(AuthUserDto aDto)
   {
-    var existingUser = _db.GetByUsername(aDto.Username);
+    var existingUser = await _db.GetOneByFilter(user => user.Username == aDto.Username);
     if (existingUser != null) return BadRequest("Username taken");
 
     var hash = Hashing.HashToString(aDto.Password);
@@ -36,7 +36,8 @@ public class AuthController : ControllerBase
       Role = "Standard"
     };
 
-    await _db.Add(user);
+    _db.Add(user);
+    await _db.Save();
     
     var token = Jwt.Encode(user.Username, user.Role, user.Id, _settings);
 
@@ -44,9 +45,9 @@ public class AuthController : ControllerBase
   }
 
   [HttpPost("login")]
-  public ActionResult<string> Login(AuthUserDto aDto)
+  public async Task<ActionResult<string>> Login(AuthUserDto aDto)
   {
-    var user = _db.GetByUsername(aDto.Username);
+    var user = await _db.GetOneByFilter(user => user.Username == aDto.Username);
     if (user == null) return NotFound();
 
     var match = Hashing.Verify(aDto.Password, user.Password);
