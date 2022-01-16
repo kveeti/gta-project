@@ -8,23 +8,29 @@ using Microsoft.Extensions.Options;
 namespace Backend.Api.Controllers;
 
 [ApiController]
-[Route("auth")]
+[Route("gta-api/auth")]
 public class AuthController : ControllerBase
 {
   private readonly IGenericRepo<User> _db;
   private readonly IOptions<Settings> _settings;
+  private readonly IJwt _jwt;
 
-  public AuthController(IGenericRepo<User> aUserRepo, IOptions<Settings> aSettings)
+  public AuthController(
+    IGenericRepo<User> aUserRepo,
+    IOptions<Settings> aSettings,
+    IJwt aJwt
+  )
   {
     _db = aUserRepo;
     _settings = aSettings;
+    _jwt = aJwt;
   }
 
   [HttpPost("register")]
   public async Task<ActionResult<string>> Register(AuthUserDto aDto)
   {
     var existingUser = await _db.GetOneByFilter(user => user.Username == aDto.Username);
-    if (existingUser != null) return BadRequest("Username taken");
+    if (existingUser != null) return Conflict("username taken");
 
     var hash = Hashing.HashToString(aDto.Password);
 
@@ -38,8 +44,8 @@ public class AuthController : ControllerBase
 
     _db.Add(user);
     await _db.Save();
-    
-    var token = Jwt.Encode(user.Username, user.Role, user.Id, _settings);
+
+    var token = _jwt.Encode(user.Username, user.Role, user.Id, _settings);
 
     return Ok(token);
   }
@@ -48,12 +54,12 @@ public class AuthController : ControllerBase
   public async Task<ActionResult<string>> Login(AuthUserDto aDto)
   {
     var user = await _db.GetOneByFilter(user => user.Username == aDto.Username);
-    if (user == null) return NotFound();
+    if (user == null) return NotFound("user not found");
 
     var match = Hashing.Verify(aDto.Password, user.Password);
-    if (!match) return Unauthorized();
+    if (!match) return Unauthorized("incorrect password");
 
-    var token = Jwt.Encode(user.Username, user.Role, user.Id, _settings);
+    var token = _jwt.Encode(user.Username, user.Role, user.Id, _settings);
 
     return Ok(token);
   }

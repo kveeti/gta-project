@@ -1,13 +1,14 @@
 ﻿using System;
 using System.Linq;
+using System.Linq.Expressions;
 using System.Security.Claims;
 using System.Threading.Tasks;
 using Backend.Api;
 using Backend.Api.Controllers;
 using Backend.Api.Dtos.UserDtos;
-using Backend.Api.Repositories;
 using Backend.Api.Helpers;
 using Backend.Api.Models;
+using Backend.Api.Repositories;
 using FluentAssertions;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
@@ -18,144 +19,149 @@ namespace Backend.Tests;
 
 public class AuthControllerTests
 {
-    private readonly Mock<IUserRepo> _fakeRepo = new();
+  private readonly Mock<IGenericRepo<User>> _fakeRepo = new();
+  private readonly IJwt _jwt = new Jwt();
 
-    private readonly IOptions<Settings> _testSettings = Options.Create<Settings>(
-        new Settings()
-            {
-                JWT_Secret = Guid.NewGuid().ToString(),
-                JWT_Iss = "test",
-                JWT_Aud = "test"
-            });
-
-    [Fact]
-    public async Task Register_WithUniqueUserName_ReturnsCorrectToken()
+  private readonly IOptions<Settings> _testSettings = Options.Create<Settings>(
+    new Settings()
     {
-        var newUser = CreateFakeAuthUser();
-        var dbUser = new User()
-        {
-            Id = Guid.NewGuid(),
-            Username = newUser.Username,
-            Password = newUser.Password,
-            Role = "Standard"
-        };
+      JWT_Secret = Guid.NewGuid().ToString(),
+      JWT_Iss = "test",
+      JWT_Aud = "test"
+    });
 
-        _fakeRepo.Setup(repo => repo.Add(dbUser)).Verifiable();
-            
-        var controller = new AuthController(_fakeRepo.Object, _testSettings);
-
-        var result = await controller.Register(newUser);
-
-        var token = (result.Result as OkObjectResult).Value as string;
-
-        var decoded = Jwt.Decode(token);
-
-        var roleClaim = decoded.Claims.First(claim => claim.Type == ClaimTypes.Role);
-        var usernameClaim = decoded.Claims.First(claim => claim.Type == ClaimTypes.Name);
-        var idClaim = decoded.Claims.First(claim => claim.Type == ClaimTypes.NameIdentifier);
-
-        roleClaim.Value.Should().Be("Standard");
-        usernameClaim.Value.Should().Be(newUser.Username);
-
-        var isValidGuid = Guid.TryParse(idClaim.Value, out _);
-        isValidGuid.Should().BeTrue();
-    }
-    
-    [Fact]
-    public async Task Register_WithTakenUsername_ReturnsBadRequest()
+  [Fact]
+  public async Task Register_WithUniqueUserName_ReturnsCorrectToken()
+  {
+    var newUser = CreateFakeAuthUser();
+    var dbUser = new User()
     {
-        var newUser = CreateFakeAuthUser();
-        var existingUser = new User()
-        {
-            Id = Guid.NewGuid(),
-            Username = newUser.Username,
-            Password = newUser.Password,
-            Role = "Standard"
-        };
+      Id = Guid.NewGuid(),
+      Username = newUser.Username,
+      Password = newUser.Password,
+      Role = "Standard"
+    };
 
-        _fakeRepo.Setup(repo => repo.GetByUsername(It.IsAny<string>()))
-            .Returns(existingUser);
-        
-        var controller = new AuthController(_fakeRepo.Object, _testSettings);
+    _fakeRepo.Setup(repo => repo.Add(dbUser)).Verifiable();
 
-        var result = await controller.Register(newUser);
+    var controller = new AuthController(_fakeRepo.Object, _testSettings, _jwt);
 
-        result.Result.Should().BeOfType<BadRequestObjectResult>();
-    }
+    var result = await controller.Register(newUser);
 
-    [Fact]
-    public void Login_WithExistingUser_ReturnsCorrectToken()
+    var token = (result.Result as OkObjectResult).Value as string;
+
+    var decoded = _jwt.Decode(token);
+
+    var roleClaim = decoded.Claims.First(claim => claim.Type == ClaimTypes.Role);
+    var usernameClaim = decoded.Claims.First(claim => claim.Type == ClaimTypes.Name);
+    var idClaim = decoded.Claims.First(claim => claim.Type == ClaimTypes.NameIdentifier);
+
+    roleClaim.Value.Should().Be("Standard");
+    usernameClaim.Value.Should().Be(newUser.Username);
+
+    var isValidGuid = Guid.TryParse(idClaim.Value, out _);
+    isValidGuid.Should().BeTrue();
+  }
+
+  [Fact]
+  public async Task Register_WithTakenUsername_ReturnsConflict()
+  {
+    var newUser = CreateFakeAuthUser();
+    var existingUser = new User()
     {
-        var authUser = CreateFakeAuthUser();
-        var existingUser = new User()
-        {
-            Id = Guid.NewGuid(),
-            Username = authUser.Username,
-            Password = Hashing.HashToString(authUser.Password),
-            Role = "Standard"
-        };
-        
-        _fakeRepo.Setup(repo => repo.GetByUsername(It.IsAny<string>()))
-            .Returns(existingUser);
+      Id = Guid.NewGuid(),
+      Username = newUser.Username,
+      Password = newUser.Password,
+      Role = "Standard"
+    };
 
-        var controller = new AuthController(_fakeRepo.Object, _testSettings);
+    _fakeRepo.Setup(repo => repo.GetOneByFilter(It.IsAny<Expression<Func<User, bool>>>()))
+      .ReturnsAsync(existingUser);
 
-        var result = controller.Login(authUser);
+    var controller = new AuthController(_fakeRepo.Object, _testSettings, _jwt);
 
-        var token = (result.Result as OkObjectResult).Value as string;
+    var result = await controller.Register(newUser);
 
-        var decoded = Jwt.Decode(token);
-        
-        var RoleClaim = decoded.Claims.First(claim => claim.Type == ClaimTypes.Role);
-        var UsernameClaim = decoded.Claims.First((claim => claim.Type == ClaimTypes.Name));
+    result.Result.Should().BeOfType<ConflictObjectResult>();
+    (result.Result as ConflictObjectResult).Value.Should().Be("username taken");
+  }
 
-        RoleClaim.Value.Should().Be("Standard");
-        UsernameClaim.Value.Should().Be(authUser.Username);
-    }
-    
-    [Fact]
-    public void Login_WithNoExistingUser_ReturnsNotFound()
+  [Fact]
+  public async Task Login_WithExistingUser_ReturnsCorrectToken()
+  {
+    var authUser = CreateFakeAuthUser();
+    var existingUser = new User()
     {
-        var authUser = CreateFakeAuthUser();
-        
-        _fakeRepo.Setup(repo => repo.GetByUsername(It.IsAny<string>()))
-            .Returns((User)null);
+      Id = Guid.NewGuid(),
+      Username = authUser.Username,
+      Password = Hashing.HashToString(authUser.Password),
+      Role = "Standard"
+    };
 
-        var controller = new AuthController(_fakeRepo.Object, _testSettings);
+    _fakeRepo.Setup(repo => repo.GetOneByFilter(It.IsAny<Expression<Func<User, bool>>>()))
+      .ReturnsAsync(existingUser);
 
-        var result = controller.Login(authUser);
+    var controller = new AuthController(_fakeRepo.Object, _testSettings, _jwt);
 
-        result.Result.Should().BeOfType<NotFoundResult>();
-    }
-    
-    [Fact]
-    public void Login_WithWrongPassword_ReturnsUnauthorized()
+    var result = await controller.Login(authUser);
+
+    var token = (result.Result as OkObjectResult).Value as string;
+
+    var decoded = _jwt.Decode(token);
+
+    var RoleClaim = decoded.Claims.First(claim => claim.Type == ClaimTypes.Role);
+    var UsernameClaim = decoded.Claims.First((claim => claim.Type == ClaimTypes.Name));
+
+    RoleClaim.Value.Should().Be("Standard");
+    UsernameClaim.Value.Should().Be(authUser.Username);
+  }
+
+  [Fact]
+  public async Task Login_WithNoExistingUser_ReturnsNotFound()
+  {
+    var authUser = CreateFakeAuthUser();
+
+    _fakeRepo.Setup(repo => repo
+        .GetOneByFilter(It.IsAny<Expression<Func<User, bool>>>()))
+      .ReturnsAsync((User) null);
+
+    var controller = new AuthController(_fakeRepo.Object, _testSettings, _jwt);
+
+    var result = await controller.Login(authUser);
+
+    result.Result.Should().BeOfType<NotFoundObjectResult>();
+    (result.Result as NotFoundObjectResult).Value.Should().Be("user not found");
+  }
+
+  [Fact]
+  public async Task Login_WithWrongPassword_ReturnsUnauthorized()
+  {
+    var authUser = CreateFakeAuthUser();
+    var existingUser = new User()
     {
-        var authUser = CreateFakeAuthUser();
-        var existingUser = new User()
-        {
-            Id = Guid.NewGuid(),
-            Username = authUser.Username,
-            Password = Hashing.HashToString(Guid.NewGuid().ToString()),
-            Role = "Standard"
-        };
-        
-        _fakeRepo.Setup(repo => repo.GetByUsername(It.IsAny<string>()))
-            .Returns(existingUser);
+      Id = Guid.NewGuid(),
+      Username = authUser.Username,
+      Password = Hashing.HashToString(Guid.NewGuid().ToString()),
+      Role = "Standard"
+    };
 
-        var controller = new AuthController(_fakeRepo.Object, _testSettings);
+    _fakeRepo.Setup(repo => repo.GetOneByFilter(It.IsAny<Expression<Func<User, bool>>>()))
+      .ReturnsAsync(existingUser);
 
-        var result = controller.Login(authUser);
+    var controller = new AuthController(_fakeRepo.Object, _testSettings, _jwt);
 
-        result.Result.Should().BeOfType<UnauthorizedResult>();
-    }
+    var result = await controller.Login(authUser);
 
-    private static AuthUserDto CreateFakeAuthUser()
+    result.Result.Should().BeOfType<UnauthorizedObjectResult>();
+    (result.Result as UnauthorizedObjectResult).Value.Should().Be("incorrect password");
+  }
+
+  private static AuthUserDto CreateFakeAuthUser()
+  {
+    return new()
     {
-        return new()
-        {
-            Username = Guid.NewGuid().ToString(),
-            Password = Guid.NewGuid().ToString()
-        };
-    }
+      Username = Guid.NewGuid().ToString(),
+      Password = Guid.NewGuid().ToString()
+    };
+  }
 }
