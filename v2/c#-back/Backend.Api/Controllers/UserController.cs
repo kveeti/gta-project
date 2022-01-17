@@ -1,4 +1,6 @@
-﻿using Backend.Api.Dtos.UserDtos;
+﻿using System.Security.Claims;
+using Backend.Api.Attributes;
+using Backend.Api.Dtos.UserDtos;
 using Backend.Api.Models;
 using Backend.Api.Repositories;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
@@ -9,20 +11,18 @@ using Microsoft.Extensions.Options;
 namespace Backend.Api.Controllers;
 
 [ApiController]
-[Route("users")]
+[Route("gta-api/users")]
 public class UserController : ControllerBase
 {
   private readonly IGenericRepo<User> _db;
-  private readonly IOptions<Settings> _settings;
 
-  public UserController(IGenericRepo<User> aUserRepo, IOptions<Settings> aSettings)
+  public UserController(IGenericRepo<User> aUserRepo)
   {
     _db = aUserRepo;
-    _settings = aSettings;
   }
 
   [HttpGet("{id:Guid}")]
-  [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme, Roles = "Admin")]
+  [Authorization.CustomAuth(ClaimTypes.Role, "Admin")]
   public async Task<ActionResult<ReturnUserDto>> GetOne(Guid id)
   {
     var user = await _db.GetOneByFilter(u => u.Id == id);
@@ -39,15 +39,22 @@ public class UserController : ControllerBase
   }
 
   [HttpGet]
-  [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme, Roles = "Admin")]
-  public ActionResult<IEnumerable<ReturnUserDto>> GetAll()
+  [Authorization.CustomAuth(ClaimTypes.Role, "Admin")]
+  public async Task<ActionResult<IEnumerable<ReturnUserDto>>> GetAll()
   {
-    var users = _db.GetAll();
-    return Ok(users);
+    var users = await _db.GetAll();
+    var toReturn = users.Select(u => new ReturnUserDto()
+    {
+      Id = u.Id,
+      Username = u.Username,
+      Role = u.Role
+    });
+
+    return Ok(toReturn);
   }
 
   [HttpPatch("{id:Guid}")]
-  [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme, Roles = "Admin")]
+  [Authorization.CustomAuth(ClaimTypes.Role, "Admin")]
   public async Task<ActionResult<ReturnUserDto>> UpdateRole(Guid id, UpdateUserDto aUserDto)
   {
     var existingUser = await _db.GetOneByFilter(u => u.Id == id);
@@ -73,12 +80,12 @@ public class UserController : ControllerBase
     return Ok(returnUser);
   }
 
-  [HttpDelete("{aId:Guid}")]
-  [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme, Roles = "Admin")]
-  public async Task<ActionResult<User>> Delete(Guid aId)
+  [HttpDelete("{id:Guid}")]
+  [Authorization.CustomAuth(ClaimTypes.Role, "Admin")]
+  public async Task<ActionResult<string>> Delete(Guid id)
   {
-    var userToDelete = await _db.GetOneByFilter(u => u.Id == aId);
-    if (userToDelete == null) return NotFound();
+    var userToDelete = await _db.GetOneByFilter(u => u.Id == id);
+    if (userToDelete == null) return NotFound("user was not found");
 
     _db.Delete(userToDelete);
     await _db.Save();

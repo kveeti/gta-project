@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Linq.Expressions;
 using System.Threading.Tasks;
 using Backend.Api.Controllers;
 using Backend.Api.ModelGarageDtos;
@@ -15,7 +16,7 @@ namespace Backend.Tests;
 
 public class ModelGarageControllerTests
 {
-  private readonly Mock<IModelGarageRepo> _fakeRepo = new();
+  private readonly Mock<IGenericRepo<ModelGarage>> _fakeRepo = new();
   private readonly int _randomNum = new Random().Next(20);
 
   [Fact]
@@ -23,7 +24,8 @@ public class ModelGarageControllerTests
   {
     var expectedGarage = CreateFakeModelGarage();
 
-    _fakeRepo.Setup(repo => repo.GetById(It.IsAny<Guid>()))
+    _fakeRepo.Setup(repo => repo
+        .GetOneByFilter(It.IsAny<Expression<Func<ModelGarage, bool>>>()))
       .ReturnsAsync(expectedGarage);
 
     var controller = new ModelGarageController(_fakeRepo.Object);
@@ -37,7 +39,8 @@ public class ModelGarageControllerTests
   [Fact]
   public async Task GetOne_WithNoExistingGarage_ReturnsNotFound()
   {
-    _fakeRepo.Setup(repo => repo.GetById(It.IsAny<Guid>()))
+    _fakeRepo.Setup(repo => repo
+        .GetOneByFilter(It.IsAny<Expression<Func<ModelGarage, bool>>>()))
       .ReturnsAsync((ModelGarage) null);
 
     var controller = new ModelGarageController(_fakeRepo.Object);
@@ -76,7 +79,8 @@ public class ModelGarageControllerTests
     };
     var conflictingGarage = CreateFakeModelGarage();
 
-    _fakeRepo.Setup(repo => repo.GetByName(It.IsAny<string>()))
+    _fakeRepo.Setup(repo => repo
+        .GetOneByFilter(It.IsAny<Expression<Func<ModelGarage, bool>>>()))
       .ReturnsAsync(conflictingGarage);
 
     var controller = new ModelGarageController(_fakeRepo.Object);
@@ -97,7 +101,8 @@ public class ModelGarageControllerTests
       CreateFakeModelGarage()
     };
 
-    _fakeRepo.Setup(repo => repo.GetAll())
+    _fakeRepo.Setup(repo => repo
+        .GetAll())
       .ReturnsAsync(expectedGarages);
 
     var controller = new ModelGarageController(_fakeRepo.Object);
@@ -120,7 +125,8 @@ public class ModelGarageControllerTests
 
     IEnumerable<ModelGarage> expectedCars = allGarages.Take(2);
 
-    _fakeRepo.Setup(repo => repo.GetAll())
+    _fakeRepo.Setup(repo => repo
+        .GetAll())
       .ReturnsAsync(allGarages);
 
     var controller = new ModelGarageController(_fakeRepo.Object);
@@ -149,7 +155,8 @@ public class ModelGarageControllerTests
       Type = dto.Type
     };
 
-    _fakeRepo.Setup(repo => repo.GetById(It.IsAny<Guid>()))
+    _fakeRepo.Setup(repo => repo
+        .GetOneByFilter(It.IsAny<Expression<Func<ModelGarage, bool>>>()))
       .ReturnsAsync(existingCar);
 
     var controller = new ModelGarageController(_fakeRepo.Object);
@@ -170,7 +177,8 @@ public class ModelGarageControllerTests
       Type = Guid.NewGuid().ToString()
     };
 
-    _fakeRepo.Setup(repo => repo.GetById(It.IsAny<Guid>()))
+    _fakeRepo.Setup(repo => repo
+        .GetOneByFilter(It.IsAny<Expression<Func<ModelGarage, bool>>>()))
       .ReturnsAsync((ModelGarage) null);
 
     var controller = new ModelGarageController(_fakeRepo.Object);

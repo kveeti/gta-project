@@ -4,8 +4,8 @@ namespace Backend.Api.Models;
 
 public class Garage
 {
-  [Key] public Guid Id { get; set; }
-  [Required] public Guid ModelGarageId { get; set; }
-  [Required] public Guid OwnerId { get; set; }
-  [Required] public string Desc { get; set; }
+  [Key] public Guid Id { get; init; }
+  [Required] public Guid ModelGarageId { get; init; }
+  [Required] public Guid OwnerId { get; init; }
+  [Required] public string Desc { get; init; }
 }

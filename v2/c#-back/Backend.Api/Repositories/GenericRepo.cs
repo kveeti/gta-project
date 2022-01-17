@@ -15,30 +15,19 @@ public class GenericRepo<TEntity> : IGenericRepo<TEntity> where TEntity : class
     _dbSet = context.Set<TEntity>();
   }
 
-  public virtual IEnumerable<TEntity> GetSet()
-  {
-    return _dbSet;
-  }
-  
   public virtual async Task<IEnumerable<TEntity>> GetAll()
   {
-    IQueryable<TEntity> query = _dbSet;
-
-    return await query.ToListAsync();
+    return await _dbSet.ToListAsync();
   }
 
   public virtual async Task<TEntity> GetOneByFilter(Expression<Func<TEntity, bool>> aFilter)
   {
-    IQueryable<TEntity> query = _dbSet;
-
-    return await query.Where(aFilter).FirstOrDefaultAsync();
+    return await _dbSet.FirstOrDefaultAsync(aFilter);
   }
 
   public virtual async Task<IEnumerable<TEntity>> GetManyByFilter(Expression<Func<TEntity, bool>> aFilter)
   {
-    IQueryable<TEntity> query = _dbSet;
-
-    return await query.Where(aFilter).ToListAsync();
+    return await _dbSet.Where(aFilter).ToListAsync();
   }
   
   public virtual void Add(TEntity aEntity)

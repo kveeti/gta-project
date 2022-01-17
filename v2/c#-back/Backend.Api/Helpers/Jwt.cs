@@ -5,10 +5,9 @@ using System.Text;
 using Microsoft.Extensions.Options;
 
 namespace Backend.Api.Helpers;
-
-internal static class Jwt
+public class Jwt : IJwt
 {
-  public static string Encode(string aUsername, string aRole, Guid aId, IOptions<Settings> aSettings)
+  public string Encode(string aUsername, string aRole, Guid aId, IOptions<Settings> aSettings)
   {
     var claims = new[]
     {
@@ -20,12 +19,12 @@ internal static class Jwt
     var securityKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(aSettings.Value.JWT_Secret));
     var credentials = new SigningCredentials(securityKey, SecurityAlgorithms.HmacSha256Signature);
     var tokenDescriptor = new JwtSecurityToken(aSettings.Value.JWT_Iss, aSettings.Value.JWT_Aud, claims,
-      expires: DateTime.Now.AddMinutes(15), signingCredentials: credentials);
+      expires: DateTime.Now.AddMinutes(900), signingCredentials: credentials);
 
     return new JwtSecurityTokenHandler().WriteToken(tokenDescriptor);
   }
 
-  public static JwtSecurityToken Decode(string aToken)
+  public JwtSecurityToken Decode(string aToken)
   {
     var handler = new JwtSecurityTokenHandler();
     var jwtToken = handler.ReadJwtToken(aToken);
@@ -33,11 +32,9 @@ internal static class Jwt
     return jwtToken;
   }
 
-  public static Guid GetUserId(HttpContext context)
+  public Guid GetUserId(string aToken)
   {
-    var jwt = context.Request.Headers.Authorization.ToString().Split(" ")[1];
-
-    var decoded = Jwt.Decode(jwt);
+    var decoded = Decode(aToken);
     var userIdClaim = decoded.Claims.FirstOrDefault(c => c.Type == ClaimTypes.NameIdentifier);
     
     return Guid.Parse(userIdClaim.Value);

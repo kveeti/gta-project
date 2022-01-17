@@ -1,8 +1,8 @@
 using Backend.Api.CarDtos;
-using Backend.Api.Data;
-using Backend.Api.GarageDtos;
 using Backend.Api.Helpers;
 using Backend.Api.Models;
+using Backend.Api.MoveDtos;
+using Backend.Api.Repositories;
 using JetBrains.Annotations;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -10,108 +10,82 @@ using Microsoft.AspNetCore.Mvc;
 namespace Backend.Api.Controllers;
 
 [ApiController]
-[Route("cars")]
+[Route("gta-api/cars")]
 public class CarController : ControllerBase
 {
-  private readonly IUnitOfWork _uow;
+  private readonly ISimplify _simplify;
+  private readonly IJwt _jwt;
 
-  public CarController(IUnitOfWork aUow)
+  private readonly IGenericRepo<Car> _carRepo;
+  private readonly IGenericRepo<Garage> _garageRepo;
+  private readonly IGenericRepo<ModelCar> _modelCarRepo;
+
+  public CarController(
+    IJwt aJwt,
+    ISimplify aSimplify,
+    IGenericRepo<Car> aCarRepo,
+    IGenericRepo<Garage> aGarageRepo,
+    IGenericRepo<ModelCar> aModelCarRepo
+  )
   {
-    _uow = aUow;
+    _jwt = aJwt;
+    _simplify = aSimplify;
+
+    _carRepo = aCarRepo;
+    _garageRepo = aGarageRepo;
+    _modelCarRepo = aModelCarRepo;
   }
 
   [HttpGet]
   [Authorize]
   public async Task<ActionResult<IEnumerable<SimplifiedCarDto>>> GetAll([CanBeNull] string query)
   {
-    var userId = Jwt.GetUserId(HttpContext.Request.Headers.Authorization.ToString().Split(" ")[1]);
+    var token = HttpContext.Request.Headers.Authorization.ToString().Split(" ")[1];
+    var userId = _jwt.GetUserId(token);
 
-    var cars = await _uow.CarRepo.GetManyByFilter(c => c.OwnerId == userId);
-    var garages = await _uow.GarageRepo.GetManyByFilter(c => c.OwnerId == userId);
-    var mGarages = await _uow.ModelGarageRepo.GetAll();
-    var mCars = await _uow.ModelCarRepo.GetAll();
+    var simplifiedCars = await _simplify.GetSimplifiedCarsForUser(userId);
+    if (query == null) return Ok(simplifiedCars);
 
-    var joined = cars.Join(garages,
-      c => c.GarageId,
-      g => g.Id,
-      (car, garage) => new {Car = car, Garage = garage}
-    ).Join(mGarages,
-      comb => comb.Garage.ModelGarageId,
-      mg => mg.Id,
-      (comb, mGarage) => new
-      {
-        Id = comb.Car.Id,
-        ModelCarId = comb.Car.ModelCarId,
-        Garage = new SimplifiedGarageDto()
-        {
-          Id = mGarage.Id,
-          Name = mGarage.Name,
-          Desc = comb.Garage.Desc,
-          Capacity = mGarage.Capacity,
-          Type = mGarage.Type
-        }
-      }).Join(mCars,
-      comb2 => comb2.ModelCarId,
-      mCar => mCar.Id,
-      (comb2, mCar) => new SimplifiedCarDto()
-      {
-        Id = comb2.Id,
-        Name = mCar.Name,
-        Manufacturer = mCar.Manufacturer,
-        Class = mCar.Class,
-        Garage = comb2.Garage
-      }
-    ).ToList();
+    var results = Search.GetResults(simplifiedCars, query);
 
-    if (query == null) return Ok(joined);
-
-    var filtered = joined;
-
-    if (query.Length > 3)
-    {
-      filtered = joined
-        .Where(c =>
-          c.Name.Contains(query) ||
-          c.Manufacturer.Contains(query) ||
-          c.Garage.Name.Contains(query) ||
-          c.Garage.Desc.Contains(query)
-        ).ToList();
-    }
-
-    var toReturn = filtered
-      .OrderBy(c => c.Name.IndexOf(query, StringComparison.OrdinalIgnoreCase) != 0)
-      .ThenBy(c => c.Manufacturer.IndexOf(query, StringComparison.OrdinalIgnoreCase) != 0)
-      .ThenBy(c => c.Garage.Name.IndexOf(query, StringComparison.OrdinalIgnoreCase) != 0)
-      .ThenBy(c => c.Garage.Desc.IndexOf(query, StringComparison.OrdinalIgnoreCase) != 0);
-
-    return Ok(toReturn);
+    return Ok(results);
   }
 
   [HttpGet("{id:Guid}")]
   [Authorize]
-  public async Task<ActionResult<Car>> GetOne(Guid id)
+  public async Task<ActionResult<SimplifiedCarDto>> GetOne(Guid id)
   {
-    var userId = Jwt.GetUserId(HttpContext.Request.Headers.Authorization.ToString().Split(" ")[1]);
+    var token = HttpContext.Request.Headers.Authorization.ToString().Split(" ")[1];
+    var userId = _jwt.GetUserId(token);
 
-    var found = await _uow.CarRepo.GetOneByFilter(c => c.Id == id && c.OwnerId == userId);
-    if (found == null) return NotFound("Car was not found");
+    var car = await _carRepo.GetOneByFilter(c => c.Id == id
+                                                 &&
+                                                 c.OwnerId == userId);
 
-    return Ok(found);
+    if (car == null) return NotFound("car was not found");
+
+    var simplifiedCar = await _simplify.GetOneSimplifiedCar(car);
+
+    return Ok(simplifiedCar);
   }
 
   [HttpPost]
   [Authorize]
   public async Task<ActionResult<Car>> Add(NewCarDto aDto)
   {
-    var userId = Jwt.GetUserId(HttpContext.Request.Headers.Authorization.ToString().Split(" ")[1]);
+    var token = HttpContext.Request.Headers.Authorization.ToString().Split(" ")[1];
+    var userId = _jwt.GetUserId(token);
 
-    var garage = await _uow.GarageRepo
-      .GetOneByFilter(g => g.Id == aDto.GarageId && g.OwnerId == userId);
-    var modelCar = await _uow.ModelCarRepo
-      .GetOneByFilter(c => c.Id == aDto.ModelCarId);
+    var modelCar = await _modelCarRepo
+      .GetOneByFilter(modelCar => modelCar.Id == aDto.ModelCarId);
 
-    if (garage == null) return NotFound("Garage was not found");
-    if (modelCar == null) return NotFound("Model car was not found");
+    var garage = await _garageRepo
+      .GetOneByFilter(garage => garage.Id == aDto.GarageId
+                                &&
+                                garage.OwnerId == userId);
+
+    if (garage == null) return NotFound("garage was not found");
+    if (modelCar == null) return NotFound("model car was not found");
 
     Car newCar = new()
     {
@@ -121,9 +95,60 @@ public class CarController : ControllerBase
       ModelCarId = modelCar.Id
     };
 
-    _uow.CarRepo.Add(newCar);
-    await _uow.SaveChangesAsync();
+    _carRepo.Add(newCar);
+    await _carRepo.Save();
 
     return Ok(newCar);
+  }
+
+  [HttpPost("move")]
+  [Authorize]
+  public async Task<ActionResult<string>> Move(MoveCarDto aDto)
+  {
+    var token = HttpContext.Request.Headers.Authorization.ToString().Split(" ")[1];
+    var userId = _jwt.GetUserId(token);
+
+    var newGarage = await _garageRepo
+      .GetOneByFilter(garage => garage.Id == aDto.NewGarageId
+                                &&
+                                garage.OwnerId == userId);
+
+    if (newGarage == null) return NotFound("garage was not found");
+
+    var cars = await _carRepo
+      .GetManyByFilter(car => car.OwnerId == userId
+                              &&
+                              aDto.CarIds.Contains(car.Id));
+
+    if (!cars.Any()) return NotFound("no cars were found");
+
+    foreach (var car in cars)
+    {
+      car.GarageId = newGarage.Id;
+    }
+
+    await _carRepo.Save();
+
+    return NoContent();
+  }
+
+  [HttpDelete("{id:Guid}")]
+  [Authorize]
+  public async Task<ActionResult<string>> Delete(Guid id)
+  {
+    var token = HttpContext.Request.Headers.Authorization.ToString().Split(" ")[1];
+    var userId = _jwt.GetUserId(token);
+
+    var car = await _carRepo
+      .GetOneByFilter(car => car.Id == id
+                             &&
+                             car.OwnerId == userId);
+
+    if (car == null) return NotFound("car was not found");
+
+    _carRepo.Delete(car);
+    await _carRepo.Save();
+
+    return NoContent();
   }
 }

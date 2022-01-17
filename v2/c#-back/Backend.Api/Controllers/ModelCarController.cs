@@ -1,5 +1,6 @@
 using System.Security.Claims;
 using Backend.Api.Attributes;
+using Backend.Api.Helpers;
 using Backend.Api.ModelCarDtos;
 using Backend.Api.Models;
 using Backend.Api.Repositories;
@@ -10,7 +11,7 @@ using Microsoft.AspNetCore.Mvc;
 namespace Backend.Api.Controllers;
 
 [ApiController]
-[Route("modelcars")]
+[Route("gta-api/modelcars")]
 public class ModelCarController : ControllerBase
 {
   private readonly IGenericRepo<ModelCar> _db;
@@ -27,13 +28,9 @@ public class ModelCarController : ControllerBase
     var cars = await _db.GetAll();
     if (query == null) return Ok(cars);
 
-    var filtered = cars.Where(car => car.Name.Contains(query) || car.Manufacturer.Contains(query));
+    var results = Search.GetResults(cars, query);
 
-    var toReturn = filtered
-      .OrderBy(car => car.Manufacturer.IndexOf(query, StringComparison.OrdinalIgnoreCase) != 0)
-      .ThenBy(car => car.Name.IndexOf(query, StringComparison.OrdinalIgnoreCase) != 0);
-    
-    return Ok(toReturn);
+    return Ok(results);
   }
 
   [HttpGet("{id:Guid}")]
@@ -52,7 +49,7 @@ public class ModelCarController : ControllerBase
   {
     var existing = await _db.GetOneByFilter(car => car.Name == aDto.Name);
     if (existing != null) return Conflict(existing);
-    
+
     ModelCar newModelCar = new()
     {
       Id = Guid.NewGuid(),
@@ -77,7 +74,7 @@ public class ModelCarController : ControllerBase
     existingModelCar.Name = aDto.Name;
     existingModelCar.Manufacturer = aDto.Manufacturer;
     existingModelCar.Class = aDto.Class;
-    
+
     await _db.Save();
 
     return Ok(existingModelCar);

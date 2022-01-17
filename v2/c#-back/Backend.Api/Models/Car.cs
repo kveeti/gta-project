@@ -4,11 +4,11 @@ namespace Backend.Api.Models;
 
 public class Car
 {
-  [Key] public Guid Id { get; set; }
+  [Key] public Guid Id { get; init; }
   
-  [Required] public Guid ModelCarId { get; set; }
+  [Required] public Guid ModelCarId { get; init; }
   
   [Required] public Guid GarageId { get; set; }
 
-  [Required] public Guid OwnerId { get; set; }
+  [Required] public Guid OwnerId { get; init; }
 }

@@ -6,6 +6,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 using System.Text;
+using Backend.Api.Helpers;
 using Backend.Api.Models;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -22,7 +23,8 @@ builder.Services.AddScoped<IGenericRepo<ModelGarage>, GenericRepo<ModelGarage>>(
 builder.Services.AddScoped<IGenericRepo<Garage>, GenericRepo<Garage>>();
 builder.Services.AddScoped<IGenericRepo<Car>, GenericRepo<Car>>();
 
-builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
+builder.Services.AddScoped<ISimplify, Simplify>();
+builder.Services.AddScoped<IJwt, Jwt>();
 
 builder.Services.AddRouting(options => options.LowercaseUrls = true);
 

@@ -1,5 +1,6 @@
 using System.Security.Claims;
 using Backend.Api.Attributes;
+using Backend.Api.Helpers;
 using Backend.Api.ModelGarageDtos;
 using Backend.Api.Models;
 using Backend.Api.Repositories;
@@ -10,7 +11,7 @@ using Microsoft.AspNetCore.Mvc;
 namespace Backend.Api.Controllers;
 
 [ApiController]
-[Route("modelgarages")]
+[Route("gta-api/modelgarages")]
 public class ModelGarageController : ControllerBase
 {
   private readonly IGenericRepo<ModelGarage> _db;
@@ -27,14 +28,9 @@ public class ModelGarageController : ControllerBase
     var garages = await _db.GetAll();
     if (query == null) return Ok(garages);
 
-    var filtered = garages
-      .Where(garage => garage.Name.Contains(query));
+    var results = Search.GetResults(garages, query);
 
-    var sorted = filtered
-      .OrderBy(garage => garage.Name
-        .IndexOf(query, StringComparison.OrdinalIgnoreCase) != 0);
-
-    return Ok(sorted);
+    return Ok(results);
   }
 
   [HttpGet("{id:Guid}")]

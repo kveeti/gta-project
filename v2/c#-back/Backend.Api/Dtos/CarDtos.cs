@@ -14,5 +14,6 @@ public record SimplifiedCarDto : ModelCarDto
 {
   public Guid Id { get; init; }
 
-  public SimplifiedGarageDto Garage { get; init; }
+  public PartiallySimplifiedGarageDto Garage { get; init; }
 }
+

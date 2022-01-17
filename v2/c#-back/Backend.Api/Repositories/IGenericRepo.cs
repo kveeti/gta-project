@@ -6,8 +6,6 @@ public interface IGenericRepo<TEntity> where TEntity : class
 {
   Task<IEnumerable<TEntity>> GetAll();
 
-  IEnumerable<TEntity> GetSet();
-
   Task<TEntity> GetOneByFilter(Expression<Func<TEntity, bool>> aFilter);
   
   Task<IEnumerable<TEntity>> GetManyByFilter(Expression<Func<TEntity, bool>> aFilter);

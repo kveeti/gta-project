@@ -1,7 +1,7 @@
-using Backend.Api.Data;
 using Backend.Api.GarageDtos;
 using Backend.Api.Helpers;
 using Backend.Api.Models;
+using Backend.Api.Repositories;
 using JetBrains.Annotations;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -9,78 +9,80 @@ using Microsoft.AspNetCore.Mvc;
 namespace Backend.Api.Controllers;
 
 [ApiController]
-[Route("garages")]
+[Route("gta-api/garages")]
 public class GarageController : ControllerBase
 {
-  private readonly IUnitOfWork _uow;
+  private readonly IJwt _jwt;
+  private readonly ISimplify _simplify;
+  private readonly IGenericRepo<Car> _carRepo;
+  private readonly IGenericRepo<Garage> _garageRepo;
+  private readonly IGenericRepo<ModelGarage> _modelGarageRepo;
 
-  public GarageController(IUnitOfWork aUow)
+  public GarageController(
+    IJwt aJwt,
+    ISimplify aSimplify,
+    IGenericRepo<Car> aCarRepo,
+    IGenericRepo<Garage> aGarageRepo,
+    IGenericRepo<ModelGarage> aModelGarageRepo)
   {
-    _uow = aUow;
+    _jwt = aJwt;
+    _simplify = aSimplify;
+    _carRepo = aCarRepo;
+    _garageRepo = aGarageRepo;
+    _modelGarageRepo = aModelGarageRepo;
   }
 
   [HttpGet]
   [Authorize]
   public async Task<ActionResult<IEnumerable<SimplifiedGarageDto>>> GetAll([CanBeNull] string query)
   {
-    var userId = Jwt.GetUserId(HttpContext);
+    var token = HttpContext.Request.Headers.Authorization.ToString().Split(" ")[1];
+    var userId = _jwt.GetUserId(token);
 
-    var garages = await _uow.GarageRepo.GetManyByFilter(g => g.OwnerId == userId);
-    var modelGarages = await _uow.ModelGarageRepo.GetAll();
+    var joined = await _simplify.GetSimplifiedGaragesForUser(userId);
+    if (query == null) return Ok(joined);
 
-    var joined = garages.Join(modelGarages,
-        garage => garage.ModelGarageId,
-        modelGarage => modelGarage.Id,
-        (garage, modelGarage) =>
-          new {Garage = garage, ModelGarage = modelGarage})
-      .ToList();
+    var results = Search.GetResults(joined, query);
 
-    var simplified = joined.Select(g => new SimplifiedGarageDto()
-    {
-      Id = g.Garage.Id,
-      Name = g.ModelGarage.Name,
-      Desc = g.Garage.Desc,
-      Capacity = g.ModelGarage.Capacity,
-      Type = g.ModelGarage.Type
-    });
-
-    if (query == null) return Ok(simplified);
-
-    var filtered = simplified;
-
-    if (query.Length > 3)
-    {
-      filtered = simplified
-        .Where(g => g.Name.Contains(query) || g.Desc.Contains(query));
-    }
-    
-    var toReturn = filtered
-      .OrderBy(g => g.Name.IndexOf(query, StringComparison.OrdinalIgnoreCase) != 0)
-      .ThenBy(g => g.Desc.IndexOf(query, StringComparison.OrdinalIgnoreCase) != 0);
-    
-    return Ok(toReturn);
+    return Ok(results);
   }
 
   [HttpGet("{id:Guid}")]
   [Authorize]
   public async Task<ActionResult<Garage>> GetOne(Guid id)
   {
-    var userId = Jwt.GetUserId(HttpContext);
+    var token = HttpContext.Request.Headers.Authorization.ToString().Split(" ")[1];
+    var userId = _jwt.GetUserId(token);
 
-    var found = _uow.GarageRepo.GetOneByFilter(g => g.Id == id && g.OwnerId == userId);
-    if (found == null) return NotFound("Garage was not found");
+    var garage = await _garageRepo
+      .GetOneByFilter(garage => garage.Id == id
+                                &&
+                                garage.OwnerId == userId);
 
-    return Ok(found);
+    if (garage == null) return NotFound("garage was not found");
+
+    var simplifiedGarage = await _simplify.GetOneSimplifiedGarage(garage);
+    return Ok(simplifiedGarage);
   }
 
   [HttpPost]
   [Authorize]
-  public async Task<ActionResult<Garage>> Add(GarageDto dto)
+  public async Task<ActionResult<Garage>> Add(NewGarageDto dto)
   {
-    var userId = Jwt.GetUserId(HttpContext);
-    var modelGarage = await _uow.ModelGarageRepo.GetOneByFilter(m => m.Id == dto.ModelGarageId);
+    var token = HttpContext.Request.Headers.Authorization.ToString().Split(" ")[1];
+    var userId = _jwt.GetUserId(token);
 
-    if (modelGarage == null) return NotFound("Model garage does not exist");
+    var modelGarage = await _modelGarageRepo
+      .GetOneByFilter(modelGarage => modelGarage.Id == dto.ModelGarageId);
+
+    if (modelGarage == null) return NotFound("model garage does not exist");
+
+    var existingGarage = await _garageRepo
+      .GetOneByFilter(garage => garage.ModelGarageId == dto.ModelGarageId
+                                &&
+                                garage.OwnerId == userId);
+
+    if (existingGarage != null) return BadRequest("garage already owned");
 
     Garage newGarage = new()
     {
@@ -90,9 +92,39 @@ public class GarageController : ControllerBase
       OwnerId = userId
     };
 
-    _uow.GarageRepo.Add(newGarage);
-    await _uow.GarageRepo.Save();
+    _garageRepo.Add(newGarage);
+    await _garageRepo.Save();
 
     return Ok(newGarage);
+  }
+
+  [HttpDelete("{id:Guid}")]
+  [Authorize]
+  public async Task<ActionResult<string>> Delete(Guid id)
+  {
+    var token = HttpContext.Request.Headers.Authorization.ToString().Split(" ")[1];
+    var userId = _jwt.GetUserId(token);
+
+    var garage = await _garageRepo
+      .GetOneByFilter(garage => garage.Id == id
+                                &&
+                                garage.OwnerId == userId);
+
+    if (garage == null) return NotFound("garage was not found");
+
+    var cars = await _carRepo
+      .GetManyByFilter(car => car.GarageId == garage.Id
+                              &&
+                              car.OwnerId == userId
+      );
+
+    foreach (var car in cars)
+    {
+      _carRepo.Delete(car);
+    }
+
+    await _carRepo.Save();
+
+    return NoContent();
   }
 }

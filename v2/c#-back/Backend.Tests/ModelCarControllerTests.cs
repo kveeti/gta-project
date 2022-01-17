@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Linq.Expressions;
 using System.Threading.Tasks;
 using Backend.Api.Controllers;
 using Backend.Api.ModelCarDtos;
@@ -15,14 +16,15 @@ namespace Backend.Tests;
 
 public class ModelCarControllerTests
 {
-  private readonly Mock<IModelCarRepo> _fakeRepo = new();
+  private readonly Mock<IGenericRepo<ModelCar>> _fakeRepo = new();
 
   [Fact]
   public async Task GetOne_WithExistingCar_ReturnsOkExpectedCar()
   {
     var expectedCar = CreateFakeModelCar();
 
-    _fakeRepo.Setup(repo => repo.GetById(It.IsAny<Guid>()))
+    _fakeRepo.Setup(repo => repo
+        .GetOneByFilter(It.IsAny<Expression<Func<ModelCar, bool>>>()))
       .ReturnsAsync(expectedCar);
 
     var controller = new ModelCarController(_fakeRepo.Object);
@@ -36,7 +38,8 @@ public class ModelCarControllerTests
   [Fact]
   public async Task GetOne_WithNoExistingCar_ReturnsNotFound()
   {
-    _fakeRepo.Setup(repo => repo.GetById(It.IsAny<Guid>()))
+    _fakeRepo.Setup(repo => repo
+        .GetOneByFilter(It.IsAny<Expression<Func<ModelCar, bool>>>()))
       .ReturnsAsync((ModelCar) null);
 
     var controller = new ModelCarController(_fakeRepo.Object);
@@ -75,7 +78,8 @@ public class ModelCarControllerTests
     };
     var conflictingCar = CreateFakeModelCar();
 
-    _fakeRepo.Setup(repo => repo.GetByName(It.IsAny<string>()))
+    _fakeRepo.Setup(repo => repo
+        .GetOneByFilter(It.IsAny<Expression<Func<ModelCar, bool>>>()))
       .ReturnsAsync(conflictingCar);
 
     var controller = new ModelCarController(_fakeRepo.Object);
@@ -96,7 +100,8 @@ public class ModelCarControllerTests
       CreateFakeModelCar()
     };
 
-    _fakeRepo.Setup(repo => repo.GetAll())
+    _fakeRepo.Setup(repo => repo
+        .GetAll())
       .ReturnsAsync(expectedCars);
 
     var controller = new ModelCarController(_fakeRepo.Object);
@@ -119,7 +124,8 @@ public class ModelCarControllerTests
 
     IEnumerable<ModelCar> expectedCars = allCars.Take(2);
 
-    _fakeRepo.Setup(repo => repo.GetAll())
+    _fakeRepo.Setup(repo => repo
+        .GetAll())
       .ReturnsAsync(allCars);
 
     var controller = new ModelCarController(_fakeRepo.Object);
@@ -148,7 +154,8 @@ public class ModelCarControllerTests
       Class = dto.Class
     };
 
-    _fakeRepo.Setup(repo => repo.GetById(It.IsAny<Guid>()))
+    _fakeRepo.Setup(repo => repo
+        .GetOneByFilter(It.IsAny<Expression<Func<ModelCar, bool>>>()))
       .ReturnsAsync(existingCar);
 
     var controller = new ModelCarController(_fakeRepo.Object);
@@ -169,7 +176,8 @@ public class ModelCarControllerTests
       Class = Guid.NewGuid().ToString()
     };
 
-    _fakeRepo.Setup(repo => repo.GetById(It.IsAny<Guid>()))
+    _fakeRepo.Setup(repo => repo
+        .GetOneByFilter(It.IsAny<Expression<Func<ModelCar, bool>>>()))
       .ReturnsAsync((ModelCar) null);
 
     var controller = new ModelCarController(_fakeRepo.Object);
