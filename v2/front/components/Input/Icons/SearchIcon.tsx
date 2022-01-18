@@ -1,7 +1,7 @@
 import { MagnifyingGlassIcon } from "@radix-ui/react-icons";
 import { styled } from "../../../stitches.config";
 
-const StyledIcon = styled("div", {
+const StyledIcon = styled("label", {
   all: "unset",
   display: "flex",
   padding: "0 1rem",
@@ -10,7 +10,7 @@ const StyledIcon = styled("div", {
 
 export const SearchIcon = () => {
   return (
-    <StyledIcon>
+    <StyledIcon htmlFor={"search"}>
       <MagnifyingGlassIcon />
     </StyledIcon>
   );
