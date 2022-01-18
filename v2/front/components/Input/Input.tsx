@@ -1,5 +1,5 @@
 import { blackA, whiteA } from "@radix-ui/colors";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { styled } from "../../stitches.config";
 import { ClearIcon } from "./Icons/ClearIcon";
 import { SearchIcon } from "./Icons/SearchIcon";
@@ -151,9 +151,10 @@ export const Input = ({
   value,
   type,
   onChange,
-}: InputProps) => {
+  }: InputProps) => {
   const [contFocus, setContFocus] = useState(false);
   const [inputVal, setInputVal] = useState(value);
+  const input = useRef(null);
 
   const isSearch = type === "search";
 
@@ -170,10 +171,15 @@ export const Input = ({
     onChange(value);
   };
 
+  const onInputContainerClick = () => {
+    if (input.current) input.current.focus();
+  };
+
   return (
-    <InputContainer focused={contFocus} white={white} transparent={transparent}>
+    <InputContainer focused={contFocus} white={white} transparent={transparent} onClick={() => onInputContainerClick()}>
       {isSearch && <SearchIcon />}
       <StyledInput
+        ref={input}
         id={id}
         type={type}
         onChange={(e) => onInputChange(e.target.value)}
