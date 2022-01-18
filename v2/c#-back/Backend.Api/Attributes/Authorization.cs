@@ -51,7 +51,7 @@ public class Authorization
         return;
       }
 
-      var user = await _userRepo.GetOneByFilter(user => user.Id == userId);
+      var user = await _userRepo.GetOneNotJoinedByFilter(user => user.Id == userId);
 
       if (user == null || user.Role != roleClaim.Value || user.Username != usernameClaim.Value)
       {

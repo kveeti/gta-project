@@ -6,13 +6,15 @@ public interface IGenericRepo<TEntity> where TEntity : class
 {
   Task<IEnumerable<TEntity>> GetAll();
 
-  Task<TEntity> GetOneByFilter(Expression<Func<TEntity, bool>> aFilter);
+  Task<TEntity> GetOneNotJoinedByFilter(Expression<Func<TEntity, bool>> aFilter);
   
-  Task<IEnumerable<TEntity>> GetManyByFilter(Expression<Func<TEntity, bool>> aFilter);
-
+  Task<IEnumerable<TEntity>> GetManyNotJoinedByFilter(Expression<Func<TEntity, bool>> aFilter);
+  
   void Add(TEntity aEntity);
 
   Task Save();
 
   void Delete(TEntity aEntity);
+
+  Task Delete(Guid aId);
 }

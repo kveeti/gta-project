@@ -1,11 +1,17 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Linq.Expressions;
 using System.Threading.Tasks;
+using AutoMapper;
 using Backend.Api.CarDtos;
 using Backend.Api.Controllers;
 using Backend.Api.GarageDtos;
 using Backend.Api.Helpers;
+using Backend.Api.ModelCarDtos;
+using Backend.Api.ModelGarageDtos;
+using Backend.Api.Models;
+using Backend.Api.Repositories;
 using Backend.Api.SearchDtos;
 using FluentAssertions;
 using Microsoft.AspNetCore.Http;
@@ -18,39 +24,52 @@ namespace Backend.Tests;
 public class SearchControllerTests
 {
   private readonly Mock<IJwt> _fakeJwt = new();
-  private readonly Mock<ISimplify> _fakeSimplify = new();
+
+  private readonly Mock<ICarRepo> _fakeCarRepo = new();
+  private readonly Mock<IGarageRepo> _fakeGarageRepo = new();
+
+  private readonly IMapper _mapper = new Mapper(
+    new MapperConfiguration(cfg =>
+    {
+      cfg.CreateMap<ModelGarage, ReturnModelGarageDto>();
+      cfg.CreateMap<ModelCar, ReturnModelCarDto>();
+      cfg.CreateMap<JoinedCarDto, ReturnCarDto>();
+      cfg.CreateMap<JoinedGarageDto, ReturnGarageDto>();
+      cfg.CreateMap<Car, ReturnNotJoinedCarDto>();
+      cfg.CreateMap<Garage, ReturnNotJoinedGarageDto>();
+    }));
 
   [Fact]
   public async Task Search_ReturnsExpectedCarsInCorrectOrder()
   {
-    IEnumerable<SimplifiedCarDto> allCars = new[]
+    IEnumerable<JoinedCarDto> allCars = new[]
     {
-      CreateFakeSimplifiedCar("test-ok"),
-      CreateFakeSimplifiedCar("ok-test"),
-      CreateFakeSimplifiedCar("test-ok"),
-      CreateFakeSimplifiedCar("not-ok"),
-      CreateFakeSimplifiedCar("not-ok")
+      CreateFakeJoinedCar("test-ok"),
+      CreateFakeJoinedCar("ok-test"),
+      CreateFakeJoinedCar("test-ok"),
+      CreateFakeJoinedCar("not-ok"),
+      CreateFakeJoinedCar("not-ok")
     };
 
-    IEnumerable<SimplifiedCarDto> expectedCars = new[]
+    IEnumerable<JoinedCarDto> expectedCars = new[]
     {
       allCars.ElementAt(0),
       allCars.ElementAt(2),
       allCars.ElementAt(1),
     };
 
-    var garages = Array.Empty<SimplifiedGarageDto>();
+    var garages = Array.Empty<JoinedGarageDto>();
 
     _fakeJwt.Setup(jwt => jwt
         .GetUserId(It.IsAny<string>()))
       .Returns(Guid.NewGuid());
 
-    _fakeSimplify.Setup(simplify => simplify
-      .GetSimplifiedCarsForUser(It.IsAny<Guid>())
+    _fakeCarRepo.Setup(simplify => simplify
+      .GetManyByFilter(It.IsAny<Expression<Func<JoinedCarDto,bool>>>())
     ).ReturnsAsync(allCars);
 
-    _fakeSimplify.Setup(simplify => simplify
-        .GetSimplifiedGaragesForUser(It.IsAny<Guid>()))
+    _fakeGarageRepo.Setup(simplify => simplify
+        .GetManyByFilter(It.IsAny<Expression<Func<JoinedGarageDto,bool>>>()))
       .ReturnsAsync(garages);
     
     var httpContext = new DefaultHttpContext();
@@ -58,7 +77,9 @@ public class SearchControllerTests
 
     var controller = new SearchController(
       _fakeJwt.Object,
-      _fakeSimplify.Object
+      _mapper,
+      _fakeCarRepo.Object,
+      _fakeGarageRepo.Object
     )
     {
       ControllerContext = new ControllerContext()
@@ -69,7 +90,10 @@ public class SearchControllerTests
 
     var result = await controller.Search("test");
 
-    result.Result.Should().BeOfType<OkObjectResult>();
+    result.Result
+      .Should()
+      .BeOfType<OkObjectResult>();
+    
     (((result.Result as OkObjectResult).Value) as SearchDto)
       .Cars
       .Should()
@@ -79,42 +103,44 @@ public class SearchControllerTests
   [Fact]
   public async Task Search_ReturnsExpectedGaragesInCorrectOrder()
   {
-    IEnumerable<SimplifiedGarageDto> allGarages = new[]
+    IEnumerable<JoinedGarageDto> allGarages = new[]
     {
-      CreateFakeSimplifiedGarage("test-ok"),
-      CreateFakeSimplifiedGarage("ok-test"),
-      CreateFakeSimplifiedGarage("test-ok"),
-      CreateFakeSimplifiedGarage("not-ok"),
-      CreateFakeSimplifiedGarage("not-ok")
+      CreateFakeJoinedGarage("test-ok"),
+      CreateFakeJoinedGarage("ok-test"),
+      CreateFakeJoinedGarage("test-ok"),
+      CreateFakeJoinedGarage("not-ok"),
+      CreateFakeJoinedGarage("not-ok")
     };
 
-    IEnumerable<SimplifiedGarageDto> expectedCars = new[]
+    IEnumerable<JoinedGarageDto> expectedCars = new[]
     {
       allGarages.ElementAt(0),
       allGarages.ElementAt(2),
       allGarages.ElementAt(1),
     };
 
-    var cars = Array.Empty<SimplifiedCarDto>();
+    var cars = Array.Empty<JoinedCarDto>();
 
     _fakeJwt.Setup(jwt => jwt
         .GetUserId(It.IsAny<string>()))
       .Returns(Guid.NewGuid());
 
-    _fakeSimplify.Setup(simplify => simplify
-      .GetSimplifiedGaragesForUser(It.IsAny<Guid>())
-    ).ReturnsAsync(allGarages);
+    _fakeCarRepo.Setup(simplify => simplify
+      .GetManyByFilter(It.IsAny<Expression<Func<JoinedCarDto,bool>>>())
+    ).ReturnsAsync(cars);
 
-    _fakeSimplify.Setup(simplify => simplify
-        .GetSimplifiedCarsForUser(It.IsAny<Guid>()))
-      .ReturnsAsync(cars);
+    _fakeGarageRepo.Setup(simplify => simplify
+        .GetManyByFilter(It.IsAny<Expression<Func<JoinedGarageDto,bool>>>()))
+      .ReturnsAsync(allGarages);
     
     var httpContext = new DefaultHttpContext();
     httpContext.Request.Headers.Authorization = "testing testing";
 
     var controller = new SearchController(
       _fakeJwt.Object,
-      _fakeSimplify.Object
+      _mapper,
+      _fakeCarRepo.Object,
+      _fakeGarageRepo.Object
     )
     {
       ControllerContext = new ControllerContext()
@@ -125,7 +151,10 @@ public class SearchControllerTests
 
     var result = await controller.Search("test");
 
-    result.Result.Should().BeOfType<OkObjectResult>();
+    result.Result
+      .Should()
+      .BeOfType<OkObjectResult>();
+    
     (((result.Result as OkObjectResult).Value) as SearchDto)
       .Garages
       .Should()
@@ -135,7 +164,7 @@ public class SearchControllerTests
 
   // --- END OF TESTS ---
 
-  private SimplifiedCarDto CreateFakeSimplifiedCar(string? queryableProps = null)
+  private JoinedCarDto CreateFakeJoinedCar(string? queryableProps = null)
   {
     return new()
     {
@@ -154,7 +183,7 @@ public class SearchControllerTests
     };
   }
 
-  private SimplifiedGarageDto CreateFakeSimplifiedGarage(string? queryableProps = null)
+  private JoinedGarageDto CreateFakeJoinedGarage(string? queryableProps = null)
   {
     return new()
     {

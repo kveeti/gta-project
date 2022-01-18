@@ -3,9 +3,13 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
 using System.Threading.Tasks;
+using AutoMapper;
 using Backend.Api.CarDtos;
 using Backend.Api.Controllers;
+using Backend.Api.GarageDtos;
 using Backend.Api.Helpers;
+using Backend.Api.ModelCarDtos;
+using Backend.Api.ModelGarageDtos;
 using Backend.Api.Models;
 using Backend.Api.Repositories;
 using FluentAssertions;
@@ -18,25 +22,37 @@ namespace Backend.Tests;
 
 public class CarControllerTests
 {
+  private readonly int _randomNum = new Random().Next(20);
+  
   private readonly Mock<IJwt> _fakeJwt = new();
-  private readonly Mock<ISimplify> _fakeSimplify = new();
+  
+  private readonly IMapper _mapper = new Mapper(
+    new MapperConfiguration(cfg =>
+    {
+      cfg.CreateMap<ModelGarage, ReturnModelGarageDto>();
+      cfg.CreateMap<ModelCar, ReturnModelCarDto>();
+      cfg.CreateMap<JoinedCarDto, ReturnCarDto>();
+      cfg.CreateMap<JoinedGarageDto, ReturnGarageDto>();
+      cfg.CreateMap<Car, ReturnNotJoinedCarDto>();
+      cfg.CreateMap<Garage, ReturnNotJoinedGarageDto>();
+    }));
 
-  private readonly Mock<IGenericRepo<Car>> _fakeCarRepo = new();
-  private readonly Mock<IGenericRepo<Garage>> _fakeGarageRepo = new();
+  private readonly Mock<ICarRepo> _fakeCarRepo = new();
+  private readonly Mock<IGarageRepo> _fakeGarageRepo = new();
   private readonly Mock<IGenericRepo<ModelCar>> _fakeModelCarRepo = new();
 
   [Fact]
   public async Task GetAll_WithNoQuery_ReturnsAllCars()
   {
-    IEnumerable<SimplifiedCarDto> allCars = new[]
+    IEnumerable<JoinedCarDto> allCars = new[]
     {
-      CreateFakeSimplifiedCar(),
-      CreateFakeSimplifiedCar(),
-      CreateFakeSimplifiedCar(),
+      CreateFakeJoinedCar(),
+      CreateFakeJoinedCar(),
+      CreateFakeJoinedCar(),
     };
 
-    _fakeSimplify.Setup(simplify => simplify
-        .GetSimplifiedCarsForUser(It.IsAny<Guid>()))
+    _fakeCarRepo.Setup(repo => repo
+        .GetManyByFilter(It.IsAny<Expression<Func<JoinedCarDto, bool>>>()))
       .ReturnsAsync(allCars);
 
     _fakeJwt.Setup(jwt => jwt
@@ -48,7 +64,7 @@ public class CarControllerTests
 
     var controller = new CarController(
       _fakeJwt.Object,
-      _fakeSimplify.Object,
+      _mapper,
       _fakeCarRepo.Object,
       _fakeGarageRepo.Object,
       _fakeModelCarRepo.Object
@@ -69,18 +85,18 @@ public class CarControllerTests
     (result.Result as OkObjectResult)
       .Value
       .Should()
-      .BeEquivalentTo(allCars);
+      .BeEquivalentTo(_mapper.Map<IEnumerable<ReturnCarDto>>(allCars));
   }
 
   [Fact]
   public async Task GetAll_WithQuery_ReturnsExpectedCarsInCorrectOrder()
   {
-    IEnumerable<SimplifiedCarDto> allCars = new[]
+    IEnumerable<JoinedCarDto> allCars = new[]
     {
-      CreateFakeSimplifiedCar("test-ok"),
-      CreateFakeSimplifiedCar("ok-test"),
-      CreateFakeSimplifiedCar("test-ok"),
-      CreateFakeSimplifiedCar("not-ok"),
+      CreateFakeJoinedCar("test-ok"),
+      CreateFakeJoinedCar("ok-test"),
+      CreateFakeJoinedCar("test-ok"),
+      CreateFakeJoinedCar("not-ok"),
     };
 
     var expectedCars = new[]
@@ -90,8 +106,8 @@ public class CarControllerTests
       allCars.ElementAt(1)
     };
 
-    _fakeSimplify.Setup(simplify => simplify
-        .GetSimplifiedCarsForUser(It.IsAny<Guid>()))
+    _fakeCarRepo.Setup(repo => repo
+        .GetManyByFilter(It.IsAny<Expression<Func<JoinedCarDto, bool>>>()))
       .ReturnsAsync(allCars);
 
     _fakeJwt.Setup(jwt => jwt
@@ -103,7 +119,7 @@ public class CarControllerTests
 
     var controller = new CarController(
       _fakeJwt.Object,
-      _fakeSimplify.Object,
+      _mapper,
       _fakeCarRepo.Object,
       _fakeGarageRepo.Object,
       _fakeModelCarRepo.Object
@@ -124,23 +140,18 @@ public class CarControllerTests
     (result.Result as OkObjectResult)
       .Value
       .Should()
-      .BeEquivalentTo(expectedCars);
+      .BeEquivalentTo(_mapper.Map<IEnumerable<ReturnCarDto>>(expectedCars));
   }
 
   [Fact]
   public async Task GetOne_WithExistingCar_ReturnsOkExistingCar()
   {
-    var dbReturns = CreateFakeCar();
-    var simplifiedExistingCar = CreateFakeSimplifiedCar(dbReturns);
+    var dbReturns = CreateFakeJoinedCar();
 
     _fakeCarRepo.Setup(repo => repo
-        .GetOneByFilter(It.IsAny<Expression<Func<Car, bool>>>()))
+        .GetOneByFilter(It.IsAny<Expression<Func<JoinedCarDto, bool>>>()))
       .ReturnsAsync(dbReturns);
-
-    _fakeSimplify.Setup(simplify => simplify
-        .GetOneSimplifiedCar(It.IsAny<Car>()))
-      .ReturnsAsync(simplifiedExistingCar);
-
+    
     _fakeJwt.Setup(jwt => jwt
         .GetUserId(It.IsAny<string>()))
       .Returns(Guid.NewGuid());
@@ -150,7 +161,7 @@ public class CarControllerTests
 
     var controller = new CarController(
       _fakeJwt.Object,
-      _fakeSimplify.Object,
+      _mapper,
       _fakeCarRepo.Object,
       _fakeGarageRepo.Object,
       _fakeModelCarRepo.Object
@@ -162,7 +173,7 @@ public class CarControllerTests
       }
     };
 
-    var result = await controller.GetOne(simplifiedExistingCar.Id);
+    var result = await controller.GetOne(dbReturns.Id);
 
     result.Result
       .Should()
@@ -171,16 +182,16 @@ public class CarControllerTests
     (result.Result as OkObjectResult)
       .Value
       .Should()
-      .BeEquivalentTo(simplifiedExistingCar);
+      .BeEquivalentTo(_mapper.Map<ReturnCarDto>(dbReturns));
   }
 
   [Fact]
   public async Task GetOne_WithNoExistingCar_ReturnsNotFound()
   {
-    var simplifiedExistingCar = CreateFakeSimplifiedCar();
+    var simplifiedExistingCar = CreateFakeJoinedCar();
 
     _fakeCarRepo.Setup(repo => repo
-        .GetOneByFilter(It.IsAny<Expression<Func<Car, bool>>>()))
+        .GetOneNotJoinedByFilter(It.IsAny<Expression<Func<Car, bool>>>()))
       .ReturnsAsync((Car) null);
 
     _fakeJwt.Setup(jwt => jwt
@@ -192,7 +203,7 @@ public class CarControllerTests
 
     var controller = new CarController(
       _fakeJwt.Object,
-      _fakeSimplify.Object,
+      _mapper,
       _fakeCarRepo.Object,
       _fakeGarageRepo.Object,
       _fakeModelCarRepo.Object
@@ -226,7 +237,7 @@ public class CarControllerTests
     };
 
     _fakeGarageRepo.Setup(repo => repo
-        .GetOneByFilter(It.IsAny<Expression<Func<Garage, bool>>>()))
+        .GetOneNotJoinedByFilter(It.IsAny<Expression<Func<Garage, bool>>>()))
       .ReturnsAsync((Garage) null);
 
     _fakeJwt.Setup(jwt => jwt
@@ -238,7 +249,7 @@ public class CarControllerTests
 
     var controller = new CarController(
       _fakeJwt.Object,
-      _fakeSimplify.Object,
+      _mapper,
       _fakeCarRepo.Object,
       _fakeGarageRepo.Object,
       _fakeModelCarRepo.Object
@@ -271,21 +282,15 @@ public class CarControllerTests
       GarageId = Guid.NewGuid()
     };
 
-    var existingGarage = new Garage()
-    {
-      Id = Guid.NewGuid(),
-      Desc = Guid.NewGuid().ToString(),
-      ModelGarageId = Guid.NewGuid(),
-      OwnerId = Guid.NewGuid()
-    };
-
-    _fakeGarageRepo.Setup(repo => repo
-        .GetOneByFilter(It.IsAny<Expression<Func<Garage, bool>>>()))
-      .ReturnsAsync(existingGarage);
+    var existingGarage = CreateFakeJoinedGarage();
 
     _fakeModelCarRepo.Setup(repo => repo
-        .GetOneByFilter(It.IsAny<Expression<Func<ModelCar, bool>>>()))
+        .GetOneNotJoinedByFilter(It.IsAny<Expression<Func<ModelCar, bool>>>()))
       .ReturnsAsync((ModelCar) null);
+    
+    _fakeGarageRepo.Setup(repo => repo
+        .GetOneByFilter(It.IsAny<Expression<Func<JoinedGarageDto, bool>>>()))
+      .ReturnsAsync(existingGarage);
 
     _fakeJwt.Setup(jwt => jwt
         .GetUserId(It.IsAny<string>()))
@@ -296,7 +301,7 @@ public class CarControllerTests
 
     var controller = new CarController(
       _fakeJwt.Object,
-      _fakeSimplify.Object,
+      _mapper,
       _fakeCarRepo.Object,
       _fakeGarageRepo.Object,
       _fakeModelCarRepo.Object
@@ -333,13 +338,7 @@ public class CarControllerTests
       Manufacturer = Guid.NewGuid().ToString(),
     };
 
-    var existingGarage = new Garage()
-    {
-      Id = Guid.NewGuid(),
-      Desc = Guid.NewGuid().ToString(),
-      ModelGarageId = Guid.NewGuid(),
-      OwnerId = Guid.NewGuid()
-    };
+    var existingGarage = CreateFakeJoinedGarage();
 
     var newCarDto = new NewCarDto()
     {
@@ -347,19 +346,20 @@ public class CarControllerTests
       GarageId = existingGarage.Id
     };
 
-    var expectedCreatedCar = new
+    var expectedCreatedCar = new ReturnNotJoinedCarDto()
     {
+      Id = It.IsAny<Guid>(),
       ModelCarId = newCarDto.ModelCarId,
       GarageId = newCarDto.GarageId,
       OwnerId = userId
     };
 
     _fakeGarageRepo.Setup(repo => repo
-        .GetOneByFilter(It.IsAny<Expression<Func<Garage, bool>>>()))
+        .GetOneByFilter(It.IsAny<Expression<Func<JoinedGarageDto, bool>>>()))
       .ReturnsAsync(existingGarage);
 
     _fakeModelCarRepo.Setup(repo => repo
-        .GetOneByFilter(It.IsAny<Expression<Func<ModelCar, bool>>>()))
+        .GetOneNotJoinedByFilter(It.IsAny<Expression<Func<ModelCar, bool>>>()))
       .ReturnsAsync(existingModelCar);
 
     _fakeJwt.Setup(jwt => jwt
@@ -371,7 +371,7 @@ public class CarControllerTests
 
     var controller = new CarController(
       _fakeJwt.Object,
-      _fakeSimplify.Object,
+      _mapper,
       _fakeCarRepo.Object,
       _fakeGarageRepo.Object,
       _fakeModelCarRepo.Object
@@ -392,16 +392,14 @@ public class CarControllerTests
     (result.Result as OkObjectResult)
       .Value
       .Should()
-      .BeEquivalentTo(expectedCreatedCar)
-      .And
-      .BeOfType<Car>();
+      .BeOfType<ReturnNotJoinedCarDto>();
   }
 
   [Fact]
   public async Task Delete_WithNoExistingCar_ReturnsCarNotFound()
   {
     _fakeCarRepo.Setup(repo => repo
-        .GetOneByFilter(It.IsAny<Expression<Func<Car, bool>>>()))
+        .GetOneNotJoinedByFilter(It.IsAny<Expression<Func<Car, bool>>>()))
       .ReturnsAsync((Car) null);
 
     _fakeJwt.Setup(jwt => jwt
@@ -413,7 +411,7 @@ public class CarControllerTests
 
     var controller = new CarController(
       _fakeJwt.Object,
-      _fakeSimplify.Object,
+      _mapper,
       _fakeCarRepo.Object,
       _fakeGarageRepo.Object,
       _fakeModelCarRepo.Object
@@ -437,10 +435,10 @@ public class CarControllerTests
   [Fact]
   public async Task Delete_WithExistingCar_ReturnsNoContent()
   {
-    var existingCar = CreateFakeCar();
+    var existingCar = CreateFakeJoinedCar();
 
     _fakeCarRepo.Setup(repo => repo
-        .GetOneByFilter(It.IsAny<Expression<Func<Car, bool>>>()))
+        .GetOneByFilter(It.IsAny<Expression<Func<JoinedCarDto, bool>>>()))
       .ReturnsAsync(existingCar);
 
     _fakeJwt.Setup(jwt => jwt
@@ -452,7 +450,7 @@ public class CarControllerTests
 
     var controller = new CarController(
       _fakeJwt.Object,
-      _fakeSimplify.Object,
+      _mapper,
       _fakeCarRepo.Object,
       _fakeGarageRepo.Object,
       _fakeModelCarRepo.Object
@@ -472,7 +470,20 @@ public class CarControllerTests
 
   // --- END OF TESTS ---
 
-  private SimplifiedCarDto CreateFakeSimplifiedCar(string? queryableProps = null)
+  private JoinedGarageDto CreateFakeJoinedGarage(string? queryableProps = null)
+  {
+    return new()
+    {
+      Id = Guid.NewGuid(),
+      Name = queryableProps ?? Guid.NewGuid().ToString(),
+      Desc = queryableProps ?? Guid.NewGuid().ToString(),
+      Capacity = _randomNum,
+      OwnerId = Guid.NewGuid(),
+      Type = Guid.NewGuid().ToString()
+    };
+  }
+  
+  private JoinedCarDto CreateFakeJoinedCar(string? queryableProps = null)
   {
     return new()
     {
@@ -480,6 +491,7 @@ public class CarControllerTests
       Class = Guid.NewGuid().ToString(),
       Manufacturer = queryableProps ?? Guid.NewGuid().ToString(),
       Name = queryableProps ?? Guid.NewGuid().ToString(),
+      OwnerId = Guid.NewGuid(),
       Garage = new()
       {
         Id = Guid.NewGuid(),
@@ -491,7 +503,7 @@ public class CarControllerTests
     };
   }
 
-  private SimplifiedCarDto CreateFakeSimplifiedCar(Car car)
+  private JoinedCarDto CreateFakeJoinedCar(Car car)
   {
     return new()
     {
@@ -499,6 +511,7 @@ public class CarControllerTests
       Class = Guid.NewGuid().ToString(),
       Manufacturer = Guid.NewGuid().ToString(),
       Name = Guid.NewGuid().ToString(),
+      OwnerId = Guid.NewGuid(),
       Garage = new()
       {
         Id = car.GarageId,

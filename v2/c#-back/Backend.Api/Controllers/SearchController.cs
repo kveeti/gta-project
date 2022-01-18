@@ -1,4 +1,6 @@
+using AutoMapper;
 using Backend.Api.Helpers;
+using Backend.Api.Repositories;
 using Backend.Api.SearchDtos;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -10,12 +12,23 @@ namespace Backend.Api.Controllers;
 public class SearchController : ControllerBase
 {
   private readonly IJwt _jwt;
-  private readonly ISimplify _simplify;
+  private readonly IMapper _mapper;
 
-  public SearchController(IJwt aJwt, ISimplify aSimplify)
+  private readonly ICarRepo _carRepo;
+  private readonly IGarageRepo _garageRepo;
+  
+  public SearchController(
+    IJwt aJwt, 
+    IMapper aMapper,
+    ICarRepo aCarRepo,
+    IGarageRepo aGarageRepo
+    )
   {
     _jwt = aJwt;
-    _simplify = aSimplify;
+    _mapper = aMapper;
+
+    _carRepo = aCarRepo;
+    _garageRepo = aGarageRepo;
   }
 
   [HttpGet]
@@ -25,12 +38,15 @@ public class SearchController : ControllerBase
     var token = HttpContext.Request.Headers.Authorization.ToString().Split(" ")[1];
     var userId = _jwt.GetUserId(token);
 
-    var cars = await _simplify.GetSimplifiedCarsForUser(userId);
-    var garages = await _simplify.GetSimplifiedGaragesForUser(userId);
-
+    var cars = await _carRepo
+      .GetManyByFilter(car => car.OwnerId == userId);
+      
+    var garages =  await _garageRepo
+      .GetManyByFilter(garage => garage.OwnerId == userId);
+    
     var carsToReturn = Helpers.Search.GetResults(cars, query);
     var garagesToReturn = Helpers.Search.GetResults(garages, query);
-
+    
     var toReturn = new SearchDto()
     {
       Cars = carsToReturn,

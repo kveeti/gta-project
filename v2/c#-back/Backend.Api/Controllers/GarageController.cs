@@ -1,3 +1,4 @@
+using AutoMapper;
 using Backend.Api.GarageDtos;
 using Backend.Api.Helpers;
 using Backend.Api.Models;
@@ -13,43 +14,44 @@ namespace Backend.Api.Controllers;
 public class GarageController : ControllerBase
 {
   private readonly IJwt _jwt;
-  private readonly ISimplify _simplify;
-  private readonly IGenericRepo<Car> _carRepo;
-  private readonly IGenericRepo<Garage> _garageRepo;
+  private readonly IMapper _mapper;
+  
+  private readonly IGarageRepo _garageRepo;
   private readonly IGenericRepo<ModelGarage> _modelGarageRepo;
 
   public GarageController(
     IJwt aJwt,
-    ISimplify aSimplify,
-    IGenericRepo<Car> aCarRepo,
-    IGenericRepo<Garage> aGarageRepo,
+    IMapper aMapper,
+    IGarageRepo aGarageRepo,
     IGenericRepo<ModelGarage> aModelGarageRepo)
   {
     _jwt = aJwt;
-    _simplify = aSimplify;
-    _carRepo = aCarRepo;
+    _mapper = aMapper;
     _garageRepo = aGarageRepo;
     _modelGarageRepo = aModelGarageRepo;
   }
 
   [HttpGet]
   [Authorize]
-  public async Task<ActionResult<IEnumerable<SimplifiedGarageDto>>> GetAll([CanBeNull] string query)
+  public async Task<ActionResult<IEnumerable<ReturnGarageDto>>> GetAll([CanBeNull] string query)
   {
     var token = HttpContext.Request.Headers.Authorization.ToString().Split(" ")[1];
     var userId = _jwt.GetUserId(token);
 
-    var joined = await _simplify.GetSimplifiedGaragesForUser(userId);
-    if (query == null) return Ok(joined);
+    var garages = await _garageRepo
+      .GetManyByFilter(garage => garage.OwnerId == userId);
+    
+    if (query == null) 
+      return Ok(_mapper.Map<IEnumerable<ReturnGarageDto>>(garages));
 
-    var results = Search.GetResults(joined, query);
+    var results = Search.GetResults(garages, query);
 
-    return Ok(results);
+    return Ok(_mapper.Map<IEnumerable<ReturnGarageDto>>(results));
   }
 
   [HttpGet("{id:Guid}")]
   [Authorize]
-  public async Task<ActionResult<Garage>> GetOne(Guid id)
+  public async Task<ActionResult<ReturnGarageDto>> GetOne(Guid id)
   {
     var token = HttpContext.Request.Headers.Authorization.ToString().Split(" ")[1];
     var userId = _jwt.GetUserId(token);
@@ -61,24 +63,23 @@ public class GarageController : ControllerBase
 
     if (garage == null) return NotFound("garage was not found");
 
-    var simplifiedGarage = await _simplify.GetOneSimplifiedGarage(garage);
-    return Ok(simplifiedGarage);
+    return Ok(_mapper.Map<ReturnGarageDto>(garage));
   }
 
   [HttpPost]
   [Authorize]
-  public async Task<ActionResult<Garage>> Add(NewGarageDto dto)
+  public async Task<ActionResult<ReturnNotJoinedGarageDto>> Add(NewGarageDto dto)
   {
     var token = HttpContext.Request.Headers.Authorization.ToString().Split(" ")[1];
     var userId = _jwt.GetUserId(token);
 
     var modelGarage = await _modelGarageRepo
-      .GetOneByFilter(modelGarage => modelGarage.Id == dto.ModelGarageId);
+      .GetOneNotJoinedByFilter(modelGarage => modelGarage.Id == dto.ModelGarageId);
 
     if (modelGarage == null) return NotFound("model garage does not exist");
 
     var existingGarage = await _garageRepo
-      .GetOneByFilter(garage => garage.ModelGarageId == dto.ModelGarageId
+      .GetOneNotJoinedByFilter(garage => garage.ModelGarageId == dto.ModelGarageId
                                 &&
                                 garage.OwnerId == userId);
 
@@ -95,7 +96,7 @@ public class GarageController : ControllerBase
     _garageRepo.Add(newGarage);
     await _garageRepo.Save();
 
-    return Ok(newGarage);
+    return Ok(_mapper.Map<ReturnNotJoinedGarageDto>(newGarage));
   }
 
   [HttpDelete("{id:Guid}")]
@@ -106,25 +107,15 @@ public class GarageController : ControllerBase
     var userId = _jwt.GetUserId(token);
 
     var garage = await _garageRepo
-      .GetOneByFilter(garage => garage.Id == id
+      .GetOneNotJoinedByFilter(garage => garage.Id == id
                                 &&
                                 garage.OwnerId == userId);
 
     if (garage == null) return NotFound("garage was not found");
 
-    var cars = await _carRepo
-      .GetManyByFilter(car => car.GarageId == garage.Id
-                              &&
-                              car.OwnerId == userId
-      );
-
-    foreach (var car in cars)
-    {
-      _carRepo.Delete(car);
-    }
-
-    await _carRepo.Save();
-
+    _garageRepo.Delete(garage);
+    await _garageRepo.Save();
+    
     return NoContent();
   }
 }

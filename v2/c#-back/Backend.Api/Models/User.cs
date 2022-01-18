@@ -11,4 +11,9 @@ public class User
   [Required] public string Password { get; set; }
   
   [Required] public string Role { get; set; }
+  
+  
+  public ICollection<Car> Cars { get; set; }
+  
+  public ICollection<Garage> Garages { get; set; }
 }

@@ -5,7 +5,7 @@ namespace Backend.Api.SearchDtos;
 
 public record SearchDto
 {
-  public IEnumerable<SimplifiedGarageDto> Garages { get; init; }
+  public IEnumerable<JoinedGarageDto> Garages { get; init; }
   
-  public IEnumerable<SimplifiedCarDto> Cars { get; init; }
+  public IEnumerable<JoinedCarDto> Cars { get; init; }
 }

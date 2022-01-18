@@ -1,3 +1,4 @@
+using AutoMapper;
 using Backend.Api.CarDtos;
 using Backend.Api.Helpers;
 using Backend.Api.Models;
@@ -13,23 +14,23 @@ namespace Backend.Api.Controllers;
 [Route("gta-api/cars")]
 public class CarController : ControllerBase
 {
-  private readonly ISimplify _simplify;
   private readonly IJwt _jwt;
+  private readonly IMapper _mapper;
 
-  private readonly IGenericRepo<Car> _carRepo;
-  private readonly IGenericRepo<Garage> _garageRepo;
+  private readonly ICarRepo _carRepo;
+  private readonly IGarageRepo _garageRepo;
   private readonly IGenericRepo<ModelCar> _modelCarRepo;
 
   public CarController(
     IJwt aJwt,
-    ISimplify aSimplify,
-    IGenericRepo<Car> aCarRepo,
-    IGenericRepo<Garage> aGarageRepo,
+    IMapper mapper,
+    ICarRepo aCarRepo,
+    IGarageRepo aGarageRepo,
     IGenericRepo<ModelCar> aModelCarRepo
   )
   {
     _jwt = aJwt;
-    _simplify = aSimplify;
+    _mapper = mapper;
 
     _carRepo = aCarRepo;
     _garageRepo = aGarageRepo;
@@ -38,22 +39,25 @@ public class CarController : ControllerBase
 
   [HttpGet]
   [Authorize]
-  public async Task<ActionResult<IEnumerable<SimplifiedCarDto>>> GetAll([CanBeNull] string query)
+  public async Task<ActionResult<IEnumerable<ReturnCarDto>>> GetAll([CanBeNull] string query)
   {
     var token = HttpContext.Request.Headers.Authorization.ToString().Split(" ")[1];
     var userId = _jwt.GetUserId(token);
 
-    var simplifiedCars = await _simplify.GetSimplifiedCarsForUser(userId);
-    if (query == null) return Ok(simplifiedCars);
+    var cars = await _carRepo
+      .GetManyByFilter(car => car.OwnerId == userId);
 
-    var results = Search.GetResults(simplifiedCars, query);
+    if (query == null) 
+      return Ok(_mapper.Map<IEnumerable<ReturnCarDto>>(cars));
 
-    return Ok(results);
+    var results = Search.GetResults(cars, query);
+
+    return Ok(_mapper.Map<IEnumerable<ReturnCarDto>>(results));
   }
 
   [HttpGet("{id:Guid}")]
   [Authorize]
-  public async Task<ActionResult<SimplifiedCarDto>> GetOne(Guid id)
+  public async Task<ActionResult<ReturnCarDto>> GetOne(Guid id)
   {
     var token = HttpContext.Request.Headers.Authorization.ToString().Split(" ")[1];
     var userId = _jwt.GetUserId(token);
@@ -64,20 +68,18 @@ public class CarController : ControllerBase
 
     if (car == null) return NotFound("car was not found");
 
-    var simplifiedCar = await _simplify.GetOneSimplifiedCar(car);
-
-    return Ok(simplifiedCar);
+    return Ok(_mapper.Map<ReturnCarDto>(car));
   }
 
   [HttpPost]
   [Authorize]
-  public async Task<ActionResult<Car>> Add(NewCarDto aDto)
+  public async Task<ActionResult<ReturnNotJoinedCarDto>> Add(NewCarDto aDto)
   {
     var token = HttpContext.Request.Headers.Authorization.ToString().Split(" ")[1];
     var userId = _jwt.GetUserId(token);
 
     var modelCar = await _modelCarRepo
-      .GetOneByFilter(modelCar => modelCar.Id == aDto.ModelCarId);
+      .GetOneNotJoinedByFilter(modelCar => modelCar.Id == aDto.ModelCarId);
 
     var garage = await _garageRepo
       .GetOneByFilter(garage => garage.Id == aDto.GarageId
@@ -98,7 +100,7 @@ public class CarController : ControllerBase
     _carRepo.Add(newCar);
     await _carRepo.Save();
 
-    return Ok(newCar);
+    return Ok(_mapper.Map<ReturnNotJoinedCarDto>(newCar));
   }
 
   [HttpPost("move")]
@@ -116,11 +118,14 @@ public class CarController : ControllerBase
     if (newGarage == null) return NotFound("garage was not found");
 
     var cars = await _carRepo
-      .GetManyByFilter(car => car.OwnerId == userId
-                              &&
-                              aDto.CarIds.Contains(car.Id));
+      .GetManyNotJoinedByFilter(car => car.OwnerId == userId
+                                       &&
+                                       aDto.CarIds.Contains(car.Id));
 
     if (!cars.Any()) return NotFound("no cars were found");
+
+    if ((newGarage.Capacity - newGarage.Cars.Count()) < cars.Count())
+      return BadRequest("garage is full");
 
     foreach (var car in cars)
     {
@@ -146,7 +151,7 @@ public class CarController : ControllerBase
 
     if (car == null) return NotFound("car was not found");
 
-    _carRepo.Delete(car);
+    await _carRepo.Delete(car.Id);
     await _carRepo.Save();
 
     return NoContent();

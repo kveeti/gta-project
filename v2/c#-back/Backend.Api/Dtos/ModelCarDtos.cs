@@ -8,3 +8,8 @@ public record ModelCarDto
 
   public string Class { get; init; }
 }
+
+public record ReturnModelCarDto : ModelCarDto
+{
+  public Guid Id { get; init; }
+}

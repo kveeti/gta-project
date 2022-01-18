@@ -6,6 +6,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 using System.Text;
+using AutoMapper;
 using Backend.Api.Helpers;
 using Backend.Api.Models;
 
@@ -23,8 +24,11 @@ builder.Services.AddScoped<IGenericRepo<ModelGarage>, GenericRepo<ModelGarage>>(
 builder.Services.AddScoped<IGenericRepo<Garage>, GenericRepo<Garage>>();
 builder.Services.AddScoped<IGenericRepo<Car>, GenericRepo<Car>>();
 
-builder.Services.AddScoped<ISimplify, Simplify>();
+builder.Services.AddScoped<ICarRepo, CarRepo>();
+builder.Services.AddScoped<IGarageRepo, GarageRepo>();
+
 builder.Services.AddScoped<IJwt, Jwt>();
+builder.Services.AddAutoMapper(typeof(MapperProfile));
 
 builder.Services.AddRouting(options => options.LowercaseUrls = true);
 

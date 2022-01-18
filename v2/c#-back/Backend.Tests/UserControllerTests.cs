@@ -21,7 +21,7 @@ public class UserControllerTests
   public async Task GetOne_WithNoExistingUser_ReturnsNotFound()
   {
     _fakeRepo.Setup(repo => repo
-        .GetOneByFilter(It.IsAny<Expression<Func<User, bool>>>()))
+        .GetOneNotJoinedByFilter(It.IsAny<Expression<Func<User, bool>>>()))
       .ReturnsAsync((User) null);
 
     var controller = new UserController(_fakeRepo.Object);
@@ -37,7 +37,7 @@ public class UserControllerTests
     var expectedReturnUser = FakeUserToDto(fakeUser);
 
     _fakeRepo.Setup(repo => repo
-        .GetOneByFilter(It.IsAny<Expression<Func<User, bool>>>()))
+        .GetOneNotJoinedByFilter(It.IsAny<Expression<Func<User, bool>>>()))
       .ReturnsAsync(fakeUser);
 
     var controller = new UserController(_fakeRepo.Object);
@@ -99,7 +99,7 @@ public class UserControllerTests
     };
 
     _fakeRepo.Setup(repo => repo
-        .GetOneByFilter(It.IsAny<Expression<Func<User, bool>>>()))
+        .GetOneNotJoinedByFilter(It.IsAny<Expression<Func<User, bool>>>()))
       .ReturnsAsync(existingUser);
 
     var controller = new UserController(_fakeRepo.Object);
@@ -120,7 +120,7 @@ public class UserControllerTests
     };
 
     _fakeRepo.Setup(repo => repo
-        .GetOneByFilter(It.IsAny<Expression<Func<User, bool>>>()))
+        .GetOneNotJoinedByFilter(It.IsAny<Expression<Func<User, bool>>>()))
       .ReturnsAsync((User) null);
 
     var controller = new UserController(_fakeRepo.Object);
@@ -136,7 +136,7 @@ public class UserControllerTests
     var existingUser = CreateFakeUser();
 
     _fakeRepo.Setup(repo => repo
-        .GetOneByFilter(It.IsAny<Expression<Func<User, bool>>>()))
+        .GetOneNotJoinedByFilter(It.IsAny<Expression<Func<User, bool>>>()))
       .ReturnsAsync(existingUser);
 
     var controller = new UserController(_fakeRepo.Object);
@@ -150,7 +150,7 @@ public class UserControllerTests
   public async Task Delete_WithNoExistingUser_ReturnsNotFound()
   {
     _fakeRepo.Setup(repo => repo
-        .GetOneByFilter(It.IsAny<Expression<Func<User, bool>>>()))
+        .GetOneNotJoinedByFilter(It.IsAny<Expression<Func<User, bool>>>()))
       .ReturnsAsync((User) null);
 
     var controller = new UserController(_fakeRepo.Object);
