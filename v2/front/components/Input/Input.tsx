@@ -1,4 +1,4 @@
-import { blackA } from "@radix-ui/colors";
+import { blackA, whiteA } from "@radix-ui/colors";
 import { useEffect, useState } from "react";
 import { styled } from "../../stitches.config";
 import { ClearIcon } from "./Icons/ClearIcon";
@@ -80,6 +80,27 @@ const InputContainer = styled("div", {
       },
     },
   },
+
+  compoundVariants: [
+    {
+      focused: true,
+      transparent: true,
+
+      css: {
+        backgroundColor: "transparent",
+        boxShadow: `0 0 0 2px ${blackA.blackA10}`,
+      },
+    },
+    {
+      focused: true,
+      white: true,
+
+      css: {
+        backgroundColor: "white",
+        boxShadow: `0 0 0 2px ${whiteA.whiteA12}`,
+      },
+    },
+  ],
 });
 
 const StyledInput = styled("input", {
