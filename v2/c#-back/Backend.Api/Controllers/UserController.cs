@@ -25,7 +25,7 @@ public class UserController : ControllerBase
   [Authorization.CustomAuth(ClaimTypes.Role, "Admin")]
   public async Task<ActionResult<ReturnUserDto>> GetOne(Guid id)
   {
-    var user = await _db.GetOneNotJoinedByFilter(u => u.Id == id);
+    var user = await _db.GetOneByFilter(u => u.Id == id);
     if (user == null) return NotFound();
 
     ReturnUserDto returnUser = new()
@@ -57,7 +57,7 @@ public class UserController : ControllerBase
   [Authorization.CustomAuth(ClaimTypes.Role, "Admin")]
   public async Task<ActionResult<ReturnUserDto>> UpdateRole(Guid id, UpdateUserDto aUserDto)
   {
-    var existingUser = await _db.GetOneNotJoinedByFilter(u => u.Id == id);
+    var existingUser = await _db.GetOneByFilter(u => u.Id == id);
     if (existingUser == null) return NotFound();
 
     User updatedUser = new()
@@ -84,7 +84,7 @@ public class UserController : ControllerBase
   [Authorization.CustomAuth(ClaimTypes.Role, "Admin")]
   public async Task<ActionResult<string>> Delete(Guid id)
   {
-    var userToDelete = await _db.GetOneNotJoinedByFilter(u => u.Id == id);
+    var userToDelete = await _db.GetOneByFilter(u => u.Id == id);
     if (userToDelete == null) return NotFound("user was not found");
 
     _db.Delete(userToDelete);

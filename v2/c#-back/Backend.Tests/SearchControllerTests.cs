@@ -65,7 +65,7 @@ public class SearchControllerTests
       .Returns(Guid.NewGuid());
 
     _fakeCarRepo.Setup(simplify => simplify
-      .GetManyByFilter(It.IsAny<Expression<Func<JoinedCarDto,bool>>>())
+      .GetManyJoinedByFilter(It.IsAny<Expression<Func<JoinedCarDto,bool>>>())
     ).ReturnsAsync(allCars);
 
     _fakeGarageRepo.Setup(simplify => simplify
@@ -126,7 +126,7 @@ public class SearchControllerTests
       .Returns(Guid.NewGuid());
 
     _fakeCarRepo.Setup(simplify => simplify
-      .GetManyByFilter(It.IsAny<Expression<Func<JoinedCarDto,bool>>>())
+      .GetManyJoinedByFilter(It.IsAny<Expression<Func<JoinedCarDto,bool>>>())
     ).ReturnsAsync(cars);
 
     _fakeGarageRepo.Setup(simplify => simplify

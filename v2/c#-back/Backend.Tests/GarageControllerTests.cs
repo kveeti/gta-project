@@ -41,31 +41,16 @@ public class GarageControllerTests
   private readonly Mock<IGenericRepo<ModelGarage>> _fakeModelGarageRepo = new();
 
   [Fact]
-  public async Task GetAll_WithQuery_ReturnsExpectedGaragesInCorrectOrder()
+  public async Task GetAll_WithNoQuery_ReturnsAllGarages()
   {
     var userId = Guid.NewGuid();
 
-    var garage = new Garage()
-    {
-      Id = Guid.NewGuid(),
-      Desc = Guid.NewGuid().ToString(),
-      ModelGarageId = Guid.NewGuid(),
-      OwnerId = userId
-    };
-    
     IEnumerable<JoinedGarageDto> allGarages = new[]
     {
-      CreateFakeJoinedGarage(garage,"test-ok"),
-      CreateFakeJoinedGarage(garage,"ok-test"),
-      CreateFakeJoinedGarage(garage,"test-ok"),
-      CreateFakeJoinedGarage(garage,"not-ok"),
-    };
-
-    var expectedGarages = new[]
-    {
-      allGarages.ElementAt(0),
-      allGarages.ElementAt(2),
-      allGarages.ElementAt(1)
+      CreateFakeJoinedGarage(),
+      CreateFakeJoinedGarage(),
+      CreateFakeJoinedGarage(),
+      CreateFakeJoinedGarage(),
     };
 
     _fakeGarageRepo.Setup(repo => repo
@@ -92,7 +77,7 @@ public class GarageControllerTests
       }
     };
 
-    var result = await controller.GetAll("test");
+    var result = await controller.GetAll(null);
 
     result.Result
       .Should()
@@ -101,19 +86,18 @@ public class GarageControllerTests
     (result.Result as OkObjectResult)
       .Value
       .Should()
-      .BeEquivalentTo(_mapper.Map<IEnumerable<ReturnGarageDto>>(expectedGarages));
+      .BeEquivalentTo(_mapper.Map<IEnumerable<ReturnGarageDto>>(allGarages));
   }
-  
+
 
   // --- END OF TESTS ---
 
-  private JoinedGarageDto CreateFakeJoinedGarage(string? queryableProps = null)
+  private JoinedGarageDto CreateFakeJoinedGarage()
   {
-
     var joinedGarage = new JoinedGarageDto()
     {
       Id = Guid.NewGuid(),
-      Name = queryableProps ?? Guid.NewGuid().ToString(),
+      Name = Guid.NewGuid().ToString(),
       Desc = Guid.NewGuid().ToString(),
       Capacity = _randomNum,
       OwnerId = Guid.NewGuid(),
@@ -122,15 +106,15 @@ public class GarageControllerTests
 
     IEnumerable<JoinedCarDto> cars = new[]
     {
-      CreateFakeJoinedCar(joinedGarage, queryableProps),
-      CreateFakeJoinedCar(joinedGarage, queryableProps),
-      CreateFakeJoinedCar(joinedGarage, queryableProps),
+      CreateFakeJoinedCar(joinedGarage),
+      CreateFakeJoinedCar(joinedGarage),
+      CreateFakeJoinedCar(joinedGarage),
     };
 
     return new()
     {
       Id = joinedGarage.Id,
-      Name = queryableProps ?? joinedGarage.Name,
+      Name = joinedGarage.Name,
       Desc = joinedGarage.Desc,
       Capacity = joinedGarage.Capacity,
       OwnerId = joinedGarage.OwnerId,
@@ -139,20 +123,20 @@ public class GarageControllerTests
     };
   }
 
-  private JoinedCarDto CreateFakeJoinedCar(JoinedGarageDto garage, string? queryableProps = null)
+  private JoinedCarDto CreateFakeJoinedCar(JoinedGarageDto garage)
   {
     return new()
     {
       Id = Guid.NewGuid(),
       Class = Guid.NewGuid().ToString(),
-      Manufacturer = queryableProps ?? Guid.NewGuid().ToString(),
-      Name = queryableProps ?? Guid.NewGuid().ToString(),
-      OwnerId = Guid.NewGuid(),
+      Manufacturer = Guid.NewGuid().ToString(),
+      Name = Guid.NewGuid().ToString(),
+      OwnerId = garage.OwnerId,
       Garage = new()
       {
         Id = garage.Id,
-        Name = queryableProps ?? garage.Name,
-        Desc = queryableProps ?? garage.Desc,
+        Name = garage.Name,
+        Desc = garage.Desc,
         Capacity = garage.Capacity,
         Type = garage.Type
       }

@@ -4,11 +4,15 @@ namespace Backend.Api.Repositories;
 
 public interface IGenericRepo<TEntity> where TEntity : class
 {
-  Task<IEnumerable<TEntity>> GetAll();
+  public Task<IEnumerable<TEntity>> GetAll();
 
-  Task<TEntity> GetOneNotJoinedByFilter(Expression<Func<TEntity, bool>> aFilter);
+  public Task<TEntity> GetOneByFilter(Expression<Func<TEntity, bool>> aFilter);
   
-  Task<IEnumerable<TEntity>> GetManyNotJoinedByFilter(Expression<Func<TEntity, bool>> aFilter);
+  public Task<IEnumerable<TEntity>> GetManyByFilter(Expression<Func<TEntity, bool>> aFilter);
+
+  public Task<IEnumerable<TEntity>> GetManyByFilterTracking(Expression<Func<TEntity, bool>> aFilter);
+  
+  public Task<TEntity> GetOneByFilterTracking(Expression<Func<TEntity, bool>> aFilter);
   
   void Add(TEntity aEntity);
 

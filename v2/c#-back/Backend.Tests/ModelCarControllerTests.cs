@@ -37,7 +37,7 @@ public class ModelCarControllerTests
     var expectedCar = CreateFakeModelCar();
 
     _fakeRepo.Setup(repo => repo
-        .GetOneNotJoinedByFilter(It.IsAny<Expression<Func<ModelCar, bool>>>()))
+        .GetOneByFilter(It.IsAny<Expression<Func<ModelCar, bool>>>()))
       .ReturnsAsync(expectedCar);
 
     var controller = new ModelCarController(_fakeRepo.Object);
@@ -52,7 +52,7 @@ public class ModelCarControllerTests
   public async Task GetOne_WithNoExistingCar_ReturnsNotFound()
   {
     _fakeRepo.Setup(repo => repo
-        .GetOneNotJoinedByFilter(It.IsAny<Expression<Func<ModelCar, bool>>>()))
+        .GetOneByFilter(It.IsAny<Expression<Func<ModelCar, bool>>>()))
       .ReturnsAsync((ModelCar) null);
 
     var controller = new ModelCarController(_fakeRepo.Object);
@@ -92,7 +92,7 @@ public class ModelCarControllerTests
     var conflictingCar = CreateFakeModelCar();
 
     _fakeRepo.Setup(repo => repo
-        .GetOneNotJoinedByFilter(It.IsAny<Expression<Func<ModelCar, bool>>>()))
+        .GetOneByFilter(It.IsAny<Expression<Func<ModelCar, bool>>>()))
       .ReturnsAsync(conflictingCar);
 
     var controller = new ModelCarController(_fakeRepo.Object);
@@ -168,7 +168,7 @@ public class ModelCarControllerTests
     };
 
     _fakeRepo.Setup(repo => repo
-        .GetOneNotJoinedByFilter(It.IsAny<Expression<Func<ModelCar, bool>>>()))
+        .GetOneByFilter(It.IsAny<Expression<Func<ModelCar, bool>>>()))
       .ReturnsAsync(existingCar);
 
     var controller = new ModelCarController(_fakeRepo.Object);
@@ -190,7 +190,7 @@ public class ModelCarControllerTests
     };
 
     _fakeRepo.Setup(repo => repo
-        .GetOneNotJoinedByFilter(It.IsAny<Expression<Func<ModelCar, bool>>>()))
+        .GetOneByFilter(It.IsAny<Expression<Func<ModelCar, bool>>>()))
       .ReturnsAsync((ModelCar) null);
 
     var controller = new ModelCarController(_fakeRepo.Object);

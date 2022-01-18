@@ -6,9 +6,6 @@ namespace Backend.Api.Repositories;
 
 public interface ICarRepo : IGenericRepo<Car>
 {
-  public Task<IEnumerable<JoinedCarDto>> GetManyByFilter(Expression<Func<JoinedCarDto, bool>> aFilter);
-  
-  public Task<JoinedCarDto> GetOneByFilter(Expression<Func<JoinedCarDto, bool>> aFilter);
-
-  public Task<IEnumerable<Car>> GetManyNotJoinedById(Expression<Func<Car, bool>> aFilter);
+  public Task<IEnumerable<JoinedCarDto>> GetManyJoinedByFilter(Expression<Func<JoinedCarDto, bool>> aFilter);
+  public Task<JoinedCarDto> GetOneJoinedByFilter(Expression<Func<JoinedCarDto, bool>> aFilter);
 }

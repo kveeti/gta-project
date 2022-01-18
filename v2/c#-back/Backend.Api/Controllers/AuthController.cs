@@ -29,7 +29,7 @@ public class AuthController : ControllerBase
   [HttpPost("register")]
   public async Task<ActionResult<string>> Register(AuthUserDto aDto)
   {
-    var existingUser = await _db.GetOneNotJoinedByFilter(user => user.Username == aDto.Username);
+    var existingUser = await _db.GetOneByFilter(user => user.Username == aDto.Username);
     if (existingUser != null) return Conflict("username taken");
 
     var hash = Hashing.HashToString(aDto.Password);
@@ -53,7 +53,7 @@ public class AuthController : ControllerBase
   [HttpPost("login")]
   public async Task<ActionResult<string>> Login(AuthUserDto aDto)
   {
-    var user = await _db.GetOneNotJoinedByFilter(user => user.Username == aDto.Username);
+    var user = await _db.GetOneByFilter(user => user.Username == aDto.Username);
     if (user == null) return NotFound("user not found");
 
     var match = Hashing.Verify(aDto.Password, user.Password);

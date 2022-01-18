@@ -52,7 +52,7 @@ public class CarControllerTests
     };
 
     _fakeCarRepo.Setup(repo => repo
-        .GetManyByFilter(It.IsAny<Expression<Func<JoinedCarDto, bool>>>()))
+        .GetManyJoinedByFilter(It.IsAny<Expression<Func<JoinedCarDto, bool>>>()))
       .ReturnsAsync(allCars);
 
     _fakeJwt.Setup(jwt => jwt
@@ -107,7 +107,7 @@ public class CarControllerTests
     };
 
     _fakeCarRepo.Setup(repo => repo
-        .GetManyByFilter(It.IsAny<Expression<Func<JoinedCarDto, bool>>>()))
+        .GetManyJoinedByFilter(It.IsAny<Expression<Func<JoinedCarDto, bool>>>()))
       .ReturnsAsync(allCars);
 
     _fakeJwt.Setup(jwt => jwt
@@ -149,7 +149,7 @@ public class CarControllerTests
     var dbReturns = CreateFakeJoinedCar();
 
     _fakeCarRepo.Setup(repo => repo
-        .GetOneByFilter(It.IsAny<Expression<Func<JoinedCarDto, bool>>>()))
+        .GetOneJoinedByFilter(It.IsAny<Expression<Func<JoinedCarDto, bool>>>()))
       .ReturnsAsync(dbReturns);
     
     _fakeJwt.Setup(jwt => jwt
@@ -191,7 +191,7 @@ public class CarControllerTests
     var simplifiedExistingCar = CreateFakeJoinedCar();
 
     _fakeCarRepo.Setup(repo => repo
-        .GetOneNotJoinedByFilter(It.IsAny<Expression<Func<Car, bool>>>()))
+        .GetOneByFilter(It.IsAny<Expression<Func<Car, bool>>>()))
       .ReturnsAsync((Car) null);
 
     _fakeJwt.Setup(jwt => jwt
@@ -237,7 +237,7 @@ public class CarControllerTests
     };
 
     _fakeGarageRepo.Setup(repo => repo
-        .GetOneNotJoinedByFilter(It.IsAny<Expression<Func<Garage, bool>>>()))
+        .GetOneByFilter(It.IsAny<Expression<Func<Garage, bool>>>()))
       .ReturnsAsync((Garage) null);
 
     _fakeJwt.Setup(jwt => jwt
@@ -285,7 +285,7 @@ public class CarControllerTests
     var existingGarage = CreateFakeJoinedGarage();
 
     _fakeModelCarRepo.Setup(repo => repo
-        .GetOneNotJoinedByFilter(It.IsAny<Expression<Func<ModelCar, bool>>>()))
+        .GetOneByFilter(It.IsAny<Expression<Func<ModelCar, bool>>>()))
       .ReturnsAsync((ModelCar) null);
     
     _fakeGarageRepo.Setup(repo => repo
@@ -359,7 +359,7 @@ public class CarControllerTests
       .ReturnsAsync(existingGarage);
 
     _fakeModelCarRepo.Setup(repo => repo
-        .GetOneNotJoinedByFilter(It.IsAny<Expression<Func<ModelCar, bool>>>()))
+        .GetOneByFilter(It.IsAny<Expression<Func<ModelCar, bool>>>()))
       .ReturnsAsync(existingModelCar);
 
     _fakeJwt.Setup(jwt => jwt
@@ -399,7 +399,7 @@ public class CarControllerTests
   public async Task Delete_WithNoExistingCar_ReturnsCarNotFound()
   {
     _fakeCarRepo.Setup(repo => repo
-        .GetOneNotJoinedByFilter(It.IsAny<Expression<Func<Car, bool>>>()))
+        .GetOneByFilter(It.IsAny<Expression<Func<Car, bool>>>()))
       .ReturnsAsync((Car) null);
 
     _fakeJwt.Setup(jwt => jwt
@@ -438,7 +438,7 @@ public class CarControllerTests
     var existingCar = CreateFakeJoinedCar();
 
     _fakeCarRepo.Setup(repo => repo
-        .GetOneByFilter(It.IsAny<Expression<Func<JoinedCarDto, bool>>>()))
+        .GetOneJoinedByFilter(It.IsAny<Expression<Func<JoinedCarDto, bool>>>()))
       .ReturnsAsync(existingCar);
 
     _fakeJwt.Setup(jwt => jwt

@@ -37,7 +37,7 @@ public class ModelCarController : ControllerBase
   [Authorize]
   public async Task<ActionResult<ReturnModelCarDto>> GetOne(Guid id)
   {
-    var found = await _db.GetOneNotJoinedByFilter(car => car.Id == id);
+    var found = await _db.GetOneByFilter(car => car.Id == id);
     if (found == null) return NotFound();
 
     return Ok(found);
@@ -47,7 +47,7 @@ public class ModelCarController : ControllerBase
   [Authorization.CustomAuth(ClaimTypes.Role, "Admin")]
   public async Task<ActionResult<ReturnModelCarDto>> Add(ModelCarDto aDto)
   {
-    var existing = await _db.GetOneNotJoinedByFilter(car => car.Name == aDto.Name);
+    var existing = await _db.GetOneByFilter(car => car.Name == aDto.Name);
     if (existing != null) return Conflict(existing);
 
     ModelCar newModelCar = new()
@@ -68,7 +68,7 @@ public class ModelCarController : ControllerBase
   [Authorization.CustomAuth(ClaimTypes.Role, "Admin")]
   public async Task<ActionResult<ReturnModelCarDto>> Update(Guid aId, ModelCarDto aDto)
   {
-    var existingModelCar = await _db.GetOneNotJoinedByFilter(car => car.Id == aId);
+    var existingModelCar = await _db.GetOneByFilter(car => car.Id == aId);
     if (existingModelCar == null) return NotFound();
 
     existingModelCar.Name = aDto.Name;

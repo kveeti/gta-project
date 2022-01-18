@@ -45,9 +45,9 @@ public class CarController : ControllerBase
     var userId = _jwt.GetUserId(token);
 
     var cars = await _carRepo
-      .GetManyByFilter(car => car.OwnerId == userId);
+      .GetManyJoinedByFilter(car => car.OwnerId == userId);
 
-    if (query == null) 
+    if (query == null)
       return Ok(_mapper.Map<IEnumerable<ReturnCarDto>>(cars));
 
     var results = Search.GetResults(cars, query);
@@ -62,7 +62,7 @@ public class CarController : ControllerBase
     var token = HttpContext.Request.Headers.Authorization.ToString().Split(" ")[1];
     var userId = _jwt.GetUserId(token);
 
-    var car = await _carRepo.GetOneByFilter(c => c.Id == id
+    var car = await _carRepo.GetOneJoinedByFilter(c => c.Id == id
                                                  &&
                                                  c.OwnerId == userId);
 
@@ -79,7 +79,7 @@ public class CarController : ControllerBase
     var userId = _jwt.GetUserId(token);
 
     var modelCar = await _modelCarRepo
-      .GetOneNotJoinedByFilter(modelCar => modelCar.Id == aDto.ModelCarId);
+      .GetOneByFilter(modelCar => modelCar.Id == aDto.ModelCarId);
 
     var garage = await _garageRepo
       .GetOneByFilter(garage => garage.Id == aDto.GarageId
@@ -109,7 +109,7 @@ public class CarController : ControllerBase
   {
     var token = HttpContext.Request.Headers.Authorization.ToString().Split(" ")[1];
     var userId = _jwt.GetUserId(token);
-
+    
     var newGarage = await _garageRepo
       .GetOneByFilter(garage => garage.Id == aDto.NewGarageId
                                 &&
@@ -118,9 +118,9 @@ public class CarController : ControllerBase
     if (newGarage == null) return NotFound("garage was not found");
 
     var cars = await _carRepo
-      .GetManyNotJoinedByFilter(car => car.OwnerId == userId
-                                       &&
-                                       aDto.CarIds.Contains(car.Id));
+      .GetManyByFilterTracking(car => car.OwnerId == userId
+                                      &&
+                                      aDto.CarIds.Contains(car.Id));
 
     if (!cars.Any()) return NotFound("no cars were found");
 
@@ -145,7 +145,7 @@ public class CarController : ControllerBase
     var userId = _jwt.GetUserId(token);
 
     var car = await _carRepo
-      .GetOneByFilter(car => car.Id == id
+      .GetOneJoinedByFilter(car => car.Id == id
                              &&
                              car.OwnerId == userId);
 

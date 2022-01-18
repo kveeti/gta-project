@@ -16,9 +16,9 @@ public class CarRepo : GenericRepo<Car>, ICarRepo
     _context = context;
   }
 
-  public async Task<IEnumerable<JoinedCarDto>> GetManyByFilter(Expression<Func<JoinedCarDto, bool>> aFilter)
+  public async Task<IEnumerable<JoinedCarDto>> GetManyJoinedByFilter(Expression<Func<JoinedCarDto, bool>> aFilter)
   {
-    return await _context.Cars
+    return await _context.Cars.AsNoTracking()
       .Include(car => car.ModelCar)
       .Include(car => car.Garage)
       .ThenInclude(garage => garage.ModelGarage)
@@ -42,9 +42,10 @@ public class CarRepo : GenericRepo<Car>, ICarRepo
       .ToListAsync();
   }
 
-  public async Task<JoinedCarDto> GetOneByFilter(Expression<Func<JoinedCarDto, bool>> aFilter)
+  public async Task<JoinedCarDto> GetOneJoinedByFilter(Expression<Func<JoinedCarDto, bool>> aFilter)
   {
     return await _context.Cars
+      .AsNoTracking()
       .Include(car => car.ModelCar)
       .Include(car => car.Garage)
       .ThenInclude(garage => garage.ModelGarage)
@@ -65,10 +66,5 @@ public class CarRepo : GenericRepo<Car>, ICarRepo
         }
       })
       .SingleAsync(aFilter);
-  }
-
-  public async Task<IEnumerable<Car>> GetManyNotJoinedById(Expression<Func<Car, bool>> aFilter)
-  {
-    return await _context.Cars.Where(aFilter).ToListAsync();
   }
 }

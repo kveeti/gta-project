@@ -39,7 +39,7 @@ public class SearchController : ControllerBase
     var userId = _jwt.GetUserId(token);
 
     var cars = await _carRepo
-      .GetManyByFilter(car => car.OwnerId == userId);
+      .GetManyJoinedByFilter(car => car.OwnerId == userId);
       
     var garages =  await _garageRepo
       .GetManyByFilter(garage => garage.OwnerId == userId);

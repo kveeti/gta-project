@@ -15,7 +15,7 @@ public class GarageController : ControllerBase
 {
   private readonly IJwt _jwt;
   private readonly IMapper _mapper;
-  
+
   private readonly IGarageRepo _garageRepo;
   private readonly IGenericRepo<ModelGarage> _modelGarageRepo;
 
@@ -40,8 +40,8 @@ public class GarageController : ControllerBase
 
     var garages = await _garageRepo
       .GetManyByFilter(garage => garage.OwnerId == userId);
-    
-    if (query == null) 
+
+    if (query == null)
       return Ok(_mapper.Map<IEnumerable<ReturnGarageDto>>(garages));
 
     var results = Search.GetResults(garages, query);
@@ -74,12 +74,12 @@ public class GarageController : ControllerBase
     var userId = _jwt.GetUserId(token);
 
     var modelGarage = await _modelGarageRepo
-      .GetOneNotJoinedByFilter(modelGarage => modelGarage.Id == dto.ModelGarageId);
+      .GetOneByFilter(modelGarage => modelGarage.Id == dto.ModelGarageId);
 
     if (modelGarage == null) return NotFound("model garage does not exist");
 
     var existingGarage = await _garageRepo
-      .GetOneNotJoinedByFilter(garage => garage.ModelGarageId == dto.ModelGarageId
+      .GetOneByFilter(garage => garage.ModelGarageId == dto.ModelGarageId
                                 &&
                                 garage.OwnerId == userId);
 
@@ -107,15 +107,15 @@ public class GarageController : ControllerBase
     var userId = _jwt.GetUserId(token);
 
     var garage = await _garageRepo
-      .GetOneNotJoinedByFilter(garage => garage.Id == id
-                                &&
-                                garage.OwnerId == userId);
+      .GetOneByFilterTracking(garage => garage.Id == id
+                                        &&
+                                        garage.OwnerId == userId);
 
     if (garage == null) return NotFound("garage was not found");
 
     _garageRepo.Delete(garage);
     await _garageRepo.Save();
-    
+
     return NoContent();
   }
 }

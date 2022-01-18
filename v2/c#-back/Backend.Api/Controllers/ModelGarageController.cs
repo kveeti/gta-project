@@ -45,7 +45,7 @@ public class ModelGarageController : ControllerBase
   [Authorize]
   public async Task<ActionResult<ReturnModelGarageDto>> GetById(Guid id)
   {
-    var found = await _db.GetOneNotJoinedByFilter(garage => garage.Id == id);
+    var found = await _db.GetOneByFilter(garage => garage.Id == id);
     if (found == null) return NotFound("model garage was not found");
 
     return Ok(_mapper.Map<ReturnModelGarageDto>(found));
@@ -55,7 +55,7 @@ public class ModelGarageController : ControllerBase
   [Authorization.CustomAuth(ClaimTypes.Role, "Admin")]
   public async Task<ActionResult<ReturnModelGarageDto>> Add(ModelGarageDto aDto)
   {
-    var existing = await _db.GetOneNotJoinedByFilter(garage => garage.Name == aDto.Name);
+    var existing = await _db.GetOneByFilter(garage => garage.Name == aDto.Name);
     if (existing != null) 
       return Conflict(_mapper.Map<ReturnModelGarageDto>(existing));
 
@@ -77,7 +77,7 @@ public class ModelGarageController : ControllerBase
   [Authorization.CustomAuth(ClaimTypes.Role, "Admin")]
   public async Task<ActionResult<ReturnModelGarageDto>> Update(Guid id, ModelGarageDto aDto)
   {
-    var existing = await _db.GetOneNotJoinedByFilter(garage => garage.Id == id);
+    var existing = await _db.GetOneByFilter(garage => garage.Id == id);
     if (existing == null) return NotFound();
 
     existing.Name = aDto.Name;

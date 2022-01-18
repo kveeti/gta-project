@@ -75,7 +75,7 @@ public class AuthControllerTests
       Role = "Standard"
     };
 
-    _fakeRepo.Setup(repo => repo.GetOneNotJoinedByFilter(It.IsAny<Expression<Func<User, bool>>>()))
+    _fakeRepo.Setup(repo => repo.GetOneByFilter(It.IsAny<Expression<Func<User, bool>>>()))
       .ReturnsAsync(existingUser);
 
     var controller = new AuthController(_fakeRepo.Object, _testSettings, _jwt);
@@ -98,7 +98,7 @@ public class AuthControllerTests
       Role = "Standard"
     };
 
-    _fakeRepo.Setup(repo => repo.GetOneNotJoinedByFilter(It.IsAny<Expression<Func<User, bool>>>()))
+    _fakeRepo.Setup(repo => repo.GetOneByFilter(It.IsAny<Expression<Func<User, bool>>>()))
       .ReturnsAsync(existingUser);
 
     var controller = new AuthController(_fakeRepo.Object, _testSettings, _jwt);
@@ -122,7 +122,7 @@ public class AuthControllerTests
     var authUser = CreateFakeAuthUser();
 
     _fakeRepo.Setup(repo => repo
-        .GetOneNotJoinedByFilter(It.IsAny<Expression<Func<User, bool>>>()))
+        .GetOneByFilter(It.IsAny<Expression<Func<User, bool>>>()))
       .ReturnsAsync((User) null);
 
     var controller = new AuthController(_fakeRepo.Object, _testSettings, _jwt);
@@ -145,7 +145,7 @@ public class AuthControllerTests
       Role = "Standard"
     };
 
-    _fakeRepo.Setup(repo => repo.GetOneNotJoinedByFilter(It.IsAny<Expression<Func<User, bool>>>()))
+    _fakeRepo.Setup(repo => repo.GetOneByFilter(It.IsAny<Expression<Func<User, bool>>>()))
       .ReturnsAsync(existingUser);
 
     var controller = new AuthController(_fakeRepo.Object, _testSettings, _jwt);
