@@ -6,15 +6,14 @@ export const get = {
   me: () => async (dispatch: any) => {
     try {
       dispatch(api.setLoading(true));
-      const res = await axios(config("/users", "GET"));
+      const res = await axios(config("/users/me", "GET"));
       dispatch(api.setLoading(false));
 
+      if (!res?.data) return;
       dispatch(set.me(res.data));
     } catch {
       dispatch(api.setLoading(false));
       dispatch(api.setError(true));
-
-      console.log("couldnt get me");
     }
   },
 };

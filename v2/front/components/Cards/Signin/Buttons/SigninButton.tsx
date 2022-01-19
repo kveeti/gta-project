@@ -1,8 +1,12 @@
-import { signIn } from "next-auth/react";
 import { StyledButton } from "./Styles";
 
-export const SigninButton = () => (
-  <StyledButton gray onClick={() => signIn("google")}>
-    Sign in with Google
+interface Props {
+  onClick: () => void;
+  disabled: boolean;
+}
+
+export const SigninButton = ({ onClick, disabled }: Props) => (
+  <StyledButton blue onClick={onClick} disabled={disabled}>
+    Sign in
   </StyledButton>
 );

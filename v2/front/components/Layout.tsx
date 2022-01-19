@@ -1,5 +1,4 @@
 import Head from "next/head";
-import { useSession } from "next-auth/react";
 import { useEffect } from "react";
 import { useDispatch } from "react-redux";
 import { actions } from "../state/actions";
@@ -9,8 +8,11 @@ import { LeftFloatingButton } from "./FloatingButtons/Left/LeftButtons";
 import { RightFloatingButtons } from "./FloatingButtons/Right/RightButtons";
 import { MenuBar } from "./MenuBar/MenuBar";
 import { Sidebar } from "./Sidebar/Sidebar";
-import { ToastContainer } from "react-toastify";
 import { useRouter } from "next/router";
+import { Toast } from "./Toast/Toast";
+import axios from "axios";
+import { config } from "../util/axios";
+import { toast } from "react-toastify";
 
 interface Props {
   children: React.ReactNode;
@@ -19,8 +21,28 @@ interface Props {
 
 const Layout = ({ children, title }: Props) => {
   if (typeof window === "undefined") return null;
-
   const router = useRouter();
+  const users = useISelector((state) => state.users);
+
+  useEffect(() => {
+    const getMe = async () => {
+      if (users?.me?.id || users.api.loading) return;
+
+      dispatch(actions.users.api.setLoading(true));
+      const res = await axios(config("/users/me", "GET")).catch((err) => {
+        dispatch(actions.users.api.setLoading(false));
+        if (err?.response?.status === 401) toast.error("Session expired");
+        return null;
+      });
+      dispatch(actions.users.api.setLoading(false));
+
+      if (res?.data) return dispatch(actions.users.set.me(res.data));
+
+      router.push("/signin", "/signin", { shallow: true });
+    };
+
+    getMe();
+  }, []);
 
   const dispatch = useDispatch();
   const state = useISelector((state) => state);
@@ -49,15 +71,7 @@ const Layout = ({ children, title }: Props) => {
     window.addEventListener("resize", handleResize);
 
     return () => window.removeEventListener("resize", handleResize);
-  });
-
-  // if user doesnt have a session, redirect to sign in
-  const { data, status } = useSession();
-  if (status === "loading") return null;
-  if (!data) {
-    router.push("/signin", "/signin", { shallow: true });
-    return null;
-  }
+  }, []);
 
   const location = window.location.pathname;
   const newSite = location.includes("new");
@@ -83,18 +97,7 @@ const Layout = ({ children, title }: Props) => {
       </Head>
       <Section>
         <MenuBar mobile={mobile} />
-        <ToastContainer
-          position="top-left"
-          autoClose={5000}
-          hideProgressBar={false}
-          newestOnTop={true}
-          closeOnClick
-          theme="colored"
-          rtl={false}
-          pauseOnFocusLoss
-          draggable
-          pauseOnHover
-        />
+        <Toast />
         <Content single={newSite && tablet}>
           {!showOnlySidebar && <Main>{children}</Main>}
 

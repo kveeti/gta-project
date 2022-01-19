@@ -1,7 +1,7 @@
 import { styled } from "@stitches/react";
 import { Desc, Title } from "../../Styles/Text";
-import { SigninButton } from "./Buttons/SigninButton";
 import { TestButton } from "./Buttons/TestButton";
+import { SignInForm } from "./SignInForm";
 
 const Wrapper = styled("div", {
   display: "flex",
@@ -41,8 +41,10 @@ export const SignInCard = () => {
       <StyledCard>
         <Title>Sign in</Title>
         <Desc>Sign in or get a temporary test account.</Desc>
+
+        <SignInForm />
+
         <ButtonContainer>
-          <SigninButton />
           <TestButton />
         </ButtonContainer>
       </StyledCard>

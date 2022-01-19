@@ -33,6 +33,14 @@ export const Label = styled("label", {
   "@grid1to2": {
     fontSize: "1rem",
   },
+
+  variants: {
+    column: {
+      true: {
+        justifyContent: "normal",
+      },
+    },
+  },
 });
 
 export const InputContainer = styled("div", {
@@ -42,6 +50,14 @@ export const InputContainer = styled("div", {
 
   "@mobile": {
     flexDirection: "column",
+  },
+
+  variants: {
+    column: {
+      true: {
+        flexDirection: "column",
+      },
+    },
   },
 });
 

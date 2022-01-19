@@ -23,10 +23,8 @@ export interface InitState {
   users: {
     me: {
       id: string;
-      owner: string;
-      email: string;
-      cars: ICar[];
-      garages: IGarage[];
+      role: string;
+      username: string;
       carCount: number;
       garageCount: number;
     };
@@ -139,10 +137,8 @@ export const initState: InitState = {
   users: {
     me: {
       id: null,
-      owner: null,
-      email: null,
-      cars: [],
-      garages: [],
+      role: null,
+      username: null,
       carCount: null,
       garageCount: null,
     },

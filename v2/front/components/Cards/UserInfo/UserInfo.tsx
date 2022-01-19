@@ -1,7 +1,3 @@
-import { useSession } from "next-auth/react";
-import { useEffect } from "react";
-import { useDispatch } from "react-redux";
-import { actions } from "../../../state/actions";
 import { useISelector } from "../../../state/hooks";
 import { styled } from "../../../stitches.config";
 import { PageCard } from "../../Styles/Page-cards";
@@ -13,30 +9,20 @@ const Specs = styled("div", {
 });
 
 export const UserInfo = () => {
-  const { data, status } = useSession();
-  const dispatch = useDispatch();
-  const me = useISelector((state) => state.users.me);
-
-  useEffect(() => {
-    if (!data) return;
-
-    dispatch(actions.users.get.me());
-  }, []);
-
-  if (status === "loading") return null;
+  const users = useISelector((state) => state.users);
 
   return (
     <PageCard>
       <Title>User info</Title>
       <Text>
-        <b>{data?.user?.name}</b> - {data?.user?.email}
+        <b>{users.me?.username}</b>
       </Text>
       <Specs>
         <Text>
-          <b>Cars:</b> {me?.carCount}
+          <b>Cars:</b> {users.me?.carCount}
         </Text>
         <Text>
-          <b>Garages:</b> {me?.garageCount}
+          <b>Garages:</b> {users.me?.garageCount}
         </Text>
       </Specs>
     </PageCard>
