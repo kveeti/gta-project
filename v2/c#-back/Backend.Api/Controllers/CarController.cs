@@ -1,4 +1,5 @@
 using AutoMapper;
+using Backend.Api.Attributes;
 using Backend.Api.CarDtos;
 using Backend.Api.Helpers;
 using Backend.Api.Models;
@@ -38,7 +39,7 @@ public class CarController : ControllerBase
   }
 
   [HttpGet]
-  [Authorize]
+  [Authorization.CustomAuth("Standard, Admin")]
   public async Task<ActionResult<IEnumerable<ReturnCarDto>>> GetAll([CanBeNull] string query)
   {
     var token = HttpContext.Request.Headers.Authorization.ToString().Split(" ")[1];
@@ -56,7 +57,7 @@ public class CarController : ControllerBase
   }
 
   [HttpGet("{id:Guid}")]
-  [Authorize]
+  [Authorization.CustomAuth("Standard, Admin")]
   public async Task<ActionResult<ReturnCarDto>> GetOne(Guid id)
   {
     var token = HttpContext.Request.Headers.Authorization.ToString().Split(" ")[1];
@@ -72,7 +73,7 @@ public class CarController : ControllerBase
   }
 
   [HttpPost]
-  [Authorize]
+  [Authorization.CustomAuth("Standard, Admin")]
   public async Task<ActionResult<ReturnNotJoinedCarDto>> Add(NewCarDto aDto)
   {
     var token = HttpContext.Request.Headers.Authorization.ToString().Split(" ")[1];
@@ -104,7 +105,7 @@ public class CarController : ControllerBase
   }
 
   [HttpPost("move")]
-  [Authorize]
+  [Authorization.CustomAuth("Standard, Admin")]
   public async Task<ActionResult<string>> Move(MoveCarDto aDto)
   {
     var token = HttpContext.Request.Headers.Authorization.ToString().Split(" ")[1];
@@ -138,7 +139,7 @@ public class CarController : ControllerBase
   }
 
   [HttpDelete("{id:Guid}")]
-  [Authorize]
+  [Authorization.CustomAuth("Standard, Admin")]
   public async Task<ActionResult<string>> Delete(Guid id)
   {
     var token = HttpContext.Request.Headers.Authorization.ToString().Split(" ")[1];

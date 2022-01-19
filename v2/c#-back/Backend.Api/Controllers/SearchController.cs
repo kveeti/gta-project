@@ -1,4 +1,5 @@
 using AutoMapper;
+using Backend.Api.Attributes;
 using Backend.Api.Helpers;
 using Backend.Api.Repositories;
 using Backend.Api.SearchDtos;
@@ -32,7 +33,7 @@ public class SearchController : ControllerBase
   }
 
   [HttpGet]
-  [Authorize]
+  [Authorization.CustomAuth("Standard, Admin")]
   public async Task<ActionResult<SearchDto>> Search(string query)
   {
     var token = HttpContext.Request.Headers.Authorization.ToString().Split(" ")[1];

@@ -29,7 +29,7 @@ public class ModelGarageController : ControllerBase
   }
 
   [HttpGet]
-  [Authorize]
+  [Authorization.CustomAuth("Standard, Admin")]
   public async Task<ActionResult<IEnumerable<ReturnModelGarageDto>>> GetAll([CanBeNull] string query)
   {
     var garages = await _db.GetAll();
@@ -42,7 +42,7 @@ public class ModelGarageController : ControllerBase
   }
 
   [HttpGet("{id:Guid}")]
-  [Authorize]
+  [Authorization.CustomAuth("Standard, Admin")]
   public async Task<ActionResult<ReturnModelGarageDto>> GetById(Guid id)
   {
     var found = await _db.GetOneByFilter(garage => garage.Id == id);

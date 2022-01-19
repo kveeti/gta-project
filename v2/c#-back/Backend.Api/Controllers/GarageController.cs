@@ -1,4 +1,5 @@
 using AutoMapper;
+using Backend.Api.Attributes;
 using Backend.Api.GarageDtos;
 using Backend.Api.Helpers;
 using Backend.Api.Models;
@@ -32,7 +33,7 @@ public class GarageController : ControllerBase
   }
 
   [HttpGet]
-  [Authorize]
+  [Authorization.CustomAuth("Standard, Admin")]
   public async Task<ActionResult<IEnumerable<ReturnGarageDto>>> GetAll([CanBeNull] string query)
   {
     var token = HttpContext.Request.Headers.Authorization.ToString().Split(" ")[1];
@@ -50,7 +51,7 @@ public class GarageController : ControllerBase
   }
 
   [HttpGet("{id:Guid}")]
-  [Authorize]
+  [Authorization.CustomAuth("Standard, Admin")]
   public async Task<ActionResult<ReturnGarageDto>> GetOne(Guid id)
   {
     var token = HttpContext.Request.Headers.Authorization.ToString().Split(" ")[1];
@@ -67,7 +68,7 @@ public class GarageController : ControllerBase
   }
 
   [HttpPost]
-  [Authorize]
+  [Authorization.CustomAuth("Standard, Admin")]
   public async Task<ActionResult<ReturnNotJoinedGarageDto>> Add(NewGarageDto dto)
   {
     var token = HttpContext.Request.Headers.Authorization.ToString().Split(" ")[1];
@@ -100,7 +101,7 @@ public class GarageController : ControllerBase
   }
 
   [HttpDelete("{id:Guid}")]
-  [Authorize]
+  [Authorization.CustomAuth("Standard, Admin")]
   public async Task<ActionResult<string>> Delete(Guid id)
   {
     var token = HttpContext.Request.Headers.Authorization.ToString().Split(" ")[1];

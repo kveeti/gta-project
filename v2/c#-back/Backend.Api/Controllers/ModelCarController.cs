@@ -22,7 +22,7 @@ public class ModelCarController : ControllerBase
   }
 
   [HttpGet]
-  [Authorize]
+  [Authorization.CustomAuth("Standard, Admin")]
   public async Task<ActionResult<IEnumerable<ReturnModelCarDto>>> GetAll([CanBeNull] string query)
   {
     var cars = await _db.GetAll();
@@ -34,7 +34,7 @@ public class ModelCarController : ControllerBase
   }
 
   [HttpGet("{id:Guid}")]
-  [Authorize]
+  [Authorization.CustomAuth("Standard, Admin")]
   public async Task<ActionResult<ReturnModelCarDto>> GetOne(Guid id)
   {
     var found = await _db.GetOneByFilter(car => car.Id == id);
