@@ -3,6 +3,7 @@ import { useEffect, useRef, useState } from "react";
 import { styled } from "../../stitches.config";
 import { ClearIcon } from "./Icons/ClearIcon";
 import { SearchIcon } from "./Icons/SearchIcon";
+import { ShowIcon } from "./Icons/ShowIcon";
 
 export const BaseInput = styled("input", {
   all: "unset",
@@ -151,12 +152,15 @@ export const Input = ({
   value,
   type,
   onChange,
-  }: InputProps) => {
+}: InputProps) => {
   const [contFocus, setContFocus] = useState(false);
   const [inputVal, setInputVal] = useState(value);
   const input = useRef(null);
 
+  const [showPass, setShowPass] = useState(false);
+
   const isSearch = type === "search";
+  const isPass = type === "password";
 
   useEffect(() => {
     setInputVal(value);
@@ -175,13 +179,22 @@ export const Input = ({
     if (input.current) input.current.focus();
   };
 
+  const onShowPassClick = () => {
+    setShowPass(!showPass);
+  };
+
   return (
-    <InputContainer focused={contFocus} white={white} transparent={transparent} onClick={() => onInputContainerClick()}>
+    <InputContainer
+      focused={contFocus}
+      white={white}
+      transparent={transparent}
+      onClick={() => onInputContainerClick()}
+    >
       {isSearch && <SearchIcon />}
       <StyledInput
         ref={input}
         id={id}
-        type={type}
+        type={showPass && isPass ? "text" : type}
         onChange={(e) => onInputChange(e.target.value)}
         placeholder={placeholder}
         autoComplete="off"
@@ -192,7 +205,12 @@ export const Input = ({
         transparent={transparent}
         search={isSearch}
       />
-      <ClearIcon onChange={onInputChange} value={inputVal} />
+
+      {isPass ? (
+        inputVal && <ShowIcon toggled={showPass} onClick={onShowPassClick} />
+      ) : (
+        <ClearIcon onChange={onInputChange} value={inputVal} />
+      )}
     </InputContainer>
   );
 };
