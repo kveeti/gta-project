@@ -18,7 +18,8 @@ public class CarRepo : GenericRepo<Car>, ICarRepo
 
   public async Task<IEnumerable<JoinedCarDto>> GetManyJoinedByFilter(Expression<Func<JoinedCarDto, bool>> aFilter)
   {
-    return await _context.Cars.AsNoTracking()
+    return await _context.Cars
+      .AsNoTracking()
       .Include(car => car.ModelCar)
       .Include(car => car.Garage)
       .ThenInclude(garage => garage.ModelGarage)
