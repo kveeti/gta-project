@@ -83,6 +83,7 @@ public class Jwt : IJwt
       new Claim(ClaimTypes.NameIdentifier, user.Id.ToString()),
       new Claim(ClaimTypes.Role, user.Role),
       new Claim(ClaimTypes.Name, user.Username),
+      new Claim(ClaimTypes.Email, user.Email),
       new Claim(ClaimTypes.Version, user.TokenVersion.ToString()),
     };
 
@@ -105,6 +106,7 @@ public class Jwt : IJwt
       new Claim(ClaimTypes.NameIdentifier, user.Id.ToString()),
       new Claim(ClaimTypes.Role, user.Role),
       new Claim(ClaimTypes.Name, user.Username),
+      new Claim(ClaimTypes.Email, user.Email),
       new Claim(ClaimTypes.Version, user.TokenVersion.ToString()),
       new Claim(ClaimTypes.Expiration, DateTimeOffset.Now.AddMinutes(15).ToUnixTimeSeconds().ToString())
     };
@@ -140,31 +142,36 @@ public class Jwt : IJwt
   {
     var expirationClaim = token.Claims.FirstOrDefault(claim => claim.Type == ClaimTypes.Expiration);
     var tokenVersionClaim = token.Claims.FirstOrDefault(claim => claim.Type == ClaimTypes.Version);
-    var accessUserIdClaim = token.Claims.FirstOrDefault(claim => claim.Type == ClaimTypes.NameIdentifier);
-    var accessRoleClaim = token.Claims.FirstOrDefault(claim => claim.Type == ClaimTypes.Role);
-    var accessUsernameClaim = token.Claims.FirstOrDefault(claim => claim.Type == ClaimTypes.Name);
+    var userIdClaim = token.Claims.FirstOrDefault(claim => claim.Type == ClaimTypes.NameIdentifier);
+    var roleClaim = token.Claims.FirstOrDefault(claim => claim.Type == ClaimTypes.Role);
+    var usernameClaim = token.Claims.FirstOrDefault(claim => claim.Type == ClaimTypes.Name);
+    var emailClaim = token.Claims.FirstOrDefault(claim => claim.Type == ClaimTypes.Email);
 
     if (expirationClaim == null)
       throw new Exception("token is missing its expiration");
 
-    if (accessUserIdClaim == null)
+    if (userIdClaim == null)
       throw new Exception("token is missing its user id");
 
-    if (accessRoleClaim == null)
+    if (roleClaim == null)
       throw new Exception("token is missing its role");
 
-    if (accessUsernameClaim == null)
+    if (usernameClaim == null)
       throw new Exception("token is missing its username");
 
     if (tokenVersionClaim == null)
       throw new Exception("token is missing its version");
+    
+    if (emailClaim == null)
+      throw new Exception("token is missing its email");
 
     return new()
     {
       Exp = long.Parse(expirationClaim.Value),
-      Role = accessRoleClaim.Value,
-      UserId = Guid.Parse(accessUserIdClaim.Value),
-      Username = accessUsernameClaim.Value,
+      Role = roleClaim.Value,
+      UserId = Guid.Parse(userIdClaim.Value),
+      Username = usernameClaim.Value,
+      Email = emailClaim.Value,
       TokenVersion = int.Parse(tokenVersionClaim.Value)
     };
   }
@@ -172,27 +179,32 @@ public class Jwt : IJwt
   private ValidTokenDto ValidateExistenceOfClaimsRefreshToken(JwtSecurityToken token)
   {
     var tokenVersionClaim = token.Claims.FirstOrDefault(claim => claim.Type == ClaimTypes.Version);
-    var accessUserIdClaim = token.Claims.FirstOrDefault(claim => claim.Type == ClaimTypes.NameIdentifier);
-    var accessRoleClaim = token.Claims.FirstOrDefault(claim => claim.Type == ClaimTypes.Role);
-    var accessUsernameClaim = token.Claims.FirstOrDefault(claim => claim.Type == ClaimTypes.Name);
+    var userIdClaim = token.Claims.FirstOrDefault(claim => claim.Type == ClaimTypes.NameIdentifier);
+    var roleClaim = token.Claims.FirstOrDefault(claim => claim.Type == ClaimTypes.Role);
+    var usernameClaim = token.Claims.FirstOrDefault(claim => claim.Type == ClaimTypes.Name);
+    var emailClaim = token.Claims.FirstOrDefault(claim => claim.Type == ClaimTypes.Email);
 
-    if (accessUserIdClaim == null)
+    if (userIdClaim == null)
       throw new Exception("token is missing its user id");
 
-    if (accessRoleClaim == null)
+    if (roleClaim == null)
       throw new Exception("token is missing its role");
 
-    if (accessUsernameClaim == null)
+    if (usernameClaim == null)
       throw new Exception("token is missing its username");
 
     if (tokenVersionClaim == null)
       throw new Exception("token is missing its version");
+    
+    if (emailClaim == null)
+      throw new Exception("token is missing its email");
 
     return new()
     {
-      Role = accessRoleClaim.Value,
-      UserId = Guid.Parse(accessUserIdClaim.Value),
-      Username = accessUsernameClaim.Value,
+      Role = roleClaim.Value,
+      UserId = Guid.Parse(userIdClaim.Value),
+      Username = usernameClaim.Value,
+      Email = emailClaim.Value,
       TokenVersion = int.Parse(tokenVersionClaim.Value)
     };
   }

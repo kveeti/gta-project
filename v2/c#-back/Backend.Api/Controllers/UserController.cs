@@ -35,6 +35,7 @@ public class UserController : ControllerBase
     {
       Id = user.Id,
       Username = user.Username,
+      Email = user.Email,
       Role = user.Role,
       GarageCount = user.Garages.Count,
       CarCount = user.Cars.Count
