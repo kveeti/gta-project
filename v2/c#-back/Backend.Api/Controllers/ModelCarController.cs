@@ -44,7 +44,7 @@ public class ModelCarController : ControllerBase
   }
 
   [HttpPost]
-  [Authorization.CustomAuth(ClaimTypes.Role, "Admin")]
+  [Authorization.CustomAuth("Admin")]
   public async Task<ActionResult<ReturnModelCarDto>> Add(ModelCarDto aDto)
   {
     var existing = await _db.GetOneByFilter(car => car.Name == aDto.Name);
@@ -65,7 +65,7 @@ public class ModelCarController : ControllerBase
   }
 
   [HttpPatch("{aId:Guid}")]
-  [Authorization.CustomAuth(ClaimTypes.Role, "Admin")]
+  [Authorization.CustomAuth("Admin")]
   public async Task<ActionResult<ReturnModelCarDto>> Update(Guid aId, ModelCarDto aDto)
   {
     var existingModelCar = await _db.GetOneByFilter(car => car.Id == aId);

@@ -26,6 +26,7 @@ builder.Services.AddScoped<IGenericRepo<Car>, GenericRepo<Car>>();
 
 builder.Services.AddScoped<ICarRepo, CarRepo>();
 builder.Services.AddScoped<IGarageRepo, GarageRepo>();
+builder.Services.AddScoped<IUserRepo, UserRepo>();
 
 builder.Services.AddScoped<IJwt, Jwt>();
 builder.Services.AddAutoMapper(typeof(MapperProfile));
@@ -63,26 +64,11 @@ builder.Services.AddSwaggerGen(options =>
 builder.Services.Configure<Settings>(builder.Configuration.GetSection("Settings"));
 
 builder.Services.AddAuthorization();
-builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme).AddJwtBearer(opt =>
-  opt.TokenValidationParameters = new()
-  {
-    ValidateIssuer = true,
-    ValidateAudience = true,
-    ValidateLifetime = true,
-    ClockSkew = TimeSpan.Zero,
-    ValidateIssuerSigningKey = true,
-    ValidIssuer = builder.Configuration["Settings:JWT_Iss"],
-    ValidAudience = builder.Configuration["Settings:JWT_Aud"],
-    IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(builder.Configuration["Settings:JWT_Secret"]))
-  }
-);
 
 var app = builder.Build();
 
 app.UseSwagger();
 app.UseSwaggerUI();
-
-app.UseHttpsRedirection();
 
 app.UseAuthentication();
 app.UseAuthorization();

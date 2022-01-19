@@ -1,12 +1,10 @@
 ﻿using System.Security.Claims;
 using Backend.Api.Attributes;
 using Backend.Api.Dtos.UserDtos;
+using Backend.Api.Helpers;
 using Backend.Api.Models;
 using Backend.Api.Repositories;
-using Microsoft.AspNetCore.Authentication.JwtBearer;
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Options;
 
 namespace Backend.Api.Controllers;
 
@@ -14,15 +12,39 @@ namespace Backend.Api.Controllers;
 [Route("gta-api/users")]
 public class UserController : ControllerBase
 {
-  private readonly IGenericRepo<User> _db;
+  private readonly IUserRepo _db;
+  private readonly IJwt _jwt;
 
-  public UserController(IGenericRepo<User> aUserRepo)
+  public UserController(IUserRepo aUserRepo, IJwt aJwt)
   {
     _db = aUserRepo;
+    _jwt = aJwt;
+  }
+  
+  [HttpGet("me")]
+  [Authorization.CustomAuth("Standard, Admin")]
+  public async Task<ActionResult<ReturnUserDto>> GetMe()
+  {
+    var token = HttpContext.Request.Headers.Authorization.ToString().Split(" ")[1];
+    var userId = _jwt.GetUserId(token);
+    
+    var user = await _db.GetMe(userId);
+    if (user == null) return NotFound();
+
+    ReturnMeDto returnUser = new()
+    {
+      Id = user.Id,
+      Username = user.Username,
+      Role = user.Role,
+      GarageCount = user.Garages.Count,
+      CarCount = user.Cars.Count
+    };
+
+    return Ok(returnUser);
   }
 
   [HttpGet("{id:Guid}")]
-  [Authorization.CustomAuth(ClaimTypes.Role, "Admin")]
+  [Authorization.CustomAuth("Admin")]
   public async Task<ActionResult<ReturnUserDto>> GetOne(Guid id)
   {
     var user = await _db.GetOneByFilter(u => u.Id == id);
@@ -39,7 +61,7 @@ public class UserController : ControllerBase
   }
 
   [HttpGet]
-  [Authorization.CustomAuth(ClaimTypes.Role, "Admin")]
+  [Authorization.CustomAuth("Admin")]
   public async Task<ActionResult<IEnumerable<ReturnUserDto>>> GetAll()
   {
     var users = await _db.GetAll();
@@ -54,7 +76,7 @@ public class UserController : ControllerBase
   }
 
   [HttpPatch("{id:Guid}")]
-  [Authorization.CustomAuth(ClaimTypes.Role, "Admin")]
+  [Authorization.CustomAuth("Admin")]
   public async Task<ActionResult<ReturnUserDto>> UpdateRole(Guid id, UpdateUserDto aUserDto)
   {
     var existingUser = await _db.GetOneByFilter(u => u.Id == id);
@@ -81,7 +103,7 @@ public class UserController : ControllerBase
   }
 
   [HttpDelete("{id:Guid}")]
-  [Authorization.CustomAuth(ClaimTypes.Role, "Admin")]
+  [Authorization.CustomAuth("Admin")]
   public async Task<ActionResult<string>> Delete(Guid id)
   {
     var userToDelete = await _db.GetOneByFilter(u => u.Id == id);

@@ -52,7 +52,7 @@ public class ModelGarageController : ControllerBase
   }
 
   [HttpPost]
-  [Authorization.CustomAuth(ClaimTypes.Role, "Admin")]
+  [Authorization.CustomAuth("Admin")]
   public async Task<ActionResult<ReturnModelGarageDto>> Add(ModelGarageDto aDto)
   {
     var existing = await _db.GetOneByFilter(garage => garage.Name == aDto.Name);
@@ -74,7 +74,7 @@ public class ModelGarageController : ControllerBase
   }
 
   [HttpPatch("{id:Guid}")]
-  [Authorization.CustomAuth(ClaimTypes.Role, "Admin")]
+  [Authorization.CustomAuth("Admin")]
   public async Task<ActionResult<ReturnModelGarageDto>> Update(Guid id, ModelGarageDto aDto)
   {
     var existing = await _db.GetOneByFilter(garage => garage.Id == id);

@@ -20,3 +20,12 @@ public record UpdateUserDto
 {
   public string NewRole { get; init; }
 }
+
+public record ReturnMeDto
+{
+  public Guid Id { get; init; }
+  public string Username { get; init; }
+  public string Role { get; init; }
+  public int CarCount { get; init; }
+  public int GarageCount { get; init; }
+}

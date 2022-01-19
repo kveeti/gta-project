@@ -8,6 +8,7 @@ public class User
   [Required] public string Username { get; set; }
   [Required] public string Password { get; set; }
   [Required] public string Role { get; set; }
+  [Required] public int TokenVersion { get; set; }
   
   
   public ICollection<Car> Cars { get; set; }

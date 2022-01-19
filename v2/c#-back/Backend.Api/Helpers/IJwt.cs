@@ -1,12 +1,16 @@
 using System.IdentityModel.Tokens.Jwt;
-using Microsoft.Extensions.Options;
+using Backend.Api.Models;
+using Backend.Api.TokenDtos;
 
 namespace Backend.Api.Helpers;
 
 public interface IJwt
 {
-  public string Encode(string aUsername, string aRole, Guid aId, IOptions<Settings> aSettings);
-  
+  public ValidTokenDto ValidateRefreshToken(string aToken);
+  public ValidTokenDto ValidateAccessToken(string aToken);
+
+  public string CreateRefreshToken(User user);
+  public string CreateAccessToken(User user);
   public JwtSecurityToken Decode(string aToken);
 
   public Guid GetUserId(string aToken);
