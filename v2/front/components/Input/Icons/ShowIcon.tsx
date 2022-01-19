@@ -11,8 +11,13 @@ const StyledIcon = styled("label", {
 interface Props {
   toggled: boolean;
   onClick: () => void;
+  id: string;
 }
 
-export const ShowIcon = ({ toggled, onClick }: Props) => {
-  return <StyledIcon onClick={onClick}>{toggled ? <EyeNoneIcon /> : <EyeOpenIcon />}</StyledIcon>;
+export const ShowIcon = ({ toggled, onClick, id }: Props) => {
+  return (
+    <StyledIcon htmlFor={id} onClick={onClick}>
+      {toggled ? <EyeNoneIcon /> : <EyeOpenIcon />}
+    </StyledIcon>
+  );
 };
