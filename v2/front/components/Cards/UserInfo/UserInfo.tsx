@@ -1,7 +1,12 @@
+import axios from "axios";
+import { useEffect } from "react";
+import { useDispatch } from "react-redux";
 import { useISelector } from "../../../state/hooks";
 import { styled } from "../../../stitches.config";
 import { PageCard } from "../../Styles/Page-cards";
 import { Text, Title } from "../../Styles/Text";
+import { config } from "../../../util/axios";
+import { actions } from "../../../state/actions";
 
 const Specs = styled("div", {
   display: "flex",
@@ -9,7 +14,18 @@ const Specs = styled("div", {
 });
 
 export const UserInfo = () => {
+  const dispatch = useDispatch();
   const users = useISelector((state) => state.users);
+
+  useEffect(() => {
+    const getMe = async () => {
+      const res = await axios(config("/users/me", "GET")).catch(() => null);
+
+      if (res?.data) dispatch(actions.users.set.me(res.data));
+    };
+
+    getMe();
+  }, []);
 
   return (
     <PageCard>

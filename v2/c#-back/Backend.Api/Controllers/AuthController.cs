@@ -28,16 +28,20 @@ public class AuthController : ControllerBase
   }
 
   [HttpPost("register")]
-  public async Task<ActionResult> Register(AuthUserDto aDto)
+  public async Task<ActionResult> Register(RegisterUserDto aDto)
   {
-    var existingUser = await _userRepo.GetOneByFilter(user => user.Username == aDto.Username);
-    if (existingUser != null) return Conflict("username taken");
+    var usernameCheck = await _userRepo.GetOneByFilter(user => user.Username == aDto.Username);
+    if (usernameCheck != null) return Conflict("Username taken");
+    
+    var emailCheck = await _userRepo.GetOneByFilter(user => user.Email == aDto.Email);
+    if (emailCheck != null) return Conflict("Email in use");
 
     var hash = Hashing.HashToString(aDto.Password);
 
     User user = new()
     {
       Id = Guid.NewGuid(),
+      Email = aDto.Email,
       Username = aDto.Username,
       Password = hash,
       Role = "Standard",
@@ -56,7 +60,7 @@ public class AuthController : ControllerBase
     HttpContext.Response
       .Headers[_settings.Value.AccessTokenHeaderName] = newAccessToken;
 
-    return Ok();
+    return NoContent();
   }
 
   [HttpPost("login")]
@@ -77,7 +81,7 @@ public class AuthController : ControllerBase
     HttpContext.Response
       .Headers[_settings.Value.AccessTokenHeaderName] = newAccessToken;
 
-    return Ok();
+    return NoContent();
   }
   
   [HttpPost("logout")]

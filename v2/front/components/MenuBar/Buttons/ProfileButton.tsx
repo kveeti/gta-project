@@ -17,13 +17,13 @@ export const ProfileButton = () => {
   const onClick = async () => {
     await axios(config("/auth/logout", "POST")).catch();
     toast.success("Logged out!");
+    localStorage.clear();
+    setAccessToken("");
 
     await wait(2000);
 
-    dispatch(actions.users.set.me(initState.users.me));
-    setAccessToken("");
-
     router.push("/signin", "/signin", { shallow: true });
+    dispatch(actions.users.set.me(initState.users.me));
   };
 
   return (

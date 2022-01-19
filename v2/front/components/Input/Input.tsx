@@ -5,47 +5,6 @@ import { ClearIcon } from "./Icons/ClearIcon";
 import { SearchIcon } from "./Icons/SearchIcon";
 import { ShowIcon } from "./Icons/ShowIcon";
 
-export const BaseInput = styled("input", {
-  all: "unset",
-  padding: "0.5rem",
-  borderRadius: 4,
-  lineHeight: 1,
-  fontSize: 15,
-  width: "100%",
-  transition: "0.2s",
-  color: "Black",
-
-  "@tablet": {
-    fontSize: 16,
-  },
-
-  "&:disabled": {
-    boxShadow: `0 0 0 1px ${blackA.blackA7}`,
-    opacity: 0.5,
-  },
-
-  variants: {
-    transparent: {
-      true: {
-        boxShadow: `0 0 0 1px ${blackA.blackA10}`,
-        "&::placeholder": {
-          opacity: 0.5,
-        },
-
-        "@media (hover: hover)": {
-          "&:focus": { boxShadow: `0 0 0 2px ${blackA.blackA10}` },
-        },
-      },
-    },
-
-    white: {
-      true: {
-        backgroundColor: "white",
-      },
-    },
-  },
-});
-
 const InputContainer = styled("div", {
   flex: 1,
   height: "100%",
@@ -207,7 +166,7 @@ export const Input = ({
       />
 
       {isPass ? (
-        inputVal && <ShowIcon toggled={showPass} onClick={onShowPassClick} />
+        inputVal && <ShowIcon id={id} toggled={showPass} onClick={onShowPassClick} />
       ) : (
         <ClearIcon onChange={onInputChange} value={inputVal} />
       )}

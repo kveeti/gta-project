@@ -1,5 +1,4 @@
 import { Cross1Icon } from "@radix-ui/react-icons";
-import { Dispatch, SetStateAction } from "react";
 import { styled } from "../../../stitches.config";
 
 const StyledIcon = styled("div", {

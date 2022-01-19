@@ -8,11 +8,7 @@ import { LeftFloatingButton } from "./FloatingButtons/Left/LeftButtons";
 import { RightFloatingButtons } from "./FloatingButtons/Right/RightButtons";
 import { MenuBar } from "./MenuBar/MenuBar";
 import { Sidebar } from "./Sidebar/Sidebar";
-import { useRouter } from "next/router";
 import { Toast } from "./Toast/Toast";
-import axios from "axios";
-import { config } from "../util/axios";
-import { toast } from "react-toastify";
 
 interface Props {
   children: React.ReactNode;
@@ -21,30 +17,9 @@ interface Props {
 
 const Layout = ({ children, title }: Props) => {
   if (typeof window === "undefined") return null;
-  const router = useRouter();
-  const users = useISelector((state) => state.users);
-
-  useEffect(() => {
-    const getMe = async () => {
-      if (users?.me?.id || users.api.loading) return;
-
-      dispatch(actions.users.api.setLoading(true));
-      const res = await axios(config("/users/me", "GET")).catch((err) => {
-        dispatch(actions.users.api.setLoading(false));
-        if (err?.response?.status === 401) toast.error("Session expired");
-        return null;
-      });
-      dispatch(actions.users.api.setLoading(false));
-
-      if (res?.data) return dispatch(actions.users.set.me(res.data));
-
-      router.push("/signin", "/signin", { shallow: true });
-    };
-
-    getMe();
-  }, []);
 
   const dispatch = useDispatch();
+
   const state = useISelector((state) => state);
   const showOnlySidebar = useISelector((state) => state.checked.show);
   const mobile = state.bp === 1;
@@ -74,7 +49,7 @@ const Layout = ({ children, title }: Props) => {
   }, []);
 
   const location = window.location.pathname;
-  const newSite = location.includes("new");
+  const newSite = location?.includes("new");
 
   let showSideBar: boolean;
 

@@ -42,86 +42,69 @@ public class Authorization
 
     public async Task OnAuthorizationAsync(AuthorizationFilterContext context)
     {
-      string accessTokenFromHeader;
-      string refreshTokenFromCookie;
-      
-      try
-      {
-        accessTokenFromHeader = context.HttpContext.Request.Headers.Authorization.ToString().Split(" ")[1];
-        refreshTokenFromCookie = context.HttpContext.Request.Cookies[_settings.Value.RefreshTokenCookieName];
-      }
-      catch
-      {
-        context.HttpContext.Response.Cookies.Delete(_settings.Value.RefreshTokenCookieName);
-        context.Result = new UnauthorizedObjectResult("bad auth");
-        return;
-      }
-      
-
+      // firstly look for a refresh token 
+      var refreshTokenFromCookie = context.HttpContext.Request.Cookies[_settings.Value.RefreshTokenCookieName];
       var refreshToken = _jwt.ValidateRefreshToken(refreshTokenFromCookie);
+
+      // no (valid) refresh token, no access at all
       if (refreshTokenFromCookie == null || refreshToken == null)
       {
-        //context.HttpContext.Response.Cookies.Delete(_settings.Value.RefreshTokenCookieName);
-        context.Result = new UnauthorizedObjectResult("bad refresh token");
+        HandleUnauthorized(context, "bad refresh token");
         return;
       }
 
-      ValidTokenDto accessToken;
+      // refresh token was valid, try find a corresponding user 
+      var dbUser = await _userRepo.GetOneByFilter(user => user.Id == refreshToken.UserId);
+      if (dbUser == null)
+      {
+        HandleUnauthorized(context, ":D");
+        return;
+      }
 
+      // check if refresh token's props match with the found user's props 
+      var refreshMatches = TokenMatchesWithDb(refreshToken, dbUser);
+      if (!refreshMatches)
+      {
+        HandleUnauthorized(context, ":Dd");
+        return;
+      }
+
+      ValidTokenDto accessToken = null;
+
+      // if access token was provided, check it
       try
       {
-        accessToken = _jwt.ValidateAccessToken(accessTokenFromHeader);
-      }
-      catch (Exception e)
-      {
-        Console.Write(e);
-        //context.HttpContext.Response.Cookies.Delete(_settings.Value.RefreshTokenCookieName);
-        context.Result = new UnauthorizedObjectResult("bad access");
-        return;
-      }
-
-      try
-      {
-        var dbUser = await _userRepo.GetOneByFilter(user => user.Id == refreshToken.UserId);
-
-        if (dbUser.TokenVersion != refreshToken.TokenVersion)
+        var accessTokenFromHeader = context.HttpContext.Request.Headers.Authorization.ToString().Split(" ")[1];
+        if (accessTokenFromHeader.StartsWith("ey"))
         {
-          context.HttpContext.Response.Cookies.Delete(_settings.Value.RefreshTokenCookieName);
-          context.Result = new UnauthorizedObjectResult("revoked");
-          return;
-        }
+          accessToken = _jwt.ValidateAccessToken(accessTokenFromHeader);
 
-        if (dbUser.Role != refreshToken.Role ||
-            dbUser.Username != refreshToken.Username)
-        {
-          context.Result = new ForbidResult("data not matching");
-          return;
-        }
-
-        // generate new tokens if refresh token was valid but 
-        // there was no access token or it had expired
-        if (accessToken == null || (DateTimeOffset.Now.ToUnixTimeSeconds() + 900) < accessToken.Exp)
-        {
-          Console.Write("yey");
-          
-          var newAccessToken = _jwt.CreateAccessToken(dbUser);
-          accessToken = _jwt.ValidateAccessToken(newAccessToken);
-          context.HttpContext.Request.Headers.Authorization = $"Bearer {newAccessToken}";
-          
-          var newRefreshToken = _jwt.CreateRefreshToken(dbUser);
-          context.HttpContext
-            .Response.Headers
-            .SetCookie = Cookie.CreateCookie(_settings.Value.RefreshTokenCookieName, newRefreshToken);
-
-          context.HttpContext.Response.Headers[_settings.Value.AccessTokenHeaderName] = newAccessToken;
+          if (accessToken == null)
+          {
+            HandleUnauthorized(context, ":Ddd");
+            return;
+          }
         }
       }
-      catch (Exception e)
+      catch // just catching the string splitting...
       {
-        Console.Write(e);
-        context.HttpContext.Response.Cookies.Delete(_settings.Value.RefreshTokenCookieName);
-        context.Result = new UnauthorizedResult();
-        return;
+      }
+
+      // automatically generate new tokens if refresh token was valid
+      // but access token wasn't provided or had expired
+      if (accessToken == null ||
+          (DateTimeOffset.Now.ToUnixTimeSeconds() + 900) < accessToken.Exp)
+      {
+        var newAccessToken = _jwt.CreateAccessToken(dbUser);
+        accessToken = _jwt.ValidateAccessToken(newAccessToken);
+        context.HttpContext.Request.Headers.Authorization = $"Bearer {newAccessToken}";
+
+        var newRefreshToken = _jwt.CreateRefreshToken(dbUser);
+        context.HttpContext
+          .Response.Headers
+          .SetCookie = Cookie.CreateCookie(_settings.Value.RefreshTokenCookieName, newRefreshToken);
+
+        context.HttpContext.Response.Headers[_settings.Value.AccessTokenHeaderName] = newAccessToken;
       }
 
       var hasCorrectRole = _claim.Value.Contains(accessToken.Role);
@@ -130,6 +113,28 @@ public class Authorization
         context.Result = new ForbidResult();
         return;
       }
+    }
+
+    private static bool TokenMatchesWithDb(ValidTokenDto aToken, User aDbData)
+    {
+      Console.WriteLine($"{aDbData.TokenVersion} {aToken.TokenVersion}");
+      Console.WriteLine($"{aDbData.Role} {aToken.Role}");
+      Console.WriteLine($"{aDbData.Username} {aToken.Username}");
+      Console.WriteLine($"{aDbData.Email} {aToken.Email}");
+      
+      if (aDbData.TokenVersion != aToken.TokenVersion) return false;
+      if (aDbData.Role != aToken.Role) return false;
+      if (aDbData.Username != aToken.Username) return false;
+      if (aDbData.Email != aToken.Email) return false;
+
+      return true;
+    }
+
+    private void HandleUnauthorized(AuthorizationFilterContext context, string message)
+    {
+      //context.HttpContext.Response.Cookies.Delete(_settings.Value.RefreshTokenCookieName);
+      Console.Write($"unauthorized {message}");
+      context.Result = new UnauthorizedObjectResult(message);
     }
   }
 }

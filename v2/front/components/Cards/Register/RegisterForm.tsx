@@ -2,32 +2,33 @@ import axios from "axios";
 import { useState } from "react";
 import { Input } from "../../Input/Input";
 import { InputContainer, Label } from "../../Styles/Page-cards";
-import { SigninButton } from "./Buttons/SigninButton";
 import { config } from "../../../util/axios";
 import { toast } from "react-toastify";
 import { useRouter } from "next/router";
-import { TestButton } from "./Buttons/TestButton";
 import { RegisterButton } from "./Buttons/RegisterButton";
 import { ButtonContainer } from "../../Styles/SinglePage";
+import { BackToSigninButton } from "./Buttons/BackToLogin";
 
 interface InputProps {
   value: string;
   onChange: (value: string) => void;
 }
 
-export const SignInForm = () => {
+export const RegisterForm = () => {
   const router = useRouter();
   const [username, setUsername] = useState("");
+  const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
-  const signInButtonDisabled = !username || !password;
+  const registerButtonDisabled = !username || !password || !email;
 
-  const onSignInClick = async () => {
-    if (signInButtonDisabled) return;
+  const onRegisterClick = async () => {
+    if (registerButtonDisabled) return;
     try {
       const res = await axios(
-        config("/auth/login", "POST", {
+        config("/auth/register", "POST", {
           username,
+          email,
           password,
         })
       );
@@ -35,8 +36,7 @@ export const SignInForm = () => {
       if (res?.status === 204) router.push("/", "/", { shallow: true });
     } catch (err) {
       if (!err.response) return;
-      if (err.response.status === 401) toast.error("Incorrect credentials");
-      if (err.response.status === 404) toast.error("User not found");
+      if (err.response.status === 409) toast.error(err.response.data);
     }
   };
 
@@ -50,6 +50,13 @@ export const SignInForm = () => {
       </InputContainer>
 
       <InputContainer column>
+        <Label column htmlFor="email">
+          Email
+        </Label>
+        <EmailInput value={email} onChange={setEmail} />
+      </InputContainer>
+
+      <InputContainer column>
         <Label column htmlFor="password">
           Password
         </Label>
@@ -57,12 +64,8 @@ export const SignInForm = () => {
       </InputContainer>
 
       <ButtonContainer>
-        <SigninButton onClick={onSignInClick} disabled={signInButtonDisabled} />
-
-        <ButtonContainer row>
-          <TestButton />
-          <RegisterButton />
-        </ButtonContainer>
+        <RegisterButton onClick={onRegisterClick} disabled={registerButtonDisabled} />
+        <BackToSigninButton />
       </ButtonContainer>
     </>
   );
@@ -70,6 +73,10 @@ export const SignInForm = () => {
 
 const UsernameInput = ({ value, onChange }: InputProps) => {
   return <Input transparent id="username" type="text" onChange={onChange} value={value} />;
+};
+
+const EmailInput = ({ value, onChange }: InputProps) => {
+  return <Input transparent id="email" type="email" onChange={onChange} value={value} />;
 };
 
 const PassInput = ({ value, onChange }: InputProps) => {

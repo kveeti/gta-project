@@ -54,7 +54,7 @@ const SearchPage = () => {
         <meta httpEquiv="Pragma" content="no-cache" />
         <meta httpEquiv="Expires" content="0" />
       </Head>
-      <Layout>
+      <Layout title={"Search"}>
         {showGarages && (
           <Div>
             <Title>Garages</Title>
