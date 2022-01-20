@@ -7,6 +7,8 @@ import { PageCard } from "../../Styles/Page-cards";
 import { Text, Title } from "../../Styles/Text";
 import { config } from "../../../util/axios";
 import { actions } from "../../../state/actions";
+import { CreateAccountButton } from "./CreateAccountButton";
+import { siteBaseUrl } from "../../../envs";
 
 const Specs = styled("div", {
   display: "flex",
@@ -16,6 +18,11 @@ const Specs = styled("div", {
 export const UserInfo = () => {
   const dispatch = useDispatch();
   const users = useISelector((state) => state.users);
+
+  const isTestAccount =
+    users?.me?.email && users.me.email.includes("test-account", `@${siteBaseUrl}`);
+
+  const isAdmin = users?.me?.role === "Admin";
 
   useEffect(() => {
     const getMe = async () => {
@@ -28,8 +35,9 @@ export const UserInfo = () => {
   }, []);
 
   return (
-    <PageCard>
+    <PageCard centered>
       <Title>User info</Title>
+      {isAdmin && <Text red>Admin</Text>}
       <Text>
         <b>{users.me?.username}</b>
       </Text>
@@ -41,6 +49,8 @@ export const UserInfo = () => {
           <b>Garages:</b> {users.me?.garageCount}
         </Text>
       </Specs>
+
+      {isTestAccount && <CreateAccountButton />}
     </PageCard>
   );
 };

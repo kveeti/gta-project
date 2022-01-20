@@ -34,6 +34,7 @@ export const SearchBar = () => {
       white
       id={"search"}
       type="search"
+      autoFocus
       placeholder="Search for anything"
       onChange={(value) => onSearchTermChange(value)}
       value={router.query.q?.toString() || ""}

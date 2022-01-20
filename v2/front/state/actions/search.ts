@@ -64,7 +64,7 @@ export const search = (query: string) => async (dispatch: any) => {
 
     dispatch(api.setLoading(true));
 
-    const res = await axios(config(`/search?q=${query}`, "GET"));
+    const res = await axios(config(`/search?query=${query}`, "GET"));
 
     dispatch(set.cars(res.data.cars));
     dispatch(set.garages(res.data.garages));

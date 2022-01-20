@@ -54,7 +54,7 @@ export const Garage = ({
 
         {showCapacity && !isModelGarage && (
           <Text>
-            {garage.amountOfCars} / {garage.capacity}
+            {garage.cars.length} / {garage.capacity}
           </Text>
         )}
 

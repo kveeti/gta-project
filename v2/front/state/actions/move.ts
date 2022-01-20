@@ -18,11 +18,11 @@ export const matchingGarages = {
       if (!query) return;
 
       dispatch(matchingGarages.api.setLoading(true));
-      const response = await axios(config(`/search/garages?q=${query}`, "GET"));
+      const response = await axios(config(`/garages?query=${query}`, "GET"));
       dispatch(matchingGarages.api.setLoading(false));
       dispatch(matchingGarages.api.setSuccess(false));
 
-      dispatch(matchingGarages.set(response.data.garages));
+      dispatch(matchingGarages.set(response.data));
     } catch (error) {
       dispatch(matchingGarages.api.setLoading(false));
       dispatch(matchingGarages.api.setError(true));
@@ -106,39 +106,24 @@ export const move = (cars: ICar[], garage: IGarage, searchInput: string) => asyn
     const carIds = cars.map((car) => car.id);
 
     dispatch(api.setLoading(true));
-    const { data } = await axios(config(`/garages/${garage.id}`, "PATCH", { carIds }));
+    const { data } = await axios(
+      config(`/cars/move`, "POST", {
+        newGarageId: garage.id,
+        carIds,
+      })
+    );
     dispatch(api.setLoading(false));
     dispatch(api.setError(false));
     dispatch(reset());
 
-    if (data) {
-      // if some cars were moved, but errors occured
-      if (data.errorCars?.length) {
-        const plural = data.errorCars?.length === 1 ? "" : "s";
-        if (data.errorCars.length !== cars.length) {
-          toast.error(
-            `${data.errorCars?.length} car${plural} could not be moved, check selected cars for errors.`
-          );
-
-          toast.success(
-            `Successfully moved ${cars.length - data.errorCars?.length} cars to ${garage.name}`
-          );
-        } else {
-          // no cars got moved
-          toast.error(`No cars were moved, check selected cars for errors.`);
-        }
-      } else {
-        // no errors occured
-        toast.success(`Successfully moved cars to ${garage.name}`);
-      }
-
-      dispatch(actions.checked.setCheckedCars([...data.movedCars, ...data.errorCars]));
-    }
+    if (data) dispatch(actions.checked.setCheckedCars(data));
+    toast.success("Cars moved successfully!");
 
     if (searchInput) {
       dispatch(actions.search.search(searchInput));
     }
   } catch (error) {
+    if (error?.response && error.response.status) toast.error("The garage is full");
     dispatch(api.setLoading(false));
     dispatch(api.setError(true));
   }

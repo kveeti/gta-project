@@ -106,10 +106,10 @@ export const search = {
       if (!query) return;
 
       dispatch(set.cars.api.setLoading(true));
-      const response = await axios(config(`/search/modelcars?q=${query}`, "GET"));
+      const response = await axios(config(`/modelcars?query=${query}`, "GET"));
       dispatch(set.cars.api.setLoading(false));
 
-      dispatch(set.cars.matching(response.data.modelCars));
+      dispatch(set.cars.matching(response.data));
     } catch (error) {
       dispatch(set.cars.api.setLoading(false));
       dispatch(set.cars.api.setError(true));
@@ -120,10 +120,10 @@ export const search = {
       if (!query) return;
 
       dispatch(set.garages.api.setLoading(true));
-      const response = await axios(config(`/search/garages?q=${query}`, "GET"));
+      const response = await axios(config(`/garages?query=${query}`, "GET"));
       dispatch(set.garages.api.setLoading(false));
 
-      dispatch(set.garages.matching(response.data.garages));
+      dispatch(set.garages.matching(response.data));
     } catch (error) {
       dispatch(set.garages.api.setLoading(false));
       dispatch(set.garages.api.setError(true));

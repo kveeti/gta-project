@@ -76,10 +76,10 @@ export const search = {
       if (!query) return;
 
       dispatch(set.garages.api.setLoading(true));
-      const response = await axios(config(`/search/modelgarages?q=${query}`, "GET"));
+      const response = await axios(config(`/modelgarages?query=${query}`, "GET"));
       dispatch(set.garages.api.setLoading(false));
 
-      dispatch(set.garages.matching(response.data.modelGarages));
+      dispatch(set.garages.matching(response.data));
     } catch (error) {
       dispatch(set.garages.api.setLoading(false));
       dispatch(set.garages.api.setError(true));

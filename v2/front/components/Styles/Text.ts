@@ -1,4 +1,5 @@
 import { styled } from "../../stitches.config";
+import { red } from "@radix-ui/colors";
 
 export const Text = styled("p", {
   all: "unset",
@@ -18,6 +19,12 @@ export const Text = styled("p", {
     lessOpaque: {
       true: {
         opacity: 0.3,
+      },
+    },
+
+    red: {
+      true: {
+        color: red.red11,
       },
     },
   },

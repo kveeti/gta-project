@@ -65,7 +65,8 @@ export const Sidebar = () => {
 
   const deleteOnClick = () => {
     if (deleteOpen) {
-      dispatch(actions.checked.remove(checkedCars, searchInput));
+      const carIds = checkedCars.map((car) => car.id);
+      dispatch(actions.checked.remove(carIds, searchInput));
       setDeleteOpen(false);
       return clearTimeout(deleteTimer);
     }

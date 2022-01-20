@@ -35,6 +35,11 @@ const SearchPage = () => {
 
     dispatch(actions.search.set.input(router.query.q));
     dispatch(actions.search.search(router.query.q));
+
+    return () => {
+      dispatch(actions.search.set.garages([]));
+      dispatch(actions.search.set.cars([]));
+    };
   }, [router.query.q]);
 
   const onCarClick = (car: ICar) => {

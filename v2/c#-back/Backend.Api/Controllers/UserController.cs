@@ -1,5 +1,4 @@
-﻿using System.Security.Claims;
-using Backend.Api.Attributes;
+﻿using Backend.Api.Attributes;
 using Backend.Api.Dtos.UserDtos;
 using Backend.Api.Helpers;
 using Backend.Api.Models;

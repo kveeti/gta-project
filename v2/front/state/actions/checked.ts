@@ -47,18 +47,16 @@ export const setCheckedCars = (checkedCars: ICar[]) => {
   };
 };
 
-export const remove = (cars: ICar[], searchInput: string) => async (dispatch) => {
+export const remove = (carIds: string[], searchInput: string) => async (dispatch) => {
   try {
-    if (!cars.length) return;
+    if (!carIds.length) return;
 
     dispatch(removeApi.setLoading(true));
-    await axios(config(`/cars`, "DELETE", cars));
+    await axios(config(`/cars`, "DELETE", { carIds }));
     dispatch(removeApi.setLoading(false));
     dispatch(reset());
 
-    if (searchInput) {
-      dispatch(actions.search.search(searchInput));
-    }
+    if (searchInput) dispatch(actions.search.search(searchInput));
   } catch (error) {
     dispatch(removeApi.setLoading(false));
     dispatch(removeApi.setError(true));

@@ -1,6 +1,7 @@
 import Head from "next/head";
 import { styled } from "@stitches/react";
 import { Toast } from "./Toast/Toast";
+import { useAuthPageRedirector } from "../hooks/useAuthPageRedirector";
 
 const Wrapper = styled("div", {
   display: "flex",
@@ -16,6 +17,8 @@ interface Props {
 }
 
 const SingleCardPageLayout = ({ children, title }: Props) => {
+  useAuthPageRedirector();
+
   return (
     <>
       <Head>

@@ -1,5 +1,5 @@
 import axios from "axios";
-import { PersonIcon } from "@radix-ui/react-icons";
+import { ExitIcon } from "@radix-ui/react-icons";
 import { MenubarBtn } from "./Styles";
 import { config } from "../../../util/axios";
 import { useRouter } from "next/router";
@@ -15,20 +15,20 @@ export const ProfileButton = () => {
   const dispatch = useDispatch();
 
   const onClick = async () => {
-    await axios(config("/auth/logout", "POST")).catch();
+    await axios(config("/auth/logout", "POST")).catch(() => null);
     toast.success("Logged out!");
     localStorage.clear();
-    setAccessToken("");
+    setAccessToken(null);
 
     await wait(2000);
 
-    router.push("/signin", "/signin", { shallow: true });
+    await router.push("/signin", "/signin", { shallow: true });
     dispatch(actions.users.set.me(initState.users.me));
   };
 
   return (
     <MenubarBtn transparent profile onClick={() => onClick()}>
-      <PersonIcon style={{ color: "white", transform: "scale(1.6)" }} />
+      <ExitIcon style={{ color: "white", transform: "scale(1.6)" }} />
     </MenubarBtn>
   );
 };

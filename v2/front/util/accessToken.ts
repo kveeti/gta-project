@@ -4,7 +4,8 @@ export const setAccessToken = (value: string) => {
   accessToken = value;
 
   try {
-    if (accessToken.length) localStorage.setItem("item", (Date.now() + 604800000).toString());
+    if (accessToken && accessToken.length)
+      localStorage.setItem("item", (Date.now() + 604800000).toString());
   } catch {}
 };
 
