@@ -8,6 +8,11 @@ public record NewCarDto
   public Guid GarageId { get; set; }
 }
 
+public record DeleteCarsDto
+{
+  public IEnumerable<Guid> carIds { get; init; }
+}
+
 public record JoinedCarDto 
 {
   public Guid Id { get; init; }
