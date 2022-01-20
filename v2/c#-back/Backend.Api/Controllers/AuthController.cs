@@ -2,9 +2,9 @@
 using Backend.Api.Helpers;
 using Backend.Api.Models;
 using Backend.Api.Repositories;
-using Backend.Api.TokenDtos;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
+using Microsoft.Extensions.Primitives;
 
 namespace Backend.Api.Controllers;
 
@@ -28,7 +28,7 @@ public class AuthController : ControllerBase
   }
 
   [HttpPost("register")]
-  public async Task<ActionResult> Register(RegisterUserDto aDto)
+  public async Task<ActionResult<string>> Register(RegisterUserDto aDto)
   {
     var usernameCheck = await _userRepo.GetOneByFilter(user => user.Username == aDto.Username);
     if (usernameCheck != null) return Conflict("Username taken");
@@ -64,13 +64,13 @@ public class AuthController : ControllerBase
   }
 
   [HttpPost("login")]
-  public async Task<ActionResult> Login(AuthUserDto aDto)
+  public async Task<ActionResult<string>> Login(AuthUserDto aDto)
   {
     var user = await _userRepo.GetOneByFilter(user => user.Username == aDto.Username);
     if (user == null) return NotFound("user not found");
 
     var match = Hashing.Verify(aDto.Password, user.Password);
-    if (!match) return Unauthorized("incorrect password");
+    if (!match) return Unauthorized("incorrect credentials");
 
     var newAccessToken = _jwt.CreateAccessToken(user);
     var newRefreshToken = _jwt.CreateRefreshToken(user);
@@ -85,13 +85,14 @@ public class AuthController : ControllerBase
   }
   
   [HttpPost("logout")]
-  public ActionResult Logout()
+  public NoContentResult Logout()
   {
     HttpContext.Response.Cookies.Delete(_settings.Value.RefreshTokenCookieName);
+    HttpContext.Response.Headers.SetCookie = "";
 
     HttpContext.Response
       .Headers[_settings.Value.AccessTokenHeaderName] = "";
 
-    return Ok();
+    return NoContent();
   }
 }
