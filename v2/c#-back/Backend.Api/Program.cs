@@ -1,15 +1,12 @@
 using Backend.Api;
 using Backend.Api.Data;
 using Backend.Api.Repositories;
-using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
-using System.Text;
-using AutoMapper;
 using Backend.Api.Helpers;
 using Backend.Api.Models;
 using Backend.Api.Repositories.ModelCar;
+using Backend.Api.Repositories.ModelGarage;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -28,10 +25,10 @@ builder.Services.AddScoped<IGenericRepo<Car>, GenericRepo<Car>>();
 builder.Services.AddScoped<ICarRepo, CarRepo>();
 builder.Services.AddScoped<IGarageRepo, GarageRepo>();
 builder.Services.AddScoped<IModelCarRepo, ModelCarRepo>();
+builder.Services.AddScoped<IModelGarageRepo, ModelGarageRepo>();
 builder.Services.AddScoped<IUserRepo, UserRepo>();
 
 builder.Services.AddScoped<IJwt, Jwt>();
-builder.Services.AddAutoMapper(typeof(MapperProfile));
 
 builder.Services.AddRouting(options => options.LowercaseUrls = true);
 
@@ -64,8 +61,6 @@ builder.Services.AddSwaggerGen(options =>
 });
 
 builder.Services.Configure<Settings>(builder.Configuration.GetSection("Settings"));
-
-builder.Services.AddAuthorization();
 
 var app = builder.Build();
 

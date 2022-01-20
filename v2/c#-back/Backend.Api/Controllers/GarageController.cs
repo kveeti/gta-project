@@ -1,11 +1,9 @@
-using AutoMapper;
 using Backend.Api.Attributes;
 using Backend.Api.GarageDtos;
 using Backend.Api.Helpers;
 using Backend.Api.Models;
 using Backend.Api.Repositories;
 using JetBrains.Annotations;
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Backend.Api.Controllers;

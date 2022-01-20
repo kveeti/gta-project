@@ -1,4 +1,3 @@
-using AutoMapper;
 using Backend.Api.Attributes;
 using Backend.Api.CarDtos;
 using Backend.Api.Helpers;
@@ -6,7 +5,6 @@ using Backend.Api.Models;
 using Backend.Api.MoveDtos;
 using Backend.Api.Repositories;
 using JetBrains.Annotations;
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Backend.Api.Controllers;
@@ -140,21 +138,25 @@ public class CarController : ControllerBase
     return Ok(movedCars);
   }
 
-  [HttpDelete("{id:Guid}")]
+  [HttpDelete]
   [Authorization.CustomAuth("Standard, Admin")]
-  public async Task<ActionResult<string>> Delete(Guid id)
+  public async Task<ActionResult<string>> Delete(DeleteCarsDto aDto)
   {
     var token = HttpContext.Request.Headers.Authorization.ToString().Split(" ")[1];
     var userId = _jwt.GetUserId(token);
 
-    var car = await _carRepo
-      .GetOneJoinedByFilter(car => car.Id == id
-                                   &&
-                                   car.OwnerId == userId);
+    var cars = await _carRepo
+      .GetManyByFilterTracking(car => car.OwnerId == userId
+                                      &&
+                                      aDto.carIds.Contains(car.Id));
 
-    if (car == null) return NotFound("car was not found");
+    if (!cars.Any()) return NotFound("no cars were found");
 
-    await _carRepo.Delete(car.Id);
+    foreach (var car in cars)
+    {
+      _carRepo.Delete(car);
+    }
+    
     await _carRepo.Save();
 
     return NoContent();

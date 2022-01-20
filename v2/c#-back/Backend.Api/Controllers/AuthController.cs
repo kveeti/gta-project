@@ -85,7 +85,7 @@ public class AuthController : ControllerBase
   }
   
   [HttpPost("logout")]
-  public async Task<ActionResult> Logout()
+  public ActionResult Logout()
   {
     HttpContext.Response.Cookies.Delete(_settings.Value.RefreshTokenCookieName);
 

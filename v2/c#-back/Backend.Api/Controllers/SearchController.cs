@@ -1,4 +1,3 @@
-using AutoMapper;
 using Backend.Api.Attributes;
 using Backend.Api.CarDtos;
 using Backend.Api.GarageDtos;
@@ -14,20 +13,17 @@ namespace Backend.Api.Controllers;
 public class SearchController : ControllerBase
 {
   private readonly IJwt _jwt;
-  private readonly IMapper _mapper;
 
   private readonly ICarRepo _carRepo;
   private readonly IGarageRepo _garageRepo;
 
   public SearchController(
     IJwt aJwt,
-    IMapper aMapper,
     ICarRepo aCarRepo,
     IGarageRepo aGarageRepo
   )
   {
     _jwt = aJwt;
-    _mapper = aMapper;
 
     _carRepo = aCarRepo;
     _garageRepo = aGarageRepo;
