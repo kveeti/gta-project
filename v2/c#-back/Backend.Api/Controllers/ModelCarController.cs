@@ -4,6 +4,7 @@ using Backend.Api.Helpers;
 using Backend.Api.ModelCarDtos;
 using Backend.Api.Models;
 using Backend.Api.Repositories;
+using Backend.Api.Repositories.ModelCar;
 using JetBrains.Annotations;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -14,28 +15,28 @@ namespace Backend.Api.Controllers;
 [Route("gta-api/modelcars")]
 public class ModelCarController : ControllerBase
 {
-  private readonly IGenericRepo<ModelCar> _db;
+  private readonly IModelCarRepo _db;
 
-  public ModelCarController(IGenericRepo<ModelCar> aModelCarRepo)
+  public ModelCarController(IModelCarRepo aModelCarRepo)
   {
     _db = aModelCarRepo;
   }
 
   [HttpGet]
   [Authorization.CustomAuth("Standard, Admin")]
-  public async Task<ActionResult<IEnumerable<ReturnModelCarDto>>> GetAll([CanBeNull] string query)
+  public async Task<ActionResult<IEnumerable<ModelCar>>> GetAll([CanBeNull] string query)
   {
-    var cars = await _db.GetAll();
+    var cars = await _db.GetMatching(query);
     if (query == null) return Ok(cars);
 
     var results = Search.GetResults(cars, query);
 
-    return Ok(results);
+    return Ok(results.Take(5));
   }
 
   [HttpGet("{id:Guid}")]
   [Authorization.CustomAuth("Standard, Admin")]
-  public async Task<ActionResult<ReturnModelCarDto>> GetOne(Guid id)
+  public async Task<ActionResult<ModelCar>> GetOne(Guid id)
   {
     var found = await _db.GetOneByFilter(car => car.Id == id);
     if (found == null) return NotFound();
@@ -45,7 +46,7 @@ public class ModelCarController : ControllerBase
 
   [HttpPost]
   [Authorization.CustomAuth("Admin")]
-  public async Task<ActionResult<ReturnModelCarDto>> Add(ModelCarDto aDto)
+  public async Task<ActionResult<ModelCar>> Add(ModelCarDto aDto)
   {
     var existing = await _db.GetOneByFilter(car => car.Name == aDto.Name);
     if (existing != null) return Conflict(existing);
@@ -66,7 +67,7 @@ public class ModelCarController : ControllerBase
 
   [HttpPatch("{aId:Guid}")]
   [Authorization.CustomAuth("Admin")]
-  public async Task<ActionResult<ReturnModelCarDto>> Update(Guid aId, ModelCarDto aDto)
+  public async Task<ActionResult<ModelCar>> Update(Guid aId, ModelCarDto aDto)
   {
     var existingModelCar = await _db.GetOneByFilter(car => car.Id == aId);
     if (existingModelCar == null) return NotFound();

@@ -6,6 +6,7 @@ using Backend.Api.ModelCarDtos;
 using Backend.Api.ModelGarageDtos;
 using Backend.Api.Models;
 using Backend.Api.Repositories;
+using Backend.Api.Repositories.ModelGarage;
 using JetBrains.Annotations;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -16,48 +17,66 @@ namespace Backend.Api.Controllers;
 [Route("gta-api/modelgarages")]
 public class ModelGarageController : ControllerBase
 {
-  private readonly IGenericRepo<ModelGarage> _db;
-  private readonly IMapper _mapper;
-
+  private readonly IModelGarageRepo _modelGarageRepo;
+  private readonly IGarageRepo _garageRepo;
+  private readonly IJwt _jwt;
+  
   public ModelGarageController(
-    IGenericRepo<ModelGarage> aModelGarageRepo,
-    IMapper mapper
+    IModelGarageRepo aModelGarageRepo,
+    IGarageRepo aGarageRepo,
+    IJwt aJwt
   )
   {
-    _db = aModelGarageRepo;
-    _mapper = mapper;
+    _jwt = aJwt;
+    _garageRepo = aGarageRepo;
+    _modelGarageRepo = aModelGarageRepo;
   }
 
   [HttpGet]
   [Authorization.CustomAuth("Standard, Admin")]
   public async Task<ActionResult<IEnumerable<ReturnModelGarageDto>>> GetAll([CanBeNull] string query)
   {
-    var garages = await _db.GetAll();
+    var token = HttpContext.Request.Headers.Authorization.ToString().Split(" ")[1];
+    var userId = _jwt.GetUserId(token);
+
+    var modelGarages = await _modelGarageRepo.GetMatching(query);
+    var garages = await _garageRepo
+      .GetManyByFilter(garage => garage.OwnerId == userId);
+
+    var toReturn = modelGarages
+      .Select(modelGarage => new ReturnModelGarageDto()
+      {
+        Id = modelGarage.Id,
+        Name = modelGarage.Name,
+        Capacity = modelGarage.Capacity,
+        Type = modelGarage.Type,
+        AlreadyOwned = garages.Any(garage => garage.ModelGarageId == modelGarage.Id)
+      });
     
-    if (query == null) return Ok(_mapper.Map<IEnumerable<ReturnModelGarageDto>>(garages));
+    if (query == null) return Ok(toReturn);
 
-    var results = Search.GetResults(garages, query);
+    var results = Search.GetResults(toReturn, query);
 
-    return Ok(_mapper.Map<IEnumerable<ReturnModelGarageDto>>(results));
+    return Ok(results.Take(5));
   }
 
   [HttpGet("{id:Guid}")]
   [Authorization.CustomAuth("Standard, Admin")]
-  public async Task<ActionResult<ReturnModelGarageDto>> GetById(Guid id)
+  public async Task<ActionResult<ModelGarage>> GetById(Guid id)
   {
-    var found = await _db.GetOneByFilter(garage => garage.Id == id);
+    var found = await _modelGarageRepo.GetOneByFilter(garage => garage.Id == id);
     if (found == null) return NotFound("model garage was not found");
 
-    return Ok(_mapper.Map<ReturnModelGarageDto>(found));
+    return Ok(found);
   }
 
   [HttpPost]
   [Authorization.CustomAuth("Admin")]
-  public async Task<ActionResult<ReturnModelGarageDto>> Add(ModelGarageDto aDto)
+  public async Task<ActionResult<ModelGarage>> Add(ModelGarageDto aDto)
   {
-    var existing = await _db.GetOneByFilter(garage => garage.Name == aDto.Name);
+    var existing = await _modelGarageRepo.GetOneByFilter(garage => garage.Name == aDto.Name);
     if (existing != null) 
-      return Conflict(_mapper.Map<ReturnModelGarageDto>(existing));
+      return Conflict(existing);
 
     ModelGarage newModelGarage = new()
     {
@@ -67,25 +86,25 @@ public class ModelGarageController : ControllerBase
       Type = aDto.Type
     };
 
-    _db.Add(newModelGarage);
-    await _db.Save();
+    _modelGarageRepo.Add(newModelGarage);
+    await _modelGarageRepo.Save();
 
-    return Ok(_mapper.Map<ReturnModelGarageDto>(newModelGarage));
+    return Ok(newModelGarage);
   }
 
   [HttpPatch("{id:Guid}")]
   [Authorization.CustomAuth("Admin")]
-  public async Task<ActionResult<ReturnModelGarageDto>> Update(Guid id, ModelGarageDto aDto)
+  public async Task<ActionResult<ModelGarage>> Update(Guid id, ModelGarageDto aDto)
   {
-    var existing = await _db.GetOneByFilter(garage => garage.Id == id);
+    var existing = await _modelGarageRepo.GetOneByFilter(garage => garage.Id == id);
     if (existing == null) return NotFound();
 
     existing.Name = aDto.Name;
     existing.Capacity = aDto.Capacity;
     existing.Type = aDto.Type;
 
-    await _db.Save();
+    await _modelGarageRepo.Save();
 
-    return Ok(_mapper.Map<ReturnModelGarageDto>(existing));
+    return Ok(existing);
   }
 }

@@ -54,7 +54,7 @@ public class GarageControllerTests
     };
 
     _fakeGarageRepo.Setup(repo => repo
-        .GetManyByFilter(It.IsAny<Expression<Func<JoinedGarageDto, bool>>>()))
+        .GetManyJoinedByFilter(It.IsAny<Expression<Func<JoinedGarageDto, bool>>>()))
       .ReturnsAsync(allGarages);
 
     _fakeJwt.Setup(jwt => jwt

@@ -1,6 +1,7 @@
 ﻿using Backend.Api.GarageDtos;
 using Backend.Api.Models;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Storage;
 
 namespace Backend.Api.Data;
 
@@ -13,9 +14,13 @@ public class DataContext : DbContext, IDataContext
   protected override void OnModelCreating(ModelBuilder aBuilder)
   {
     aBuilder.Entity<User>(entity =>
-      entity.HasIndex(e => e.Username).IsUnique()
+      entity.HasIndex(user => user.Username).IsUnique()
     );
-   
+
+    aBuilder.Entity<User>(entity =>
+      entity.HasIndex(user => user.Email).IsUnique()
+    );
+
     aBuilder.Entity<Garage>()
       .HasMany<Car>(garage => garage.Cars)
       .WithOne(car => car.Garage)
@@ -27,9 +32,9 @@ public class DataContext : DbContext, IDataContext
       .WithOne(car => car.ModelCar)
       .HasForeignKey(car => car.ModelCarId)
       .OnDelete(DeleteBehavior.Cascade);
-    
+
     aBuilder.Entity<ModelGarage>()
-      .HasMany<Garage>(modelCar => modelCar.Garages)
+      .HasMany<Garage>(modelGarage => modelGarage.Garages)
       .WithOne(garage => garage.ModelGarage)
       .HasForeignKey(garage => garage.ModelGarageId)
       .OnDelete(DeleteBehavior.Cascade);
@@ -39,21 +44,19 @@ public class DataContext : DbContext, IDataContext
       .WithOne(car => car.Owner)
       .HasForeignKey(car => car.OwnerId)
       .OnDelete(DeleteBehavior.Cascade);
-    
+
     aBuilder.Entity<User>()
       .HasMany<Garage>(user => user.Garages)
       .WithOne(garage => garage.Owner)
       .HasForeignKey(garage => garage.OwnerId)
       .OnDelete(DeleteBehavior.Cascade);
   }
-  
+
   public DbSet<User> Users { get; set; }
-  
+
   public DbSet<ModelCar> ModelCars { get; set; }
 
   public DbSet<ModelGarage> ModelGarages { get; set; }
-  
   public DbSet<Garage> Garages { get; set; }
-  
   public DbSet<Car> Cars { get; set; }
 }

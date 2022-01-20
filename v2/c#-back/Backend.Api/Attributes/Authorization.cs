@@ -111,17 +111,11 @@ public class Authorization
       if (!hasCorrectRole)
       {
         context.Result = new ForbidResult();
-        return;
       }
     }
 
     private static bool TokenMatchesWithDb(ValidTokenDto aToken, User aDbData)
     {
-      Console.WriteLine($"{aDbData.TokenVersion} {aToken.TokenVersion}");
-      Console.WriteLine($"{aDbData.Role} {aToken.Role}");
-      Console.WriteLine($"{aDbData.Username} {aToken.Username}");
-      Console.WriteLine($"{aDbData.Email} {aToken.Email}");
-      
       if (aDbData.TokenVersion != aToken.TokenVersion) return false;
       if (aDbData.Role != aToken.Role) return false;
       if (aDbData.Username != aToken.Username) return false;
@@ -133,7 +127,7 @@ public class Authorization
     private void HandleUnauthorized(AuthorizationFilterContext context, string message)
     {
       //context.HttpContext.Response.Cookies.Delete(_settings.Value.RefreshTokenCookieName);
-      Console.Write($"unauthorized {message}");
+      Console.WriteLine($"unauthorized {message}");
       context.Result = new UnauthorizedObjectResult(message);
     }
   }

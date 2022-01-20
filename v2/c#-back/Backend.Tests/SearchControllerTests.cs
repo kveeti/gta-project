@@ -69,7 +69,7 @@ public class SearchControllerTests
     ).ReturnsAsync(allCars);
 
     _fakeGarageRepo.Setup(simplify => simplify
-        .GetManyByFilter(It.IsAny<Expression<Func<JoinedGarageDto,bool>>>()))
+        .GetManyJoinedByFilter(It.IsAny<Expression<Func<JoinedGarageDto,bool>>>()))
       .ReturnsAsync(garages);
     
     var httpContext = new DefaultHttpContext();
@@ -130,7 +130,7 @@ public class SearchControllerTests
     ).ReturnsAsync(cars);
 
     _fakeGarageRepo.Setup(simplify => simplify
-        .GetManyByFilter(It.IsAny<Expression<Func<JoinedGarageDto,bool>>>()))
+        .GetManyJoinedByFilter(It.IsAny<Expression<Func<JoinedGarageDto,bool>>>()))
       .ReturnsAsync(allGarages);
     
     var httpContext = new DefaultHttpContext();

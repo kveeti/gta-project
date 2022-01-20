@@ -9,6 +9,7 @@ using System.Text;
 using AutoMapper;
 using Backend.Api.Helpers;
 using Backend.Api.Models;
+using Backend.Api.Repositories.ModelCar;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -26,6 +27,7 @@ builder.Services.AddScoped<IGenericRepo<Car>, GenericRepo<Car>>();
 
 builder.Services.AddScoped<ICarRepo, CarRepo>();
 builder.Services.AddScoped<IGarageRepo, GarageRepo>();
+builder.Services.AddScoped<IModelCarRepo, ModelCarRepo>();
 builder.Services.AddScoped<IUserRepo, UserRepo>();
 
 builder.Services.AddScoped<IJwt, Jwt>();

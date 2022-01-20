@@ -8,7 +8,7 @@ public class ModelCar
   [Required] public string Name { get; set; }
   [Required] public string Manufacturer { get; set; }
   [Required] public string Class { get; set; }
-  
-  
+
+
   public virtual ICollection<Car> Cars { get; set; }
 }

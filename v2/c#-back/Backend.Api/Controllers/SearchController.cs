@@ -1,9 +1,10 @@
 using AutoMapper;
 using Backend.Api.Attributes;
+using Backend.Api.CarDtos;
+using Backend.Api.GarageDtos;
 using Backend.Api.Helpers;
 using Backend.Api.Repositories;
 using Backend.Api.SearchDtos;
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Backend.Api.Controllers;
@@ -17,13 +18,13 @@ public class SearchController : ControllerBase
 
   private readonly ICarRepo _carRepo;
   private readonly IGarageRepo _garageRepo;
-  
+
   public SearchController(
-    IJwt aJwt, 
+    IJwt aJwt,
     IMapper aMapper,
     ICarRepo aCarRepo,
     IGarageRepo aGarageRepo
-    )
+  )
   {
     _jwt = aJwt;
     _mapper = aMapper;
@@ -41,13 +42,19 @@ public class SearchController : ControllerBase
 
     var cars = await _carRepo
       .GetManyJoinedByFilter(car => car.OwnerId == userId);
-      
-    var garages =  await _garageRepo
-      .GetManyByFilter(garage => garage.OwnerId == userId);
+
+    var garages = await _garageRepo
+      .GetManyJoinedByFilter(garage => garage.OwnerId == userId);
+
+    IEnumerable<JoinedCarDto> carsToReturn = Array.Empty<JoinedCarDto>();
+    IEnumerable<JoinedGarageDto> garagesToReturn = Array.Empty<JoinedGarageDto>();
     
-    var carsToReturn = Helpers.Search.GetResults(cars, query);
-    var garagesToReturn = Helpers.Search.GetResults(garages, query);
+    if (cars.Any())
+      carsToReturn = Helpers.Search.GetResults(cars, query);
     
+    if (garages.Any())
+      garagesToReturn = Helpers.Search.GetResults(garages, query);
+
     var toReturn = new SearchDto()
     {
       Cars = carsToReturn,

@@ -17,7 +17,7 @@ public class GenericRepo<TEntity> : IGenericRepo<TEntity> where TEntity : class
 
   public virtual async Task<IEnumerable<TEntity>> GetAll()
   {
-    return await _dbSet.ToListAsync();
+    return await _dbSet.AsNoTracking().ToListAsync();
   }
 
   public virtual async Task<TEntity> GetOneByFilter(Expression<Func<TEntity, bool>> aFilter)

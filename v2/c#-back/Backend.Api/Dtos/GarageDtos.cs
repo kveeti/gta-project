@@ -35,7 +35,7 @@ public record ReturnGarageDto
   public string Name { get; init; }
   public int Capacity { get; init; }
   public string Type { get; init; }
-  public IEnumerable<JoinedCarDto> Cars { get; init; }
+  public IEnumerable<ReturnCarDto> Cars { get; init; }
 }
 
 public record ReturnNotJoinedGarageDto

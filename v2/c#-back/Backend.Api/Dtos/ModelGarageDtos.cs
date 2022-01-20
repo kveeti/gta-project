@@ -10,4 +10,5 @@ public record ModelGarageDto
 public record ReturnModelGarageDto : ModelGarageDto
 {
   public Guid Id { get; init; }
+  public bool AlreadyOwned { get; init; }
 }

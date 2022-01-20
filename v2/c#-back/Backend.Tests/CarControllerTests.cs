@@ -289,7 +289,7 @@ public class CarControllerTests
       .ReturnsAsync((ModelCar) null);
     
     _fakeGarageRepo.Setup(repo => repo
-        .GetOneByFilter(It.IsAny<Expression<Func<JoinedGarageDto, bool>>>()))
+        .GetOneJoinedByFilter(It.IsAny<Expression<Func<JoinedGarageDto, bool>>>()))
       .ReturnsAsync(existingGarage);
 
     _fakeJwt.Setup(jwt => jwt
@@ -355,7 +355,7 @@ public class CarControllerTests
     };
 
     _fakeGarageRepo.Setup(repo => repo
-        .GetOneByFilter(It.IsAny<Expression<Func<JoinedGarageDto, bool>>>()))
+        .GetOneJoinedByFilter(It.IsAny<Expression<Func<JoinedGarageDto, bool>>>()))
       .ReturnsAsync(existingGarage);
 
     _fakeModelCarRepo.Setup(repo => repo

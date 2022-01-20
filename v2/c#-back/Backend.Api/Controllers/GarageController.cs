@@ -15,56 +15,53 @@ namespace Backend.Api.Controllers;
 public class GarageController : ControllerBase
 {
   private readonly IJwt _jwt;
-  private readonly IMapper _mapper;
 
   private readonly IGarageRepo _garageRepo;
   private readonly IGenericRepo<ModelGarage> _modelGarageRepo;
 
   public GarageController(
     IJwt aJwt,
-    IMapper aMapper,
     IGarageRepo aGarageRepo,
     IGenericRepo<ModelGarage> aModelGarageRepo)
   {
     _jwt = aJwt;
-    _mapper = aMapper;
     _garageRepo = aGarageRepo;
     _modelGarageRepo = aModelGarageRepo;
   }
 
   [HttpGet]
   [Authorization.CustomAuth("Standard, Admin")]
-  public async Task<ActionResult<IEnumerable<ReturnGarageDto>>> GetAll([CanBeNull] string query)
+  public async Task<ActionResult<IEnumerable<JoinedGarageDto>>> GetAll([CanBeNull] string query)
   {
     var token = HttpContext.Request.Headers.Authorization.ToString().Split(" ")[1];
     var userId = _jwt.GetUserId(token);
 
     var garages = await _garageRepo
-      .GetManyByFilter(garage => garage.OwnerId == userId);
+      .GetMatching(userId, query);
 
     if (query == null)
-      return Ok(_mapper.Map<IEnumerable<ReturnGarageDto>>(garages));
+      return Ok(garages);
 
     var results = Search.GetResults(garages, query);
 
-    return Ok(_mapper.Map<IEnumerable<ReturnGarageDto>>(results));
+    return Ok(results.Take(5));
   }
 
   [HttpGet("{id:Guid}")]
   [Authorization.CustomAuth("Standard, Admin")]
-  public async Task<ActionResult<ReturnGarageDto>> GetOne(Guid id)
+  public async Task<ActionResult<JoinedGarageDto>> GetOne(Guid id)
   {
     var token = HttpContext.Request.Headers.Authorization.ToString().Split(" ")[1];
     var userId = _jwt.GetUserId(token);
 
     var garage = await _garageRepo
-      .GetOneByFilter(garage => garage.Id == id
+      .GetOneJoinedByFilter(garage => garage.Id == id
                                 &&
                                 garage.OwnerId == userId);
 
     if (garage == null) return NotFound("garage was not found");
 
-    return Ok(_mapper.Map<ReturnGarageDto>(garage));
+    return Ok(garage);
   }
 
   [HttpPost]
@@ -97,7 +94,7 @@ public class GarageController : ControllerBase
     _garageRepo.Add(newGarage);
     await _garageRepo.Save();
 
-    return Ok(_mapper.Map<ReturnNotJoinedGarageDto>(newGarage));
+    return Ok(newGarage);
   }
 
   [HttpDelete("{id:Guid}")]

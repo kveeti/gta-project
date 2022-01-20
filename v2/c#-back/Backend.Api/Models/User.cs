@@ -12,6 +12,6 @@ public class User
   [Required] public int TokenVersion { get; set; }
   
   
-  public ICollection<Car> Cars { get; set; }
-  public ICollection<Garage> Garages { get; set; }
+  public virtual ICollection<Car> Cars { get; set; }
+  public virtual ICollection<Garage> Garages { get; set; }
 }
