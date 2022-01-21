@@ -24,8 +24,8 @@ public class ModelCarRepo : GenericRepo<Models.ModelCar>, IModelCarRepo
     }
     
     return await dbQuery
-      .Where(modelCar => modelCar.Name.Contains(aQuery) ||
-                         modelCar.Manufacturer.Contains(aQuery))
+      .Where(modelCar => modelCar.Name.ToLower().Contains(aQuery) ||
+                         modelCar.Manufacturer.ToLower().Contains(aQuery))
       .ToListAsync();
   }
 }

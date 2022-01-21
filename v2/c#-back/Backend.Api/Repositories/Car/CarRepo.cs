@@ -33,25 +33,27 @@ public class CarRepo : GenericRepo<Car>, ICarRepo
         OwnerId = car.OwnerId,
         Garage = new PartialGarageDto()
         {
-          Id = car.GarageId,
-          Name = car.Garage.ModelGarage.Name,
+          Id = car.Garage.Id,
           Desc = car.Garage.Desc,
+          Name = car.Garage.ModelGarage.Name,
+          Type = car.Garage.ModelGarage.Type,
           Capacity = car.Garage.ModelGarage.Capacity,
-          Type = car.Garage.ModelGarage.Type
+          Full = car.Garage.Cars.Count >= car.Garage.ModelGarage.Capacity,
+          Room = car.Garage.ModelGarage.Capacity - car.Garage.Cars.Count,
         }
       })
       .Where(car => car.OwnerId == userId);
-    
+
     if (aQuery == null)
     {
       return await dbQuery.ToListAsync();
     }
-    
+
     return await dbQuery
-      .Where(car => car.Name.Contains(aQuery) ||
-                    car.Manufacturer.Contains(aQuery) ||
-                    car.Garage.Name.Contains(aQuery) ||
-                    car.Garage.Desc.Contains(aQuery))
+      .Where(car => car.Name.ToLower().Contains(aQuery) ||
+                    car.Manufacturer.ToLower().Contains(aQuery) ||
+                    car.Garage.Name.ToLower().Contains(aQuery) ||
+                    car.Garage.Desc.ToLower().Contains(aQuery))
       .ToListAsync();
   }
 
@@ -71,11 +73,13 @@ public class CarRepo : GenericRepo<Car>, ICarRepo
         OwnerId = car.OwnerId,
         Garage = new PartialGarageDto()
         {
-          Id = car.GarageId,
-          Name = car.Garage.ModelGarage.Name,
+          Id = car.Garage.Id,
           Desc = car.Garage.Desc,
+          Name = car.Garage.ModelGarage.Name,
+          Type = car.Garage.ModelGarage.Type,
           Capacity = car.Garage.ModelGarage.Capacity,
-          Type = car.Garage.ModelGarage.Type
+          Full = car.Garage.Cars.Count >= car.Garage.ModelGarage.Capacity,
+          Room = car.Garage.ModelGarage.Capacity - car.Garage.Cars.Count,
         }
       })
       .Where(aFilter)
@@ -98,11 +102,13 @@ public class CarRepo : GenericRepo<Car>, ICarRepo
         OwnerId = car.OwnerId,
         Garage = new PartialGarageDto()
         {
-          Id = car.GarageId,
-          Name = car.Garage.ModelGarage.Name,
+          Id = car.Garage.Id,
           Desc = car.Garage.Desc,
+          Name = car.Garage.ModelGarage.Name,
+          Type = car.Garage.ModelGarage.Type,
           Capacity = car.Garage.ModelGarage.Capacity,
-          Type = car.Garage.ModelGarage.Type
+          Full = car.Garage.Cars.Count >= car.Garage.ModelGarage.Capacity,
+          Room = car.Garage.ModelGarage.Capacity - car.Garage.Cars.Count,
         }
       })
       .SingleAsync(aFilter);

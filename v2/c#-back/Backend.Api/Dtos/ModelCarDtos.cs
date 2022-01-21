@@ -3,13 +3,7 @@ namespace Backend.Api.ModelCarDtos;
 public record ModelCarDto
 {
   public string Name { get; init; }
-
   public string Manufacturer { get; init; }
-
   public string Class { get; init; }
-}
-
-public record ReturnModelCarDto : ModelCarDto
-{
-  public Guid Id { get; init; }
+  public string Link { get; init; }
 }

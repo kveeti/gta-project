@@ -64,7 +64,7 @@ public class GarageController : ControllerBase
 
   [HttpPost]
   [Authorization.CustomAuth("Standard, Admin")]
-  public async Task<ActionResult<ReturnNotJoinedGarageDto>> Add(NewGarageDto dto)
+  public async Task<ActionResult<Garage>> Add(NewGarageDto dto)
   {
     var token = HttpContext.Request.Headers.Authorization.ToString().Split(" ")[1];
     var userId = _jwt.GetUserId(token);

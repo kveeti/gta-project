@@ -56,7 +56,8 @@ public class ModelCarController : ControllerBase
       Id = Guid.NewGuid(),
       Name = aDto.Name,
       Manufacturer = aDto.Manufacturer,
-      Class = aDto.Class
+      Class = aDto.Class,
+      Link = aDto.Link
     };
 
     _db.Add(newModelCar);
@@ -75,6 +76,7 @@ public class ModelCarController : ControllerBase
     existingModelCar.Name = aDto.Name;
     existingModelCar.Manufacturer = aDto.Manufacturer;
     existingModelCar.Class = aDto.Class;
+    existingModelCar.Link = aDto.Link;
 
     await _db.Save();
 

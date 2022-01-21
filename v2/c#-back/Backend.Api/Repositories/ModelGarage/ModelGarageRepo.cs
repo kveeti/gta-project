@@ -24,7 +24,7 @@ public class ModelGarageRepo : GenericRepo<Models.ModelGarage>, IModelGarageRepo
     }
     
     return await dbQuery
-      .Where(modelGarage => modelGarage.Name.Contains(aQuery))
+      .Where(modelGarage => modelGarage.Name.ToLower().Contains(aQuery))
       .ToListAsync();
   }
 }

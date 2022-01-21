@@ -30,6 +30,8 @@ public class GarageRepo : GenericRepo<Garage>, IGarageRepo
         Name = garage.ModelGarage.Name,
         Type = garage.ModelGarage.Type,
         Capacity = garage.ModelGarage.Capacity,
+        Full = garage.Cars.Count >= garage.ModelGarage.Capacity,
+        Room = garage.ModelGarage.Capacity - garage.Cars.Count,
         OwnerId = garage.OwnerId,
         Cars = garage.Cars.Select(car => new JoinedCarDto()
         {
@@ -41,10 +43,12 @@ public class GarageRepo : GenericRepo<Garage>, IGarageRepo
           Garage = new PartialGarageDto()
           {
             Id = garage.Id,
-            Name = garage.ModelGarage.Name,
             Desc = garage.Desc,
+            Name = garage.ModelGarage.Name,
+            Type = garage.ModelGarage.Type,
             Capacity = garage.ModelGarage.Capacity,
-            Type = garage.ModelGarage.Type
+            Full = garage.Cars.Count >= garage.ModelGarage.Capacity,
+            Room = garage.ModelGarage.Capacity - garage.Cars.Count,
           }
         })
       })
@@ -56,8 +60,8 @@ public class GarageRepo : GenericRepo<Garage>, IGarageRepo
     }
 
     return await dbQuery
-      .Where(garage => garage.Name.Contains(aQuery) ||
-                       garage.Desc.Contains(aQuery))
+      .Where(garage => garage.Name.ToLower().Contains(aQuery) ||
+                       garage.Desc.ToLower().Contains(aQuery))
       .ToListAsync();
   }
 
@@ -74,6 +78,8 @@ public class GarageRepo : GenericRepo<Garage>, IGarageRepo
         Name = garage.ModelGarage.Name,
         Type = garage.ModelGarage.Type,
         Capacity = garage.ModelGarage.Capacity,
+        Full = garage.Cars.Count >= garage.ModelGarage.Capacity,
+        Room = garage.ModelGarage.Capacity - garage.Cars.Count,
         OwnerId = garage.OwnerId,
         Cars = garage.Cars.Select(car => new JoinedCarDto()
         {
@@ -85,10 +91,12 @@ public class GarageRepo : GenericRepo<Garage>, IGarageRepo
           Garage = new PartialGarageDto()
           {
             Id = garage.Id,
-            Name = garage.ModelGarage.Name,
             Desc = garage.Desc,
+            Name = garage.ModelGarage.Name,
+            Type = garage.ModelGarage.Type,
             Capacity = garage.ModelGarage.Capacity,
-            Type = garage.ModelGarage.Type
+            Full = garage.Cars.Count >= garage.ModelGarage.Capacity,
+            Room = garage.ModelGarage.Capacity - garage.Cars.Count,
           }
         })
       })
@@ -108,6 +116,8 @@ public class GarageRepo : GenericRepo<Garage>, IGarageRepo
         Name = garage.ModelGarage.Name,
         Type = garage.ModelGarage.Type,
         Capacity = garage.ModelGarage.Capacity,
+        Full = garage.Cars.Count >= garage.ModelGarage.Capacity,
+        Room = garage.ModelGarage.Capacity - garage.Cars.Count,
         OwnerId = garage.OwnerId,
         Cars = garage.Cars.Select(car => new JoinedCarDto()
         {
@@ -119,10 +129,12 @@ public class GarageRepo : GenericRepo<Garage>, IGarageRepo
           Garage = new PartialGarageDto()
           {
             Id = garage.Id,
-            Name = garage.ModelGarage.Name,
             Desc = garage.Desc,
+            Name = garage.ModelGarage.Name,
+            Type = garage.ModelGarage.Type,
             Capacity = garage.ModelGarage.Capacity,
-            Type = garage.ModelGarage.Type
+            Full = garage.Cars.Count >= garage.ModelGarage.Capacity,
+            Room = garage.ModelGarage.Capacity - garage.Cars.Count,
           }
         })
       })
