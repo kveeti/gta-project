@@ -88,7 +88,6 @@ public class AuthController : ControllerBase
   public NoContentResult Logout()
   {
     HttpContext.Response.Cookies.Delete(_settings.Value.RefreshTokenCookieName);
-    HttpContext.Response.Headers.SetCookie = "";
 
     HttpContext.Response
       .Headers[_settings.Value.AccessTokenHeaderName] = "";
