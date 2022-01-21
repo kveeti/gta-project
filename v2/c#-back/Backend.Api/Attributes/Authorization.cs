@@ -126,7 +126,7 @@ public class Authorization
 
     private void HandleUnauthorized(AuthorizationFilterContext context, string message)
     {
-      //context.HttpContext.Response.Cookies.Delete(_settings.Value.RefreshTokenCookieName);
+      context.HttpContext.Response.Cookies.Delete(_settings.Value.RefreshTokenCookieName);
       Console.WriteLine($"unauthorized {message}");
       context.Result = new UnauthorizedObjectResult(message);
     }
