@@ -38,7 +38,7 @@ const MatchingGarages = () => {
             garage={garage}
             onClick={(garage: IGarage) => onGarageClick(garage)}
             showCapacity={true}
-            notAllowed={checkedCars.length > garage.room}
+            notAllowed={garage.full || checkedCars.length > garage.room}
           />
         ))}
       </SingleGrid>

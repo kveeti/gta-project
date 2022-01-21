@@ -8,7 +8,7 @@ export const Text = styled("p", {
   padding: "0",
 
   "@grid1to2": {
-    fontSize: "1rem",
+    fontSize: "0.9rem",
   },
 
   "@grid2to3": {
@@ -32,7 +32,7 @@ export const Text = styled("p", {
 
 export const Title = styled("h1", {
   all: "unset",
-  fontSize: "1.2rem",
+  fontSize: "1rem",
   margin: "0",
   padding: "0",
   fontWeight: 500,
@@ -42,17 +42,17 @@ export const Title = styled("h1", {
   },
 
   "@grid2to3": {
-    fontSize: "1.3rem",
+    fontSize: "1.2rem",
   },
 });
 
 export const Desc = styled("p", {
   all: "unset",
-  fontSize: "1.1rem",
+  fontSize: "1rem",
   paddingBottom: "1rem",
 
   "@grid1to2": {
-    fontSize: "1.1rem",
+    fontSize: "1rem",
   },
 
   "@grid2to3": {

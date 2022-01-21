@@ -30,7 +30,7 @@ export const Label = styled("label", {
     justifyContent: "normal",
   },
 
-  "@grid1to2": {
+  "@grid2to3": {
     fontSize: "1rem",
   },
 

@@ -53,7 +53,6 @@ const TextField = () => {
       transparent
       id="garage-input"
       type="text"
-      autoFocus
       placeholder={"E.g. Popular street, unit 2"}
       onChange={(value) => onInputChange(value)}
       value={garageInput}

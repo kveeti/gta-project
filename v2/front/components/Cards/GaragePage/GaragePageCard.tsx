@@ -34,7 +34,7 @@ export const GaragePageCard = ({ garage }: Props) => {
 
     try {
       setLoading(true);
-      const res = await axios(config(`/garages/${garage.id}/desc`, "PATCH", { desc: descVal }));
+      const res = await axios(config(`/garages/${garage.id}/desc`, "PATCH", { newDesc: descVal }));
       setLoading(false);
       toast.success("Description updated successfully!");
 
@@ -51,7 +51,7 @@ export const GaragePageCard = ({ garage }: Props) => {
       <Div>
         <Title>{garage?.name}</Title>
         <Title>
-          {garage.amountOfCars} / {garage.capacity}
+          {garage.cars.length} / {garage.capacity}
         </Title>
       </Div>
 
