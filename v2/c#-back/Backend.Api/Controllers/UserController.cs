@@ -19,14 +19,15 @@ public class UserController : ControllerBase
     _db = aUserRepo;
     _jwt = aJwt;
   }
-  
+
   [HttpGet("me")]
   [Authorization.CustomAuth("Standard, Admin")]
   public async Task<ActionResult<ReturnUserDto>> GetMe()
   {
-    var token = HttpContext.Request.Headers.Authorization.ToString().Split(" ")[1];
-    var userId = _jwt.GetUserId(token);
-    
+    var goodUserId = Guid.TryParse(HttpContext.Items["userId"].ToString(),
+      out var userId);
+    if (!goodUserId) return Unauthorized("bad userId");
+
     var user = await _db.GetMe(userId);
     if (user == null) return NotFound();
 
