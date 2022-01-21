@@ -86,6 +86,8 @@ public class CarController : ControllerBase
     if (garage == null) return NotFound("garage was not found");
     if (modelCar == null) return NotFound("model car was not found");
 
+    if (garage.Cars.Count() >= garage.Capacity) return BadRequest("garage is full");
+
     Car newCar = new()
     {
       Id = Guid.NewGuid(),
@@ -156,7 +158,7 @@ public class CarController : ControllerBase
     {
       _carRepo.Delete(car);
     }
-    
+
     await _carRepo.Save();
 
     return NoContent();
