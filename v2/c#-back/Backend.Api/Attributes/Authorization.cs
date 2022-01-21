@@ -107,6 +107,8 @@ public class Authorization
         context.HttpContext.Response.Headers[_settings.Value.AccessTokenHeaderName] = newAccessToken;
       }
 
+      context.HttpContext.Items["userId"] = dbUser.Id;
+
       var hasCorrectRole = _claim.Value.Contains(accessToken.Role);
       if (!hasCorrectRole)
       {
