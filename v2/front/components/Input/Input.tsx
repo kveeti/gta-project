@@ -125,8 +125,12 @@ export const Input = ({
     setInputVal(value);
   }, [value]);
 
-  const onInputFocusChange = () => {
-    setContFocus(!contFocus);
+  const onFocus = () => {
+    setContFocus(true);
+  };
+
+  const onBlur = () => {
+    setContFocus(false);
   };
 
   const onInputChange = (value: string) => {
@@ -158,8 +162,8 @@ export const Input = ({
         placeholder={placeholder}
         autoComplete="off"
         autoFocus={autoFocus}
-        onFocus={() => onInputFocusChange()}
-        onBlur={() => onInputFocusChange()}
+        onFocus={onFocus}
+        onBlur={onBlur}
         value={inputVal}
         transparent={transparent}
         search={isSearch}
