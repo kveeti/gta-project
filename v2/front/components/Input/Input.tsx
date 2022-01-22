@@ -100,6 +100,8 @@ interface InputProps {
   type: string;
   ref?: any;
   onChange: (value: string) => void;
+  onBlur?: () => void;
+  onFocus?: () => void;
 }
 
 export const Input = ({
@@ -111,6 +113,8 @@ export const Input = ({
   value,
   type,
   onChange,
+  onBlur,
+  onFocus,
 }: InputProps) => {
   const [contFocus, setContFocus] = useState(false);
   const [inputVal, setInputVal] = useState(value);
@@ -125,12 +129,14 @@ export const Input = ({
     setInputVal(value);
   }, [value]);
 
-  const onFocus = () => {
+  const onInputFocus = () => {
     setContFocus(true);
+    onFocus && onFocus();
   };
 
-  const onBlur = () => {
+  const onInputBlur = () => {
     setContFocus(false);
+    onBlur && onBlur();
   };
 
   const onInputChange = (value: string) => {
@@ -162,8 +168,8 @@ export const Input = ({
         placeholder={placeholder}
         autoComplete="off"
         autoFocus={autoFocus}
-        onFocus={onFocus}
-        onBlur={onBlur}
+        onFocus={onInputFocus}
+        onBlur={onInputBlur}
         value={inputVal}
         transparent={transparent}
         search={isSearch}
