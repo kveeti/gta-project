@@ -16,7 +16,7 @@ const Specs = styled("div", {
   gap: "0.5rem",
 });
 
-export const UserInfo = () => {
+export const IndexPageCard = () => {
   const dispatch = useDispatch();
   const users = useISelector((state) => state.users);
 

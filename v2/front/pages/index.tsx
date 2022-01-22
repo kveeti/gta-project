@@ -1,10 +1,10 @@
-import { UserInfo } from "../components/Cards/UserInfo/UserInfo";
+import { IndexPageCard } from "../components/Cards/IndexPageCard/IndexPageCard";
 import Layout from "../components/Layout";
 
 const Index = () => {
   return (
     <Layout title="Home">
-      <UserInfo />
+      <IndexPageCard />
     </Layout>
   );
 };
