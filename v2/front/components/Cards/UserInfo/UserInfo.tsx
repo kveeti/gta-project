@@ -13,6 +13,7 @@ import { siteBaseUrl } from "../../../envs";
 const Specs = styled("div", {
   display: "flex",
   flexDirection: "column",
+  gap: "0.5rem",
 });
 
 export const UserInfo = () => {
@@ -36,11 +37,8 @@ export const UserInfo = () => {
 
   return (
     <PageCard centered>
-      <Title>User info</Title>
+      <Title>{users?.me?.username ? `Hello ${users?.me?.username}!` : "Hello!"}</Title>
       {isAdmin && <Text red>Admin</Text>}
-      <Text>
-        <b>{users.me?.username}</b>
-      </Text>
       <Specs>
         <Text>
           <b>Cars:</b> {users.me?.carCount}

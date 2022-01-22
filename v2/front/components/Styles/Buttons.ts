@@ -62,7 +62,7 @@ export const BaseBtn = styled("button", {
     red: {
       true: {
         backgroundColor: red.red7,
-        color: red.red12,
+        color: blackA.blackA12,
 
         "&:hover": { backgroundColor: red.red8 },
         "&:focus": { boxShadow: `0 0 0 2px ${red.red8}` },

@@ -33,7 +33,7 @@ const Layout = ({ children, title }: Props) => {
 
   let showSideBar: boolean;
 
-  // if on "new" site hide sidebar on mobile and tablet
+  // if on /new/* site, hide sidebar on mobile and tablet
   // everywhere else only hide sidebar on mobile
   if (newSite) {
     showSideBar = !mobile && !tablet;
