@@ -7,8 +7,11 @@ import { PageCard } from "../../Styles/Page-cards";
 import { Text, Title } from "../../Styles/Text";
 import { config } from "../../../util/axios";
 import { actions } from "../../../state/actions";
-import { CreateAccountButton } from "./CreateAccountButton";
+import { CreateAccountButton } from "./Buttons/CreateAccountButton";
 import { siteBaseUrl } from "../../../envs";
+import { NewModelCarButton } from "./Buttons/NewModelCarButton";
+import { NewModelGarageButton } from "./Buttons/NewModelGarageButton";
+import { ButtonContainer } from "../../Styles/SinglePage";
 
 const Specs = styled("div", {
   display: "flex",
@@ -49,6 +52,13 @@ export const IndexPageCard = () => {
       </Specs>
 
       {isTestAccount && <CreateAccountButton />}
+
+      {isAdmin && (
+        <ButtonContainer>
+          <NewModelCarButton />
+          <NewModelGarageButton />
+        </ButtonContainer>
+      )}
     </PageCard>
   );
 };
