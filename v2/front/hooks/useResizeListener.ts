@@ -22,5 +22,5 @@ export const useResizeListener = () => {
     window.addEventListener("resize", setBp);
 
     return () => window.removeEventListener("resize", setBp);
-  }, []);
+  }, [state.bp]);
 };
