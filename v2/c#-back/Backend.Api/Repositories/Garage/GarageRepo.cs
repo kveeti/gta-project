@@ -100,6 +100,7 @@ public class GarageRepo : GenericRepo<Garage>, IGarageRepo
           }
         })
       })
+      .Where(aFilter)
       .ToListAsync();
   }
 

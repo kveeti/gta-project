@@ -36,8 +36,9 @@ public class ModelGarageController : ControllerBase
   [Authorization.CustomAuth("Standard, Admin")]
   public async Task<ActionResult<IEnumerable<ReturnModelGarageDto>>> GetAll([CanBeNull] string query)
   {
-    var token = HttpContext.Request.Headers.Authorization.ToString().Split(" ")[1];
-    var userId = _jwt.GetUserId(token);
+    var goodUserId = Guid.TryParse(HttpContext.Items["userId"].ToString(),
+      out var userId);
+    if (!goodUserId) return Unauthorized("bad userId");
 
     var modelGarages = await _modelGarageRepo.GetMatching(query);
     var garages = await _garageRepo

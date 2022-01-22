@@ -37,8 +37,9 @@ public class CarController : ControllerBase
   [Authorization.CustomAuth("Standard, Admin")]
   public async Task<ActionResult<IEnumerable<JoinedCarDto>>> GetAll([CanBeNull] string query)
   {
-    var token = HttpContext.Request.Headers.Authorization.ToString().Split(" ")[1];
-    var userId = _jwt.GetUserId(token);
+    var goodUserId = Guid.TryParse(HttpContext.Items["userId"].ToString(),
+      out var userId);
+    if (!goodUserId) return Unauthorized("bad userId");
 
     var cars = await _carRepo
       .GetMatching(userId, query);
@@ -55,8 +56,9 @@ public class CarController : ControllerBase
   [Authorization.CustomAuth("Standard, Admin")]
   public async Task<ActionResult<JoinedCarDto>> GetOne(Guid id)
   {
-    var token = HttpContext.Request.Headers.Authorization.ToString().Split(" ")[1];
-    var userId = _jwt.GetUserId(token);
+    var goodUserId = Guid.TryParse(HttpContext.Items["userId"].ToString(),
+      out var userId);
+    if (!goodUserId) return Unauthorized("bad userId");
 
     var car = await _carRepo
       .GetOneJoinedByFilter(car => car.Id == id
@@ -72,8 +74,9 @@ public class CarController : ControllerBase
   [Authorization.CustomAuth("Standard, Admin")]
   public async Task<ActionResult<Car>> Add(NewCarDto aDto)
   {
-    var token = HttpContext.Request.Headers.Authorization.ToString().Split(" ")[1];
-    var userId = _jwt.GetUserId(token);
+    var goodUserId = Guid.TryParse(HttpContext.Items["userId"].ToString(),
+      out var userId);
+    if (!goodUserId) return Unauthorized("bad userId");
 
     var modelCar = await _modelCarRepo
       .GetOneByFilter(modelCar => modelCar.Id == aDto.ModelCarId);
@@ -106,8 +109,9 @@ public class CarController : ControllerBase
   [Authorization.CustomAuth("Standard, Admin")]
   public async Task<ActionResult<IEnumerable<ReturnCarDto>>> Move(MoveCarDto aDto)
   {
-    var token = HttpContext.Request.Headers.Authorization.ToString().Split(" ")[1];
-    var userId = _jwt.GetUserId(token);
+    var goodUserId = Guid.TryParse(HttpContext.Items["userId"].ToString(),
+      out var userId);
+    if (!goodUserId) return Unauthorized("bad userId");
 
     var newGarage = await _garageRepo
       .GetOneJoinedByFilter(garage => garage.Id == aDto.NewGarageId
@@ -144,8 +148,9 @@ public class CarController : ControllerBase
   [Authorization.CustomAuth("Standard, Admin")]
   public async Task<ActionResult<string>> Delete(DeleteCarsDto aDto)
   {
-    var token = HttpContext.Request.Headers.Authorization.ToString().Split(" ")[1];
-    var userId = _jwt.GetUserId(token);
+    var goodUserId = Guid.TryParse(HttpContext.Items["userId"].ToString(),
+      out var userId);
+    if (!goodUserId) return Unauthorized("bad userId");
 
     var cars = await _carRepo
       .GetManyByFilterTracking(car => car.OwnerId == userId

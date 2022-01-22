@@ -8,6 +8,11 @@ public record NewGarageDto
   public string Desc { get; init; }
 }
 
+public record UpdateGarageDto
+{
+  public string NewDesc { get; init; }
+}
+
 public record PartialGarageDto
 {
   public Guid Id { get; set; }

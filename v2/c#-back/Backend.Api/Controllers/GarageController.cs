@@ -31,8 +31,9 @@ public class GarageController : ControllerBase
   [Authorization.CustomAuth("Standard, Admin")]
   public async Task<ActionResult<IEnumerable<JoinedGarageDto>>> GetAll([CanBeNull] string query)
   {
-    var token = HttpContext.Request.Headers.Authorization.ToString().Split(" ")[1];
-    var userId = _jwt.GetUserId(token);
+    var goodUserId = Guid.TryParse(HttpContext.Items["userId"].ToString(),
+      out var userId);
+    if (!goodUserId) return Unauthorized("bad userId");
 
     var garages = await _garageRepo
       .GetMatching(userId, query);
@@ -49,8 +50,9 @@ public class GarageController : ControllerBase
   [Authorization.CustomAuth("Standard, Admin")]
   public async Task<ActionResult<JoinedGarageDto>> GetOne(Guid id)
   {
-    var token = HttpContext.Request.Headers.Authorization.ToString().Split(" ")[1];
-    var userId = _jwt.GetUserId(token);
+    var goodUserId = Guid.TryParse(HttpContext.Items["userId"].ToString(),
+      out var userId);
+    if (!goodUserId) return Unauthorized("bad userId");
 
     var garage = await _garageRepo
       .GetOneJoinedByFilter(garage => garage.Id == id
@@ -66,8 +68,9 @@ public class GarageController : ControllerBase
   [Authorization.CustomAuth("Standard, Admin")]
   public async Task<ActionResult<Garage>> Add(NewGarageDto dto)
   {
-    var token = HttpContext.Request.Headers.Authorization.ToString().Split(" ")[1];
-    var userId = _jwt.GetUserId(token);
+    var goodUserId = Guid.TryParse(HttpContext.Items["userId"].ToString(),
+      out var userId);
+    if (!goodUserId) return Unauthorized("bad userId");
 
     var modelGarage = await _modelGarageRepo
       .GetOneByFilter(modelGarage => modelGarage.Id == dto.ModelGarageId);
@@ -94,13 +97,37 @@ public class GarageController : ControllerBase
 
     return Ok(newGarage);
   }
+  
+  [HttpPatch("{id:Guid}/desc")]
+  [Authorization.CustomAuth("Standard, Admin")]
+  public async Task<ActionResult<Garage>> Update(Guid id,UpdateGarageDto aDto)
+  {
+    var goodUserId = Guid.TryParse(HttpContext.Items["userId"].ToString(),
+      out var userId);
+    if (!goodUserId) return Unauthorized("bad userId");
+
+    var garage = await _garageRepo
+      .GetOneByFilterTracking(garage => garage.Id == id
+                                        &&
+                                        garage.OwnerId == userId);
+
+    if (garage == null) return NotFound("garage was not found");
+    if (aDto.NewDesc == null) return BadRequest("newDesc not provided");
+
+    garage.Desc = aDto.NewDesc;
+
+    await _garageRepo.Save();
+
+    return Ok(garage);
+  }
 
   [HttpDelete("{id:Guid}")]
   [Authorization.CustomAuth("Standard, Admin")]
   public async Task<ActionResult<string>> Delete(Guid id)
   {
-    var token = HttpContext.Request.Headers.Authorization.ToString().Split(" ")[1];
-    var userId = _jwt.GetUserId(token);
+    var goodUserId = Guid.TryParse(HttpContext.Items["userId"].ToString(),
+      out var userId);
+    if (!goodUserId) return Unauthorized("bad userId");
 
     var garage = await _garageRepo
       .GetOneByFilterTracking(garage => garage.Id == id
