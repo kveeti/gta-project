@@ -7,7 +7,7 @@ using Microsoft.AspNetCore.Mvc;
 namespace Backend.Api.Controllers;
 
 [ApiController]
-[Route("gta-api/users")]
+[Route("api/users")]
 public class UserController : ControllerBase
 {
   private readonly IUserRepo _db;

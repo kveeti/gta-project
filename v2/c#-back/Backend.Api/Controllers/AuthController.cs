@@ -8,7 +8,7 @@ using Microsoft.Extensions.Options;
 namespace Backend.Api.Controllers;
 
 [ApiController]
-[Route("gta-api/auth")]
+[Route("api/auth")]
 public class AuthController : ControllerBase
 {
   private readonly IJwt _jwt;

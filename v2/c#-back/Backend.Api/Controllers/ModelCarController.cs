@@ -9,7 +9,7 @@ using Microsoft.AspNetCore.Mvc;
 namespace Backend.Api.Controllers;
 
 [ApiController]
-[Route("gta-api/modelcars")]
+[Route("api/modelcars")]
 public class ModelCarController : ControllerBase
 {
   private readonly IModelCarRepo _db;
