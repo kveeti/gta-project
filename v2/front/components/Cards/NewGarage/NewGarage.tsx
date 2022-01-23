@@ -1,4 +1,5 @@
-import { PageButtonContainer, PageCard } from "../../Styles/Page-cards";
+import { useISelector } from "../../../state/hooks";
+import { PageButtonContainer, PageCard, InputContainer } from "../../Styles/Page-cards";
 import { Desc, Title } from "../../Styles/Text";
 import SaveButton from "./Buttons/Save";
 import { DescInput } from "./Inputs/Desc";
@@ -11,9 +12,11 @@ export const NewGarageCard = () => {
       <Title>New Garage</Title>
       <Desc>Save a new garage here. The description is optional.</Desc>
 
-      <GarageInput />
-      <MatchingGarages />
-      <DescInput />
+      <InputContainer>
+        <GarageInput />
+        <MatchingGarages />
+        <DescInput />
+      </InputContainer>
 
       <PageButtonContainer>
         <SaveButton />

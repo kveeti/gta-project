@@ -10,7 +10,7 @@ const MenubarContainer = styled("nav", {
   height: "5rem",
   position: "sticky",
   top: "0px",
-  backgroundColor: "#212121",
+  backgroundColor: "$menuBar",
   zIndex: "1",
 
   "@tablet": {

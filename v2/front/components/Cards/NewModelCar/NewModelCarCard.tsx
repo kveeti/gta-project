@@ -2,21 +2,16 @@ import axios from "axios";
 import { useState } from "react";
 import { toast } from "react-toastify";
 import { useAdminCheck } from "../../../hooks/useAdminCheck";
-import { styled } from "../../../stitches.config";
 import { config } from "../../../util/axios";
 import { Input } from "../../Input/Input";
 import {
-  InputContainer,
   Label,
   PageButton,
   PageButtonContainer,
   PageCard,
+  InputContainer,
 } from "../../Styles/Page-cards";
 import { Title } from "../../Styles/Text";
-
-const StyledLabel = styled(Label, {
-  width: 93,
-});
 
 export const NewModelCarCard = () => {
   const loading = useAdminCheck();
@@ -57,14 +52,16 @@ export const NewModelCarCard = () => {
     <PageCard centered>
       <Title style={{ paddingBottom: "1rem" }}>New model car</Title>
 
-      <NameInput value={name} setValue={setName} />
-      <ManufacturerInput
-        value={manufacturer}
-        setValue={setManufacturer}
-        onBlur={onManufacturerBlur}
-      />
-      <ClassInput value={_class} setValue={setClass} />
-      <LinkInput value={link} setValue={setLink} />
+      <InputContainer>
+        <NameInput value={name} setValue={setName} />
+        <ManufacturerInput
+          value={manufacturer}
+          setValue={setManufacturer}
+          onBlur={onManufacturerBlur}
+        />
+        <ClassInput value={_class} setValue={setClass} />
+        <LinkInput value={link} setValue={setLink} />
+      </InputContainer>
 
       <PageButtonContainer>
         <PageButton green onClick={onSave} disabled={saveButtonDisabled}>
@@ -77,8 +74,8 @@ export const NewModelCarCard = () => {
 
 const NameInput = ({ value, setValue }) => {
   return (
-    <InputContainer>
-      <StyledLabel htmlFor="name">Name</StyledLabel>
+    <>
+      <Label htmlFor="name">Name</Label>
       <Input
         onChange={(value) => setValue(value)}
         type="text"
@@ -88,14 +85,14 @@ const NameInput = ({ value, setValue }) => {
         autoFocus
         transparent
       />
-    </InputContainer>
+    </>
   );
 };
 
 const ManufacturerInput = ({ value, setValue, onBlur }) => {
   return (
-    <InputContainer>
-      <StyledLabel htmlFor="manufacturer">Manufacturer</StyledLabel>
+    <>
+      <Label htmlFor="manufacturer">Manufacturer</Label>
       <Input
         onChange={(value) => setValue(value)}
         type="text"
@@ -105,14 +102,14 @@ const ManufacturerInput = ({ value, setValue, onBlur }) => {
         onBlur={onBlur}
         transparent
       />
-    </InputContainer>
+    </>
   );
 };
 
 const ClassInput = ({ value, setValue }) => {
   return (
-    <InputContainer>
-      <StyledLabel htmlFor="class">Class</StyledLabel>
+    <>
+      <Label htmlFor="class">Class</Label>
       <Input
         onChange={(value) => setValue(value)}
         type="text"
@@ -121,14 +118,14 @@ const ClassInput = ({ value, setValue }) => {
         placeholder="E.g. Sports"
         transparent
       />
-    </InputContainer>
+    </>
   );
 };
 
 const LinkInput = ({ value, setValue }) => {
   return (
-    <InputContainer>
-      <StyledLabel htmlFor="link">Link</StyledLabel>
+    <>
+      <Label htmlFor="link">Link</Label>
       <Input
         onChange={(value) => setValue(value)}
         type="text"
@@ -137,6 +134,6 @@ const LinkInput = ({ value, setValue }) => {
         placeholder="Link to gtabase.com"
         transparent
       />
-    </InputContainer>
+    </>
   );
 };

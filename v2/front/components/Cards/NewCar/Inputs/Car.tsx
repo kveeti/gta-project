@@ -3,24 +3,22 @@ import { useDispatch } from "react-redux";
 import { actions } from "../../../../state/actions";
 import { useISelector } from "../../../../state/hooks";
 import { Input } from "../../../Input/Input";
-import { InputContainer } from "../../../Styles/Page-cards";
+import { Label } from "../../../Styles/Page-cards";
 import Car from "../../Cars/Car";
-import { StyledLabel } from "../Styles";
 
 const CarInput = () => {
   const newCarState = useISelector((state) => state.newCar);
 
   return (
-    <InputContainer>
-      <StyledLabel htmlFor="car-input">Car</StyledLabel>
+    <>
+      <Label htmlFor="car-input">Car</Label>
       {newCarState.chosenCar ? <ChosenCar /> : <TextField />}
-    </InputContainer>
+    </>
   );
 };
 
 const ChosenCar = () => {
   const dispatch = useDispatch();
-
   const newCarState = useISelector((state) => state.newCar);
 
   const onClick = () => dispatch(actions.newCar.set.chosen.car(null));

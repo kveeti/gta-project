@@ -1,5 +1,5 @@
 import { useISelector } from "../../../state/hooks";
-import { PageButtonContainer, PageCard } from "../../Styles/Page-cards";
+import { PageButtonContainer, PageCard, InputContainer } from "../../Styles/Page-cards";
 import { Desc, Title } from "../../Styles/Text";
 import { GarageInput } from "./GarageInput";
 import MatchingGarages from "./MatchingGarages";
@@ -20,8 +20,10 @@ export const MoveCard = () => {
         {checkedCars.length} car{plural} selected.
       </Desc>
 
-      <GarageInput />
-      <MatchingGarages />
+      <InputContainer>
+        <GarageInput />
+        <MatchingGarages />
+      </InputContainer>
 
       <PageButtonContainer>
         <MoveButton />

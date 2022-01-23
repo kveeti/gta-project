@@ -31,4 +31,5 @@ export const SingleGrid = styled("div", {
   flexDirection: "column",
   gap: "0.5rem",
   flex: 1,
+  transform: "translateY(-0.5rem)",
 });

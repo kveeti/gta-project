@@ -2,8 +2,7 @@ import { styled } from "../../stitches.config";
 import { BaseBtn } from "./Buttons";
 
 export const PageCard = styled("div", {
-  display: "flex",
-  flexDirection: "column",
+  display: "grid",
   padding: "1rem",
   borderRadius: 4,
   boxShadow: "$theShadow",
@@ -25,6 +24,7 @@ export const Label = styled("label", {
   justifyContent: "flex-end",
   alignItems: "center",
   fontSize: "0.9rem",
+  marginRight: "1rem",
 
   "@mobile": {
     justifyContent: "normal",
@@ -44,26 +44,21 @@ export const Label = styled("label", {
 });
 
 export const InputContainer = styled("div", {
-  width: "100%",
-  display: "flex",
-  gap: "1rem",
+  display: "grid",
+  gridTemplateColumns: "max-content 1fr",
+  gap: "1rem 0",
 
   "@mobile": {
-    flexDirection: "column",
+    gridTemplateColumns: "1fr",
   },
 
   variants: {
     column: {
       true: {
-        flexDirection: "column",
+        gridTemplateColumns: "1fr",
       },
     },
   },
-});
-
-export const MatchingContainer = styled("div", {
-  display: "flex",
-  gap: "1rem",
 });
 
 export const PageButton = styled(BaseBtn, {

@@ -3,7 +3,6 @@ import { IGarage } from "../../../interfaces/Garage";
 import { actions } from "../../../state/actions";
 import { useISelector } from "../../../state/hooks";
 import { SingleGrid } from "../../Styles/Grid";
-import { MatchingContainer } from "../../Styles/Page-cards";
 import { Garage } from "../Garages/Garage";
 import { StyledLabel } from "../NewCar/Styles";
 import { toast } from "react-toastify";
@@ -29,7 +28,7 @@ const MatchingGarages = () => {
   if (!moveState.garageInput) return null;
 
   return (
-    <MatchingContainer>
+    <>
       {bp > 1 && <StyledLabel />}
       <SingleGrid>
         {moveState.matchingGarages.matching.map((garage: IGarage) => (
@@ -42,7 +41,7 @@ const MatchingGarages = () => {
           />
         ))}
       </SingleGrid>
-    </MatchingContainer>
+    </>
   );
 };
 

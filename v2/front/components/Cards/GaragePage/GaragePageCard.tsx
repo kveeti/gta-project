@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { IGarageDeep } from "../../../interfaces/Garage";
-import { InputContainer, PageButton, PageButtonContainer, PageCard } from "../../Styles/Page-cards";
+import { PageButton, PageButtonContainer, PageCard, InputContainer } from "../../Styles/Page-cards";
 import { Desc, Title } from "../../Styles/Text";
 import { DescInput } from "./DescInput";
 import { Label } from "../../Styles/Page-cards";

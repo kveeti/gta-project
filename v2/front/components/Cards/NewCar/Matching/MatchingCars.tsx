@@ -2,9 +2,8 @@ import { useDispatch } from "react-redux";
 import { ICar } from "../../../../interfaces/Car";
 import { actions } from "../../../../state/actions";
 import { useISelector } from "../../../../state/hooks";
-import { MatchingContainer } from "../../../Styles/Page-cards";
+import { Label } from "../../../Styles/Page-cards";
 import { NewCardCarGrid } from "../../Cars/CarGrids";
-import { StyledLabel } from "../Styles";
 
 const MatchingCars = () => {
   const dispatch = useDispatch();
@@ -20,10 +19,10 @@ const MatchingCars = () => {
     return null;
 
   return (
-    <MatchingContainer>
-      {bp > 1 && <StyledLabel />}
+    <>
+      {bp > 1 && <Label />}
       <NewCardCarGrid cars={newCarState.cars.matching} onClick={(car) => onCarClick(car)} />
-    </MatchingContainer>
+    </>
   );
 };
 

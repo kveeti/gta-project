@@ -3,18 +3,17 @@ import { useDispatch } from "react-redux";
 import { actions } from "../../../state/actions";
 import { useISelector } from "../../../state/hooks";
 import { Input } from "../../Input/Input";
-import { InputContainer } from "../../Styles/Page-cards";
+import { Label } from "../../Styles/Page-cards";
 import { Garage } from "../Garages/Garage";
-import { StyledLabel } from "../NewCar/Styles";
 
 export const GarageInput = () => {
   const moveState = useISelector((state) => state.move);
 
   return (
-    <InputContainer>
-      <StyledLabel htmlFor="garage-input">Garage</StyledLabel>
+    <>
+      <Label htmlFor="garage-input">Garage</Label>
       {moveState.chosenGarage ? <ChosenGarage /> : <TextField />}
-    </InputContainer>
+    </>
   );
 };
 

@@ -1,4 +1,4 @@
-import { NewModelGarageCard } from "../../../components/Cards/NewModelGarageCard.tsx/NewModelGarageCard";
+import { NewModelGarageCard } from "../../../components/Cards/NewModelGarage/NewModelGarageCard";
 import Layout from "../../../components/Layout";
 
 const NewModelGaragePage = () => {

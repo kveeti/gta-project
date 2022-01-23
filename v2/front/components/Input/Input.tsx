@@ -99,6 +99,7 @@ interface InputProps {
   value: string;
   type: string;
   ref?: any;
+  gridArea?: string;
   onChange: (value: string) => void;
   onBlur?: () => void;
   onFocus?: () => void;
@@ -112,6 +113,7 @@ export const Input = ({
   placeholder = "",
   value,
   type,
+  gridArea,
   onChange,
   onBlur,
   onFocus,
@@ -154,6 +156,7 @@ export const Input = ({
 
   return (
     <InputContainer
+      style={{ gridArea: gridArea }}
       focused={contFocus}
       white={white}
       transparent={transparent}

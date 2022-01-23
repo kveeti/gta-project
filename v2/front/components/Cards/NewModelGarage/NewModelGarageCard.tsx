@@ -6,16 +6,18 @@ import { styled } from "../../../stitches.config";
 import { config } from "../../../util/axios";
 import { Input } from "../../Input/Input";
 import {
-  InputContainer,
   Label,
   PageButton,
   PageButtonContainer,
   PageCard,
+  InputContainer,
 } from "../../Styles/Page-cards";
 import { Title } from "../../Styles/Text";
 
-const StyledLabel = styled(Label, {
-  width: 50,
+const GridContainer = styled("div", {
+  display: "grid",
+  gridTemplateColumns: "max-content 1fr",
+  gap: "1rem",
 });
 
 export const NewModelGarageCard = () => {
@@ -48,8 +50,10 @@ export const NewModelGarageCard = () => {
     <PageCard centered>
       <Title style={{ paddingBottom: "1rem" }}>New model garage</Title>
 
-      <NameInput value={name} setValue={setName} />
-      <CapacityInput value={capacity} setValue={setCapacity} />
+      <InputContainer>
+        <NameInput value={name} setValue={setName} />
+        <CapacityInput value={capacity} setValue={setCapacity} />
+      </InputContainer>
 
       <PageButtonContainer>
         <PageButton green onClick={onSave} disabled={saveButtonDisabled}>
@@ -62,8 +66,8 @@ export const NewModelGarageCard = () => {
 
 const NameInput = ({ value, setValue }) => {
   return (
-    <InputContainer>
-      <StyledLabel htmlFor="name">Name</StyledLabel>
+    <>
+      <Label htmlFor="name">Name</Label>
       <Input
         onChange={(value) => setValue(value)}
         type="text"
@@ -73,22 +77,22 @@ const NameInput = ({ value, setValue }) => {
         autoFocus
         transparent
       />
-    </InputContainer>
+    </>
   );
 };
 
 const CapacityInput = ({ value, setValue }) => {
   return (
-    <InputContainer>
-      <StyledLabel htmlFor="class">Class</StyledLabel>
+    <>
+      <Label htmlFor="capacity">Capacity</Label>
       <Input
         onChange={(value) => setValue(value)}
         type="number"
         value={value}
-        id="class"
+        id="capacity"
         placeholder="E.g. 10"
         transparent
       />
-    </InputContainer>
+    </>
   );
 };

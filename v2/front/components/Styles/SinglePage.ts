@@ -1,15 +1,14 @@
 import { styled } from "@stitches/react";
 
 export const StyledCard = styled("div", {
-  display: "flex",
-  flexDirection: "column",
+  display: "grid",
   borderRadius: 4,
   boxShadow: "0 1px 3px 0 rgb(0 0 0 / 20%)",
   padding: "1rem",
   margin: "1rem",
   backgroundColor: "White",
   gap: "1rem",
-  maxWidth: "380px",
+  maxWidth: "320px",
   width: "100%",
 });
 

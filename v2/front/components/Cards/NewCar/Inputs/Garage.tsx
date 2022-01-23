@@ -3,18 +3,17 @@ import { useDispatch } from "react-redux";
 import { actions } from "../../../../state/actions";
 import { useISelector } from "../../../../state/hooks";
 import { Input } from "../../../Input/Input";
-import { InputContainer } from "../../../Styles/Page-cards";
+import { Label } from "../../../Styles/Page-cards";
 import { Garage } from "../../Garages/Garage";
-import { StyledLabel } from "../Styles";
 
 const GarageInput = () => {
   const newCarState = useISelector((state) => state.newCar);
 
   return (
-    <InputContainer>
-      <StyledLabel htmlFor="garage-input">Garage</StyledLabel>
+    <>
+      <Label htmlFor="garage-input">Garage</Label>
       {newCarState.chosenGarage ? <ChosenGarage /> : <TextField />}
-    </InputContainer>
+    </>
   );
 };
 
@@ -25,7 +24,7 @@ const ChosenGarage = () => {
 
   const onClick = () => dispatch(actions.newCar.set.chosen.garage(null));
 
-  return <Garage garage={newCarState.chosenGarage} onClick={() => onClick()} />;
+  return <Garage garage={newCarState.chosenGarage} showCapacity onClick={() => onClick()} />;
 };
 
 const TextField = () => {

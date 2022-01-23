@@ -4,9 +4,8 @@ import { ModelGarage } from "../../../../interfaces/Garage";
 import { actions } from "../../../../state/actions";
 import { useISelector } from "../../../../state/hooks";
 import { SingleGrid } from "../../../Styles/Grid";
-import { MatchingContainer } from "../../../Styles/Page-cards";
+import { Label } from "../../../Styles/Page-cards";
 import { Garage } from "../../Garages/Garage";
-import { StyledLabel } from "../Styles";
 
 const MatchingGarages = () => {
   const dispatch = useDispatch();
@@ -24,8 +23,8 @@ const MatchingGarages = () => {
   if (!newGarageState.inputs.garage) return null;
 
   return (
-    <MatchingContainer>
-      {bp > 1 && <StyledLabel />}
+    <>
+      {bp > 1 && <Label />}
       <SingleGrid>
         {newGarageState.garages.matching.map((garage: ModelGarage) => (
           <Garage
@@ -37,7 +36,7 @@ const MatchingGarages = () => {
           />
         ))}
       </SingleGrid>
-    </MatchingContainer>
+    </>
   );
 };
 

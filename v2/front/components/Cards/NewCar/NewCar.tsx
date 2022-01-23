@@ -1,4 +1,4 @@
-import { PageButtonContainer, PageCard } from "../../Styles/Page-cards";
+import { PageButtonContainer, PageCard, InputContainer } from "../../Styles/Page-cards";
 import { Desc, Title } from "../../Styles/Text";
 import SaveButton from "./Buttons/Save";
 import CarInput from "./Inputs/Car";
@@ -12,11 +12,13 @@ const NewCarCard = () => {
       <Title>New Car</Title>
       <Desc>Save a new car here.</Desc>
 
-      <CarInput />
-      <MatchingCars />
+      <InputContainer>
+        <CarInput />
+        <MatchingCars />
 
-      <GarageInput />
-      <MatchingGarages />
+        <GarageInput />
+        <MatchingGarages />
+      </InputContainer>
 
       <PageButtonContainer>
         <SaveButton />
