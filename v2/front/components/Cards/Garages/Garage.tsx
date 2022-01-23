@@ -26,6 +26,7 @@ const GarageCard = styled(Card, {
 const Div = styled("div", {
   display: "flex",
   justifyContent: "space-between",
+  alignItems: "center",
 });
 
 export const Garage = ({
