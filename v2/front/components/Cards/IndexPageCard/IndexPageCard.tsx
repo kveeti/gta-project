@@ -24,7 +24,7 @@ export const IndexPageCard = () => {
   const users = useISelector((state) => state.users);
 
   const isTestAccount =
-    users?.me?.email && users.me.email.includes("test-account", `@${siteBaseUrl}`);
+    users?.me?.email && users?.me?.email?.includes("test-account", `@${siteBaseUrl}`);
 
   const isAdmin = users?.me?.role === "Admin";
 
@@ -44,10 +44,10 @@ export const IndexPageCard = () => {
       {isAdmin && <Text red>Admin</Text>}
       <Specs>
         <Text>
-          <b>Cars:</b> {users.me?.carCount}
+          <b>Cars:</b> {users?.me?.carCount}
         </Text>
         <Text>
-          <b>Garages:</b> {users.me?.garageCount}
+          <b>Garages:</b> {users?.me?.garageCount}
         </Text>
       </Specs>
 
