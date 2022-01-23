@@ -23,9 +23,7 @@ const Car = ({ car, onClick }: CarProps) => {
     <Card red={car.reason && true} checked={checked} onClick={() => onClick(car)}>
       <Div>
         <Text>{car.manufacturer}</Text>
-        {car.garage && (
-          <Text>{car.garage.name.replace(/(?:^|\s|[-"'([{])+\S/g, (c) => c.toUpperCase())}</Text>
-        )}
+        {car.garage && <Text>{car.garage.name}</Text>}
       </Div>
       <Title>{car.name}</Title>
       <Text>{car.class}</Text>
