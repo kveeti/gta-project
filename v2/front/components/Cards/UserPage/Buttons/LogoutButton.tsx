@@ -5,7 +5,6 @@ import { actions } from "../../../../state/actions";
 import { initState } from "../../../../state/InitState";
 import { setAccessToken } from "../../../../util/accessToken";
 import { config } from "../../../../util/axios";
-import { ButtonContainer } from "../../../Styles/SinglePage";
 import { StyledButton } from "../../Signin/Buttons/Styles";
 
 export const LogoutButton = () => {
@@ -17,7 +16,7 @@ export const LogoutButton = () => {
     localStorage.clear();
     setAccessToken(null);
 
-    await router.push("/", "/", { shallow: true });
+    await router.push("/signin", "/signin", { shallow: true });
     dispatch(actions.users.set.me(initState.users.me));
   };
 
