@@ -15,6 +15,7 @@ export const { styled, getCssText } = createStitches({
   theme: {
     colors: {
       background: "#fafafa",
+      menuBar: "#212121",
 
       cardHover: gray.gray3,
       cardChecked: gray.gray4,
