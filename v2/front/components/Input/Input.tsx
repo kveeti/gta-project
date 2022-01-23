@@ -113,7 +113,6 @@ export const Input = ({
   placeholder = "",
   value,
   type,
-  gridArea,
   onChange,
   onBlur,
   onFocus,
@@ -156,7 +155,6 @@ export const Input = ({
 
   return (
     <InputContainer
-      style={{ gridArea: gridArea }}
       focused={contFocus}
       white={white}
       transparent={transparent}
