@@ -26,6 +26,8 @@ export const NewModelCarCard = () => {
   const [_class, setClass] = useState("");
   const [link, setLink] = useState("");
 
+  if (loading) return null;
+
   const reset = () => {
     setName("");
     setManufacturer("");
@@ -33,15 +35,13 @@ export const NewModelCarCard = () => {
     setLink("");
   };
 
-  if (loading) return null;
-
   const saveButtonDisabled = !name || !manufacturer || !_class || !link;
 
   const onSave = async () => {
     try {
       await axios(config("/modelcars", "POST", { name, manufacturer, class: _class, link }));
 
-      toast.success("Model car saved successfully!");
+      toast.success("New model car saved successfully!");
       reset();
     } catch {
       toast.error("Something went wrong");
@@ -55,7 +55,7 @@ export const NewModelCarCard = () => {
 
   return (
     <PageCard centered>
-      <Title>New model car</Title>
+      <Title style={{ paddingBottom: "1rem" }}>New model car</Title>
 
       <NameInput value={name} setValue={setName} />
       <ManufacturerInput
