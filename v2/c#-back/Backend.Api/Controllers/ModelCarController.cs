@@ -67,7 +67,7 @@ public class ModelCarController : ControllerBase
   [Authorization.CustomAuth("Admin")]
   public async Task<ActionResult<ModelCar>> Update(Guid aId, ModelCarDto aDto)
   {
-    var existingModelCar = await _db.GetOneByFilter(car => car.Id == aId);
+    var existingModelCar = await _db.GetOneByFilterTracking(car => car.Id == aId);
     if (existingModelCar == null) return NotFound();
 
     existingModelCar.Name = aDto.Name;

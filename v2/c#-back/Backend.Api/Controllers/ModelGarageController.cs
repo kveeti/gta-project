@@ -88,7 +88,7 @@ public class ModelGarageController : ControllerBase
   [Authorization.CustomAuth("Admin")]
   public async Task<ActionResult<ModelGarage>> Update(Guid id, ModelGarageDto aDto)
   {
-    var existing = await _modelGarageRepo.GetOneByFilter(garage => garage.Id == id);
+    var existing = await _modelGarageRepo.GetOneByFilterTracking(garage => garage.Id == id);
     if (existing == null) return NotFound();
 
     existing.Name = aDto.Name;
