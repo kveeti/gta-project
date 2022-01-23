@@ -1,5 +1,4 @@
 import axios from "axios";
-import { signIn } from "next-auth/react";
 import { ICar } from "../../interfaces/Car";
 import { IGarage } from "../../interfaces/Garage";
 import { config } from "../../util/axios";
@@ -75,6 +74,5 @@ export const search = (query: string) => async (dispatch: any) => {
     dispatch(api.setLoading(false));
     dispatch(api.setError(true));
     if (!err.response) return;
-    if (err.response.status === 401) return signIn();
   }
 };
