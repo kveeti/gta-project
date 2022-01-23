@@ -1,14 +1,10 @@
-using System.Security.Claims;
-using AutoMapper;
 using Backend.Api.Attributes;
 using Backend.Api.Helpers;
-using Backend.Api.ModelCarDtos;
 using Backend.Api.ModelGarageDtos;
 using Backend.Api.Models;
 using Backend.Api.Repositories;
 using Backend.Api.Repositories.ModelGarage;
 using JetBrains.Annotations;
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Backend.Api.Controllers;
@@ -50,7 +46,6 @@ public class ModelGarageController : ControllerBase
         Id = modelGarage.Id,
         Name = modelGarage.Name,
         Capacity = modelGarage.Capacity,
-        Type = modelGarage.Type,
         AlreadyOwned = garages.Any(garage => garage.ModelGarageId == modelGarage.Id)
       });
     
@@ -84,7 +79,6 @@ public class ModelGarageController : ControllerBase
       Id = Guid.NewGuid(),
       Name = aDto.Name,
       Capacity = aDto.Capacity,
-      Type = aDto.Type
     };
 
     _modelGarageRepo.Add(newModelGarage);
@@ -102,7 +96,6 @@ public class ModelGarageController : ControllerBase
 
     existing.Name = aDto.Name;
     existing.Capacity = aDto.Capacity;
-    existing.Type = aDto.Type;
 
     await _modelGarageRepo.Save();
 

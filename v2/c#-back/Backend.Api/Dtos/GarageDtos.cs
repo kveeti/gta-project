@@ -21,7 +21,6 @@ public record PartialGarageDto
   public int Capacity { get; init; }
   public bool Full { get; init; }
   public int Room { get; init; }
-  public string Type { get; init; }
 }
 
 public record JoinedGarageDto : PartialGarageDto
