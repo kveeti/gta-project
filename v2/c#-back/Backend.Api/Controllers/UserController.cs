@@ -28,10 +28,10 @@ public class UserController : ControllerBase
       out var userId);
     if (!goodUserId) return Unauthorized("bad userId");
 
-    var user = await _db.GetMe(userId);
+    var user = await _db.GetOne(userId);
     if (user == null) return NotFound();
 
-    ReturnMeDto returnUser = new()
+    ReturnUserDto returnUser = new()
     {
       Id = user.Id,
       Username = user.Username,
@@ -48,14 +48,17 @@ public class UserController : ControllerBase
   [Authorization.CustomAuth("Admin")]
   public async Task<ActionResult<ReturnUserDto>> GetOne(Guid id)
   {
-    var user = await _db.GetOneByFilter(u => u.Id == id);
+    var user = await _db.GetOne(id);
     if (user == null) return NotFound();
 
     ReturnUserDto returnUser = new()
     {
       Id = user.Id,
       Username = user.Username,
+      Email = user.Email,
       Role = user.Role,
+      GarageCount = user.Garages.Count,
+      CarCount = user.Cars.Count
     };
 
     return Ok(returnUser);
@@ -63,41 +66,29 @@ public class UserController : ControllerBase
 
   [HttpGet]
   [Authorization.CustomAuth("Admin")]
-  public async Task<ActionResult<IEnumerable<ReturnUserDto>>> GetAll()
+  public async Task<ActionResult<IEnumerable<User>>> GetAll()
   {
-    var users = await _db.GetAll();
-    var toReturn = users.Select(u => new ReturnUserDto()
-    {
-      Id = u.Id,
-      Username = u.Username,
-      Role = u.Role
-    });
+    var users = await _db.GetMany();
 
-    return Ok(toReturn);
+    return Ok(users);
   }
 
   [HttpPatch("{id:Guid}")]
   [Authorization.CustomAuth("Admin")]
   public async Task<ActionResult<ReturnUserDto>> UpdateRole(Guid id, UpdateUserDto aUserDto)
   {
-    var existingUser = await _db.GetOneByFilter(u => u.Id == id);
+    var existingUser = await _db.GetOneByFilterTracking(user => user.Id == id);
     if (existingUser == null) return NotFound();
 
-    User updatedUser = new()
-    {
-      Id = existingUser.Id,
-      Username = existingUser.Username,
-      Password = existingUser.Password,
-      Role = aUserDto.NewRole
-    };
-
+    existingUser.Role = aUserDto.NewRole;
+    
     await _db.Save();
 
     ReturnUserDto returnUser = new()
     {
-      Id = updatedUser.Id,
-      Username = updatedUser.Username,
-      Role = updatedUser.Role
+      Id = existingUser.Id,
+      Username = existingUser.Username,
+      Role = existingUser.Role
     };
 
     return Ok(returnUser);

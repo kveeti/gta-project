@@ -14,20 +14,12 @@ public record RegisterUserDto
   public string Password { get; init; }
 }
 
-public record ReturnUserDto
-{
-  public Guid Id { get; init; }
-  public string Username { get; init; }
-  public string Email { get; set; }
-  public string Role { get; init; }
-}
-
 public record UpdateUserDto
 {
   public string NewRole { get; init; }
 }
 
-public record ReturnMeDto
+public record ReturnUserDto
 {
   public Guid Id { get; init; }
   public string Email { get; init; }
