@@ -17,12 +17,12 @@ public class ModelCarRepo : GenericRepo<Models.ModelCar>, IModelCarRepo
   {
     var dbQuery = _context.ModelCars
       .AsNoTracking();
-    
+
     if (aQuery == null)
     {
       return await dbQuery.ToListAsync();
     }
-    
+
     return await dbQuery
       .Where(modelCar => modelCar.Name.ToLower().Contains(aQuery) ||
                          modelCar.Manufacturer.ToLower().Contains(aQuery))

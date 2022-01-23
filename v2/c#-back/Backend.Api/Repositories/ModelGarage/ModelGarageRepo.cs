@@ -17,12 +17,12 @@ public class ModelGarageRepo : GenericRepo<Models.ModelGarage>, IModelGarageRepo
   {
     var dbQuery = _context.ModelGarages
       .AsNoTracking();
-    
+
     if (aQuery == null)
     {
       return await dbQuery.ToListAsync();
     }
-    
+
     return await dbQuery
       .Where(modelGarage => modelGarage.Name.ToLower().Contains(aQuery))
       .ToListAsync();

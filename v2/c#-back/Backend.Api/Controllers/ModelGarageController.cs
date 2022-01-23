@@ -15,15 +15,12 @@ public class ModelGarageController : ControllerBase
 {
   private readonly IModelGarageRepo _modelGarageRepo;
   private readonly IGarageRepo _garageRepo;
-  private readonly IJwt _jwt;
-  
+
   public ModelGarageController(
     IModelGarageRepo aModelGarageRepo,
-    IGarageRepo aGarageRepo,
-    IJwt aJwt
+    IGarageRepo aGarageRepo
   )
   {
-    _jwt = aJwt;
     _garageRepo = aGarageRepo;
     _modelGarageRepo = aModelGarageRepo;
   }
@@ -48,7 +45,7 @@ public class ModelGarageController : ControllerBase
         Capacity = modelGarage.Capacity,
         AlreadyOwned = garages.Any(garage => garage.ModelGarageId == modelGarage.Id)
       });
-    
+
     if (query == null) return Ok(toReturn);
 
     var results = Search.GetResults(toReturn, query);
@@ -71,7 +68,7 @@ public class ModelGarageController : ControllerBase
   public async Task<ActionResult<ModelGarage>> Add(ModelGarageDto aDto)
   {
     var existing = await _modelGarageRepo.GetOneByFilter(garage => garage.Name == aDto.Name);
-    if (existing != null) 
+    if (existing != null)
       return Conflict(existing);
 
     ModelGarage newModelGarage = new()

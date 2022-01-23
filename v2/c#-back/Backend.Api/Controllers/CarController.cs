@@ -13,21 +13,16 @@ namespace Backend.Api.Controllers;
 [Route("gta-api/cars")]
 public class CarController : ControllerBase
 {
-  private readonly IJwt _jwt;
-
   private readonly ICarRepo _carRepo;
   private readonly IGarageRepo _garageRepo;
   private readonly IGenericRepo<ModelCar> _modelCarRepo;
 
   public CarController(
-    IJwt aJwt,
     ICarRepo aCarRepo,
     IGarageRepo aGarageRepo,
     IGenericRepo<ModelCar> aModelCarRepo
   )
   {
-    _jwt = aJwt;
-
     _carRepo = aCarRepo;
     _garageRepo = aGarageRepo;
     _modelCarRepo = aModelCarRepo;

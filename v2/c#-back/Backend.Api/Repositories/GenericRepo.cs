@@ -15,31 +15,26 @@ public class GenericRepo<TEntity> : IGenericRepo<TEntity> where TEntity : class
     _dbSet = context.Set<TEntity>();
   }
 
-  public virtual async Task<IEnumerable<TEntity>> GetAll()
-  {
-    return await _dbSet.AsNoTracking().ToListAsync();
-  }
-
   public virtual async Task<TEntity> GetOneByFilter(Expression<Func<TEntity, bool>> aFilter)
   {
     return await _dbSet.AsNoTracking().FirstOrDefaultAsync(aFilter);
   }
-  
+
   public virtual async Task<IEnumerable<TEntity>> GetManyByFilter(Expression<Func<TEntity, bool>> aFilter)
   {
     return await _dbSet.AsNoTracking().Where(aFilter).ToListAsync();
   }
-  
+
   public virtual async Task<IEnumerable<TEntity>> GetManyByFilterTracking(Expression<Func<TEntity, bool>> aFilter)
   {
     return await _dbSet.Where(aFilter).ToListAsync();
   }
-  
+
   public virtual async Task<TEntity> GetOneByFilterTracking(Expression<Func<TEntity, bool>> aFilter)
   {
     return await _dbSet.FirstOrDefaultAsync(aFilter);
   }
-  
+
   public virtual void Add(TEntity aEntity)
   {
     _dbSet.Add(aEntity);
@@ -49,7 +44,7 @@ public class GenericRepo<TEntity> : IGenericRepo<TEntity> where TEntity : class
   {
     _dbSet.Remove(aEntity);
   }
-  
+
   public virtual async Task Delete(Guid aId)
   {
     var toDelete = await _dbSet.FindAsync(aId);

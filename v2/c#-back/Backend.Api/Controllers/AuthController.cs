@@ -4,7 +4,6 @@ using Backend.Api.Models;
 using Backend.Api.Repositories;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
-using Microsoft.Extensions.Primitives;
 
 namespace Backend.Api.Controllers;
 
@@ -32,7 +31,7 @@ public class AuthController : ControllerBase
   {
     var usernameCheck = await _userRepo.GetOneByFilter(user => user.Username == aDto.Username);
     if (usernameCheck != null) return Conflict("Username taken");
-    
+
     var emailCheck = await _userRepo.GetOneByFilter(user => user.Email == aDto.Email);
     if (emailCheck != null) return Conflict("Email in use");
 
@@ -50,7 +49,7 @@ public class AuthController : ControllerBase
 
     _userRepo.Add(user);
     await _userRepo.Save();
-    
+
     var newAccessToken = _jwt.CreateAccessToken(user);
     var newRefreshToken = _jwt.CreateRefreshToken(user);
 
@@ -83,7 +82,7 @@ public class AuthController : ControllerBase
 
     return NoContent();
   }
-  
+
   [HttpPost("logout")]
   public NoContentResult Logout()
   {

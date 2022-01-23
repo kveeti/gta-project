@@ -1,12 +1,9 @@
-using System.Security.Claims;
 using Backend.Api.Attributes;
 using Backend.Api.Helpers;
 using Backend.Api.ModelCarDtos;
 using Backend.Api.Models;
-using Backend.Api.Repositories;
 using Backend.Api.Repositories.ModelCar;
 using JetBrains.Annotations;
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Backend.Api.Controllers;

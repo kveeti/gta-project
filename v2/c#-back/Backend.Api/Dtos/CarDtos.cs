@@ -13,7 +13,7 @@ public record DeleteCarsDto
   public IEnumerable<Guid> carIds { get; init; }
 }
 
-public record JoinedCarDto 
+public record JoinedCarDto
 {
   public Guid Id { get; init; }
   public string Name { get; init; }
@@ -30,12 +30,4 @@ public record ReturnCarDto
   public string Manufacturer { get; init; }
   public string Class { get; init; }
   public PartialGarageDto Garage { get; init; }
-}
-
-public record ReturnNotJoinedCarDto
-{
-  public Guid Id { get; init; }
-  public Guid OwnerId { get; init; }
-  public Guid GarageId { get; set; }
-  public Guid ModelCarId { get; init; }
 }

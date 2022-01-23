@@ -12,17 +12,13 @@ namespace Backend.Api.Controllers;
 [Route("gta-api/garages")]
 public class GarageController : ControllerBase
 {
-  private readonly IJwt _jwt;
-
   private readonly IGarageRepo _garageRepo;
   private readonly IGenericRepo<ModelGarage> _modelGarageRepo;
 
   public GarageController(
-    IJwt aJwt,
     IGarageRepo aGarageRepo,
     IGenericRepo<ModelGarage> aModelGarageRepo)
   {
-    _jwt = aJwt;
     _garageRepo = aGarageRepo;
     _modelGarageRepo = aModelGarageRepo;
   }
@@ -56,8 +52,8 @@ public class GarageController : ControllerBase
 
     var garage = await _garageRepo
       .GetOneJoinedByFilter(garage => garage.Id == id
-                                &&
-                                garage.OwnerId == userId);
+                                      &&
+                                      garage.OwnerId == userId);
 
     if (garage == null) return NotFound("garage was not found");
 
@@ -97,10 +93,10 @@ public class GarageController : ControllerBase
 
     return Ok(newGarage);
   }
-  
+
   [HttpPatch("{id:Guid}/desc")]
   [Authorization.CustomAuth("Standard, Admin")]
-  public async Task<ActionResult<Garage>> Update(Guid id,UpdateGarageDto aDto)
+  public async Task<ActionResult<Garage>> Update(Guid id, UpdateGarageDto aDto)
   {
     var goodUserId = Guid.TryParse(HttpContext.Items["userId"].ToString(),
       out var userId);

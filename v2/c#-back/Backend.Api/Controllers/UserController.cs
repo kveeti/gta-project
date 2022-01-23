@@ -1,6 +1,5 @@
 ﻿using Backend.Api.Attributes;
 using Backend.Api.Dtos.UserDtos;
-using Backend.Api.Helpers;
 using Backend.Api.Models;
 using Backend.Api.Repositories;
 using Microsoft.AspNetCore.Mvc;
@@ -12,12 +11,10 @@ namespace Backend.Api.Controllers;
 public class UserController : ControllerBase
 {
   private readonly IUserRepo _db;
-  private readonly IJwt _jwt;
 
-  public UserController(IUserRepo aUserRepo, IJwt aJwt)
+  public UserController(IUserRepo aUserRepo)
   {
     _db = aUserRepo;
-    _jwt = aJwt;
   }
 
   [HttpGet("me")]
@@ -81,7 +78,7 @@ public class UserController : ControllerBase
     if (existingUser == null) return NotFound();
 
     existingUser.Role = aUserDto.NewRole;
-    
+
     await _db.Save();
 
     ReturnUserDto returnUser = new()

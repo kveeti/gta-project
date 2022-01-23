@@ -122,22 +122,6 @@ public class Jwt : IJwt
     return new JwtSecurityTokenHandler().WriteToken(tokenDescriptor);
   }
 
-  public JwtSecurityToken Decode(string aToken)
-  {
-    var handler = new JwtSecurityTokenHandler();
-    var jwtToken = handler.ReadJwtToken(aToken);
-
-    return jwtToken;
-  }
-
-  public Guid GetUserId(string aToken)
-  {
-    var decoded = Decode(aToken);
-    var userIdClaim = decoded.Claims.FirstOrDefault(c => c.Type == ClaimTypes.NameIdentifier);
-
-    return Guid.Parse(userIdClaim.Value);
-  }
-
   private ValidTokenDto ValidateExistenceOfClaimsAccessToken(JwtSecurityToken token)
   {
     var expirationClaim = token.Claims.FirstOrDefault(claim => claim.Type == ClaimTypes.Expiration);

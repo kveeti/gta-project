@@ -1,7 +1,6 @@
 using Backend.Api.Attributes;
 using Backend.Api.CarDtos;
 using Backend.Api.GarageDtos;
-using Backend.Api.Helpers;
 using Backend.Api.Repositories;
 using Backend.Api.SearchDtos;
 using Microsoft.AspNetCore.Mvc;
@@ -12,19 +11,14 @@ namespace Backend.Api.Controllers;
 [Route("gta-api/search")]
 public class SearchController : ControllerBase
 {
-  private readonly IJwt _jwt;
-
   private readonly ICarRepo _carRepo;
   private readonly IGarageRepo _garageRepo;
 
   public SearchController(
-    IJwt aJwt,
     ICarRepo aCarRepo,
     IGarageRepo aGarageRepo
   )
   {
-    _jwt = aJwt;
-
     _carRepo = aCarRepo;
     _garageRepo = aGarageRepo;
   }
@@ -45,10 +39,10 @@ public class SearchController : ControllerBase
 
     IEnumerable<JoinedCarDto> carsToReturn = Array.Empty<JoinedCarDto>();
     IEnumerable<JoinedGarageDto> garagesToReturn = Array.Empty<JoinedGarageDto>();
-    
+
     if (cars.Any())
       carsToReturn = Helpers.Search.GetResults(cars, query);
-    
+
     if (garages.Any())
       garagesToReturn = Helpers.Search.GetResults(garages, query);
 
