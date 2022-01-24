@@ -1,18 +1,28 @@
-version: '3.9'
+version: "3.9"
 
 services:
-  front:
-    build: .
+  back:
+    build: csharp-back/Backend.Api/
+    image: gta-csharp-back
     expose:
       - 5000
     networks:
-      - gta-frontend
+      - gta
+    restart: unless-stopped
+
+  front:
+    build: front/
+    image: gta-front
+    expose:
+      - 5000
+    networks:
+      - gta
     restart: unless-stopped
 
   loadbalancer:
     depends_on:
-      - api
-      - database
+      - back
+      - front
     image: nginx
     container_name: gta-front-nginx
     ports:
@@ -20,8 +30,10 @@ services:
     volumes:
       - ./nginx.conf:/etc/nginx/nginx.conf
     networks:
-      - gta-frontend
+      - gta
     restart: unless-stopped
 
 networks:
-  gta-frontend:
+  gta:
+    external: true
+    name: gta
