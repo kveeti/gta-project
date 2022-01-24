@@ -1,6 +1,7 @@
 import axios from "axios";
 import { useState } from "react";
 import { toast } from "react-toastify";
+import { gtabaseLinkPrefix } from "../../../envs";
 import { useAdminCheck } from "../../../hooks/useAdminCheck";
 import { config } from "../../../util/axios";
 import { Input } from "../../Input/Input";
@@ -34,7 +35,14 @@ export const NewModelCarCard = () => {
 
   const onSave = async () => {
     try {
-      await axios(config("/modelcars", "POST", { name, manufacturer, class: _class, link }));
+      await axios(
+        config("/modelcars", "POST", {
+          name,
+          manufacturer,
+          class: _class,
+          link: `${gtabaseLinkPrefix}${link}`,
+        })
+      );
 
       toast.success("New model car saved successfully!");
       reset();
@@ -44,8 +52,7 @@ export const NewModelCarCard = () => {
   };
 
   const onManufacturerBlur = () => {
-    const prefix = "https://www.gtabase.com/grand-theft-auto-v/vehicles/";
-    setLink(`${prefix}${manufacturer.toLowerCase()}-${name.toLowerCase()}`);
+    setLink(`${manufacturer.toLowerCase()}-${name.toLowerCase()}`);
   };
 
   return (

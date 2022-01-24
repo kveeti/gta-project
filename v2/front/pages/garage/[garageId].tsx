@@ -51,7 +51,6 @@ export const getServerSideProps: GetServerSideProps = async ({ req, params }) =>
   });
 
   const data = await res.json();
-  console.log(data);
 
   return {
     props: {

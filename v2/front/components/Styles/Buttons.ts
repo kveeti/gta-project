@@ -79,3 +79,9 @@ export const BaseBtn = styled("button", {
     },
   },
 });
+
+export const FullWidthButton = styled(BaseBtn, {
+  width: "100%",
+  height: "2.5rem",
+  fontSize: "1.1rem",
+});

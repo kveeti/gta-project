@@ -5,3 +5,5 @@ export const jwtSecret = process.env.JWT_SECRET || "secret";
 
 export const accessTokenHeaderName = process.env.NEXT_PUBLIC_ACCESS_TOKEN_HEADER_NAME;
 export const refreshCookieName = process.env.NEXT_PUBLIC_REFRESH_COOKIE_NAME;
+
+export const gtabaseLinkPrefix = "https://www.gtabase.com/grand-theft-auto-v/vehicles/";

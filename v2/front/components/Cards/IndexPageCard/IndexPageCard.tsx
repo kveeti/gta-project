@@ -9,8 +9,8 @@ import { config } from "../../../util/axios";
 import { actions } from "../../../state/actions";
 import { CreateAccountButton } from "./Buttons/CreateAccountButton";
 import { siteBaseUrl } from "../../../envs";
-import { NewModelCarButton } from "./Buttons/NewModelCarButton";
-import { NewModelGarageButton } from "./Buttons/NewModelGarageButton";
+import { ModelCarMgmtButton } from "./Buttons/ModelCarMgmtButton";
+import { ModelGarageMgmtButton } from "./Buttons/ModelGarageMgmtButton";
 import { ButtonContainer } from "../../Styles/SinglePage";
 
 const Specs = styled("div", {
@@ -55,8 +55,8 @@ export const IndexPageCard = () => {
 
       {isAdmin && (
         <ButtonContainer>
-          <NewModelCarButton />
-          <NewModelGarageButton />
+          <ModelCarMgmtButton />
+          <ModelGarageMgmtButton />
         </ButtonContainer>
       )}
     </PageCard>
