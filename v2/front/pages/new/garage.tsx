@@ -1,5 +1,5 @@
-import { NewGarageCard } from "../../../components/Cards/NewGarage/NewGarage";
-import Layout from "../../../components/Layout";
+import { NewGarageCard } from "../../components/Cards/NewGarage/NewGarage";
+import Layout from "../../components/Layout";
 
 const NewGaragePage = () => {
   return (

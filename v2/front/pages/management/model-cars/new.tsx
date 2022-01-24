@@ -1,4 +1,4 @@
-import { NewModelCarCard } from "../../../components/Cards/NewModelCar/NewModelCarCard";
+import { NewModelCarCard } from "../../../components/Cards/ModelCarMgmt/NewModelCar";
 import Layout from "../../../components/Layout";
 
 const NewModelCarPage = () => {

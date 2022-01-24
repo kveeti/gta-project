@@ -1,5 +1,5 @@
-import NewCarCard from "../../../components/Cards/NewCar/NewCar";
-import Layout from "../../../components/Layout";
+import NewCarCard from "../../components/Cards/NewCar/NewCar";
+import Layout from "../../components/Layout";
 
 const NewCarPage = () => {
   return (
