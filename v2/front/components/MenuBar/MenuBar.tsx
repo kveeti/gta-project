@@ -74,7 +74,7 @@ export const MenuBar = ({ mobile }) => {
 
         <RightContainer>
           {mobile ? (
-            <HomeButton />
+            <ProfileButton />
           ) : (
             <>
               <LeftButtons>
