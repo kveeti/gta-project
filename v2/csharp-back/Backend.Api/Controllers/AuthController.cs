@@ -19,9 +19,9 @@ public class AuthController : ControllerBase
 
   public AuthController(
     IJwt aJwt,
-    IOptions<CookieConfig> aCookieConfig,
+    IMailing aMailing,
     IGenericRepo<User> aUserRepo,
-    IMailing aMailing
+    IOptions<CookieConfig> aCookieConfig
   )
   {
     _jwt = aJwt;
@@ -65,7 +65,7 @@ public class AuthController : ControllerBase
 
     HttpContext.Response
       .Headers[_cookieConfig.Value.AccessTokenHeaderName] = newAccessToken;
-    
+
     await _mailing.SendEmailConfirmation(aDto.Email, emailVerifyToken);
 
     return NoContent();
