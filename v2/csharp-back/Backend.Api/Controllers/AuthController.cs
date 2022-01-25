@@ -15,16 +15,19 @@ public class AuthController : ControllerBase
   private readonly IJwt _jwt;
   private readonly IOptions<CookieConfig> _cookieConfig;
   private readonly IGenericRepo<User> _userRepo;
+  private readonly IMailing _mailing;
 
   public AuthController(
     IJwt aJwt,
     IOptions<CookieConfig> aCookieConfig,
-    IGenericRepo<User> aUserRepo
+    IGenericRepo<User> aUserRepo,
+    IMailing aMailing
   )
   {
     _jwt = aJwt;
     _cookieConfig = aCookieConfig;
     _userRepo = aUserRepo;
+    _mailing = aMailing;
   }
 
   [HttpPost("register")]
@@ -38,6 +41,8 @@ public class AuthController : ControllerBase
 
     var hash = Hashing.HashToString(aDto.Password);
 
+    var emailVerifyToken = $"{Guid.NewGuid().ToString()}{Guid.NewGuid().ToString()}";
+
     User user = new()
     {
       Id = Guid.NewGuid(),
@@ -45,7 +50,8 @@ public class AuthController : ControllerBase
       Username = aDto.Username,
       Password = hash,
       Role = "Standard",
-      TokenVersion = Guid.NewGuid()
+      TokenVersion = Guid.NewGuid(),
+      EmailVerifyToken = emailVerifyToken
     };
 
     _userRepo.Add(user);
@@ -59,6 +65,8 @@ public class AuthController : ControllerBase
 
     HttpContext.Response
       .Headers[_cookieConfig.Value.AccessTokenHeaderName] = newAccessToken;
+    
+    await _mailing.SendEmailConfirmation(aDto.Email, emailVerifyToken);
 
     return NoContent();
   }

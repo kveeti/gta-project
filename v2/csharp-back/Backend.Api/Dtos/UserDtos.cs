@@ -22,9 +22,10 @@ public record ReturnUserDto
 {
   public Guid Id { get; init; }
   public string Email { get; init; }
+  public bool EmailConfirmed { get; init; }
   public string Username { get; init; }
   public string Role { get; init; }
   public int CarCount { get; init; }
   public int GarageCount { get; init; }
-  public Guid TokenVersion { get; set; }
+  public Guid TokenVersion { get; init; }
 }

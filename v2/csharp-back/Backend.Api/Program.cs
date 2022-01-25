@@ -28,6 +28,7 @@ builder.Services.AddScoped<IModelGarageRepo, ModelGarageRepo>();
 builder.Services.AddScoped<IUserRepo, UserRepo>();
 
 builder.Services.AddScoped<IJwt, Jwt>();
+builder.Services.AddTransient<IMailing, Mailing>();
 
 builder.Services.AddRouting(options => options.LowercaseUrls = true);
 

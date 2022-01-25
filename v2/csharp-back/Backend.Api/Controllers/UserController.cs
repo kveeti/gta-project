@@ -1,5 +1,6 @@
 ﻿using Backend.Api.Attributes;
 using Backend.Api.Dtos.UserDtos;
+using Backend.Api.Helpers;
 using Backend.Api.Models;
 using Backend.Api.Repositories;
 using Microsoft.AspNetCore.Mvc;
@@ -72,7 +73,7 @@ public class UserController : ControllerBase
     return Ok(users);
   }
 
-  [HttpPatch("{id:Guid}")]
+  [HttpPatch("{id:Guid}/role")]
   [Authorization.CustomAuth("Admin")]
   public async Task<ActionResult<ReturnUserDto>> UpdateRole(Guid id, UpdateUserDto aUserDto)
   {

@@ -1,9 +1,11 @@
-import { ButtonContainer } from "../../../Styles/SinglePage";
+import { useRouter } from "next/router";
 import { StyledButton } from "../../Signin/Buttons/Styles";
 
 export const ChangeEmailButton = () => {
+  const router = useRouter();
+
   const onClick = async () => {
-    // redirect to change email
+    router.push("/email/change", "/email/change", { shallow: true });
   };
 
   return (
