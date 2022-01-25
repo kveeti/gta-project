@@ -1,4 +1,5 @@
-﻿using Backend.Api.Dtos.UserDtos;
+﻿using Backend.Api.Configs;
+using Backend.Api.Dtos.UserDtos;
 using Backend.Api.Helpers;
 using Backend.Api.Models;
 using Backend.Api.Repositories;
@@ -12,17 +13,17 @@ namespace Backend.Api.Controllers;
 public class AuthController : ControllerBase
 {
   private readonly IJwt _jwt;
-  private readonly IOptions<Settings> _settings;
+  private readonly IOptions<CookieConfig> _cookieConfig;
   private readonly IGenericRepo<User> _userRepo;
 
   public AuthController(
     IJwt aJwt,
-    IOptions<Settings> aSettings,
+    IOptions<CookieConfig> aCookieConfig,
     IGenericRepo<User> aUserRepo
   )
   {
     _jwt = aJwt;
-    _settings = aSettings;
+    _cookieConfig = aCookieConfig;
     _userRepo = aUserRepo;
   }
 
@@ -54,10 +55,10 @@ public class AuthController : ControllerBase
     var newRefreshToken = _jwt.CreateRefreshToken(user);
 
     HttpContext.Response.Headers
-      .SetCookie = Cookie.CreateCookie(_settings.Value.RefreshTokenCookieName, newRefreshToken);
+      .SetCookie = Cookie.CreateCookie(_cookieConfig.Value.RefreshTokenCookieName, newRefreshToken);
 
     HttpContext.Response
-      .Headers[_settings.Value.AccessTokenHeaderName] = newAccessToken;
+      .Headers[_cookieConfig.Value.AccessTokenHeaderName] = newAccessToken;
 
     return NoContent();
   }
@@ -75,10 +76,10 @@ public class AuthController : ControllerBase
     var newRefreshToken = _jwt.CreateRefreshToken(user);
 
     HttpContext.Response.Headers
-      .SetCookie = Cookie.CreateCookie(_settings.Value.RefreshTokenCookieName, newRefreshToken);
+      .SetCookie = Cookie.CreateCookie(_cookieConfig.Value.RefreshTokenCookieName, newRefreshToken);
 
     HttpContext.Response
-      .Headers[_settings.Value.AccessTokenHeaderName] = newAccessToken;
+      .Headers[_cookieConfig.Value.AccessTokenHeaderName] = newAccessToken;
 
     return NoContent();
   }
@@ -86,10 +87,10 @@ public class AuthController : ControllerBase
   [HttpPost("logout")]
   public NoContentResult Logout()
   {
-    HttpContext.Response.Cookies.Delete(_settings.Value.RefreshTokenCookieName);
+    HttpContext.Response.Cookies.Delete(_cookieConfig.Value.RefreshTokenCookieName);
 
     HttpContext.Response
-      .Headers[_settings.Value.AccessTokenHeaderName] = "";
+      .Headers[_cookieConfig.Value.AccessTokenHeaderName] = "";
 
     return NoContent();
   }

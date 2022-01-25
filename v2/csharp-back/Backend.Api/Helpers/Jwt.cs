@@ -2,6 +2,7 @@
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
+using Backend.Api.Configs;
 using Backend.Api.Models;
 using Backend.Api.TokenDtos;
 using Microsoft.Extensions.Options;
@@ -10,11 +11,11 @@ namespace Backend.Api.Helpers;
 
 public class Jwt : IJwt
 {
-  private readonly IOptions<Settings> _settings;
+  private readonly IOptions<JwtConfig> _jwtConfig;
 
-  public Jwt(IOptions<Settings> aSettings)
+  public Jwt(IOptions<JwtConfig> aJwtConfig)
   {
-    _settings = aSettings;
+    _jwtConfig = aJwtConfig;
   }
 
   public ValidTokenDto ValidateRefreshToken(string aToken)
@@ -29,9 +30,9 @@ public class Jwt : IJwt
       ValidateIssuerSigningKey = true,
       ValidateLifetime = true,
 
-      ValidIssuer = _settings.Value.JWT_Refresh_Iss,
-      ValidAudience = _settings.Value.JWT_Refresh_Aud,
-      IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_settings.Value.JWT_Refresh_Secret)),
+      ValidIssuer = _jwtConfig.Value.Refresh_Iss,
+      ValidAudience = _jwtConfig.Value.Refresh_Aud,
+      IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_jwtConfig.Value.Refresh_Secret)),
 
       RequireAudience = true,
       RequireSignedTokens = true,
@@ -53,9 +54,9 @@ public class Jwt : IJwt
       ValidateAudience = true,
       ValidateIssuerSigningKey = true,
 
-      ValidIssuer = _settings.Value.JWT_Access_Iss,
-      ValidAudience = _settings.Value.JWT_Access_Aud,
-      IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_settings.Value.JWT_Access_Secret)),
+      ValidIssuer = _jwtConfig.Value.Access_Iss,
+      ValidAudience = _jwtConfig.Value.Access_Aud,
+      IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_jwtConfig.Value.Access_Secret)),
 
       RequireAudience = true,
       RequireSignedTokens = true,
@@ -87,11 +88,11 @@ public class Jwt : IJwt
       new Claim(ClaimTypes.Version, user.TokenVersion.ToString()),
     };
 
-    var securityKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_settings.Value.JWT_Refresh_Secret));
+    var securityKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_jwtConfig.Value.Refresh_Secret));
     var credentials = new SigningCredentials(securityKey, SecurityAlgorithms.HmacSha256Signature);
     var tokenDescriptor = new JwtSecurityToken(
-      _settings.Value.JWT_Refresh_Iss,
-      _settings.Value.JWT_Refresh_Aud,
+      _jwtConfig.Value.Refresh_Iss,
+      _jwtConfig.Value.Refresh_Aud,
       claims,
       expires: DateTime.Now.AddDays(7),
       signingCredentials: credentials);
@@ -111,11 +112,11 @@ public class Jwt : IJwt
       new Claim(ClaimTypes.Expiration, DateTimeOffset.Now.AddMinutes(15).ToUnixTimeSeconds().ToString())
     };
 
-    var securityKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_settings.Value.JWT_Access_Secret));
+    var securityKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_jwtConfig.Value.Access_Secret));
     var credentials = new SigningCredentials(securityKey, SecurityAlgorithms.HmacSha256Signature);
     var tokenDescriptor = new JwtSecurityToken(
-      _settings.Value.JWT_Access_Iss,
-      _settings.Value.JWT_Access_Aud,
+      _jwtConfig.Value.Access_Iss,
+      _jwtConfig.Value.Access_Aud,
       claims,
       signingCredentials: credentials);
 
@@ -145,7 +146,7 @@ public class Jwt : IJwt
 
     if (tokenVersionClaim == null)
       throw new Exception("token is missing its version");
-    
+
     if (emailClaim == null)
       throw new Exception("token is missing its email");
 
@@ -159,7 +160,7 @@ public class Jwt : IJwt
       TokenVersion = Guid.Parse(tokenVersionClaim.Value)
     };
   }
-  
+
   private ValidTokenDto ValidateExistenceOfClaimsRefreshToken(JwtSecurityToken token)
   {
     var tokenVersionClaim = token.Claims.FirstOrDefault(claim => claim.Type == ClaimTypes.Version);
@@ -179,7 +180,7 @@ public class Jwt : IJwt
 
     if (tokenVersionClaim == null)
       throw new Exception("token is missing its version");
-    
+
     if (emailClaim == null)
       throw new Exception("token is missing its email");
 

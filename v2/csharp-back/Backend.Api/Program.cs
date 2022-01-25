@@ -1,4 +1,4 @@
-using Backend.Api;
+using Backend.Api.Configs;
 using Backend.Api.Data;
 using Backend.Api.Repositories;
 using Microsoft.EntityFrameworkCore;
@@ -31,7 +31,10 @@ builder.Services.AddScoped<IJwt, Jwt>();
 
 builder.Services.AddRouting(options => options.LowercaseUrls = true);
 
-builder.Services.Configure<Settings>(builder.Configuration.GetSection("Settings"));
+builder.Services.Configure<JwtConfig>(builder.Configuration.GetSection("JWT_Config"));
+
+builder.Services.Configure<CookieConfig>(builder.Configuration.GetSection("CookieConfig"));
+builder.Services.Configure<EmailConfig>(builder.Configuration.GetSection("EmailConfig"));
 
 var app = builder.Build();
 

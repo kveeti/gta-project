@@ -1,5 +1,5 @@
 using System;
-using Backend.Api;
+using Backend.Api.Configs;
 using Backend.Api.Helpers;
 using Backend.Api.Models;
 using Backend.Api.Repositories;
@@ -14,24 +14,29 @@ public class UserControllerTests
   private readonly int _randomNum = new Random().Next(20);
   private readonly Mock<IGenericRepo<User>> _fakeUserRepo = new();
 
-  private readonly IOptions<Settings> _testSettings = Options.Create<Settings>(
-    new Settings()
+  private readonly IOptions<JwtConfig> _jwtConfig = Options.Create<JwtConfig>(
+    new JwtConfig()
     {
-      JWT_Refresh_Secret = Guid.NewGuid().ToString(),
-      JWT_Refresh_Iss = "test-refresh-iss",
-      JWT_Refresh_Aud = "test-refresh-aud",
-
-      JWT_Access_Secret = Guid.NewGuid().ToString(),
-      JWT_Access_Iss = "test-access-iss",
-      JWT_Access_Aud = "test-access-aud",
-
+      Refresh_Secret = Guid.NewGuid().ToString(),
+      Refresh_Iss = "test-refresh-iss",
+      Refresh_Aud = "test-refresh-aud",
+      
+      Access_Secret = Guid.NewGuid().ToString(),
+      Access_Iss = "test-access-iss",
+      Access_Aud = "test-access-aud"
+    });
+  
+  private readonly IOptions<CookieConfig> _cookieConfig = Options.Create <CookieConfig>(
+    new CookieConfig()
+    {
       RefreshTokenCookieName = "test-cookie",
       AccessTokenHeaderName = "test"
     });
 
+
   public UserControllerTests()
   {
-    _jwt = new Jwt(_testSettings);
+    _jwt = new Jwt(_jwtConfig);
   }
   
   

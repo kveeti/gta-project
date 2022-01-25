@@ -45,7 +45,10 @@ public class ModelCarController : ControllerBase
   [Authorization.CustomAuth("Admin")]
   public async Task<ActionResult<ModelCar>> Add(ModelCarDto aDto)
   {
-    var existing = await _db.GetOneByFilter(car => car.Name == aDto.Name);
+    var existing = await _db
+      .GetOneByFilter(car => car.Name == aDto.Name
+                             &&
+                             car.Manufacturer == aDto.Manufacturer);
     if (existing != null) return Conflict(existing);
 
     ModelCar newModelCar = new()

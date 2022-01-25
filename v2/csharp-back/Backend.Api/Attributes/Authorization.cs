@@ -1,4 +1,5 @@
 using System.Security.Claims;
+using Backend.Api.Configs;
 using Backend.Api.Helpers;
 using Backend.Api.Models;
 using Backend.Api.Repositories;
@@ -24,26 +25,26 @@ public class Authorization
   {
     private readonly Claim _claim;
     private readonly IJwt _jwt;
-    private readonly IOptions<Settings> _settings;
+    private readonly IOptions<CookieConfig> _cookieConfig;
     private readonly IGenericRepo<User> _userRepo;
 
     public ClaimRequirementFilter(
       IJwt jwt,
       Claim claim,
       IGenericRepo<User> aUserRepo,
-      IOptions<Settings> aSettings
+      IOptions<CookieConfig> aCookieConfig
     )
     {
       _jwt = jwt;
       _claim = claim;
       _userRepo = aUserRepo;
-      _settings = aSettings;
+      _cookieConfig = aCookieConfig;
     }
 
     public async Task OnAuthorizationAsync(AuthorizationFilterContext context)
     {
       // firstly look for a refresh token 
-      var refreshTokenFromCookie = context.HttpContext.Request.Cookies[_settings.Value.RefreshTokenCookieName];
+      var refreshTokenFromCookie = context.HttpContext.Request.Cookies[_cookieConfig.Value.RefreshTokenCookieName];
       var refreshToken = _jwt.ValidateRefreshToken(refreshTokenFromCookie);
 
       // no (valid) refresh token, no access at all
@@ -102,9 +103,9 @@ public class Authorization
         var newRefreshToken = _jwt.CreateRefreshToken(dbUser);
         context.HttpContext
           .Response.Headers
-          .SetCookie = Cookie.CreateCookie(_settings.Value.RefreshTokenCookieName, newRefreshToken);
+          .SetCookie = Cookie.CreateCookie(_cookieConfig.Value.RefreshTokenCookieName, newRefreshToken);
 
-        context.HttpContext.Response.Headers[_settings.Value.AccessTokenHeaderName] = newAccessToken;
+        context.HttpContext.Response.Headers[_cookieConfig.Value.AccessTokenHeaderName] = newAccessToken;
       }
 
       context.HttpContext.Items["userId"] = dbUser.Id;
@@ -128,7 +129,7 @@ public class Authorization
 
     private void HandleUnauthorized(AuthorizationFilterContext context, string message)
     {
-      context.HttpContext.Response.Cookies.Delete(_settings.Value.RefreshTokenCookieName);
+      context.HttpContext.Response.Cookies.Delete(_cookieConfig.Value.RefreshTokenCookieName);
       Console.WriteLine($"unauthorized {message}");
       context.Result = new UnauthorizedObjectResult(message);
     }
