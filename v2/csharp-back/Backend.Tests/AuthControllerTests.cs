@@ -72,12 +72,12 @@ public class AuthControllerTests
 
     refreshToken.Email.Should().Be(registerDto.Email);
     refreshToken.Username.Should().Be(registerDto.Username);
-    refreshToken.TokenVersion.Should().Be(1);
+    refreshToken.TokenVersion.Should().NotBeEmpty();
     refreshToken.Role.Should().Be("Standard");
     
     accessToken.Email.Should().Be(registerDto.Email);
     accessToken.Username.Should().Be(registerDto.Username);
-    accessToken.TokenVersion.Should().Be(1);
+    accessToken.TokenVersion.Should().NotBeEmpty();
     accessToken.Role.Should().Be("Standard");
   }
   
@@ -127,7 +127,7 @@ public class AuthControllerTests
       Username = authDto.Username,
       Password = hash,
       Role = Guid.NewGuid().ToString(),
-      TokenVersion = _randomNum,
+      TokenVersion = Guid.NewGuid(),
     };
     
     _fakeUserRepo.Setup(repo => repo
@@ -209,7 +209,7 @@ public class AuthControllerTests
       Username = authDto.Username,
       Password = Hashing.HashToString(Guid.NewGuid().ToString()),
       Role = Guid.NewGuid().ToString(),
-      TokenVersion = _randomNum,
+      TokenVersion = Guid.NewGuid(),
     };
     
     _fakeUserRepo.Setup(repo => repo
@@ -274,7 +274,7 @@ public class AuthControllerTests
       Username = Guid.NewGuid().ToString(),
       Password = hash ?? Hashing.HashToString(Guid.NewGuid().ToString()),
       Role = Guid.NewGuid().ToString(),
-      TokenVersion = _randomNum,
+      TokenVersion = Guid.NewGuid(),
     };
   }
   private static AuthUserDto CreateFakeAuthUser(string password)

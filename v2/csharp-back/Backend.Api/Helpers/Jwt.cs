@@ -156,7 +156,7 @@ public class Jwt : IJwt
       UserId = Guid.Parse(userIdClaim.Value),
       Username = usernameClaim.Value,
       Email = emailClaim.Value,
-      TokenVersion = int.Parse(tokenVersionClaim.Value)
+      TokenVersion = Guid.Parse(tokenVersionClaim.Value)
     };
   }
   
@@ -189,7 +189,7 @@ public class Jwt : IJwt
       UserId = Guid.Parse(userIdClaim.Value),
       Username = usernameClaim.Value,
       Email = emailClaim.Value,
-      TokenVersion = int.Parse(tokenVersionClaim.Value)
+      TokenVersion = Guid.Parse(tokenVersionClaim.Value)
     };
   }
 }

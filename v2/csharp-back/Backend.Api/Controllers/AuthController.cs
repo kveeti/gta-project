@@ -44,7 +44,7 @@ public class AuthController : ControllerBase
       Username = aDto.Username,
       Password = hash,
       Role = "Standard",
-      TokenVersion = 1
+      TokenVersion = Guid.NewGuid()
     };
 
     _userRepo.Add(user);

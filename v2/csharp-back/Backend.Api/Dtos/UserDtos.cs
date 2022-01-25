@@ -26,4 +26,5 @@ public record ReturnUserDto
   public string Role { get; init; }
   public int CarCount { get; init; }
   public int GarageCount { get; init; }
+  public Guid TokenVersion { get; set; }
 }

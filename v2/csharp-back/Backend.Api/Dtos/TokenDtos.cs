@@ -7,5 +7,5 @@ public record ValidTokenDto
   public string Role { get; init; }
   public string Username { get; init; }
   public string Email { get; init; }
-  public int TokenVersion { get; init; }
+  public Guid TokenVersion { get; init; }
 }

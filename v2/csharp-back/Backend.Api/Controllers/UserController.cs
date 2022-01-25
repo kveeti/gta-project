@@ -34,6 +34,7 @@ public class UserController : ControllerBase
       Username = user.Username,
       Email = user.Email,
       Role = user.Role,
+      TokenVersion = user.TokenVersion,
       GarageCount = user.Garages.Count,
       CarCount = user.Cars.Count
     };
@@ -54,6 +55,7 @@ public class UserController : ControllerBase
       Username = user.Username,
       Email = user.Email,
       Role = user.Role,
+      TokenVersion = user.TokenVersion,
       GarageCount = user.Garages.Count,
       CarCount = user.Cars.Count
     };
@@ -85,7 +87,9 @@ public class UserController : ControllerBase
     {
       Id = existingUser.Id,
       Username = existingUser.Username,
-      Role = existingUser.Role
+      Email = existingUser.Email,
+      Role = existingUser.Role,
+      TokenVersion = existingUser.TokenVersion,
     };
 
     return Ok(returnUser);
