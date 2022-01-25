@@ -17,7 +17,7 @@ interface Props {
 }
 
 const SingleCardPageLayout = ({ children, title }: Props) => {
-  useAuthPageRedirector();
+  if (typeof window === "undefined") return null;
 
   return (
     <>
