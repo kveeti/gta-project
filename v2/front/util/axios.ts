@@ -5,14 +5,10 @@ import { getAccessToken, setAccessToken } from "./accessToken";
 
 axios.interceptors.response.use(
   (response) => {
-    if (response && response.status >= 200 && response.status < 300) {
-      const accessToken = response.headers[accessTokenHeaderName];
-      if (accessToken) setAccessToken(accessToken);
+    const accessToken = response.headers[accessTokenHeaderName];
+    if (accessToken) setAccessToken(accessToken);
 
-      return Promise.resolve(response);
-    }
-
-    return Promise.reject(response);
+    return Promise.resolve(response);
   },
   (error) => {
     if (!error.response || error.response.status >= 502)
@@ -26,8 +22,8 @@ axios.interceptors.response.use(
   }
 );
 
-export const config = (path: string, method: Method, data?: any) => {
-  const config: AxiosRequestConfig = {
+export const config = (path: string, method: Method, data?: any): AxiosRequestConfig => {
+  return {
     url: `${apiBaseUrl}${path}`,
     method,
     data,
@@ -35,6 +31,4 @@ export const config = (path: string, method: Method, data?: any) => {
       Authorization: `Bearer ${getAccessToken()}`,
     },
   };
-
-  return config;
 };
