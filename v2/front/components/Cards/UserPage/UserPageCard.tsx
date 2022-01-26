@@ -23,7 +23,16 @@ export const UserPageCard = () => {
       <Div>
         <Text>
           <b>Email: </b>
-          {users?.me?.email}
+          {users?.me?.email && (
+            <>
+              {users?.me?.email}
+              {users?.me?.emailVerified ? (
+                <Text green> (verified)</Text>
+              ) : (
+                <Text red> (not verified)</Text>
+              )}
+            </>
+          )}
         </Text>
 
         <Text>

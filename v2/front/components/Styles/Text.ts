@@ -1,5 +1,5 @@
 import { styled } from "../../stitches.config";
-import { red } from "@radix-ui/colors";
+import { green, red } from "@radix-ui/colors";
 
 export const Text = styled("p", {
   all: "unset",
@@ -24,7 +24,13 @@ export const Text = styled("p", {
 
     red: {
       true: {
-        color: red.red11,
+        color: red.red10,
+      },
+    },
+
+    green: {
+      true: {
+        color: green.green10,
       },
     },
   },
