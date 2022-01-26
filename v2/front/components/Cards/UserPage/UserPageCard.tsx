@@ -49,7 +49,7 @@ export const UserPageCard = () => {
 
         <Text>
           <b>Garages: </b>
-          {users?.me?.carCount}
+          {users?.me?.garageCount}
         </Text>
       </Div>
 
