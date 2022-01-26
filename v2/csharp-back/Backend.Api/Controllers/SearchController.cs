@@ -32,10 +32,10 @@ public class SearchController : ControllerBase
     if (!goodUserId) return Unauthorized("bad userId");
 
     var cars = await _carRepo
-      .GetManyJoinedByFilter(car => car.OwnerId == userId);
+      .GetMatching(userId, query);
 
     var garages = await _garageRepo
-      .GetManyJoinedByFilter(garage => garage.OwnerId == userId);
+      .GetMatching(userId, query);
 
     IEnumerable<JoinedCarDto> carsToReturn = Array.Empty<JoinedCarDto>();
     IEnumerable<JoinedGarageDto> garagesToReturn = Array.Empty<JoinedGarageDto>();
