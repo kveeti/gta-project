@@ -35,7 +35,6 @@ public class UserController : ControllerBase
       Username = user.Username,
       Email = user.Email,
       Role = user.Role,
-      TokenVersion = user.TokenVersion,
       GarageCount = user.Garages.Count,
       CarCount = user.Cars.Count,
       EmailVerified = user.EmailVerifyToken == null
@@ -57,7 +56,6 @@ public class UserController : ControllerBase
       Username = user.Username,
       Email = user.Email,
       Role = user.Role,
-      TokenVersion = user.TokenVersion,
       GarageCount = user.Garages.Count,
       CarCount = user.Cars.Count,
       EmailVerified = user.EmailVerifyToken == null
@@ -92,7 +90,6 @@ public class UserController : ControllerBase
       Username = existingUser.Username,
       Email = existingUser.Email,
       Role = existingUser.Role,
-      TokenVersion = existingUser.TokenVersion,
       EmailVerified = existingUser.EmailVerifyToken == null
     };
 
