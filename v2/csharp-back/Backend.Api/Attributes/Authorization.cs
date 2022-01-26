@@ -15,7 +15,7 @@ public class Authorization
 {
   public class CustomAuth : TypeFilterAttribute
   {
-    public CustomAuth([CanBeNull] string claimValue) : base(typeof(ClaimRequirementFilter))
+    public CustomAuth(string claimValue) : base(typeof(ClaimRequirementFilter))
     {
       Arguments = new object[] {new Claim(ClaimTypes.Role, claimValue)};
     }
@@ -109,6 +109,7 @@ public class Authorization
       }
 
       context.HttpContext.Items["userId"] = dbUser.Id;
+      context.HttpContext.Items["emailVerified"] = (dbUser.EmailVerifyToken == null).ToString();
 
       var hasCorrectRole = _claim.Value.Contains(accessToken.Role);
       if (!hasCorrectRole)

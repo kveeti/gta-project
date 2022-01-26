@@ -79,6 +79,7 @@ public class UserController : ControllerBase
   {
     var existingUser = await _db.GetOneByFilterTracking(user => user.Id == id);
     if (existingUser == null) return NotFound();
+    if (HttpContext.Items["emailVerified"] == "False") return BadRequest("Email must be verified");
 
     existingUser.Role = aUserDto.NewRole;
 
@@ -102,6 +103,7 @@ public class UserController : ControllerBase
   {
     var userToDelete = await _db.GetOneByFilter(u => u.Id == id);
     if (userToDelete == null) return NotFound("user was not found");
+    if (HttpContext.Items["emailVerified"] == "False") return BadRequest("Email must be verified");
 
     _db.Delete(userToDelete);
     await _db.Save();

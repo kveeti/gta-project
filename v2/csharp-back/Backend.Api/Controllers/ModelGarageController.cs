@@ -70,6 +70,7 @@ public class ModelGarageController : ControllerBase
     var existing = await _modelGarageRepo.GetOneByFilter(garage => garage.Name == aDto.Name);
     if (existing != null)
       return Conflict(existing);
+    if (HttpContext.Items["emailVerified"] == "False") return BadRequest("Email must be verified");
 
     ModelGarage newModelGarage = new()
     {
@@ -90,6 +91,7 @@ public class ModelGarageController : ControllerBase
   {
     var existing = await _modelGarageRepo.GetOneByFilterTracking(garage => garage.Id == id);
     if (existing == null) return NotFound();
+    if (HttpContext.Items["emailVerified"] == "False") return BadRequest("Email must be verified");
 
     existing.Name = aDto.Name;
     existing.Capacity = aDto.Capacity;
