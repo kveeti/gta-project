@@ -1,8 +1,7 @@
-import axios from "axios";
 import { toast } from "react-toastify";
 import { ICar, ModelCar } from "../../interfaces/Car";
 import { IGarage, ModelGarage } from "../../interfaces/Garage";
-import { config } from "../../util/axios";
+import { request } from "../../util/axios";
 import { constants } from "../actionTypes";
 
 export const set = {
@@ -102,52 +101,50 @@ export const reset = () => {
 
 export const search = {
   cars: (query: string) => async (dispatch) => {
-    try {
-      if (!query) return;
+    if (!query) return;
 
-      dispatch(set.cars.api.setLoading(true));
-      const response = await axios(config(`/modelcars?query=${query}`, "GET"));
-      dispatch(set.cars.api.setLoading(false));
+    dispatch(set.cars.api.setLoading(true));
+    const res = await request(`/modelcars?query=${query}`, "GET");
+    dispatch(set.cars.api.setLoading(false));
 
-      dispatch(set.cars.matching(response.data));
-    } catch (error) {
-      dispatch(set.cars.api.setLoading(false));
+    if (res) {
+      dispatch(set.cars.matching(res.data));
+    } else {
       dispatch(set.cars.api.setError(true));
     }
   },
   garages: (query: string) => async (dispatch) => {
-    try {
-      if (!query) return;
+    if (!query) return;
 
-      dispatch(set.garages.api.setLoading(true));
-      const response = await axios(config(`/garages?query=${query}`, "GET"));
-      dispatch(set.garages.api.setLoading(false));
+    dispatch(set.garages.api.setLoading(true));
+    const res = await request(`/garages?query=${query}`, "GET");
+    dispatch(set.garages.api.setLoading(false));
 
-      dispatch(set.garages.matching(response.data));
-    } catch (error) {
-      dispatch(set.garages.api.setLoading(false));
+    if (res) {
+      dispatch(set.garages.matching(res.data));
+    } else {
       dispatch(set.garages.api.setError(true));
     }
   },
 };
 
 export const save = (chosenCar: ICar, chosenGarage: IGarage) => async (dispatch) => {
-  try {
-    if (!chosenCar || !chosenGarage) return;
+  if (!chosenCar || !chosenGarage) return;
 
-    dispatch(set.api.setSaving(true));
-    await axios(
-      config(`/cars`, "POST", {
-        modelCarId: chosenCar.id,
-        garageId: chosenGarage.id,
-      })
-    );
-    dispatch(set.api.setSaving(false));
+  dispatch(set.api.setSaving(true));
+
+  const res = await request("/cars", "POST", {
+    modelCarId: chosenCar.id,
+    garageId: chosenGarage.id,
+  });
+
+  dispatch(set.api.setSaving(false));
+
+  if (res) {
     toast.success(`Successfully saved ${chosenCar.name} to ${chosenGarage.name}`);
     dispatch(reset());
-  } catch (error) {
-    dispatch(set.api.setSaving(false));
+  } else {
     dispatch(set.api.setError(true));
-    toast.error(`Error saving ${chosenCar.name} to ${chosenGarage.name}`);
+    toast.error("Something went wrong, no changes were made.");
   }
 };

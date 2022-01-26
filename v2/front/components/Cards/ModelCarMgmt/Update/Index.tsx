@@ -1,10 +1,9 @@
-import axios from "axios";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 import { toast } from "react-toastify";
 import { gtabaseLinkPrefix } from "../../../../envs";
 import { useAdminCheck } from "../../../../hooks/useAdminCheck";
-import { config } from "../../../../util/axios";
+import { request } from "../../../../util/axios";
 import {
   InputContainer,
   PageButton,
@@ -31,23 +30,21 @@ export const ModelCarUpdateCard = () => {
   const [link, setLink] = useState("");
 
   const getCar = async () => {
-    try {
-      const res = await axios(config(`/modelcars/${carId}`, "GET"));
+    const res = await request(`/modelcars/${carId}`, "GET");
 
-      if (res?.data) {
-        setName(res.data.name);
-        setOgName(res.data.name);
+    if (res) {
+      setName(res.data.name);
+      setOgName(res.data.name);
 
-        setManufacturer(res.data.manufacturer);
-        setOfManufacturer(res.data.manufacturer);
+      setManufacturer(res.data.manufacturer);
+      setOfManufacturer(res.data.manufacturer);
 
-        setClass(res.data.class);
-        setOgClass(res.data.class);
+      setClass(res.data.class);
+      setOgClass(res.data.class);
 
-        setLink(res.data.link.split("vehicles/")[1]);
-        setOgLink(res.data.link.split("vehicles/")[1]);
-      }
-    } catch {
+      setLink(res.data.link.split("vehicles/")[1]);
+      setOgLink(res.data.link.split("vehicles/")[1]);
+    } else {
       toast.error("Something went wrong");
     }
   };
@@ -59,22 +56,18 @@ export const ModelCarUpdateCard = () => {
   if (loading) return null;
 
   const onSave = async () => {
-    try {
-      const res = await axios(
-        config(`/modelcars/${carId}`, "PATCH", {
-          name,
-          manufacturer,
-          class: _class,
-          link: `${gtabaseLinkPrefix}${link}`,
-        })
-      );
+    const res = await request(`/modelcars/${carId}`, "PATCH", {
+      name,
+      manufacturer,
+      class: _class,
+      link: `${gtabaseLinkPrefix}${link}`,
+    });
 
+    if (res) {
       getCar();
-
-      if (res?.data) return toast.success("Model car updated successfully!");
-      toast.error("Something went wrong");
-    } catch {
-      toast.error("Something went wrong");
+      toast.success("Model car updated successfully!");
+    } else {
+      toast.error("Something went wrong, no changes were made");
     }
   };
 

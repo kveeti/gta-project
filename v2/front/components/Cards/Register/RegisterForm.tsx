@@ -1,9 +1,7 @@
-import axios from "axios";
 import { useState } from "react";
 import { Input } from "../../Input/Input";
 import { InputContainer, Label } from "../../Styles/Page-cards";
-import { config } from "../../../util/axios";
-import { toast } from "react-toastify";
+import { request } from "../../../util/axios";
 import { useRouter } from "next/router";
 import { RegisterButton } from "./Buttons/RegisterButton";
 import { ButtonContainer } from "../../Styles/SinglePage";
@@ -24,19 +22,14 @@ export const RegisterForm = () => {
 
   const onRegisterClick = async () => {
     if (registerButtonDisabled) return;
-    try {
-      const res = await axios(
-        config("/auth/register", "POST", {
-          username,
-          email,
-          password,
-        })
-      );
 
-      if (res?.status === 204) router.push("/", "/", { shallow: true });
-    } catch (err) {
-      if (!err.response) return;
-      if (err.response.status === 409) toast.error(err.response.data);
+    const res = await request("/auth/register", "POST", {
+      username,
+      email,
+      password,
+    });
+    if (res) {
+      router.push("/", "/", { shallow: true });
     }
   };
 

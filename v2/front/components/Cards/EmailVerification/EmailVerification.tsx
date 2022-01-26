@@ -1,7 +1,6 @@
-import axios from "axios";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
-import { config } from "../../../util/axios";
+import { request } from "../../../util/axios";
 import { Failed } from "./Failed";
 import { Success } from "./Success";
 import { Verifying } from "./Verifying";
@@ -9,7 +8,6 @@ import { Verifying } from "./Verifying";
 export const EmailVerification = () => {
   const [success, setSuccess] = useState(false);
   const [error, setError] = useState(false);
-  const [reason, setReason] = useState("");
 
   const router = useRouter();
 
@@ -19,16 +17,12 @@ export const EmailVerification = () => {
     const verify = async () => {
       if (!verifyToken) return;
 
-      try {
-        const res = await axios(config("/email/verify", "POST", { token: verifyToken }));
-        if (res.status === 204) return setSuccess(true);
-        setError(true);
-        setReason("An error occurred");
-      } catch (err) {
-        setError(true);
-        if (!err?.response) return setReason("An error occurred");
+      const res = await request("/email/verify", "POST", { token: verifyToken });
 
-        if (err?.response?.status === 400) setReason("Invalid verification token");
+      if (res) {
+        setSuccess(true);
+      } else {
+        setError(true);
       }
     };
 
@@ -37,7 +31,7 @@ export const EmailVerification = () => {
 
   if (success) return <Success />;
 
-  if (error) return <Failed reason={reason} />;
+  if (error) return <Failed />;
 
   return <Verifying />;
 };

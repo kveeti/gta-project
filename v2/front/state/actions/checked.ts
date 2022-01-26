@@ -1,7 +1,6 @@
-import axios from "axios";
 import { actions } from ".";
 import { ICar } from "../../interfaces/Car";
-import { config } from "../../util/axios";
+import { request } from "../../util/axios";
 import { constants } from "../actionTypes";
 
 export const checkCar = (car: ICar) => {
@@ -48,17 +47,16 @@ export const setCheckedCars = (checkedCars: ICar[]) => {
 };
 
 export const remove = (carIds: string[], searchInput: string) => async (dispatch) => {
-  try {
-    if (!carIds.length) return;
+  if (!carIds.length) return;
 
-    dispatch(removeApi.setLoading(true));
-    await axios(config(`/cars`, "DELETE", { carIds }));
-    dispatch(removeApi.setLoading(false));
+  dispatch(removeApi.setLoading(true));
+  const res = await request(`/cars`, "DELETE", { carIds });
+  dispatch(removeApi.setLoading(false));
+
+  if (res) {
     dispatch(reset());
-
     if (searchInput) dispatch(actions.search.search(searchInput));
-  } catch (error) {
-    dispatch(removeApi.setLoading(false));
+  } else {
     dispatch(removeApi.setError(true));
   }
 };

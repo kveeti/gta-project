@@ -1,14 +1,13 @@
-import axios from "axios";
 import { useState } from "react";
 import { Input } from "../../Input/Input";
 import { InputContainer, Label } from "../../Styles/Page-cards";
 import { SigninButton } from "./Buttons/SigninButton";
-import { config } from "../../../util/axios";
 import { toast } from "react-toastify";
 import { useRouter } from "next/router";
 import { TestButton } from "./Buttons/TestButton";
 import { RegisterButton } from "./Buttons/RegisterButton";
 import { ButtonContainer } from "../../Styles/SinglePage";
+import { request } from "../../../util/axios";
 
 interface InputProps {
   value: string;
@@ -24,19 +23,15 @@ export const SignInForm = () => {
 
   const onSignInClick = async () => {
     if (signInButtonDisabled) return;
-    try {
-      const res = await axios(
-        config("/auth/login", "POST", {
-          username,
-          password,
-        })
-      );
+    const res = await request("/auth/login", "POST", {
+      username,
+      password,
+    });
 
-      if (res?.status === 204) router.push("/", "/", { shallow: true });
-    } catch (err) {
-      if (!err.response) return;
-      if (err.response.status === 401) toast.error("Incorrect credentials");
-      if (err.response.status === 404) toast.error("User not found");
+    if (res) {
+      router.push("/", "/", { shallow: true });
+    } else {
+      toast.error("Incorrect credentials");
     }
   };
 

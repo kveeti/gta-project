@@ -1,7 +1,6 @@
-import axios from "axios";
 import { ICar } from "../../interfaces/Car";
 import { IGarage } from "../../interfaces/Garage";
-import { config } from "../../util/axios";
+import { request } from "../../util/axios";
 import { constants } from "../actionTypes";
 
 export const set = {
@@ -57,22 +56,18 @@ export const api = {
 };
 
 export const search = (query: string) => async (dispatch: any) => {
-  try {
-    if (!query.length) return;
-    if (!query) return;
+  if (!query.length) return;
+  if (!query) return;
 
-    dispatch(api.setLoading(true));
+  dispatch(api.setLoading(true));
+  const res = await request(`/search?query=${query}`, "GET");
+  dispatch(api.setLoading(false));
 
-    const res = await axios(config(`/search?query=${query}`, "GET"));
-
+  if (res) {
     dispatch(set.cars(res.data.cars));
     dispatch(set.garages(res.data.garages));
-    dispatch(api.setLoading(false));
-
     if (!res.data.cars.length && !res.data.garages.length) dispatch(api.setNotFound(true));
-  } catch (err: any) {
-    dispatch(api.setLoading(false));
+  } else {
     dispatch(api.setError(true));
-    if (!err.response) return;
   }
 };

@@ -1,7 +1,6 @@
-import axios from "axios";
 import { useState } from "react";
 import { toast } from "react-toastify";
-import { config } from "../../../../util/axios";
+import { request } from "../../../../util/axios";
 import { Input } from "../../../Input/Input";
 import { Label } from "../../../Styles/Page-cards";
 
@@ -13,11 +12,11 @@ export const SearchInput = ({ setMatching }) => {
 
     if (!value.length) return setMatching([]);
 
-    try {
-      const res = await axios(config(`/modelgarages?query=${value}`, "GET"));
+    const res = await request(`/modelgarages?query=${value}`, "GET");
 
-      if (res?.data) setMatching(res.data);
-    } catch {
+    if (res) {
+      setMatching(res.data);
+    } else {
       toast.error("Something went wrong");
     }
   };

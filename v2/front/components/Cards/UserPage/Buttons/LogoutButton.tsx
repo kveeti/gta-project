@@ -1,10 +1,9 @@
-import axios from "axios";
 import { useRouter } from "next/router";
 import { useDispatch } from "react-redux";
 import { actions } from "../../../../state/actions";
 import { initState } from "../../../../state/InitState";
 import { setAccessToken } from "../../../../util/accessToken";
-import { config } from "../../../../util/axios";
+import { request } from "../../../../util/axios";
 import { StyledButton } from "../../Signin/Buttons/Styles";
 
 export const LogoutButton = () => {
@@ -12,7 +11,7 @@ export const LogoutButton = () => {
   const router = useRouter();
 
   const onClick = async () => {
-    await axios(config("/auth/logout", "POST")).catch(() => null);
+    await request("/auth/logout", "POST");
     localStorage.clear();
     setAccessToken(null);
 

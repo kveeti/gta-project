@@ -6,9 +6,8 @@ import { DescInput } from "./DescInput";
 import { Label } from "../../Styles/Page-cards";
 import { toast } from "react-toastify";
 import { styled } from "../../../stitches.config";
-import axios from "axios";
-import { config } from "../../../util/axios";
 import { DeleteButton } from "./DeleteButton";
+import { request } from "../../../util/axios";
 
 interface Props {
   garage: IGarageDeep;
@@ -32,17 +31,18 @@ export const GaragePageCard = ({ garage }: Props) => {
   const onSaveClick = async () => {
     if (!descHasChanged) return toast.error("You haven't changed the description");
 
-    try {
-      setLoading(true);
-      const res = await axios(config(`/garages/${garage.id}/desc`, "PATCH", { newDesc: descVal }));
+    setLoading(true);
+    const res = await request(`/garages/${garage.id}/desc`, "PATCH", { newDesc: descVal });
+
+    if (res) {
       setLoading(false);
       toast.success("Description updated successfully!");
 
       if (res?.data) setOriginalDesc(res.data.desc);
-    } catch (err) {
+    } else {
       setLoading(false);
       setError(true);
-      toast.error("Error updating description");
+      toast.error("Something went wrong, no changes were made.");
     }
   };
 

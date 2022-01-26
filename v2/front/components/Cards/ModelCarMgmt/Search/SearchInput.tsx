@@ -1,7 +1,5 @@
-import axios from "axios";
 import { useState } from "react";
-import { toast } from "react-toastify";
-import { config } from "../../../../util/axios";
+import { request } from "../../../../util/axios";
 import { Input } from "../../../Input/Input";
 import { Label } from "../../../Styles/Page-cards";
 
@@ -13,12 +11,10 @@ export const SearchInput = ({ setMatching }) => {
 
     if (!value.length) return setMatching([]);
 
-    try {
-      const res = await axios(config(`/modelcars?query=${value}`, "GET"));
+    const res = await request(`/modelcars?query=${value}`, "GET");
 
+    if (res) {
       if (res?.data) setMatching(res.data);
-    } catch {
-      toast.error("Something went wrong");
     }
   };
 

@@ -1,10 +1,9 @@
-import axios from "axios";
 import { useState } from "react";
 import { useDispatch } from "react-redux";
 import { toast } from "react-toastify";
 import { actions } from "../../../state/actions";
 import { useISelector } from "../../../state/hooks";
-import { config } from "../../../util/axios";
+import { request } from "../../../util/axios";
 import { Input } from "../../Input/Input";
 import {
   InputContainer,
@@ -25,7 +24,7 @@ export const ChangeEmailCard = () => {
   const onClick = async () => {
     if (!newEmail) return;
     try {
-      const res1 = await axios(config("/email/change", "POST", { newEmail, userId: me?.id }));
+      const res1 = await request("/email/change", "POST", { newEmail, userId: me?.id });
 
       if (res1?.status !== 204) return toast.error("Something went wrong");
 
@@ -33,7 +32,7 @@ export const ChangeEmailCard = () => {
       toast.info("Remember to verify the new email!");
       toast.success("Email changed successfully!");
 
-      const res = await axios(config("/users/me", "GET")).catch(() => null);
+      const res = await request("/users/me", "GET");
       if (res?.data) dispatch(actions.users.set.me(res.data));
     } catch (err: any) {
       if (!err?.response) return;

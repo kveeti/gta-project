@@ -1,9 +1,8 @@
-import axios from "axios";
 import { toast } from "react-toastify";
 import { actions } from ".";
 import { ICar } from "../../interfaces/Car";
 import { IGarage } from "../../interfaces/Garage";
-import { config } from "../../util/axios";
+import { request } from "../../util/axios";
 import { constants } from "../actionTypes";
 
 export const reset = () => {
@@ -14,17 +13,16 @@ export const reset = () => {
 
 export const matchingGarages = {
   search: (query: string) => async (dispatch) => {
-    try {
-      if (!query) return;
+    if (!query) return;
 
-      dispatch(matchingGarages.api.setLoading(true));
-      const response = await axios(config(`/garages?query=${query}`, "GET"));
-      dispatch(matchingGarages.api.setLoading(false));
-      dispatch(matchingGarages.api.setSuccess(false));
+    dispatch(matchingGarages.api.setLoading(true));
+    const res = await request(`/garages?query=${query}`, "GET");
+    dispatch(matchingGarages.api.setLoading(false));
 
-      dispatch(matchingGarages.set(response.data));
-    } catch (error) {
-      dispatch(matchingGarages.api.setLoading(false));
+    if (res) {
+      dispatch(matchingGarages.api.setSuccess(true));
+      dispatch(matchingGarages.set(res.data));
+    } else {
       dispatch(matchingGarages.api.setError(true));
     }
   },
@@ -100,31 +98,23 @@ export const api = {
 };
 
 export const move = (cars: ICar[], garage: IGarage, searchInput: string) => async (dispatch) => {
-  try {
-    if (!cars.length) return;
+  if (!cars.length) return;
 
-    const carIds = cars.map((car) => car.id);
+  const carIds = cars.map((car) => car.id);
 
-    dispatch(api.setLoading(true));
-    const { data } = await axios(
-      config(`/cars/move`, "POST", {
-        newGarageId: garage.id,
-        carIds,
-      })
-    );
-    dispatch(api.setLoading(false));
-    dispatch(api.setError(false));
-    dispatch(reset());
+  dispatch(api.setLoading(true));
+  const res = await request(`/cars/move`, "POST", {
+    newGarageId: garage.id,
+    carIds,
+  });
+  dispatch(api.setLoading(false));
 
-    if (data) dispatch(actions.checked.setCheckedCars(data));
+  if (res) {
+    dispatch(actions.checked.setCheckedCars(res.data));
     toast.success("Cars moved successfully!");
-
-    if (searchInput) {
-      dispatch(actions.search.search(searchInput));
-    }
-  } catch (error) {
-    if (error?.response && error.response.status) toast.error("The garage is full");
-    dispatch(api.setLoading(false));
+    dispatch(reset());
+    if (searchInput) dispatch(actions.search.search(searchInput));
+  } else {
     dispatch(api.setError(true));
   }
 };

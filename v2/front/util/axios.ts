@@ -1,28 +1,20 @@
-import axios, { AxiosRequestConfig, Method } from "axios";
+import axios, { AxiosRequestConfig, AxiosResponse, Method } from "axios";
 import { toast } from "react-toastify";
 import { accessTokenHeaderName, apiBaseUrl } from "../envs";
 import { getAccessToken, setAccessToken } from "./accessToken";
 
-axios.interceptors.response.use(
-  (response) => {
-    const accessToken = response.headers[accessTokenHeaderName];
-    if (accessToken) setAccessToken(accessToken);
+const axiosErrorHandler = (error: any) => {
+  if (!error.response || error.response.status >= 502)
+    return toast.error("Failed connecting to the server, please try again later.");
 
-    return Promise.resolve(response);
-  },
-  (error) => {
-    if (!error.response || error.response.status >= 502)
-      return toast.error("Failed connecting to the server, please try again later.");
+  const statusCode = error?.response?.status;
 
-    const statusCode = error?.response?.status;
+  if (statusCode === 500) return toast.error("Server error, please try again later.");
+  if (statusCode === 400) return toast.error(error.response.data);
+  if (statusCode === 409) return toast.error(error.response.data);
+};
 
-    if (statusCode === 500) return toast.error("Server error, please try again later.");
-
-    return Promise.reject(error);
-  }
-);
-
-export const config = (path: string, method: Method, data?: any): AxiosRequestConfig => {
+const config = (path: string, method: Method, data?: any): AxiosRequestConfig => {
   return {
     url: `${apiBaseUrl}${path}`,
     method,
@@ -31,4 +23,18 @@ export const config = (path: string, method: Method, data?: any): AxiosRequestCo
       Authorization: `Bearer ${getAccessToken()}`,
     },
   };
+};
+
+export const request = async (path: string, method: Method, data?: any): Promise<AxiosResponse> => {
+  try {
+    const response = await axios(config(path, method, data));
+
+    const accessToken = response.headers[accessTokenHeaderName];
+    if (accessToken) setAccessToken(accessToken);
+
+    return response;
+  } catch (err) {
+    axiosErrorHandler(err);
+    return null;
+  }
 };

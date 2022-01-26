@@ -1,9 +1,8 @@
-import axios from "axios";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
 import { actions } from "../state/actions";
-import { config } from "../util/axios";
+import { request } from "../util/axios";
 
 export const useAdminCheck = () => {
   const router = useRouter();
@@ -17,7 +16,7 @@ export const useAdminCheck = () => {
 
   useEffect(() => {
     const getMe = async () => {
-      const res = await axios(config("/users/me", "GET"));
+      const res = await request("/users/me", "GET");
 
       if (res?.data) {
         dispatch(actions.users.set.me(res?.data));

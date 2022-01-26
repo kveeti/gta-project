@@ -1,6 +1,5 @@
-import axios from "axios";
 import { toast } from "react-toastify";
-import { config } from "../../../../util/axios";
+import { request } from "../../../../util/axios";
 
 interface Props {
   setName: (garage: any) => void;
@@ -17,16 +16,14 @@ export const getGarage = async ({
   setOriginalCapacity,
   garageId,
 }: Props) => {
-  try {
-    const res = await axios(config(`/modelgarages/${garageId}`, "GET"));
+  const res = await request(`/modelgarages/${garageId}`, "GET");
 
-    if (res?.data) {
-      setName(res.data.name);
-      setOriginalName(res.data.name);
-      setCapacity(res.data.capacity);
-      setOriginalCapacity(res.data.capacity);
-    }
-  } catch {
+  if (res) {
+    setName(res.data.name);
+    setOriginalName(res.data.name);
+    setCapacity(res.data.capacity);
+    setOriginalCapacity(res.data.capacity);
+  } else {
     toast.error("Something went wrong");
   }
 };

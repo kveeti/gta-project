@@ -1,8 +1,7 @@
 import { useEffect } from "react";
 import { useRouter } from "next/router";
 import { useDispatch } from "react-redux";
-import axios from "axios";
-import { config } from "../util/axios";
+import { request } from "../util/axios";
 import { actions } from "../state/actions";
 import { toast } from "react-toastify";
 
@@ -22,7 +21,7 @@ export const useAuthPageRedirector = () => {
         const item = localStorage.getItem("item");
 
         if (!item || Date.now() <= parseInt(item)) {
-          const res = await axios(config("/users/me", "GET")).catch(() => null);
+          const res = await request("/users/me", "GET");
 
           if (res?.data) return pushToIndex(res.data);
         }

@@ -1,11 +1,10 @@
-import axios from "axios";
 import { useRouter } from "next/router";
 import { useState } from "react";
 import { useDispatch } from "react-redux";
 import { toast } from "react-toastify";
 import { actions } from "../../../state/actions";
 import { useISelector } from "../../../state/hooks";
-import { config } from "../../../util/axios";
+import { request } from "../../../util/axios";
 import { wait } from "../../../util/wait";
 import { PageButton } from "../../Styles/Page-cards";
 
@@ -20,11 +19,14 @@ export const DeleteButton = ({ garage }) => {
   const onBtnClick = async () => {
     if (open) {
       try {
-        await axios(config(`/garages/${garage.id}`, "DELETE"));
-        toast.success("Garage deleted successfully!");
-        dispatch(actions.users.get.me());
+        const res = await request(`/garages/${garage.id}`, "DELETE");
 
-        if (searchInput) dispatch(actions.search.search(searchInput));
+        if (res) {
+          toast.success("Garage deleted successfully!");
+          dispatch(actions.users.get.me());
+
+          if (searchInput) dispatch(actions.search.search(searchInput));
+        }
 
         await wait(2000);
 

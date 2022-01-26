@@ -1,6 +1,5 @@
 import { useEffect, useState } from "react";
-import axios from "axios";
-import { config } from "../util/axios";
+import { request } from "../util/axios";
 import { actions } from "../state/actions";
 import { useRouter } from "next/router";
 import { useDispatch } from "react-redux";
@@ -38,7 +37,7 @@ export const useLayoutRedirector = () => {
 
         if (users?.me?.id) return setBlocked(false);
 
-        const res = await axios(config("/users/me", "GET")).catch(() => null);
+        const res = await request("/users/me", "GET");
 
         if (res?.data) return handleAuthSuccess(res.data);
 

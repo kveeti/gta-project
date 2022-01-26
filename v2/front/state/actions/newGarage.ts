@@ -2,7 +2,7 @@ import axios from "axios";
 import { toast } from "react-toastify";
 import { actions } from ".";
 import { ModelGarage } from "../../interfaces/Garage";
-import { config } from "../../util/axios";
+import { request } from "../../util/axios";
 import { constants } from "../actionTypes";
 
 export const set = {
@@ -72,39 +72,37 @@ export const reset = () => {
 
 export const search = {
   garages: (query: string) => async (dispatch) => {
-    try {
-      if (!query) return;
+    if (!query) return;
 
-      dispatch(set.garages.api.setLoading(true));
-      const response = await axios(config(`/modelgarages?query=${query}`, "GET"));
-      dispatch(set.garages.api.setLoading(false));
+    dispatch(set.garages.api.setLoading(true));
+    const res = await request(`/modelgarages?query=${query}`, "GET");
+    dispatch(set.garages.api.setLoading(false));
 
-      dispatch(set.garages.matching(response.data));
-    } catch (error) {
-      dispatch(set.garages.api.setLoading(false));
+    if (res) {
+      dispatch(set.garages.matching(res.data));
+    } else {
       dispatch(set.garages.api.setError(true));
     }
   },
 };
 
 export const save = (chosenGarage: ModelGarage, description: string) => async (dispatch) => {
-  try {
-    if (!chosenGarage) return;
+  if (!chosenGarage) return;
 
-    dispatch(set.api.setSaving(true));
-    await axios(
-      config(`/garages`, "POST", {
-        modelGarageId: chosenGarage.id,
-        desc: description,
-      })
-    );
+  dispatch(set.api.setSaving(true));
+  const res = await request(`/garages`, "POST", {
+    modelGarageId: chosenGarage.id,
+    desc: description,
+  });
+  dispatch(set.api.setSaving(false));
+
+  if (res) {
     dispatch(actions.users.get.me());
 
-    dispatch(set.api.setSaving(false));
     toast.success(`${chosenGarage.name} saved successfully`);
     dispatch(reset());
-  } catch (error) {
-    dispatch(set.api.setSaving(false));
+  } else {
     dispatch(set.api.setError(true));
+    toast.error("Something went wrong, no changes were made.");
   }
 };

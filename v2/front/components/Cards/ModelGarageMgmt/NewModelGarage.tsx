@@ -1,9 +1,8 @@
-import axios from "axios";
 import { useState } from "react";
 import { toast } from "react-toastify";
 import { useAdminCheck } from "../../../hooks/useAdminCheck";
 import { styled } from "../../../stitches.config";
-import { config } from "../../../util/axios";
+import { request } from "../../../util/axios";
 import { Input } from "../../Input/Input";
 import {
   Label,
@@ -36,13 +35,13 @@ export const NewModelGarageCard = () => {
   const saveButtonDisabled = !name || !capacity;
 
   const onSave = async () => {
-    try {
-      await axios(config("/modelgarages", "POST", { name, capacity }));
+    const res = await request("/modelgarages", "POST", { name, capacity });
 
+    if (res) {
       toast.success("New model garage saved successfully!");
       reset();
-    } catch {
-      toast.error("Something went wrong");
+    } else {
+      toast.error("Something went wrong, no changes were made");
     }
   };
 

@@ -1,8 +1,7 @@
 import { useEffect } from "react";
 import { useRouter } from "next/router";
 import { useDispatch } from "react-redux";
-import axios from "axios";
-import { config } from "../util/axios";
+import { request } from "../util/axios";
 import { actions } from "../state/actions";
 import { toast } from "react-toastify";
 
@@ -33,7 +32,7 @@ export const AuthenticationCheck = ({ setBlocked }: Props) => {
 
         if (Date.now() <= parseInt(item)) {
           setBlocked(false);
-          const res = await axios(config("/users/me", "GET")).catch(() => null);
+          const res = await request("/users/me", "GET");
 
           if (res?.data) {
             router.push("/", "/", { shallow: true });

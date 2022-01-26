@@ -1,18 +1,15 @@
-import axios from "axios";
-import { config } from "../../util/axios";
+import { request } from "../../util/axios";
 import { constants } from "../actionTypes";
 
 export const get = {
   me: () => async (dispatch: any) => {
-    try {
-      dispatch(api.setLoading(true));
-      const res = await axios(config("/users/me", "GET"));
-      dispatch(api.setLoading(false));
+    dispatch(api.setLoading(true));
+    const res = await request(`/users/me`, "GET");
+    dispatch(api.setLoading(false));
 
-      if (!res?.data) return;
+    if (res) {
       dispatch(set.me(res.data));
-    } catch {
-      dispatch(api.setLoading(false));
+    } else {
       dispatch(api.setError(true));
     }
   },

@@ -1,9 +1,8 @@
-import axios from "axios";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 import { toast } from "react-toastify";
 import { useAdminCheck } from "../../../../hooks/useAdminCheck";
-import { config } from "../../../../util/axios";
+import { request } from "../../../../util/axios";
 import {
   InputContainer,
   PageButton,
@@ -33,13 +32,13 @@ export const ModelGarageUpdateCard = () => {
   if (loading) return null;
 
   const onSave = async () => {
-    try {
-      await axios(config(`/modelgarages/${garageId}`, "PATCH", { name, capacity }));
+    const res = await request(`/modelgarages/${garageId}`, "PATCH", { name, capacity });
 
+    if (res) {
       toast.success("Model garage updated successfully!");
       getGarage({ setName, setOriginalName, setCapacity, setOriginalCapacity, garageId });
-    } catch {
-      toast.error("Something went wrong");
+    } else {
+      toast.error("Something went wrong, no changes were made");
     }
   };
 

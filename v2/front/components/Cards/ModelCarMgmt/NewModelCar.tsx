@@ -1,9 +1,8 @@
-import axios from "axios";
 import { useState } from "react";
 import { toast } from "react-toastify";
 import { gtabaseLinkPrefix } from "../../../envs";
 import { useAdminCheck } from "../../../hooks/useAdminCheck";
-import { config } from "../../../util/axios";
+import { request } from "../../../util/axios";
 import { Input } from "../../Input/Input";
 import {
   Label,
@@ -34,19 +33,17 @@ export const NewModelCarCard = () => {
   const saveButtonDisabled = !name || !manufacturer || !_class || !link;
 
   const onSave = async () => {
-    try {
-      await axios(
-        config("/modelcars", "POST", {
-          name,
-          manufacturer,
-          class: _class,
-          link: `${gtabaseLinkPrefix}${link}`,
-        })
-      );
+    const res = await request("/modelcars", "POST", {
+      name,
+      manufacturer,
+      class: _class,
+      link: `${gtabaseLinkPrefix}${link}`,
+    });
 
+    if (res) {
       toast.success("New model car saved successfully!");
       reset();
-    } catch {
+    } else {
       toast.error("Something went wrong");
     }
   };

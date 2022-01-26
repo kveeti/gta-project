@@ -1,14 +1,8 @@
 import { Text, Title } from "../../Styles/Text";
 import { Card } from "./Styles";
 
-interface Props {
-  reason: string;
-}
-
-export const Failed = ({ reason }: Props) => (
+export const Failed = () => (
   <Card>
     <Title>Verification failed</Title>
-
-    <Text>{reason}</Text>
   </Card>
 );
