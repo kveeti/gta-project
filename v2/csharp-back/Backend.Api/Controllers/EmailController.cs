@@ -47,7 +47,7 @@ public class EmailController : ControllerBase
     user.EmailVerifyToken = emailConfirmationToken;
     await _userRepo.Save();
 
-    await _mailing.SendEmailConfirmation(aDto.NewEmail, emailConfirmationToken);
+    _mailing.SendEmailConfirmation(aDto.NewEmail, emailConfirmationToken);
 
     HttpContext.Response.Cookies.Delete(_cookieConfig.Value.RefreshTokenCookieName);
 

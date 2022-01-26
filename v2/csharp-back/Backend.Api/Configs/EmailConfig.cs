@@ -10,6 +10,5 @@ public class EmailConfig
   public string MailServerUsername { get; set; }
   public string MailServerPassword { get; set; }
   
-  public string SiteName { get; set; }
-  public string VerifyLinkBaseUrl { get; set; }
+  public string VerifyLinkBase { get; set; }
 }

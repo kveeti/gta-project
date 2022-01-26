@@ -24,11 +24,11 @@ public class Mailing : IMailing
     emailToSend.From.Add(new MailboxAddress(_config.Value.FromName, _config.Value.FromEmail));
     emailToSend.To.Add(new MailboxAddress("", receiversEmail));
 
-    var link = $"{_config.Value.VerifyLinkBaseUrl}/{linkId}";
+    var link = $"{_config.Value.VerifyLinkBase}/{linkId}";
 
-    emailToSend.Subject = $"Email confirmation on {_config.Value.SiteName}";
+    emailToSend.Subject = $"Email confirmation on {_config.Value.LocalDomain}";
     var message = $"<h1>Hello!</h1>" +
-                  $"<p>Confirm your email on <b>{_config.Value.SiteName}</b> by clicking the link below:</p>" +
+                  $"<p>Confirm your email on <b>{_config.Value.LocalDomain}</b> by clicking the link below:</p>" +
                   $"<a href=\"{link}\" target=\"_blank\">{link}</a>" +
                   "<br><br>" +
                   "<b>If you weren't expecting a confirmation email, you should ignore this.</b>";
