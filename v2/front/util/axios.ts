@@ -28,7 +28,11 @@ const config = (path: string, method: Method, data?: any): AxiosRequestConfig =>
   };
 };
 
-export const request = async (path: string, method: Method, data?: any): Promise<AxiosResponse> => {
+export const request = async (
+  path: string,
+  method: Method,
+  data?: any
+): Promise<AxiosResponse | null> => {
   try {
     const response = await axios(config(path, method, data));
 
