@@ -12,7 +12,6 @@ export const CreateAccountButton = () => {
   const router = useRouter();
 
   const onClick = async () => {
-    request("/users/me", "DELETE");
     await request("/auth/logout", "POST");
     localStorage.clear();
     setAccessToken(null);

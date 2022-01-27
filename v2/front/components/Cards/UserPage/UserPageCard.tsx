@@ -3,6 +3,7 @@ import { styled } from "../../../stitches.config";
 import { PageCard } from "../../Styles/Page-cards";
 import { ButtonContainer } from "../../Styles/SinglePage";
 import { Text, Title } from "../../Styles/Text";
+import { CreateAccountButton } from "../IndexPageCard/Buttons/CreateAccountButton";
 import { ChangeEmailButton } from "./Buttons/ChangeEmail";
 import { ChangePasswordButton } from "./Buttons/ChangePasswordButton";
 import { LogoutButton } from "./Buttons/LogoutButton";
@@ -54,9 +55,15 @@ export const UserPageCard = () => {
       </Div>
 
       <ButtonContainer>
-        <ChangeEmailButton />
-        <ChangePasswordButton />
-        <LogoutButton />
+        {!users?.me?.isTestAccount ? (
+          <>
+            <ChangeEmailButton />
+            <ChangePasswordButton />
+            <LogoutButton />
+          </>
+        ) : (
+          <CreateAccountButton />
+        )}
       </ButtonContainer>
     </PageCard>
   );
