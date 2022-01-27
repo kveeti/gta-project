@@ -46,9 +46,8 @@ public class Mailing : IMailing
     emailToSend.To.Add(new MailboxAddress("", receiversEmail));
 
     emailToSend.Subject = $"Password changed on {_config.Value.LocalDomain}";
-    var message = $"<h1>Hello!</h1>" +
-                  $"<p>Your password just got changed!</p>" +
-                  "<b>If you didn't change your password, your account may have been compromised.</b>";
+    var message = $"<h1>Hey!</h1>" +
+                  $"<p>Your password just got changed!</p>";
 
     emailToSend.Body = new TextPart(TextFormat.Html) {Text = message};
 
