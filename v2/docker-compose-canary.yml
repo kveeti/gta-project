@@ -3,19 +3,19 @@ version: "3.9"
 services:
   back:
     build: csharp-back/Backend.Api/
-    image: gta-csharp-back
+    image: gta-csharp-back-canary
     ports:
-      - "11000:5000"
+      - "31000:5000"
     restart: unless-stopped
 
   front:
     build: front/
-    image: gta-front
+    image: gta-front-canary
     ports:
-      - "10000:5000"
+      - "30000:5000"
     restart: unless-stopped
 
 networks:
   default:
     external: true
-    name: gta
+    name: gta-canary
