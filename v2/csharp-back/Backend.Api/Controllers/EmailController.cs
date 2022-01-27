@@ -36,7 +36,7 @@ public class EmailController : ControllerBase
   public async Task<ActionResult<string>> ChangeEmail(ChangeEmailDto aDto)
   {
     var emailInUse = await _userRepo.GetOneByFilter(user => user.Email == aDto.NewEmail);
-    if (emailInUse != null) return BadRequest("email in use");
+    if (emailInUse != null) return BadRequest("Email in use");
     
     var user = await _userRepo.GetOneByFilterTracking(user => user.Id == aDto.UserId);
     if (user == null) return NotFound("user was not found");
@@ -67,12 +67,12 @@ public class EmailController : ControllerBase
   [Authorization.CustomAuth("Admin, Standard")]
   public async Task<ActionResult<string>> ConfirmEmail(VerifyEmailDto aDto)
   {
-    if (aDto.Token == null) return BadRequest("no token provided");
+    if (aDto.Token == null) return BadRequest("Invalid token");
     
     var user = await _userRepo
       .GetOneByFilterTracking(user => user.EmailVerifyToken == aDto.Token);
     
-    if (user == null) return BadRequest("user not found");
+    if (user == null) return BadRequest("Invalid token");
 
     user.EmailVerifyToken = null;
     await _userRepo.Save();
