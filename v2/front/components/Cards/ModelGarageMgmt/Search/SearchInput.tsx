@@ -16,8 +16,6 @@ export const SearchInput = ({ setMatching }) => {
 
     if (res) {
       setMatching(res.data);
-    } else {
-      toast.error("Something went wrong");
     }
   };
 

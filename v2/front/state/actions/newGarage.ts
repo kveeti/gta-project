@@ -103,6 +103,5 @@ export const save = (chosenGarage: ModelGarage, description: string) => async (d
     dispatch(reset());
   } else {
     dispatch(set.api.setError(true));
-    toast.error("Something went wrong, no changes were made.");
   }
 };

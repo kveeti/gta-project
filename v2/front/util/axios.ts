@@ -12,6 +12,8 @@ const axiosErrorHandler = (error: any) => {
   if (statusCode === 500) return toast.error("Server error, please try again later.");
   if (statusCode === 400) return toast.error(error.response.data);
   if (statusCode === 409) return toast.error(error.response.data);
+
+  toast.error("Something went wrong, no changes were made.");
 };
 
 const config = (path: string, method: Method, data?: any): AxiosRequestConfig => {

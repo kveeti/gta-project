@@ -66,8 +66,6 @@ export const ModelCarUpdateCard = () => {
     if (res) {
       getCar();
       toast.success("Model car updated successfully!");
-    } else {
-      toast.error("Something went wrong, no changes were made");
     }
   };
 

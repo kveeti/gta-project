@@ -43,8 +43,6 @@ export const NewModelCarCard = () => {
     if (res) {
       toast.success("New model car saved successfully!");
       reset();
-    } else {
-      toast.error("Something went wrong");
     }
   };
 

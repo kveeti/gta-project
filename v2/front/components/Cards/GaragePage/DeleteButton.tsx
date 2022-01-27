@@ -18,27 +18,23 @@ export const DeleteButton = ({ garage }) => {
 
   const onBtnClick = async () => {
     if (open) {
-      try {
-        const res = await request(`/garages/${garage.id}`, "DELETE");
+      const res = await request(`/garages/${garage.id}`, "DELETE");
 
-        if (res) {
-          toast.success("Garage deleted successfully!");
-          dispatch(actions.users.get.me());
+      if (res) {
+        toast.success("Garage deleted successfully!");
+        dispatch(actions.users.get.me());
 
-          if (searchInput) dispatch(actions.search.search(searchInput));
-        }
-
-        await wait(2000);
-
-        if (searchInput) {
-          router.push(`/search?q=${searchInput}`, `/search?q=${searchInput}`, { shallow: true });
-          return null;
-        }
-
-        router.push("/", "/", { shallow: true });
-      } catch (err) {
-        toast.error("Error deleting garage");
+        if (searchInput) dispatch(actions.search.search(searchInput));
       }
+
+      await wait(2000);
+
+      if (searchInput) {
+        router.push(`/search?q=${searchInput}`, `/search?q=${searchInput}`, { shallow: true });
+        return null;
+      }
+
+      router.push("/", "/", { shallow: true });
 
       setOpen(false);
       return clearTimeout(deleteTimer);

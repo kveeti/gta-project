@@ -40,8 +40,6 @@ export const NewModelGarageCard = () => {
     if (res) {
       toast.success("New model garage saved successfully!");
       reset();
-    } else {
-      toast.error("Something went wrong, no changes were made");
     }
   };
 

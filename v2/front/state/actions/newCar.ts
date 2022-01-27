@@ -145,6 +145,5 @@ export const save = (chosenCar: ICar, chosenGarage: IGarage) => async (dispatch)
     dispatch(reset());
   } else {
     dispatch(set.api.setError(true));
-    toast.error("Something went wrong, no changes were made.");
   }
 };

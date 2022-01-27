@@ -37,8 +37,6 @@ export const ModelGarageUpdateCard = () => {
     if (res) {
       toast.success("Model garage updated successfully!");
       getGarage({ setName, setOriginalName, setCapacity, setOriginalCapacity, garageId });
-    } else {
-      toast.error("Something went wrong, no changes were made");
     }
   };
 

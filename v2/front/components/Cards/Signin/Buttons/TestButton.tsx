@@ -1,7 +1,6 @@
 import { useRouter } from "next/router";
 import { StyledButton } from "./Styles";
 import { request } from "../../../../util/axios";
-import { toast } from "react-toastify";
 import { siteBaseUrl } from "../../../../envs";
 
 export const TestButton = () => {
@@ -18,8 +17,6 @@ export const TestButton = () => {
 
     if (res) {
       router.push("/", "/", { shallow: true });
-    } else {
-      toast.error("Error creating a test account, please try again later");
     }
   };
 

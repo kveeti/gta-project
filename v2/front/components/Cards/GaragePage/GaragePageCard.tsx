@@ -42,7 +42,6 @@ export const GaragePageCard = ({ garage }: Props) => {
     } else {
       setLoading(false);
       setError(true);
-      toast.error("Something went wrong, no changes were made.");
     }
   };
 
