@@ -93,7 +93,6 @@ const StyledInput = styled("input", {
 interface InputProps {
   transparent?: boolean;
   white?: boolean;
-  autoFocus?: boolean;
   id?: string;
   placeholder?: string;
   value: string;
@@ -108,7 +107,6 @@ interface InputProps {
 export const Input = ({
   transparent,
   white,
-  autoFocus,
   id = "",
   placeholder = "",
   value,
@@ -168,7 +166,6 @@ export const Input = ({
         onChange={(e) => onInputChange(e.target.value)}
         placeholder={placeholder}
         autoComplete="off"
-        autoFocus={autoFocus}
         onFocus={onInputFocus}
         onBlur={onInputBlur}
         value={inputVal}

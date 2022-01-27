@@ -50,7 +50,6 @@ const SearchBar = () => {
       placeholder={"Search for cars/garages"}
       value={searchInput}
       onInput={handleChange}
-      autoFocus
     ></input>
   );
 };

@@ -51,7 +51,6 @@ const TextField = () => {
       transparent
       id="car-input"
       type="text"
-      autoFocus
       placeholder="E.g. 8f drafter"
       onChange={(value) => onInputChange(value)}
       value={newCarState.inputs.car}

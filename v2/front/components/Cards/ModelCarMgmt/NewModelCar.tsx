@@ -84,7 +84,6 @@ const NameInput = ({ value, setValue }) => {
         value={value}
         id="name"
         placeholder="E.g. 8f Drafter"
-        autoFocus
         transparent
       />
     </>
