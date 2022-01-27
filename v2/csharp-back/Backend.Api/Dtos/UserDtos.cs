@@ -13,6 +13,13 @@ public record RegisterUserDto
   public string Password { get; init; }
 }
 
+public record ChangePasswordDto
+{
+  public string CurrentPassword { get; init; }
+  
+  public string NewPassword { get; init; }
+}
+
 public record UpdateUserDto
 {
   public string NewRole { get; init; }

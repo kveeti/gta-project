@@ -1,4 +1,5 @@
-﻿using Backend.Api.Configs;
+﻿using Backend.Api.Attributes;
+using Backend.Api.Configs;
 using Backend.Api.Dtos.UserDtos;
 using Backend.Api.Helpers;
 using Backend.Api.Models;
@@ -66,7 +67,7 @@ public class AuthController : ControllerBase
     HttpContext.Response
       .Headers[_cookieConfig.Value.AccessTokenHeaderName] = newAccessToken;
 
-    await _mailing.SendEmailConfirmation(aDto.Email, emailVerifyToken);
+    _mailing.SendEmailConfirmation(aDto.Email, emailVerifyToken);
 
     return NoContent();
   }
@@ -99,6 +100,40 @@ public class AuthController : ControllerBase
 
     HttpContext.Response
       .Headers[_cookieConfig.Value.AccessTokenHeaderName] = "";
+
+    return NoContent();
+  }
+
+  [HttpPatch("change-password")]
+  [Authorization.CustomAuth("Standard, Admin")]
+  public async Task<ActionResult<ReturnUserDto>> ChangePassword(ChangePasswordDto aDto)
+  {
+    var goodUserId = Guid.TryParse(HttpContext.Items["userId"].ToString(),
+      out var userId);
+    if (!goodUserId) return Unauthorized("bad userId");
+
+    var user = await _userRepo.GetOneByFilterTracking(user => user.Id == userId);
+    if (user == null) return NotFound();
+
+    var currentPasswordsMatch = Hashing.Verify(aDto.CurrentPassword, user.Password);
+    if (!currentPasswordsMatch) return BadRequest("Current password was incorrect");
+
+    var newPasswordHash = Hashing.HashToString(aDto.NewPassword);
+
+    user.Password = newPasswordHash;
+    user.TokenVersion = Guid.NewGuid();
+    await _userRepo.Save();
+
+    var newAccessToken = _jwt.CreateAccessToken(user);
+    var newRefreshToken = _jwt.CreateRefreshToken(user);
+
+    HttpContext.Response.Headers
+      .SetCookie = Cookie.CreateCookie(_cookieConfig.Value.RefreshTokenCookieName, newRefreshToken);
+
+    HttpContext.Response
+      .Headers[_cookieConfig.Value.AccessTokenHeaderName] = newAccessToken;
+
+    _mailing.SendPasswordChanged(user.Email);
 
     return NoContent();
   }

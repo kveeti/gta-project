@@ -1,9 +1,11 @@
-import { ButtonContainer } from "../../../Styles/SinglePage";
+import { useRouter } from "next/router";
 import { StyledButton } from "../../Signin/Buttons/Styles";
 
 export const ChangePasswordButton = () => {
+  const router = useRouter();
+
   const onClick = async () => {
-    // redirect to change password
+    router.push("/me/change/password", "/me/change/password", { shallow: true });
   };
 
   return (

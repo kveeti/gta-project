@@ -35,21 +35,41 @@ public class Mailing : IMailing
 
     emailToSend.Body = new TextPart(TextFormat.Html) {Text = message};
 
+    await SendMail(emailToSend);
+  }
+
+  public async Task SendPasswordChanged(string receiversEmail)
+  {
+    var emailToSend = new MimeMessage();
+
+    emailToSend.From.Add(new MailboxAddress(_config.Value.FromName, _config.Value.FromEmail));
+    emailToSend.To.Add(new MailboxAddress("", receiversEmail));
+
+    emailToSend.Subject = $"Password changed on {_config.Value.LocalDomain}";
+    var message = $"<h1>Hello!</h1>" +
+                  $"<p>Your password just got changed!</p>" +
+                  "<b>If you didn't change your password, your account may have been compromised.</b>";
+
+    emailToSend.Body = new TextPart(TextFormat.Html) {Text = message};
+
+    await SendMail(emailToSend);
+  }
+
+  private async Task SendMail(MimeMessage message)
+  {
     try
     {
-      using (var client = new SmtpClient())
-      {
-        client.LocalDomain = _config.Value.LocalDomain;
+      using var client = new SmtpClient();
+      client.LocalDomain = _config.Value.LocalDomain;
 
-        await client.ConnectAsync(
-          _config.Value.MailServerUrl,
-          Convert.ToInt32(_config.Value.MailServerPort),
-          SecureSocketOptions.Auto).ConfigureAwait(false);
-        await client.AuthenticateAsync(
-          new NetworkCredential(_config.Value.MailServerUsername, _config.Value.MailServerPassword));
-        await client.SendAsync(emailToSend).ConfigureAwait(false);
-        await client.DisconnectAsync(true).ConfigureAwait(false);
-      }
+      await client.ConnectAsync(
+        _config.Value.MailServerUrl,
+        Convert.ToInt32(_config.Value.MailServerPort),
+        SecureSocketOptions.Auto).ConfigureAwait(false);
+      await client.AuthenticateAsync(
+        new NetworkCredential(_config.Value.MailServerUsername, _config.Value.MailServerPassword));
+      await client.SendAsync(message).ConfigureAwait(false);
+      await client.DisconnectAsync(true).ConfigureAwait(false);
     }
     catch (Exception e)
     {
