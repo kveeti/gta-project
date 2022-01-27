@@ -72,7 +72,7 @@ public class CarController : ControllerBase
     var goodUserId = Guid.TryParse(HttpContext.Items["userId"].ToString(),
       out var userId);
     if (!goodUserId) return Unauthorized("bad userId");
-    if (HttpContext.Items["emailVerified"] == "False") return BadRequest("Email must be verified");
+    if (HttpContext.Items["emailVerified"] as string == "False") return BadRequest("Email must be verified");
 
     var modelCar = await _modelCarRepo
       .GetOneByFilter(modelCar => modelCar.Id == aDto.ModelCarId);
@@ -108,7 +108,7 @@ public class CarController : ControllerBase
     var goodUserId = Guid.TryParse(HttpContext.Items["userId"].ToString(),
       out var userId);
     if (!goodUserId) return Unauthorized("bad userId");
-    if (HttpContext.Items["emailVerified"] == "False") return BadRequest("Email must be verified");
+    if (HttpContext.Items["emailVerified"] as string == "False") return BadRequest("Email must be verified");
 
     var newGarage = await _garageRepo
       .GetOneJoinedByFilter(garage => garage.Id == aDto.NewGarageId
@@ -148,7 +148,7 @@ public class CarController : ControllerBase
     var goodUserId = Guid.TryParse(HttpContext.Items["userId"].ToString(),
       out var userId);
     if (!goodUserId) return Unauthorized("bad userId");
-    if (HttpContext.Items["emailVerified"] == "False") return BadRequest("Email must be verified");
+    if (HttpContext.Items["emailVerified"] as string == "False") return BadRequest("Email must be verified");
 
     var cars = await _carRepo
       .GetManyByFilterTracking(car => car.OwnerId == userId

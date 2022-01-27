@@ -50,7 +50,7 @@ public class ModelCarController : ControllerBase
                              &&
                              car.Manufacturer == aDto.Manufacturer);
     if (existing != null) return Conflict(existing);
-    if (HttpContext.Items["emailVerified"] == "False") return BadRequest("Email must be verified");
+    if (HttpContext.Items["emailVerified"] as string == "False") return BadRequest("Email must be verified");
 
     ModelCar newModelCar = new()
     {
@@ -73,7 +73,7 @@ public class ModelCarController : ControllerBase
   {
     var existingModelCar = await _db.GetOneByFilterTracking(car => car.Id == aId);
     if (existingModelCar == null) return NotFound();
-    if (HttpContext.Items["emailVerified"] == "False") return BadRequest("Email must be verified");
+    if (HttpContext.Items["emailVerified"] as string == "False") return BadRequest("Email must be verified");
 
     existingModelCar.Name = aDto.Name;
     existingModelCar.Manufacturer = aDto.Manufacturer;
