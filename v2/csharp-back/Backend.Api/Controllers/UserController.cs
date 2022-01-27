@@ -37,7 +37,8 @@ public class UserController : ControllerBase
       Role = user.Role,
       GarageCount = user.Garages.Count,
       CarCount = user.Cars.Count,
-      EmailVerified = user.EmailVerifyToken == null
+      EmailVerified = user.EmailVerifyToken == null,
+      IsTestAccount = user.IsTestAccount
     };
 
     return Ok(returnUser);
@@ -58,7 +59,8 @@ public class UserController : ControllerBase
       Role = user.Role,
       GarageCount = user.Garages.Count,
       CarCount = user.Cars.Count,
-      EmailVerified = user.EmailVerifyToken == null
+      EmailVerified = user.EmailVerifyToken == null,
+      IsTestAccount = user.IsTestAccount
     };
 
     return Ok(returnUser);
@@ -79,7 +81,7 @@ public class UserController : ControllerBase
   {
     var existingUser = await _db.GetOneByFilterTracking(user => user.Id == id);
     if (existingUser == null) return NotFound();
-    if (HttpContext.Items["emailVerified"] == "False") return BadRequest("Email must be verified");
+    if (HttpContext.Items["emailVerified"] as string == "False") return BadRequest("Email must be verified");
 
     existingUser.Role = aUserDto.NewRole;
 
@@ -91,19 +93,23 @@ public class UserController : ControllerBase
       Username = existingUser.Username,
       Email = existingUser.Email,
       Role = existingUser.Role,
-      EmailVerified = existingUser.EmailVerifyToken == null
+      EmailVerified = existingUser.EmailVerifyToken == null,
+      IsTestAccount = existingUser.IsTestAccount
     };
 
     return Ok(returnUser);
   }
 
-  [HttpDelete("{id:Guid}")]
-  [Authorization.CustomAuth("Admin")]
-  public async Task<ActionResult<string>> Delete(Guid id)
+  [HttpDelete("me")]
+  [Authorization.CustomAuth("Standard, Admin")]
+  public async Task<ActionResult<string>> Delete()
   {
-    var userToDelete = await _db.GetOneByFilter(u => u.Id == id);
+    var goodUserId = Guid.TryParse(HttpContext.Items["userId"].ToString(),
+      out var userId);
+    if (!goodUserId) return Unauthorized("bad userId");
+    
+    var userToDelete = await _db.GetOneByFilter(user => user.Id == userId);
     if (userToDelete == null) return NotFound("user was not found");
-    if (HttpContext.Items["emailVerified"] == "False") return BadRequest("Email must be verified");
 
     _db.Delete(userToDelete);
     await _db.Save();

@@ -40,6 +40,8 @@ public class EmailController : ControllerBase
     
     var user = await _userRepo.GetOneByFilterTracking(user => user.Id == aDto.UserId);
     if (user == null) return NotFound("user was not found");
+    
+    if (user.IsTestAccount) return BadRequest("Test accounts can't change their email");
 
     var emailConfirmationToken = $"{Guid.NewGuid().ToString()}{Guid.NewGuid().ToString()}";
 
@@ -64,7 +66,6 @@ public class EmailController : ControllerBase
   }
 
   [HttpPost("verify")]
-  [Authorization.CustomAuth("Admin, Standard")]
   public async Task<ActionResult<string>> ConfirmEmail(VerifyEmailDto aDto)
   {
     if (aDto.Token == null) return BadRequest("Invalid token");
@@ -73,6 +74,8 @@ public class EmailController : ControllerBase
       .GetOneByFilterTracking(user => user.EmailVerifyToken == aDto.Token);
     
     if (user == null) return BadRequest("Invalid token");
+
+    if (user.IsTestAccount) return BadRequest("Test accounts have verified emails by default");
 
     user.EmailVerifyToken = null;
     await _userRepo.Save();

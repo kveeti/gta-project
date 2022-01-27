@@ -27,10 +27,10 @@ export const RegisterForm = () => {
       username,
       email,
       password,
+      isTestAccount: false,
     });
-    if (res) {
-      router.push("/", "/", { shallow: true });
-    }
+
+    if (res) router.push("/", "/", { shallow: true });
   };
 
   return (

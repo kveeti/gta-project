@@ -27,6 +27,7 @@ export interface InitState {
       username: string;
       carCount: number;
       garageCount: number;
+      isTestAccount: boolean;
     };
 
     api: {
@@ -141,6 +142,7 @@ export const initState: InitState = {
       username: null,
       carCount: null,
       garageCount: null,
+      isTestAccount: null,
     },
 
     api: {

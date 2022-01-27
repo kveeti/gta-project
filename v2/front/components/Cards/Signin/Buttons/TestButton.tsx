@@ -13,11 +13,10 @@ export const TestButton = () => {
       username: `test-account-${rand}`,
       email: `test-account-${rand}@${siteBaseUrl}`,
       password: rand,
+      isTestAccount: true,
     });
 
-    if (res) {
-      router.push("/", "/", { shallow: true });
-    }
+    if (res) router.push("/", "/", { shallow: true });
   };
 
   return (

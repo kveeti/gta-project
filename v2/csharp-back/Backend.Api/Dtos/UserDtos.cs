@@ -11,6 +11,7 @@ public record RegisterUserDto
   public string Username { get; init; }
   public string Email { get; init; }
   public string Password { get; init; }
+  public bool IsTestAccount { get; init; }
 }
 
 public record ChangePasswordDto
@@ -34,4 +35,5 @@ public record ReturnUserDto
   public string Role { get; init; }
   public int CarCount { get; init; }
   public int GarageCount { get; init; }
+  public bool IsTestAccount { get; init; }
 }

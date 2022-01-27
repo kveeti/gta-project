@@ -11,6 +11,7 @@ public class User
   [Required] public string Password { get; set; }
   [Required] public string Role { get; set; }
   [Required] public Guid TokenVersion { get; set; }
+  [Required] public bool IsTestAccount { get; set; }
 
 
   public virtual ICollection<Car> Cars { get; set; }

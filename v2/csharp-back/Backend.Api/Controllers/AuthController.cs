@@ -42,8 +42,6 @@ public class AuthController : ControllerBase
 
     var hash = Hashing.HashToString(aDto.Password);
 
-    var emailVerifyToken = $"{Guid.NewGuid().ToString()}{Guid.NewGuid().ToString()}";
-
     User user = new()
     {
       Id = Guid.NewGuid(),
@@ -52,8 +50,17 @@ public class AuthController : ControllerBase
       Password = hash,
       Role = "Standard",
       TokenVersion = Guid.NewGuid(),
-      EmailVerifyToken = emailVerifyToken
+      IsTestAccount = aDto.IsTestAccount
     };
+
+    if (!aDto.IsTestAccount)
+    {
+      var emailVerifyToken = $"{Guid.NewGuid().ToString()}{Guid.NewGuid().ToString()}";
+
+      user.EmailVerifyToken = emailVerifyToken;
+
+      _mailing.SendEmailConfirmation(aDto.Email, emailVerifyToken);
+    }
 
     _userRepo.Add(user);
     await _userRepo.Save();
@@ -67,8 +74,6 @@ public class AuthController : ControllerBase
     HttpContext.Response
       .Headers[_cookieConfig.Value.AccessTokenHeaderName] = newAccessToken;
 
-    _mailing.SendEmailConfirmation(aDto.Email, emailVerifyToken);
-
     return NoContent();
   }
 
@@ -76,10 +81,10 @@ public class AuthController : ControllerBase
   public async Task<ActionResult<string>> Login(AuthUserDto aDto)
   {
     var user = await _userRepo.GetOneByFilter(user => user.Username == aDto.Username);
-    if (user == null) return NotFound("user not found");
+    if (user == null) return BadRequest("Incorrect credentials");
 
     var match = Hashing.Verify(aDto.Password, user.Password);
-    if (!match) return Unauthorized("incorrect credentials");
+    if (!match) return BadRequest("Incorrect credentials");
 
     var newAccessToken = _jwt.CreateAccessToken(user);
     var newRefreshToken = _jwt.CreateRefreshToken(user);
@@ -94,8 +99,21 @@ public class AuthController : ControllerBase
   }
 
   [HttpPost("logout")]
-  public NoContentResult Logout()
+  [Authorization.CustomAuth("Standard, Admin")]
+  public async Task<ActionResult<string>> Logout()
   {
+    var goodUserId = Guid.TryParse(HttpContext.Items["userId"].ToString(),
+      out var userId);
+    if (!goodUserId) return Unauthorized("bad userId");
+
+    var user = await _userRepo.GetOneByFilter(user => user.Id == userId);
+
+    if (user.IsTestAccount)
+    {
+      _userRepo.Delete(user);
+      await _userRepo.Save();
+    }
+    
     HttpContext.Response.Cookies.Delete(_cookieConfig.Value.RefreshTokenCookieName);
 
     HttpContext.Response
@@ -114,6 +132,9 @@ public class AuthController : ControllerBase
 
     var user = await _userRepo.GetOneByFilterTracking(user => user.Id == userId);
     if (user == null) return NotFound();
+
+    if (user.IsTestAccount) 
+      return BadRequest("Test accounts can't change their password");
 
     var currentPasswordsMatch = Hashing.Verify(aDto.CurrentPassword, user.Password);
     if (!currentPasswordsMatch) return BadRequest("Current password was incorrect");

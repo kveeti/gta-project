@@ -6,7 +6,6 @@ import { PageCard } from "../../Styles/Page-cards";
 import { Text, Title } from "../../Styles/Text";
 import { actions } from "../../../state/actions";
 import { CreateAccountButton } from "./Buttons/CreateAccountButton";
-import { siteBaseUrl } from "../../../envs";
 import { ModelCarMgmtButton } from "./Buttons/ModelCarMgmtButton";
 import { ModelGarageMgmtButton } from "./Buttons/ModelGarageMgmtButton";
 import { ButtonContainer } from "../../Styles/SinglePage";
@@ -21,9 +20,7 @@ export const IndexPageCard = () => {
   const dispatch = useDispatch();
   const users = useISelector((state) => state.users);
 
-  const isTestAccount =
-    users?.me?.email && users?.me?.email?.includes("test-account", `@${siteBaseUrl}`);
-
+  const isTestAccount = users?.me?.isTestAccount;
   const isAdmin = users?.me?.role === "Admin";
 
   useEffect(() => {
@@ -32,7 +29,7 @@ export const IndexPageCard = () => {
 
   return (
     <PageCard centered>
-      <Title>{users?.me?.username ? `Hello ${users?.me?.username}!` : "Hello!"}</Title>
+      <Title>{users?.me?.username ? `Hello ${users.me.username}!` : "Hello!"}</Title>
       {isAdmin && <Text red>Admin</Text>}
       <Specs>
         <Text>
