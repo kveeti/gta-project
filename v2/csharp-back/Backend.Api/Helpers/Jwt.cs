@@ -111,15 +111,16 @@ public class Jwt : IJwt
       new Claim("email", user.Email),
       new Claim("tokenVersion", user.TokenVersion.ToString()),
       new Claim("emailVerified", (user.EmailVerifyToken == null).ToString()),
-      new Claim("exp", DateTimeOffset.Now.AddMinutes(15).ToUnixTimeSeconds().ToString())
+      new Claim("isTestAccount", (user.IsTestAccount).ToString()),
     };
 
     var securityKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_jwtConfig.Value.Access_Secret));
-    var credentials = new SigningCredentials(securityKey, SecurityAlgorithms.HmacSha256Signature);
+    var credentials = new SigningCredentials(securityKey, SecurityAlgorithms.HmacSha256);
     var tokenDescriptor = new JwtSecurityToken(
       _jwtConfig.Value.Access_Iss,
       _jwtConfig.Value.Access_Aud,
       claims,
+      expires: DateTime.Now.AddMinutes(15),
       signingCredentials: credentials);
 
     return new JwtSecurityTokenHandler().WriteToken(tokenDescriptor);
