@@ -6,6 +6,9 @@ using Backend.Api.Helpers;
 using Backend.Api.Models;
 using Backend.Api.Repositories.ModelCar;
 using Backend.Api.Repositories.ModelGarage;
+using Backend.Api.TokenDtos;
+using Microsoft.Extensions.Options;
+using Prometheus;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -40,5 +43,27 @@ builder.Services.Configure<EmailConfig>(builder.Configuration.GetSection("EmailC
 var app = builder.Build();
 
 app.MapControllers();
+app.UseRouting();
+
+app.Map("/metrics", appBuilder =>
+{
+  appBuilder.Use(async (aContext, next) =>
+  {
+    var rightPass = builder.Configuration.GetValue<string>("MetricsPass");
+    var pass = aContext.Request.Headers.Authorization;
+
+    if (pass != rightPass)
+    {
+      aContext.Response.StatusCode = 401;
+      return;
+    }
+
+    await next();
+  });
+
+  appBuilder.UseEndpoints(endpoints => endpoints.MapMetrics());
+});
+
+app.UseHttpMetrics();
 
 app.Run("http://0.0.0.0:5000");
