@@ -14,7 +14,8 @@ export const FloatingDeleteButton = () => {
 
   const onClick = () => {
     if (activated) {
-      dispatch(actions.checked.remove(checkedCars, searchInput));
+      const carIds = checkedCars.map((car) => car.id);
+      dispatch(actions.checked.remove(carIds, searchInput));
       setActivated(false);
       return clearTimeout(timer);
     }
