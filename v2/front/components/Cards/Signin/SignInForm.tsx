@@ -28,11 +28,7 @@ export const SignInForm = () => {
       password,
     });
 
-    if (res) {
-      router.push("/", "/", { shallow: true });
-    } else {
-      toast.error("Incorrect credentials");
-    }
+    if (res) router.push("/", "/", { shallow: true });
   };
 
   return (
