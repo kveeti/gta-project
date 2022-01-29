@@ -1,3 +1,4 @@
+import { useGetMe } from "../../../hooks/useGetMe";
 import { useISelector } from "../../../state/hooks";
 import { styled } from "../../../stitches.config";
 import { PageCard } from "../../Styles/Page-cards";
@@ -17,6 +18,7 @@ const Div = styled("div", {
 
 export const UserPageCard = () => {
   const users = useISelector((state) => state.users);
+  useGetMe();
 
   return (
     <PageCard centered>

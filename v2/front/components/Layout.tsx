@@ -8,9 +8,7 @@ import { Sidebar } from "./Sidebar/Sidebar";
 import { Toast } from "./Toast/Toast";
 import { useResizeListener } from "../hooks/useResizeListener";
 import { useIsLoggedIn } from "../hooks/useTest";
-import { useEffect } from "react";
 import { useDispatch } from "react-redux";
-import { actions } from "../state/actions";
 
 interface Props {
   children: React.ReactNode;
@@ -24,10 +22,6 @@ const Layout = ({ children, token, title, ...props }: Props) => {
   const viewBlocked = useIsLoggedIn();
   const dispatch = useDispatch();
   useResizeListener();
-
-  useEffect(() => {
-    !viewBlocked && dispatch(actions.users.get.me());
-  }, [viewBlocked]);
 
   const state = useISelector((state) => state);
   const showOnlySidebar = useISelector((state) => state.checked.show);

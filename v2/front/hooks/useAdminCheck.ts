@@ -6,8 +6,8 @@ import { checkAdmin } from "../util/jwt";
 export const useAdminCheck = () => {
   const token = getAccessTokenOnlyLocal();
 
-  const [viewBlocked, setViewBlocked] = useState(!!token?.length);
-  const [layoutViewBlocked, setLayoutViewBlocked] = useState(true);
+  const [viewBlocked, setViewBlocked] = useState(true);
+  const [layoutViewBlocked, setLayoutViewBlocked] = useState(token ? false : true);
   const router = useRouter();
 
   const handleUnauthorized = () => {

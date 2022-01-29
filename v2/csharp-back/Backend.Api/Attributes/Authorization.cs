@@ -70,7 +70,7 @@ public class Authorization
         return;
       }
 
-      var user = await _userRepo.GetOneByFilterTracking(user => user.Id == accessToken.UserId);
+      var user = await _userRepo.GetOneByFilter(user => user.Id == accessToken.UserId);
       if (user == null)
       {
         HandleUnauthorized(context, "no user found");
@@ -93,10 +93,6 @@ public class Authorization
         context.Result = new ForbidResult();
         return;
       }
-
-      // invalidate all previous tokens on every request
-      user.TokenVersion = Guid.NewGuid();
-      await _userRepo.Save();
 
       var newAccessToken = _jwt.CreateAccessToken(user);
 

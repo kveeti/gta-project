@@ -6,6 +6,7 @@ import { CreateAccountButton } from "./Buttons/CreateAccountButton";
 import { ModelCarMgmtButton } from "./Buttons/ModelCarMgmtButton";
 import { ModelGarageMgmtButton } from "./Buttons/ModelGarageMgmtButton";
 import { ButtonContainer } from "../../Styles/SinglePage";
+import { useGetMe } from "../../../hooks/useGetMe";
 
 const Specs = styled("div", {
   display: "flex",
@@ -14,6 +15,8 @@ const Specs = styled("div", {
 });
 
 export const IndexPageCard = () => {
+  useGetMe();
+
   const users = useISelector((state) => state.users);
 
   const isTestAccount = users?.me?.isTestAccount;
