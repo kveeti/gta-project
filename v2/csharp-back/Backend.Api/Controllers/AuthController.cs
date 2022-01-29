@@ -155,8 +155,10 @@ public class AuthController : ControllerBase
     if (refreshTokenFromCookie == null || refreshToken == null)
       return Unauthorized();
 
-    var user = await _userRepo.GetOneByFilter(user => user.Id == refreshToken.UserId);
+    var user = await _userRepo.GetOneByFilterTracking(user => user.Id == refreshToken.UserId);
     if (user == null) return Unauthorized();
+
+    user.TokenVersion = Guid.NewGuid();
 
     var newAccessToken = _jwt.CreateAccessToken(user);
     var newRefreshToken = _jwt.CreateRefreshToken(user);
