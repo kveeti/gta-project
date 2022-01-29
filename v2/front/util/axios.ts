@@ -14,6 +14,7 @@ const axiosErrorHandler = (error: any, redirect401 = true) => {
   if (statusCode === 409) return toast.error(error.response.data);
   if (redirect401 && statusCode === 401) return handleUnauthorized();
   if (!redirect401 && statusCode === 401) return;
+  if (statusCode === 404) return;
 
   toast.error("Something went wrong, no changes were made.");
 };
