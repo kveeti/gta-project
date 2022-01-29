@@ -159,6 +159,7 @@ public class AuthController : ControllerBase
     if (user == null) return Unauthorized();
 
     user.TokenVersion = Guid.NewGuid();
+    await _userRepo.Save();
 
     var newAccessToken = _jwt.CreateAccessToken(user);
     var newRefreshToken = _jwt.CreateRefreshToken(user);
