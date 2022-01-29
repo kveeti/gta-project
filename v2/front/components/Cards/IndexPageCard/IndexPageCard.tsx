@@ -29,7 +29,11 @@ export const IndexPageCard = () => {
 
   return (
     <PageCard centered>
-      <Title>{users?.me?.username ? `Hello ${users.me.username}!` : "Hello!"}</Title>
+      {isTestAccount ? (
+        <Title>{"Hello tester!"}</Title>
+      ) : (
+        <Title>{users?.me?.username ? `Hello ${users.me.username}!` : "Hello!"}</Title>
+      )}
       {isAdmin && <Text red>Admin</Text>}
       <Specs>
         <Text>
