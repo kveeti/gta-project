@@ -8,6 +8,9 @@ import { Sidebar } from "./Sidebar/Sidebar";
 import { Toast } from "./Toast/Toast";
 import { useResizeListener } from "../hooks/useResizeListener";
 import { useIsLoggedIn } from "../hooks/useTest";
+import { useEffect } from "react";
+import { useDispatch } from "react-redux";
+import { actions } from "../state/actions";
 
 interface Props {
   children: React.ReactNode;
@@ -19,7 +22,12 @@ const Layout = ({ children, token, title, ...props }: Props) => {
   if (typeof window === "undefined") return null;
 
   const viewBlocked = useIsLoggedIn();
+  const dispatch = useDispatch();
   useResizeListener();
+
+  useEffect(() => {
+    !viewBlocked && dispatch(actions.users.get.me());
+  }, [viewBlocked]);
 
   const state = useISelector((state) => state);
   const showOnlySidebar = useISelector((state) => state.checked.show);
@@ -49,7 +57,7 @@ const Layout = ({ children, token, title, ...props }: Props) => {
   return (
     <>
       <Head>
-        <title>{title ? title : "Gta-project"}</title>
+        <title>{title ? title : "My GTA Online"}</title>
       </Head>
       <Section>
         <MenuBar mobile={mobile} />

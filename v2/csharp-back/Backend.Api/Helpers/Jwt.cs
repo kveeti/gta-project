@@ -27,16 +27,16 @@ public class Jwt : IJwt
     {
       ValidateIssuer = true,
       ValidateAudience = true,
-      ValidateIssuerSigningKey = true,
       ValidateLifetime = true,
-
-      ValidIssuer = _jwtConfig.Value.Refresh_Iss,
-      ValidAudience = _jwtConfig.Value.Refresh_Aud,
-      IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_jwtConfig.Value.Refresh_Secret)),
+      ValidateIssuerSigningKey = true,
 
       RequireAudience = true,
       RequireSignedTokens = true,
       RequireExpirationTime = true,
+
+      ValidIssuer = _jwtConfig.Value.Refresh_Iss,
+      ValidAudience = _jwtConfig.Value.Refresh_Aud,
+      IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_jwtConfig.Value.Refresh_Secret)),
     };
 
     handler.ValidateToken(aToken, validationParams, out var validated);
@@ -52,17 +52,16 @@ public class Jwt : IJwt
     {
       ValidateIssuer = true,
       ValidateAudience = true,
+      ValidateLifetime = true,
       ValidateIssuerSigningKey = true,
+
+      RequireAudience = true,
+      RequireSignedTokens = true,
+      RequireExpirationTime = true,
 
       ValidIssuer = _jwtConfig.Value.Access_Iss,
       ValidAudience = _jwtConfig.Value.Access_Aud,
       IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_jwtConfig.Value.Access_Secret)),
-
-      RequireAudience = true,
-      RequireSignedTokens = true,
-
-      RequireExpirationTime = false,
-      ValidateLifetime = false
     };
 
 
@@ -153,7 +152,7 @@ public class Jwt : IJwt
 
     if (emailClaim == null)
       throw new Exception("token is missing its email");
-    
+
     if (emailVerifiedClaim == null)
       throw new Exception("token is missing its emailVerified");
 
@@ -192,7 +191,7 @@ public class Jwt : IJwt
 
     if (emailClaim == null)
       throw new Exception("token is missing its email");
-    
+
     if (emailVerifiedClaim == null)
       throw new Exception("token is missing its emailVerified");
 

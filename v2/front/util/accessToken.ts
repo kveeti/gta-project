@@ -1,5 +1,5 @@
 import { toast } from "react-toastify";
-import { requestWithNo401RedirectAndDontSetToken } from "./axios";
+import { request, requestWithNo401RedirectAndDontSetToken } from "./axios";
 
 export const setAccessToken = (value: string) => {
   try {
@@ -42,7 +42,7 @@ export const getAccessTokenOnlyLocal = () => {
 export const getAccessToken = async () => {
   let token = getAccessTokenOnlyLocal();
 
-  if (!token) await requestWithNo401RedirectAndDontSetToken("/auth/tokens", "GET");
+  if (!token) await request("/auth/tokens", "GET");
 
   token = getAccessTokenOnlyLocal();
 
@@ -51,5 +51,4 @@ export const getAccessToken = async () => {
 
 export const handleUnauthorized = () => {
   localStorage.clear();
-  window.location.assign("/signin");
 };

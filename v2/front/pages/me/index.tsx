@@ -3,7 +3,7 @@ import Layout from "../../components/Layout";
 
 const MePage = () => {
   return (
-    <Layout>
+    <Layout title="Your information">
       <UserPageCard />
     </Layout>
   );
