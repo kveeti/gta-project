@@ -47,8 +47,6 @@ const SearchPage = () => {
   };
 
   const onGarageClick = (garage: IGarage) => {
-    console.log("click");
-
     router.push(`/garage/${garage.id}`, `/garage/${garage.id}`, { shallow: true });
   };
 
