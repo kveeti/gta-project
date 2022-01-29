@@ -17,13 +17,18 @@ public record RegisterUserDto
 public record ChangePasswordDto
 {
   public string CurrentPassword { get; init; }
-  
+
   public string NewPassword { get; init; }
 }
 
 public record UpdateUserDto
 {
   public string NewRole { get; init; }
+}
+
+public record DeleteUserDto
+{
+  public string Password { get; init; }
 }
 
 public record ReturnUserDto

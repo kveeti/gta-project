@@ -94,8 +94,21 @@ public class AuthController : ControllerBase
   }
 
   [HttpPost("logout")]
-  public ActionResult Logout()
+  public async Task<ActionResult> Logout()
   {
+    var accessTokenFromHeader = HttpContext.Request.Headers.Authorization.ToString().Split(" ").Last();
+    if (accessTokenFromHeader.StartsWith("ey"))
+    {
+      var accessToken = _jwt.ValidateAccessToken(accessTokenFromHeader);
+      Console.WriteLine(accessToken);
+      if (accessToken != null && accessToken.IsTestAccount)
+      {
+        // delete test accounts on logout
+        await _userRepo.Delete(accessToken.UserId);
+      }
+    }
+
+
     HttpContext.Response.Headers.SetCookie = Cookie.GetDeleteCookie();
 
     HttpContext.Response

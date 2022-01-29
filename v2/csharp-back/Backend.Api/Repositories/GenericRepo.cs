@@ -49,6 +49,7 @@ public class GenericRepo<TEntity> : IGenericRepo<TEntity> where TEntity : class
   {
     var toDelete = await _dbSet.FindAsync(aId);
     _dbSet.Remove(toDelete);
+    await _context.SaveChangesAsync();
   }
 
   public virtual async Task Save()

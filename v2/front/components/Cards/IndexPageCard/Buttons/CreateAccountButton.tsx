@@ -11,7 +11,6 @@ export const CreateAccountButton = () => {
   const router = useRouter();
 
   const onClick = async () => {
-    requestWithNo401RedirectAndDontSetToken("/users/me", "DELETE");
     await requestWithNo401RedirectAndDontSetToken("/auth/logout", "POST");
     localStorage.clear();
 

@@ -7,6 +7,7 @@ import { Text, Title } from "../../Styles/Text";
 import { CreateAccountButton } from "../IndexPageCard/Buttons/CreateAccountButton";
 import { ChangeEmailButton } from "./Buttons/ChangeEmail";
 import { ChangePasswordButton } from "./Buttons/ChangePasswordButton";
+import { DeleteAccountButton } from "./Buttons/DeleteAccount";
 import { LogoutButton } from "./Buttons/LogoutButton";
 
 const Div = styled("div", {
@@ -61,6 +62,7 @@ export const UserPageCard = () => {
           <>
             <ChangeEmailButton />
             <ChangePasswordButton />
+            <DeleteAccountButton />
           </>
         ) : (
           <CreateAccountButton />

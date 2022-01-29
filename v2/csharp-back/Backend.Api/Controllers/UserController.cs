@@ -103,7 +103,7 @@ public class UserController : ControllerBase
 
   [HttpDelete("me")]
   [Authorization.CustomAuth("Standard, Admin")]
-  public async Task<ActionResult<string>> Delete()
+  public async Task<ActionResult<string>> Delete(DeleteUserDto aDto)
   {
     var goodUserId = Guid.TryParse(HttpContext.Items["userId"].ToString(),
       out var userId);
@@ -111,6 +111,9 @@ public class UserController : ControllerBase
 
     var userToDelete = await _db.GetOneByFilter(user => user.Id == userId);
     if (userToDelete == null) return NotFound("user was not found");
+
+    var match = Hashing.Verify(aDto.Password, userToDelete.Password);
+    if (!match) return BadRequest("Incorrect password");
 
     _db.Delete(userToDelete);
     await _db.Save();

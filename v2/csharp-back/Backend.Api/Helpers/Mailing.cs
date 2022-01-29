@@ -33,7 +33,7 @@ public class Mailing : IMailing
                   "<br><br>" +
                   "<b>If you weren't expecting a confirmation email, you should ignore this.</b>";
 
-    emailToSend.Body = new TextPart(TextFormat.Html) {Text = message};
+    emailToSend.Body = new TextPart(TextFormat.Html) { Text = message };
 
     await SendMail(emailToSend);
   }
@@ -49,7 +49,23 @@ public class Mailing : IMailing
     var message = $"<h1>Hey!</h1>" +
                   $"<p>Your password just got changed!</p>";
 
-    emailToSend.Body = new TextPart(TextFormat.Html) {Text = message};
+    emailToSend.Body = new TextPart(TextFormat.Html) { Text = message };
+
+    await SendMail(emailToSend);
+  }
+
+  public async Task SendAccountDeleted(string receiversEmail)
+  {
+    var emailToSend = new MimeMessage();
+
+    emailToSend.From.Add(new MailboxAddress(_config.Value.FromName, _config.Value.FromEmail));
+    emailToSend.To.Add(new MailboxAddress("", receiversEmail));
+
+    emailToSend.Subject = $"Password changed on {_config.Value.LocalDomain}";
+    var message = $"<h1>Hey!</h1>" +
+                  $"<p>Your password just got changed!</p>";
+
+    emailToSend.Body = new TextPart(TextFormat.Html) { Text = message };
 
     await SendMail(emailToSend);
   }

@@ -39,8 +39,15 @@ public class Jwt : IJwt
       IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_jwtConfig.Value.Refresh_Secret)),
     };
 
-    handler.ValidateToken(aToken, validationParams, out var validated);
-    return ValidateExistenceOfClaimsRefreshToken(validated as JwtSecurityToken);
+    try
+    {
+      handler.ValidateToken(aToken, validationParams, out var validated);
+      return ValidateExistenceOfClaims(validated as JwtSecurityToken);
+    }
+    catch
+    {
+      return null;
+    }
   }
 
   public ValidTokenDto ValidateAccessToken(string aToken)
@@ -64,11 +71,10 @@ public class Jwt : IJwt
       IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_jwtConfig.Value.Access_Secret)),
     };
 
-
     try
     {
       handler.ValidateToken(aToken, validationParams, out var validated);
-      return ValidateExistenceOfClaimsAccessToken(validated as JwtSecurityToken);
+      return ValidateExistenceOfClaims(validated as JwtSecurityToken);
     }
     catch
     {
@@ -86,6 +92,7 @@ public class Jwt : IJwt
       new Claim("email", user.Email),
       new Claim("tokenVersion", user.TokenVersion.ToString()),
       new Claim("emailVerified", (user.EmailVerifyToken == null).ToString()),
+      new Claim("isTestAccount", (user.IsTestAccount).ToString()),
     };
 
     var securityKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_jwtConfig.Value.Refresh_Secret));
@@ -125,18 +132,15 @@ public class Jwt : IJwt
     return new JwtSecurityTokenHandler().WriteToken(tokenDescriptor);
   }
 
-  private ValidTokenDto ValidateExistenceOfClaimsAccessToken(JwtSecurityToken token)
+  private ValidTokenDto ValidateExistenceOfClaims(JwtSecurityToken token)
   {
-    var expirationClaim = token.Claims.FirstOrDefault(claim => claim.Type == "exp");
     var tokenVersionClaim = token.Claims.FirstOrDefault(claim => claim.Type == "tokenVersion");
     var userIdClaim = token.Claims.FirstOrDefault(claim => claim.Type == "userId");
     var roleClaim = token.Claims.FirstOrDefault(claim => claim.Type == "role");
     var usernameClaim = token.Claims.FirstOrDefault(claim => claim.Type == "username");
     var emailClaim = token.Claims.FirstOrDefault(claim => claim.Type == "email");
     var emailVerifiedClaim = token.Claims.FirstOrDefault(claim => claim.Type == "emailVerified");
-
-    if (expirationClaim == null)
-      throw new Exception("token is missing its expiration");
+    var isTestAccountClaim = token.Claims.FirstOrDefault(claim => claim.Type == "isTestAccount");
 
     if (userIdClaim == null)
       throw new Exception("token is missing its user id");
@@ -156,44 +160,8 @@ public class Jwt : IJwt
     if (emailVerifiedClaim == null)
       throw new Exception("token is missing its emailVerified");
 
-    return new()
-    {
-      Exp = long.Parse(expirationClaim.Value),
-      Role = roleClaim.Value,
-      UserId = Guid.Parse(userIdClaim.Value),
-      Username = usernameClaim.Value,
-      Email = emailClaim.Value,
-      TokenVersion = Guid.Parse(tokenVersionClaim.Value),
-      EmailVerified = emailVerifiedClaim.Value == "true"
-    };
-  }
-
-  private ValidTokenDto ValidateExistenceOfClaimsRefreshToken(JwtSecurityToken token)
-  {
-    var tokenVersionClaim = token.Claims.FirstOrDefault(claim => claim.Type == "tokenVersion");
-    var userIdClaim = token.Claims.FirstOrDefault(claim => claim.Type == "userId");
-    var roleClaim = token.Claims.FirstOrDefault(claim => claim.Type == "role");
-    var usernameClaim = token.Claims.FirstOrDefault(claim => claim.Type == "username");
-    var emailClaim = token.Claims.FirstOrDefault(claim => claim.Type == "email");
-    var emailVerifiedClaim = token.Claims.FirstOrDefault(claim => claim.Type == "emailVerified");
-
-    if (userIdClaim == null)
-      throw new Exception("token is missing its user id");
-
-    if (roleClaim == null)
-      throw new Exception("token is missing its role");
-
-    if (usernameClaim == null)
-      throw new Exception("token is missing its username");
-
-    if (tokenVersionClaim == null)
-      throw new Exception("token is missing its version");
-
-    if (emailClaim == null)
-      throw new Exception("token is missing its email");
-
-    if (emailVerifiedClaim == null)
-      throw new Exception("token is missing its emailVerified");
+    if (isTestAccountClaim == null)
+      throw new Exception("token is missing its isTestAccountClaim");
 
     return new()
     {
@@ -202,7 +170,8 @@ public class Jwt : IJwt
       Username = usernameClaim.Value,
       Email = emailClaim.Value,
       TokenVersion = Guid.Parse(tokenVersionClaim.Value),
-      EmailVerified = emailVerifiedClaim.Value == "true"
+      EmailVerified = emailVerifiedClaim.Value == "True",
+      IsTestAccount = isTestAccountClaim.Value == "True"
     };
   }
 }
