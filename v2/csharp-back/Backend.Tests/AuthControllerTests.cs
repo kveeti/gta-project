@@ -1,16 +1,12 @@
 ﻿using System;
-using System.Linq;
 using System.Linq.Expressions;
-using System.Security.Claims;
 using System.Threading.Tasks;
-using Backend.Api;
 using Backend.Api.Configs;
 using Backend.Api.Controllers;
 using Backend.Api.Dtos.UserDtos;
 using Backend.Api.Helpers;
 using Backend.Api.Models;
 using Backend.Api.Repositories;
-using Backend.Api.TokenDtos;
 using FluentAssertions;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -38,13 +34,6 @@ public class AuthControllerTests
       Access_Aud = "test-access-aud"
     });
 
-  private readonly IOptions<CookieConfig> _cookieConfig = Options.Create<CookieConfig>(
-    new CookieConfig()
-    {
-      RefreshTokenCookieName = "test-cookie",
-      AccessTokenHeaderName = "test"
-    });
-
 
   public AuthControllerTests()
   {
@@ -63,7 +52,7 @@ public class AuthControllerTests
     ).Verifiable();
 
     var fakeContext = new DefaultHttpContext();
-    var controller = new AuthController(_jwt, _fakeMailing.Object, _fakeUserRepo.Object, _cookieConfig)
+    var controller = new AuthController(_jwt, _fakeMailing.Object, _fakeUserRepo.Object)
     {
       ControllerContext = new ControllerContext()
       {
@@ -73,7 +62,7 @@ public class AuthControllerTests
 
     var result = await controller.Register(registerDto);
     var resRefreshToken = fakeContext.Response.Headers.SetCookie.ToString().Split("=")[1].Split(";")[0];
-    var resAccessToken = fakeContext.Response.Headers[_cookieConfig.Value.AccessTokenHeaderName].ToString();
+    var resAccessToken = fakeContext.Response.Headers[CookieConfig.AccessTokenHeader].ToString();
 
     var refreshToken = _jwt.ValidateRefreshToken(resRefreshToken);
     var accessToken = _jwt.ValidateAccessToken(resAccessToken);
@@ -96,7 +85,7 @@ public class AuthControllerTests
   {
     var registerDto = CreateFakeRegisterUser();
     var existingUser = CreateFakeUser();
-    
+
     _fakeMailing.Setup(mailing => mailing
       .SendEmailConfirmation(
         It.IsAny<string>(),
@@ -108,7 +97,7 @@ public class AuthControllerTests
       .ReturnsAsync(existingUser);
 
     var fakeContext = new DefaultHttpContext();
-    var controller = new AuthController(_jwt, _fakeMailing.Object, _fakeUserRepo.Object, _cookieConfig)
+    var controller = new AuthController(_jwt, _fakeMailing.Object, _fakeUserRepo.Object)
     {
       ControllerContext = new ControllerContext()
       {
@@ -118,7 +107,7 @@ public class AuthControllerTests
 
     var result = await controller.Register(registerDto);
     var resRefreshToken = fakeContext.Response.Headers.SetCookie;
-    var resAccessToken = fakeContext.Response.Headers[_cookieConfig.Value.AccessTokenHeaderName];
+    var resAccessToken = fakeContext.Response.Headers[CookieConfig.AccessTokenHeader];
 
     resRefreshToken.Should().BeEmpty();
     resAccessToken.Should().BeEmpty();
@@ -150,7 +139,7 @@ public class AuthControllerTests
       .ReturnsAsync(existingUser);
 
     var fakeContext = new DefaultHttpContext();
-    var controller = new AuthController(_jwt, _fakeMailing.Object, _fakeUserRepo.Object, _cookieConfig)
+    var controller = new AuthController(_jwt, _fakeMailing.Object, _fakeUserRepo.Object)
     {
       ControllerContext = new ControllerContext()
       {
@@ -161,7 +150,7 @@ public class AuthControllerTests
     var result = await controller.Login(authDto);
 
     var resRefreshToken = fakeContext.Response.Headers.SetCookie.ToString().Split("=")[1].Split(";")[0];
-    var resAccessToken = fakeContext.Response.Headers[_cookieConfig.Value.AccessTokenHeaderName].ToString();
+    var resAccessToken = fakeContext.Response.Headers[CookieConfig.AccessTokenHeader].ToString();
 
     var refreshToken = _jwt.ValidateRefreshToken(resRefreshToken);
     var accessToken = _jwt.ValidateAccessToken(resAccessToken);
@@ -186,10 +175,10 @@ public class AuthControllerTests
 
     _fakeUserRepo.Setup(repo => repo
         .GetOneByFilter(It.IsAny<Expression<Func<User, bool>>>()))
-      .ReturnsAsync((User) null);
+      .ReturnsAsync((User)null);
 
     var fakeContext = new DefaultHttpContext();
-    var controller = new AuthController(_jwt, _fakeMailing.Object, _fakeUserRepo.Object, _cookieConfig)
+    var controller = new AuthController(_jwt, _fakeMailing.Object, _fakeUserRepo.Object)
     {
       ControllerContext = new ControllerContext()
       {
@@ -200,7 +189,7 @@ public class AuthControllerTests
     var result = await controller.Login(authDto);
 
     var resRefreshToken = fakeContext.Response.Headers.SetCookie;
-    var resAccessToken = fakeContext.Response.Headers[_cookieConfig.Value.AccessTokenHeaderName];
+    var resAccessToken = fakeContext.Response.Headers[CookieConfig.AccessTokenHeader];
 
     resRefreshToken.Should().BeEmpty();
     resAccessToken.Should().BeEmpty();
@@ -228,7 +217,7 @@ public class AuthControllerTests
       .ReturnsAsync(existingUser);
 
     var fakeContext = new DefaultHttpContext();
-    var controller = new AuthController(_jwt, _fakeMailing.Object, _fakeUserRepo.Object, _cookieConfig)
+    var controller = new AuthController(_jwt, _fakeMailing.Object, _fakeUserRepo.Object)
     {
       ControllerContext = new ControllerContext()
       {
@@ -239,7 +228,7 @@ public class AuthControllerTests
     var result = await controller.Login(authDto);
 
     var resRefreshToken = fakeContext.Response.Headers.SetCookie;
-    var resAccessToken = fakeContext.Response.Headers[_cookieConfig.Value.AccessTokenHeaderName];
+    var resAccessToken = fakeContext.Response.Headers[CookieConfig.AccessTokenHeader];
 
     resRefreshToken.Should().BeEmpty();
     resAccessToken.Should().BeEmpty();
@@ -252,7 +241,7 @@ public class AuthControllerTests
   public async Task Logout_ResetsHeaders()
   {
     var fakeContext = new DefaultHttpContext();
-    var controller = new AuthController(_jwt, _fakeMailing.Object, _fakeUserRepo.Object, _cookieConfig)
+    var controller = new AuthController(_jwt, _fakeMailing.Object, _fakeUserRepo.Object)
     {
       ControllerContext = new ControllerContext()
       {
@@ -261,15 +250,15 @@ public class AuthControllerTests
     };
 
     fakeContext.Response.Headers.SetCookie =
-      $"{_cookieConfig.Value.RefreshTokenCookieName}={Guid.NewGuid().ToString()}; SameSite=Lax; Secure; HttpOnly; Path=/; Max-Age={604800};";
-    fakeContext.Response.Headers[_cookieConfig.Value.AccessTokenHeaderName] = Guid.NewGuid().ToString();
+      $"{CookieConfig.RefreshTokenCookie}={Guid.NewGuid().ToString()}; SameSite=Lax; Secure; HttpOnly; Path=/; Max-Age={604800};";
+    fakeContext.Response.Headers[CookieConfig.AccessTokenHeader] = Guid.NewGuid().ToString();
 
     var result = controller.Logout();
 
     var resRefreshToken = fakeContext.Response.Headers.SetCookie.ToString();
-    var resAccessToken = fakeContext.Response.Headers[_cookieConfig.Value.AccessTokenHeaderName].ToString();
+    var resAccessToken = fakeContext.Response.Headers[CookieConfig.AccessTokenHeader].ToString();
 
-    resRefreshToken.Should().StartWith($"{_cookieConfig.Value.RefreshTokenCookieName}=;");
+    resRefreshToken.Should().StartWith($"{CookieConfig.RefreshTokenCookie}=;");
     resAccessToken.Should().Be("");
 
     result.Should().BeOfType<NoContentResult>();

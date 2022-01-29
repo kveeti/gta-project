@@ -1,6 +1,6 @@
 import axios, { AxiosRequestConfig, AxiosResponse, Method } from "axios";
 import { toast } from "react-toastify";
-import { accessTokenHeaderName, apiBaseUrl } from "../envs";
+import { accessTokenHeader, apiBaseUrl } from "../envs";
 import { getAccessTokenOnlyLocal, handleUnauthorized, setAccessToken } from "./accessToken";
 
 const axiosErrorHandler = (error: any, redirect401 = true) => {
@@ -36,7 +36,7 @@ export const request = async (
   try {
     const response = await axios(config(path, method, data));
 
-    const accessToken = response.headers[accessTokenHeaderName];
+    const accessToken = response.headers[accessTokenHeader];
     setAccessToken(accessToken);
 
     return response;

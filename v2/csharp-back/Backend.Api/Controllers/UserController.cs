@@ -3,6 +3,8 @@ using Backend.Api.Dtos.UserDtos;
 using Backend.Api.Models;
 using Backend.Api.Repositories;
 using Microsoft.AspNetCore.Mvc;
+using Backend.Api.Helpers;
+using Backend.Api.Configs;
 
 namespace Backend.Api.Controllers;
 
@@ -106,12 +108,17 @@ public class UserController : ControllerBase
     var goodUserId = Guid.TryParse(HttpContext.Items["userId"].ToString(),
       out var userId);
     if (!goodUserId) return Unauthorized("bad userId");
-    
+
     var userToDelete = await _db.GetOneByFilter(user => user.Id == userId);
     if (userToDelete == null) return NotFound("user was not found");
 
     _db.Delete(userToDelete);
     await _db.Save();
+
+    HttpContext.Response.Headers.SetCookie = Cookie.GetDeleteCookie();
+
+    HttpContext.Response
+      .Headers[CookieConfig.AccessTokenHeader] = "";
 
     return NoContent();
   }

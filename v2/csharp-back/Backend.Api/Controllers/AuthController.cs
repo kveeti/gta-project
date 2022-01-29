@@ -1,11 +1,10 @@
 ﻿using Backend.Api.Attributes;
-using Backend.Api.Configs;
 using Backend.Api.Dtos.UserDtos;
 using Backend.Api.Helpers;
 using Backend.Api.Models;
 using Backend.Api.Repositories;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Options;
+using Backend.Api.Configs;
 
 namespace Backend.Api.Controllers;
 
@@ -14,19 +13,16 @@ namespace Backend.Api.Controllers;
 public class AuthController : ControllerBase
 {
   private readonly IJwt _jwt;
-  private readonly IOptions<CookieConfig> _cookieConfig;
   private readonly IGenericRepo<User> _userRepo;
   private readonly IMailing _mailing;
 
   public AuthController(
     IJwt aJwt,
     IMailing aMailing,
-    IGenericRepo<User> aUserRepo,
-    IOptions<CookieConfig> aCookieConfig
+    IGenericRepo<User> aUserRepo
   )
   {
     _jwt = aJwt;
-    _cookieConfig = aCookieConfig;
     _userRepo = aUserRepo;
     _mailing = aMailing;
   }
@@ -69,10 +65,9 @@ public class AuthController : ControllerBase
     var newRefreshToken = _jwt.CreateRefreshToken(user);
 
     HttpContext.Response.Headers
-      .SetCookie = Cookie.CreateCookie(_cookieConfig.Value.RefreshTokenCookieName, newRefreshToken);
+      .SetCookie = Cookie.CreateCookie(newRefreshToken);
 
-    HttpContext.Response
-      .Headers[_cookieConfig.Value.AccessTokenHeaderName] = newAccessToken;
+    HttpContext.Response.Headers[CookieConfig.AccessTokenHeader] = newAccessToken;
 
     return NoContent();
   }
@@ -90,10 +85,10 @@ public class AuthController : ControllerBase
     var newRefreshToken = _jwt.CreateRefreshToken(user);
 
     HttpContext.Response.Headers
-      .SetCookie = Cookie.CreateCookie(_cookieConfig.Value.RefreshTokenCookieName, newRefreshToken);
+      .SetCookie = Cookie.CreateCookie(newRefreshToken);
 
     HttpContext.Response
-      .Headers[_cookieConfig.Value.AccessTokenHeaderName] = newAccessToken;
+      .Headers[CookieConfig.AccessTokenHeader] = newAccessToken;
 
     return NoContent();
   }
@@ -101,10 +96,10 @@ public class AuthController : ControllerBase
   [HttpPost("logout")]
   public ActionResult Logout()
   {
-    HttpContext.Response.Headers.SetCookie = Cookie.GetDeleteCookie(_cookieConfig.Value.RefreshTokenCookieName);
+    HttpContext.Response.Headers.SetCookie = Cookie.GetDeleteCookie();
 
     HttpContext.Response
-      .Headers[_cookieConfig.Value.AccessTokenHeaderName] = "";
+      .Headers[CookieConfig.AccessTokenHeader] = "";
 
     return NoContent();
   }
@@ -136,10 +131,10 @@ public class AuthController : ControllerBase
     var newRefreshToken = _jwt.CreateRefreshToken(user);
 
     HttpContext.Response.Headers
-      .SetCookie = Cookie.CreateCookie(_cookieConfig.Value.RefreshTokenCookieName, newRefreshToken);
+      .SetCookie = Cookie.CreateCookie(newRefreshToken);
 
     HttpContext.Response
-      .Headers[_cookieConfig.Value.AccessTokenHeaderName] = newAccessToken;
+      .Headers[CookieConfig.AccessTokenHeader] = newAccessToken;
 
     _mailing.SendPasswordChanged(user.Email);
 
@@ -149,7 +144,7 @@ public class AuthController : ControllerBase
   [HttpGet("tokens")]
   public async Task<ActionResult> GetAccessToken()
   {
-    var refreshTokenFromCookie = HttpContext.Request.Cookies[_cookieConfig.Value.RefreshTokenCookieName];
+    var refreshTokenFromCookie = HttpContext.Request.Cookies[CookieConfig.RefreshTokenCookie];
     var refreshToken = _jwt.ValidateRefreshToken(refreshTokenFromCookie);
 
     if (refreshTokenFromCookie == null || refreshToken == null)
@@ -165,10 +160,10 @@ public class AuthController : ControllerBase
     var newRefreshToken = _jwt.CreateRefreshToken(user);
 
     HttpContext.Response.Headers
-      .SetCookie = Cookie.CreateCookie(_cookieConfig.Value.RefreshTokenCookieName, newRefreshToken);
+      .SetCookie = Cookie.CreateCookie(newRefreshToken);
 
     HttpContext.Response
-      .Headers[_cookieConfig.Value.AccessTokenHeaderName] = newAccessToken;
+      .Headers[CookieConfig.AccessTokenHeader] = newAccessToken;
 
     return NoContent();
   }

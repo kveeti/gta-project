@@ -6,8 +6,6 @@ using Backend.Api.Helpers;
 using Backend.Api.Models;
 using Backend.Api.Repositories.ModelCar;
 using Backend.Api.Repositories.ModelGarage;
-using Backend.Api.TokenDtos;
-using Microsoft.Extensions.Options;
 using Prometheus;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -36,8 +34,6 @@ builder.Services.AddTransient<IMailing, Mailing>();
 builder.Services.AddRouting(options => options.LowercaseUrls = true);
 
 builder.Services.Configure<JwtConfig>(builder.Configuration.GetSection("JWT_Config"));
-
-builder.Services.Configure<CookieConfig>(builder.Configuration.GetSection("CookieConfig"));
 builder.Services.Configure<EmailConfig>(builder.Configuration.GetSection("EmailConfig"));
 
 var app = builder.Build();

@@ -1,11 +1,10 @@
 using Backend.Api.Attributes;
-using Backend.Api.Configs;
 using Backend.Api.EmailDtos;
 using Backend.Api.Helpers;
 using Backend.Api.Models;
 using Backend.Api.Repositories;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Options;
+using Backend.Api.Configs;
 
 namespace Backend.Api.Controllers;
 
@@ -16,17 +15,14 @@ public class EmailController : ControllerBase
   private readonly IJwt _jwt;
   private readonly IMailing _mailing;
   private readonly IGenericRepo<User> _userRepo;
-  private readonly IOptions<CookieConfig> _cookieConfig;
 
   public EmailController(
     IJwt aJwt,
     IMailing aMailing,
-    IGenericRepo<User> aUserRepo,
-    IOptions<CookieConfig> aCookieConfig
+    IGenericRepo<User> aUserRepo
   )
   {
     _jwt = aJwt;
-    _cookieConfig = aCookieConfig;
     _userRepo = aUserRepo;
     _mailing = aMailing;
   }
@@ -37,10 +33,10 @@ public class EmailController : ControllerBase
   {
     var emailInUse = await _userRepo.GetOneByFilter(user => user.Email == aDto.NewEmail);
     if (emailInUse != null) return BadRequest("Email in use");
-    
+
     var user = await _userRepo.GetOneByFilterTracking(user => user.Id == aDto.UserId);
     if (user == null) return NotFound("user was not found");
-    
+
     if (user.IsTestAccount) return BadRequest("Test accounts can't change their email");
 
     var emailConfirmationToken = $"{Guid.NewGuid().ToString()}{Guid.NewGuid().ToString()}";
@@ -51,16 +47,14 @@ public class EmailController : ControllerBase
 
     _mailing.SendEmailConfirmation(aDto.NewEmail, emailConfirmationToken);
 
-    HttpContext.Response.Cookies.Delete(_cookieConfig.Value.RefreshTokenCookieName);
-
     var newAccessToken = _jwt.CreateAccessToken(user);
     var newRefreshToken = _jwt.CreateRefreshToken(user);
 
     HttpContext.Response.Headers
-      .SetCookie = Cookie.CreateCookie(_cookieConfig.Value.RefreshTokenCookieName, newRefreshToken);
+      .SetCookie = Cookie.CreateCookie(newRefreshToken);
 
     HttpContext.Response
-      .Headers[_cookieConfig.Value.AccessTokenHeaderName] = newAccessToken;
+      .Headers[CookieConfig.AccessTokenHeader] = newAccessToken;
 
     return NoContent();
   }
@@ -69,10 +63,10 @@ public class EmailController : ControllerBase
   public async Task<ActionResult<string>> ConfirmEmail(VerifyEmailDto aDto)
   {
     if (aDto.Token == null) return BadRequest("Invalid token");
-    
+
     var user = await _userRepo
       .GetOneByFilterTracking(user => user.EmailVerifyToken == aDto.Token);
-    
+
     if (user == null) return BadRequest("Invalid token");
 
     if (user.IsTestAccount) return BadRequest("Test accounts have verified emails by default");

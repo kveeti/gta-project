@@ -1,12 +1,11 @@
 using System.Security.Claims;
-using Backend.Api.Configs;
 using Backend.Api.Helpers;
 using Backend.Api.Models;
 using Backend.Api.Repositories;
 using Backend.Api.TokenDtos;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Filters;
-using Microsoft.Extensions.Options;
+using Backend.Api.Configs;
 
 namespace Backend.Api.Attributes;
 
@@ -24,20 +23,17 @@ public class Authorization
   {
     private readonly Claim _claim;
     private readonly IJwt _jwt;
-    private readonly IOptions<CookieConfig> _cookieConfig;
     private readonly IGenericRepo<User> _userRepo;
 
     public ClaimRequirementFilter(
       IJwt jwt,
       Claim claim,
-      IGenericRepo<User> aUserRepo,
-      IOptions<CookieConfig> aCookieConfig
+      IGenericRepo<User> aUserRepo
     )
     {
       _jwt = jwt;
       _claim = claim;
       _userRepo = aUserRepo;
-      _cookieConfig = aCookieConfig;
     }
 
     public async Task OnAuthorizationAsync(AuthorizationFilterContext context)
@@ -97,7 +93,7 @@ public class Authorization
       var newAccessToken = _jwt.CreateAccessToken(user);
 
       context.HttpContext.Response
-        .Headers[_cookieConfig.Value.AccessTokenHeaderName] = newAccessToken;
+        .Headers[CookieConfig.AccessTokenHeader] = newAccessToken;
     }
 
     private static bool TokenMatchesWithDb(ValidTokenDto aToken, User aDbData)
@@ -112,7 +108,7 @@ public class Authorization
 
     private void HandleUnauthorized(AuthorizationFilterContext context, string message)
     {
-      context.HttpContext.Response.Cookies.Delete(_cookieConfig.Value.RefreshTokenCookieName);
+      context.HttpContext.Response.Headers.SetCookie = Cookie.GetDeleteCookie();
       Console.WriteLine($"unauthorized {message}");
       context.Result = new UnauthorizedObjectResult(message);
     }

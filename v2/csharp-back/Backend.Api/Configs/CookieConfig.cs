@@ -1,7 +1,7 @@
 namespace Backend.Api.Configs;
 
-public class CookieConfig
+public static class CookieConfig
 {
-  public string RefreshTokenCookieName { get; set; }
-  public string AccessTokenHeaderName { get; set; }
+  public static string AccessTokenHeader = "access-token";
+  public static string RefreshTokenCookie = "refresh-token";
 }

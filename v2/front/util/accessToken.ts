@@ -1,11 +1,12 @@
 import { toast } from "react-toastify";
-import { request, requestWithNo401RedirectAndDontSetToken } from "./axios";
+import { accessTokenHeader } from "../envs";
+import { request } from "./axios";
 
 export const setAccessToken = (value: string) => {
   try {
     if (value && value.length) {
       const exp = Date.now() + 1000 * 60 * 15;
-      localStorage.setItem("access-token", JSON.stringify({ exp, token: value }));
+      localStorage.setItem(accessTokenHeader, JSON.stringify({ exp, token: value }));
     }
   } catch {
     toast.warn("Couldn't access local storage");
@@ -21,7 +22,7 @@ export const getAccessTokenOnlyLocal = () => {
   let test = null;
 
   try {
-    test = localStorage.getItem("access-token");
+    test = localStorage.getItem(accessTokenHeader);
   } catch {
     toast.warn("Couldn't access local storage");
     return null;

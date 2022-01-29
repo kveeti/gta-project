@@ -2,13 +2,13 @@ namespace Backend.Api.Helpers;
 
 public static class Cookie
 {
-  public static string CreateCookie(string aCookieName, string aCookieValue)
+  public static string CreateCookie(string aCookieValue)
   {
-    return $"{aCookieName}={aCookieValue}; SameSite=Strict; Secure; HttpOnly; Path=/api/auth/tokens; Max-Age={604800};";
+    return $"refresh-token={aCookieValue}; SameSite=Strict; Secure; HttpOnly; Path=/api/auth/tokens; Max-Age={604800};";
   }
 
-  public static string GetDeleteCookie(string aCookieName)
+  public static string GetDeleteCookie()
   {
-    return $"{aCookieName}=; SameSite=Strict; Secure; HttpOnly; Path=/api/auth/tokens; Max-Age=0;";
+    return $"refresh-token=; SameSite=Strict; Secure; HttpOnly; Path=/api/auth/tokens; Max-Age=0;";
   }
 }
