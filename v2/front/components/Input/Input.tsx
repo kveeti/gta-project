@@ -94,6 +94,7 @@ interface InputProps {
   transparent?: boolean;
   white?: boolean;
   id?: string;
+  autoFocus?: boolean;
   placeholder?: string;
   value: string;
   type: string;
@@ -108,6 +109,7 @@ export const Input = ({
   transparent,
   white,
   id = "",
+  autoFocus,
   placeholder = "",
   value,
   type,
@@ -162,6 +164,7 @@ export const Input = ({
       <StyledInput
         ref={input}
         id={id}
+        autoFocus={autoFocus}
         type={showPass && isPass ? "text" : type}
         onChange={(e) => onInputChange(e.target.value)}
         placeholder={placeholder}

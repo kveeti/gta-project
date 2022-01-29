@@ -1,7 +1,5 @@
 import { useState } from "react";
 import { toast } from "react-toastify";
-import { useAdminCheck } from "../../../hooks/useAdminCheck";
-import { styled } from "../../../stitches.config";
 import { request } from "../../../util/axios";
 import { Input } from "../../Input/Input";
 import {
@@ -13,19 +11,9 @@ import {
 } from "../../Styles/Page-cards";
 import { Title } from "../../Styles/Text";
 
-const GridContainer = styled("div", {
-  display: "grid",
-  gridTemplateColumns: "max-content 1fr",
-  gap: "1rem",
-});
-
 export const NewModelGarageCard = () => {
-  const loading = useAdminCheck();
-
   const [name, setName] = useState("");
   const [capacity, setCapacity] = useState("");
-
-  if (loading) return null;
 
   const reset = () => {
     setName("");

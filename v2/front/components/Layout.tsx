@@ -6,18 +6,19 @@ import { RightFloatingButtons } from "./FloatingButtons/Right/RightButtons";
 import { MenuBar } from "./MenuBar/MenuBar";
 import { Sidebar } from "./Sidebar/Sidebar";
 import { Toast } from "./Toast/Toast";
-import { useLayoutRedirector } from "../hooks/useLayoutRedirector";
 import { useResizeListener } from "../hooks/useResizeListener";
+import { useTest } from "../hooks/useTest";
 
 interface Props {
   children: React.ReactNode;
+  token?: string;
   title?: string;
 }
 
-const Layout = ({ children, title }: Props) => {
+const Layout = ({ children, token, title, ...props }: Props) => {
   if (typeof window === "undefined") return null;
 
-  const blocked = useLayoutRedirector();
+  const viewBlocked = useTest();
   useResizeListener();
 
   const state = useISelector((state) => state);
@@ -26,10 +27,10 @@ const Layout = ({ children, title }: Props) => {
   const tablet = state.bp === 2;
   const showFloatingButtons = mobile;
 
-  if (blocked) return null;
-
   const location = window.location.pathname;
   const newSite = location?.includes("new");
+
+  if (viewBlocked) return null;
 
   let showSideBar: boolean;
 

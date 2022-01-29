@@ -99,22 +99,9 @@ public class AuthController : ControllerBase
   }
 
   [HttpPost("logout")]
-  [Authorization.CustomAuth("Standard, Admin")]
-  public async Task<ActionResult<string>> Logout()
+  public ActionResult Logout()
   {
-    var goodUserId = Guid.TryParse(HttpContext.Items["userId"].ToString(),
-      out var userId);
-    if (!goodUserId) return Unauthorized("bad userId");
-
-    var user = await _userRepo.GetOneByFilter(user => user.Id == userId);
-
-    if (user.IsTestAccount)
-    {
-      _userRepo.Delete(user);
-      await _userRepo.Save();
-    }
-    
-    HttpContext.Response.Cookies.Delete(_cookieConfig.Value.RefreshTokenCookieName);
+    HttpContext.Response.Headers.SetCookie = Cookie.GetDeleteCookie(_cookieConfig.Value.RefreshTokenCookieName);
 
     HttpContext.Response
       .Headers[_cookieConfig.Value.AccessTokenHeaderName] = "";
@@ -133,7 +120,7 @@ public class AuthController : ControllerBase
     var user = await _userRepo.GetOneByFilterTracking(user => user.Id == userId);
     if (user == null) return NotFound();
 
-    if (user.IsTestAccount) 
+    if (user.IsTestAccount)
       return BadRequest("Test accounts can't change their password");
 
     var currentPasswordsMatch = Hashing.Verify(aDto.CurrentPassword, user.Password);
@@ -155,6 +142,30 @@ public class AuthController : ControllerBase
       .Headers[_cookieConfig.Value.AccessTokenHeaderName] = newAccessToken;
 
     _mailing.SendPasswordChanged(user.Email);
+
+    return NoContent();
+  }
+
+  [HttpGet("tokens")]
+  public async Task<ActionResult> GetAccessToken()
+  {
+    var refreshTokenFromCookie = HttpContext.Request.Cookies[_cookieConfig.Value.RefreshTokenCookieName];
+    var refreshToken = _jwt.ValidateRefreshToken(refreshTokenFromCookie);
+
+    if (refreshTokenFromCookie == null || refreshToken == null)
+      return Unauthorized();
+
+    var user = await _userRepo.GetOneByFilter(user => user.Id == refreshToken.UserId);
+    if (user == null) return Unauthorized();
+
+    var newAccessToken = _jwt.CreateAccessToken(user);
+    var newRefreshToken = _jwt.CreateRefreshToken(user);
+
+    HttpContext.Response.Headers
+      .SetCookie = Cookie.CreateCookie(_cookieConfig.Value.RefreshTokenCookieName, newRefreshToken);
+
+    HttpContext.Response
+      .Headers[_cookieConfig.Value.AccessTokenHeaderName] = newAccessToken;
 
     return NoContent();
   }

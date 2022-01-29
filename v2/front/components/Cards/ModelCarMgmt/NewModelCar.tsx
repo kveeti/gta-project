@@ -1,7 +1,6 @@
 import { useState } from "react";
 import { toast } from "react-toastify";
 import { gtabaseLinkPrefix } from "../../../envs";
-import { useAdminCheck } from "../../../hooks/useAdminCheck";
 import { request } from "../../../util/axios";
 import { Input } from "../../Input/Input";
 import {
@@ -14,14 +13,10 @@ import {
 import { Title } from "../../Styles/Text";
 
 export const NewModelCarCard = () => {
-  const loading = useAdminCheck();
-
   const [name, setName] = useState("");
   const [manufacturer, setManufacturer] = useState("");
   const [_class, setClass] = useState("");
   const [link, setLink] = useState("");
-
-  if (loading) return null;
 
   const reset = () => {
     setName("");

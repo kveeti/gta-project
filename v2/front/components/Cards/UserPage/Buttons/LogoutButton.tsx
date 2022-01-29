@@ -2,7 +2,6 @@ import { useRouter } from "next/router";
 import { useDispatch } from "react-redux";
 import { actions } from "../../../../state/actions";
 import { initState } from "../../../../state/InitState";
-import { setAccessToken } from "../../../../util/accessToken";
 import { request } from "../../../../util/axios";
 import { StyledButton } from "../../Signin/Buttons/Styles";
 
@@ -13,7 +12,6 @@ export const LogoutButton = () => {
   const onClick = async () => {
     await request("/auth/logout", "POST");
     localStorage.clear();
-    setAccessToken(null);
 
     await router.push("/signin", "/signin", { shallow: true });
     dispatch(actions.users.set.me(initState.users.me));

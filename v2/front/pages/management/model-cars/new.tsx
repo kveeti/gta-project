@@ -1,12 +1,13 @@
 import { NewModelCarCard } from "../../../components/Cards/ModelCarMgmt/NewModelCar";
 import Layout from "../../../components/Layout";
+import { useAdminCheck } from "../../../hooks/useAdminCheck";
 
 const NewModelCarPage = () => {
-  return (
-    <Layout title="New model car">
-      <NewModelCarCard />
-    </Layout>
-  );
+  const { layoutViewBlocked, viewBlocked } = useAdminCheck();
+
+  if (layoutViewBlocked) return null;
+
+  return <Layout title="New model car">{!viewBlocked && <NewModelCarCard />}</Layout>;
 };
 
 export default NewModelCarPage;

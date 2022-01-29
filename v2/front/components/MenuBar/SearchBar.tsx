@@ -32,6 +32,7 @@ export const SearchBar = () => {
   return (
     <Input
       white
+      autoFocus
       id={"search"}
       type="search"
       placeholder="Search for anything"

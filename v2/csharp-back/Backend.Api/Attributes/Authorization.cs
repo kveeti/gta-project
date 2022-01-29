@@ -4,7 +4,6 @@ using Backend.Api.Helpers;
 using Backend.Api.Models;
 using Backend.Api.Repositories;
 using Backend.Api.TokenDtos;
-using JetBrains.Annotations;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Filters;
 using Microsoft.Extensions.Options;
@@ -43,36 +42,8 @@ public class Authorization
 
     public async Task OnAuthorizationAsync(AuthorizationFilterContext context)
     {
-      // firstly look for a refresh token 
-      var refreshTokenFromCookie = context.HttpContext.Request.Cookies[_cookieConfig.Value.RefreshTokenCookieName];
-      var refreshToken = _jwt.ValidateRefreshToken(refreshTokenFromCookie);
-
-      // no (valid) refresh token, no access at all
-      if (refreshTokenFromCookie == null || refreshToken == null)
-      {
-        HandleUnauthorized(context, "bad refresh token");
-        return;
-      }
-
-      // refresh token was valid, try find a corresponding user 
-      var dbUser = await _userRepo.GetOneByFilter(user => user.Id == refreshToken.UserId);
-      if (dbUser == null)
-      {
-        HandleUnauthorized(context, ":D");
-        return;
-      }
-
-      // check if refresh token's props match with the found user's props 
-      var refreshMatches = TokenMatchesWithDb(refreshToken, dbUser);
-      if (!refreshMatches)
-      {
-        HandleUnauthorized(context, ":Dd");
-        return;
-      }
-
       ValidTokenDto accessToken = null;
 
-      // if access token was provided, check it
       try
       {
         var accessTokenFromHeader = context.HttpContext.Request.Headers.Authorization.ToString().Split(" ")[1];
@@ -82,40 +53,51 @@ public class Authorization
 
           if (accessToken == null)
           {
-            HandleUnauthorized(context, ":Ddd");
+            HandleUnauthorized(context, "invalid access token");
             return;
           }
         }
       }
-      catch // just catching the string splitting...
+      catch
       {
+        HandleUnauthorized(context, "invalid access token");
+        return;
       }
 
-      // automatically generate new tokens if refresh token was valid
-      // but access token wasn't provided or had expired
-      if (accessToken == null ||
-          (DateTimeOffset.Now.ToUnixTimeSeconds() + 900) < accessToken.Exp)
+      if (accessToken == null)
       {
-        var newAccessToken = _jwt.CreateAccessToken(dbUser);
-        accessToken = _jwt.ValidateAccessToken(newAccessToken);
-        context.HttpContext.Request.Headers.Authorization = $"Bearer {newAccessToken}";
-
-        var newRefreshToken = _jwt.CreateRefreshToken(dbUser);
-        context.HttpContext
-          .Response.Headers
-          .SetCookie = Cookie.CreateCookie(_cookieConfig.Value.RefreshTokenCookieName, newRefreshToken);
-
-        context.HttpContext.Response.Headers[_cookieConfig.Value.AccessTokenHeaderName] = newAccessToken;
+        HandleUnauthorized(context, "invalid access token");
+        return;
       }
 
-      context.HttpContext.Items["userId"] = dbUser.Id;
-      context.HttpContext.Items["emailVerified"] = (dbUser.EmailVerifyToken == null).ToString();
+      var user = await _userRepo.GetOneByFilter(user => user.Id == accessToken.UserId);
+      if (user == null)
+      {
+        HandleUnauthorized(context, "no user found");
+        return;
+      }
+
+      var matches = TokenMatchesWithDb(accessToken, user);
+      if (!matches)
+      {
+        HandleUnauthorized(context, "invalid user in token");
+        return;
+      }
+
+      context.HttpContext.Items["userId"] = user.Id;
+      context.HttpContext.Items["emailVerified"] = (user.EmailVerifyToken == null).ToString();
 
       var hasCorrectRole = _claim.Value.Contains(accessToken.Role);
       if (!hasCorrectRole)
       {
         context.Result = new ForbidResult();
+        return;
       }
+      
+      var newAccessToken = _jwt.CreateAccessToken(user);
+
+      context.HttpContext.Response
+        .Headers[_cookieConfig.Value.AccessTokenHeaderName] = newAccessToken;
     }
 
     private static bool TokenMatchesWithDb(ValidTokenDto aToken, User aDbData)

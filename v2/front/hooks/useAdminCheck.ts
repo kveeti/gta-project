@@ -1,36 +1,30 @@
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
-import { useDispatch } from "react-redux";
-import { actions } from "../state/actions";
-import { request } from "../util/axios";
+import { getTest } from "../util/accessToken";
+import { checkAdmin } from "../util/jwt";
 
 export const useAdminCheck = () => {
-  const router = useRouter();
-  const dispatch = useDispatch();
+  const token = getTest();
 
-  const [loading, setLoading] = useState(true);
+  const [viewBlocked, setViewBlocked] = useState(!!token?.length);
+  const [layoutViewBlocked, setLayoutViewBlocked] = useState(true);
+  const router = useRouter();
 
   const handleUnauthorized = () => {
     router.push("/", "/", { shallow: true });
   };
 
   useEffect(() => {
-    const getMe = async () => {
-      const res = await request("/users/me", "GET");
+    const check = async () => {
+      const isAdmin = await checkAdmin();
+      if (!isAdmin) return handleUnauthorized();
 
-      if (res?.data) {
-        dispatch(actions.users.set.me(res?.data));
-
-        if (res?.data?.role != "Admin") return handleUnauthorized();
-
-        return setLoading(false);
-      }
-
-      handleUnauthorized();
+      setViewBlocked(false);
+      setLayoutViewBlocked(false);
     };
 
-    getMe();
+    check();
   }, []);
 
-  return loading;
+  return { layoutViewBlocked, viewBlocked };
 };

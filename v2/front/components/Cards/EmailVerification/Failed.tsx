@@ -1,4 +1,4 @@
-import { Text, Title } from "../../Styles/Text";
+import { Title } from "../../Styles/Text";
 import { Card } from "./Styles";
 
 export const Failed = () => (

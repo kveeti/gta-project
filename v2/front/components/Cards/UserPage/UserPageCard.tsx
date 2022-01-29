@@ -59,11 +59,12 @@ export const UserPageCard = () => {
           <>
             <ChangeEmailButton />
             <ChangePasswordButton />
-            <LogoutButton />
           </>
         ) : (
           <CreateAccountButton />
         )}
+
+        <LogoutButton />
       </ButtonContainer>
     </PageCard>
   );
