@@ -7,7 +7,7 @@ import { MenuBar } from "./MenuBar/MenuBar";
 import { Sidebar } from "./Sidebar/Sidebar";
 import { Toast } from "./Toast/Toast";
 import { useResizeListener } from "../hooks/useResizeListener";
-import { useTest } from "../hooks/useTest";
+import { useIsLoggedIn } from "../hooks/useTest";
 
 interface Props {
   children: React.ReactNode;
@@ -18,7 +18,7 @@ interface Props {
 const Layout = ({ children, token, title, ...props }: Props) => {
   if (typeof window === "undefined") return null;
 
-  const viewBlocked = useTest();
+  const viewBlocked = useIsLoggedIn();
   useResizeListener();
 
   const state = useISelector((state) => state);

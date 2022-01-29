@@ -1,6 +1,6 @@
 import { useEffect } from "react";
 import { useRouter } from "next/router";
-import { getAccessTokenTest, getTest } from "../util/accessToken";
+import { getAccessToken, getAccessTokenOnlyLocal } from "../util/accessToken";
 
 export const useAuthPageRedirector = () => {
   const router = useRouter();
@@ -10,10 +10,10 @@ export const useAuthPageRedirector = () => {
   };
 
   useEffect(() => {
-    if (getTest()) return pushToIndex();
+    if (getAccessTokenOnlyLocal()) return pushToIndex();
 
     const getMe = async () => {
-      const token = await getAccessTokenTest();
+      const token = await getAccessToken();
 
       if (!token) return;
 

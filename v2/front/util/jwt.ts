@@ -2,7 +2,7 @@ import jwt from "jsonwebtoken";
 import { toast } from "react-toastify";
 import { jwtSecret } from "../envs";
 import { User } from "../interfaces/User";
-import { getAccessTokenTest } from "./accessToken";
+import { getAccessToken } from "./accessToken";
 
 const decodeToken = (token: string) => {
   try {
@@ -22,7 +22,7 @@ export const getUser = (token: string): User => {
 };
 
 export const checkAdmin = async () => {
-  const token = await getAccessTokenTest();
+  const token = await getAccessToken();
   if (!token) return false;
 
   const user = getUser(token);

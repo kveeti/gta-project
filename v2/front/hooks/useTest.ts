@@ -1,9 +1,9 @@
 import { useEffect, useState } from "react";
 import { useRouter } from "next/router";
-import { getAccessTokenTest, getTest } from "../util/accessToken";
+import { getAccessToken, getAccessTokenOnlyLocal } from "../util/accessToken";
 
-export const useTest = () => {
-  const [viewBlocked, setViewBlocked] = useState(getTest() ? false : true);
+export const useIsLoggedIn = () => {
+  const [viewBlocked, setViewBlocked] = useState(getAccessTokenOnlyLocal() ? false : true);
   const router = useRouter();
 
   const pushToSignIn = () => {
@@ -13,7 +13,7 @@ export const useTest = () => {
 
   useEffect(() => {
     const func = async () => {
-      const token = await getAccessTokenTest();
+      const token = await getAccessToken();
 
       if (!token) return pushToSignIn();
 

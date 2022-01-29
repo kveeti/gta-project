@@ -5,8 +5,7 @@ export const setAccessToken = (value: string) => {
   try {
     if (value && value.length) {
       const exp = Date.now() + 1000 * 60 * 15;
-      localStorage.setItem("item", exp.toString());
-      localStorage.setItem("test", JSON.stringify({ exp, token: value }));
+      localStorage.setItem("access-token", JSON.stringify({ exp, token: value }));
     }
   } catch {
     toast.warn("Couldn't access local storage");
@@ -18,11 +17,11 @@ interface AccessToken {
   token: string;
 }
 
-export const getTest = () => {
+export const getAccessTokenOnlyLocal = () => {
   let test = null;
 
   try {
-    test = localStorage.getItem("test");
+    test = localStorage.getItem("access-token");
   } catch {
     toast.warn("Couldn't access local storage");
     return null;
@@ -40,12 +39,12 @@ export const getTest = () => {
   }
 };
 
-export const getAccessTokenTest = async () => {
-  let token = getTest();
+export const getAccessToken = async () => {
+  let token = getAccessTokenOnlyLocal();
 
   if (!token) await requestWithNo401RedirectAndDontSetToken("/auth/tokens", "GET");
 
-  token = getTest();
+  token = getAccessTokenOnlyLocal();
 
   return token;
 };

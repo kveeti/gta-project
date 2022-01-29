@@ -1,10 +1,10 @@
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
-import { getTest } from "../util/accessToken";
+import { getAccessTokenOnlyLocal } from "../util/accessToken";
 import { checkAdmin } from "../util/jwt";
 
 export const useAdminCheck = () => {
-  const token = getTest();
+  const token = getAccessTokenOnlyLocal();
 
   const [viewBlocked, setViewBlocked] = useState(!!token?.length);
   const [layoutViewBlocked, setLayoutViewBlocked] = useState(true);

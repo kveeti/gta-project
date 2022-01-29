@@ -1,7 +1,7 @@
 import axios, { AxiosRequestConfig, AxiosResponse, Method } from "axios";
 import { toast } from "react-toastify";
 import { accessTokenHeaderName, apiBaseUrl } from "../envs";
-import { getTest, handleUnauthorized, setAccessToken } from "./accessToken";
+import { getAccessTokenOnlyLocal, handleUnauthorized, setAccessToken } from "./accessToken";
 
 const axiosErrorHandler = (error: any, redirect401 = true) => {
   if (!error.response || error.response.status >= 502)
@@ -24,7 +24,7 @@ const config = (path: string, method: Method, data?: any): AxiosRequestConfig =>
     method,
     data,
     headers: {
-      Authorization: `Bearer ${getTest()}`,
+      Authorization: `Bearer ${getAccessTokenOnlyLocal()}`,
     },
   };
 };
