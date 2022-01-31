@@ -1,0 +1,28 @@
+version: "3.9"
+
+services:
+  back:
+    build: 
+      context: csharp-back/Backend.Api/
+      dockerfile: Dockerfile-dev
+    image: gta-csharp-back-dev
+    ports:
+      - "5000:5000"
+    volumes:
+      - ./csharp-back/Backend.Api/:/app
+    restart: unless-stopped
+
+  front:
+    build: 
+      context: front/
+      dockerfile: Dockerfile-dev
+    image: gta-front-dev
+    ports:
+      - "3000:3000"
+    volumes:
+      - ./front/:/app
+    restart: unless-stopped
+
+networks:
+  default:
+    name: gta-dev
