@@ -7,8 +7,7 @@ import { TestButton } from "./Buttons/TestButton";
 import { RegisterButton } from "./Buttons/RegisterButton";
 import { ButtonContainer } from "../../Styles/SinglePage";
 import { request } from "../../../util/axios";
-import { Desc, Text } from "../../Styles/Text";
-import { siteBaseUrl } from "../../../envs";
+import { Text } from "../../Styles/Text";
 
 interface InputProps {
   value: string;
@@ -49,7 +48,7 @@ export const SignInForm = () => {
       </InputContainer>
 
       <Text>
-        <a href={`${siteBaseUrl}/init-password-reset`}>Forgot password?</a>
+        <a href="/init-password-reset">Forgot password?</a>
       </Text>
 
       <ButtonContainer>
