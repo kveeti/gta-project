@@ -52,7 +52,7 @@ public class AuthControllerTests
     ).Verifiable();
 
     var fakeContext = new DefaultHttpContext();
-    var controller = new AuthController(_jwt, _fakeMailing.Object, _fakeUserRepo.Object)
+    var controller = new AuthController(_jwt, _fakeMailing.Object, _fakeUserRepo.Object, _jwtConfig)
     {
       ControllerContext = new ControllerContext()
       {
@@ -97,7 +97,7 @@ public class AuthControllerTests
       .ReturnsAsync(existingUser);
 
     var fakeContext = new DefaultHttpContext();
-    var controller = new AuthController(_jwt, _fakeMailing.Object, _fakeUserRepo.Object)
+    var controller = new AuthController(_jwt, _fakeMailing.Object, _fakeUserRepo.Object, _jwtConfig)
     {
       ControllerContext = new ControllerContext()
       {
@@ -139,7 +139,7 @@ public class AuthControllerTests
       .ReturnsAsync(existingUser);
 
     var fakeContext = new DefaultHttpContext();
-    var controller = new AuthController(_jwt, _fakeMailing.Object, _fakeUserRepo.Object)
+    var controller = new AuthController(_jwt, _fakeMailing.Object, _fakeUserRepo.Object, _jwtConfig)
     {
       ControllerContext = new ControllerContext()
       {
@@ -178,7 +178,7 @@ public class AuthControllerTests
       .ReturnsAsync((User)null);
 
     var fakeContext = new DefaultHttpContext();
-    var controller = new AuthController(_jwt, _fakeMailing.Object, _fakeUserRepo.Object)
+    var controller = new AuthController(_jwt, _fakeMailing.Object, _fakeUserRepo.Object, _jwtConfig)
     {
       ControllerContext = new ControllerContext()
       {
@@ -194,8 +194,8 @@ public class AuthControllerTests
     resRefreshToken.Should().BeEmpty();
     resAccessToken.Should().BeEmpty();
 
-    result.Result.Should().BeOfType<NotFoundObjectResult>();
-    (result.Result as NotFoundObjectResult).Value.Should().Be("user not found");
+    result.Result.Should().BeOfType<BadRequestObjectResult>();
+    (result.Result as BadRequestObjectResult).Value.Should().Be("Incorrect credentials");
   }
 
   [Fact]
@@ -217,7 +217,7 @@ public class AuthControllerTests
       .ReturnsAsync(existingUser);
 
     var fakeContext = new DefaultHttpContext();
-    var controller = new AuthController(_jwt, _fakeMailing.Object, _fakeUserRepo.Object)
+    var controller = new AuthController(_jwt, _fakeMailing.Object, _fakeUserRepo.Object, _jwtConfig)
     {
       ControllerContext = new ControllerContext()
       {
@@ -233,15 +233,15 @@ public class AuthControllerTests
     resRefreshToken.Should().BeEmpty();
     resAccessToken.Should().BeEmpty();
 
-    result.Result.Should().BeOfType<UnauthorizedObjectResult>();
-    (result.Result as UnauthorizedObjectResult).Value.Should().Be("incorrect credentials");
+    result.Result.Should().BeOfType<BadRequestObjectResult>();
+    (result.Result as BadRequestObjectResult).Value.Should().Be("Incorrect credentials");
   }
 
   [Fact]
   public async Task Logout_ResetsHeaders()
   {
     var fakeContext = new DefaultHttpContext();
-    var controller = new AuthController(_jwt, _fakeMailing.Object, _fakeUserRepo.Object)
+    var controller = new AuthController(_jwt, _fakeMailing.Object, _fakeUserRepo.Object, _jwtConfig)
     {
       ControllerContext = new ControllerContext()
       {
@@ -249,8 +249,7 @@ public class AuthControllerTests
       }
     };
 
-    fakeContext.Response.Headers.SetCookie =
-      $"{CookieConfig.RefreshTokenCookie}={Guid.NewGuid().ToString()}; SameSite=Lax; Secure; HttpOnly; Path=/; Max-Age={604800};";
+    fakeContext.Response.Headers.SetCookie.ToString().Contains($"{CookieConfig.RefreshTokenCookie}=;");
     fakeContext.Response.Headers[CookieConfig.AccessTokenHeader] = Guid.NewGuid().ToString();
 
     var result = controller.Logout();
@@ -261,7 +260,7 @@ public class AuthControllerTests
     resRefreshToken.Should().StartWith($"{CookieConfig.RefreshTokenCookie}=;");
     resAccessToken.Should().Be("");
 
-    result.Should().BeOfType<NoContentResult>();
+    result.Should().BeOfType<Task<NoContentResult>>();
   }
 
   private User CreateFakeUser(string? hash = null)

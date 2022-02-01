@@ -99,7 +99,7 @@ public class AuthController : ControllerBase
   }
 
   [HttpPost("logout")]
-  public async Task<ActionResult> Logout()
+  public async Task<NoContentResult> Logout()
   {
     var accessTokenFromHeader = HttpContext.Request.Headers.Authorization.ToString().Split(" ").Last();
     if (accessTokenFromHeader.StartsWith("ey"))
