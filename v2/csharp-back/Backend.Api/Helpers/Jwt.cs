@@ -91,7 +91,7 @@ public class Jwt : IJwt
       new Claim("username", user.Username),
       new Claim("email", user.Email),
       new Claim("tokenVersion", user.TokenVersion.ToString()),
-      new Claim("emailVerified", (user.EmailVerifyToken == null).ToString()),
+      new Claim("emailVerified", (user.EmailVerifyToken != null).ToString()),
       new Claim("isTestAccount", (user.IsTestAccount).ToString()),
     };
 
@@ -116,7 +116,7 @@ public class Jwt : IJwt
       new Claim("username", user.Username),
       new Claim("email", user.Email),
       new Claim("tokenVersion", user.TokenVersion.ToString()),
-      new Claim("emailVerified", (user.EmailVerifyToken == null).ToString()),
+      new Claim("emailVerified", (user.EmailVerifyToken != null).ToString()),
       new Claim("isTestAccount", (user.IsTestAccount).ToString()),
     };
 

@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Linq.Expressions;
 using System.Threading.Tasks;
 using Backend.Api.Configs;
@@ -14,9 +14,9 @@ using Microsoft.Extensions.Options;
 using Moq;
 using Xunit;
 
-namespace Backend.Tests;
+namespace Backend.Tests.AuthControllerTests;
 
-public class AuthControllerTests
+public class LoginTests
 {
   private readonly IJwt _jwt;
   private readonly Mock<IGenericRepo<User>> _fakeUserRepo = new();
@@ -35,86 +35,9 @@ public class AuthControllerTests
     });
 
 
-  public AuthControllerTests()
+  public LoginTests()
   {
     _jwt = new Jwt(_jwtConfig);
-  }
-
-  [Fact]
-  public async Task Register_WithUniqueUserName_SetsCorrectHeaders()
-  {
-    var registerDto = CreateFakeRegisterUser();
-
-    _fakeMailing.Setup(mailing => mailing
-      .SendEmailConfirmation(
-        It.IsAny<string>(),
-        It.IsAny<string>())
-    ).Verifiable();
-
-    var fakeContext = new DefaultHttpContext();
-    var controller = new AuthController(_jwt, _fakeMailing.Object, _fakeUserRepo.Object, _jwtConfig)
-    {
-      ControllerContext = new ControllerContext()
-      {
-        HttpContext = fakeContext
-      }
-    };
-
-    var result = await controller.Register(registerDto);
-    var resRefreshToken = fakeContext.Response.Headers.SetCookie.ToString().Split("=")[1].Split(";")[0];
-    var resAccessToken = fakeContext.Response.Headers[CookieConfig.AccessTokenHeader].ToString();
-
-    var refreshToken = _jwt.ValidateRefreshToken(resRefreshToken);
-    var accessToken = _jwt.ValidateAccessToken(resAccessToken);
-
-    result.Result.Should().BeOfType<NoContentResult>();
-
-    refreshToken.Email.Should().Be(registerDto.Email);
-    refreshToken.Username.Should().Be(registerDto.Username);
-    refreshToken.TokenVersion.Should().NotBeEmpty();
-    refreshToken.Role.Should().Be("Standard");
-
-    accessToken.Email.Should().Be(registerDto.Email);
-    accessToken.Username.Should().Be(registerDto.Username);
-    accessToken.TokenVersion.Should().NotBeEmpty();
-    accessToken.Role.Should().Be("Standard");
-  }
-
-  [Fact]
-  public async Task Register_WithTakenUsername_ReturnsConflict_DoesntSetHeaders()
-  {
-    var registerDto = CreateFakeRegisterUser();
-    var existingUser = CreateFakeUser();
-
-    _fakeMailing.Setup(mailing => mailing
-      .SendEmailConfirmation(
-        It.IsAny<string>(),
-        It.IsAny<string>())
-    ).Verifiable();
-
-    _fakeUserRepo.Setup(repo => repo
-        .GetOneByFilter(It.IsAny<Expression<Func<User, bool>>>()))
-      .ReturnsAsync(existingUser);
-
-    var fakeContext = new DefaultHttpContext();
-    var controller = new AuthController(_jwt, _fakeMailing.Object, _fakeUserRepo.Object, _jwtConfig)
-    {
-      ControllerContext = new ControllerContext()
-      {
-        HttpContext = fakeContext
-      }
-    };
-
-    var result = await controller.Register(registerDto);
-    var resRefreshToken = fakeContext.Response.Headers.SetCookie;
-    var resAccessToken = fakeContext.Response.Headers[CookieConfig.AccessTokenHeader];
-
-    resRefreshToken.Should().BeEmpty();
-    resAccessToken.Should().BeEmpty();
-
-    result.Result.Should().BeOfType<ConflictObjectResult>();
-    (result.Result as ConflictObjectResult).Value
-      .Should().Be("Username taken");
   }
 
   [Fact]
@@ -161,11 +84,15 @@ public class AuthControllerTests
     refreshToken.Username.Should().Be(authDto.Username);
     refreshToken.TokenVersion.Should().Be(existingUser.TokenVersion);
     refreshToken.Role.Should().Be(existingUser.Role);
+    refreshToken.EmailVerified.Should().Be(false);
+    refreshToken.IsTestAccount.Should().Be(false);
 
     accessToken.Email.Should().Be(existingUser.Email);
     accessToken.Username.Should().Be(authDto.Username);
     accessToken.TokenVersion.Should().Be(existingUser.TokenVersion);
     accessToken.Role.Should().Be(existingUser.Role);
+    accessToken.EmailVerified.Should().Be(false);
+    accessToken.IsTestAccount.Should().Be(false);
   }
 
   [Fact]
@@ -235,32 +162,6 @@ public class AuthControllerTests
 
     result.Result.Should().BeOfType<BadRequestObjectResult>();
     (result.Result as BadRequestObjectResult).Value.Should().Be("Incorrect credentials");
-  }
-
-  [Fact]
-  public async Task Logout_ResetsHeaders()
-  {
-    var fakeContext = new DefaultHttpContext();
-    var controller = new AuthController(_jwt, _fakeMailing.Object, _fakeUserRepo.Object, _jwtConfig)
-    {
-      ControllerContext = new ControllerContext()
-      {
-        HttpContext = fakeContext
-      }
-    };
-
-    fakeContext.Response.Headers.SetCookie.ToString().Contains($"{CookieConfig.RefreshTokenCookie}=;");
-    fakeContext.Response.Headers[CookieConfig.AccessTokenHeader] = Guid.NewGuid().ToString();
-
-    var result = controller.Logout();
-
-    var resRefreshToken = fakeContext.Response.Headers.SetCookie.ToString();
-    var resAccessToken = fakeContext.Response.Headers[CookieConfig.AccessTokenHeader].ToString();
-
-    resRefreshToken.Should().StartWith($"{CookieConfig.RefreshTokenCookie}=;");
-    resAccessToken.Should().Be("");
-
-    result.Should().BeOfType<Task<NoContentResult>>();
   }
 
   private User CreateFakeUser(string? hash = null)
