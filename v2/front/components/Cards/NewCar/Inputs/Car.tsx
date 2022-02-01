@@ -23,7 +23,7 @@ const ChosenCar = () => {
 
   const onClick = () => dispatch(actions.newCar.set.chosen.car(null));
 
-  return <Car car={newCarState.chosenCar} onClick={() => onClick()} />;
+  return <Car car={newCarState.chosenCar} onClick={onClick} />;
 };
 
 const TextField = () => {

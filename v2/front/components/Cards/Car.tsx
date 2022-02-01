@@ -3,39 +3,37 @@ import { useISelector } from "../../state/hooks";
 import { Card } from "../Styles/Cards";
 import { Text, Title } from "../Styles/Text";
 import { SpaceBetween } from "../Styles/Containers";
-import { isTypeICar } from "../../util/typeguards";
-interface CarProps {
-  car: ICar | ModelCar;
-  onClick: any;
+import { ReactElement } from "react";
+interface CarPropsBase<T> {
+  car: T;
 }
 
-export const Car = ({ car, onClick }: CarProps) => {
-  if (isTypeICar(car)) {
-    const checkedCars = useISelector((state) => state.checked.cars);
-    const thisChecked = checkedCars.some((checkedCar) => checkedCar.id === car.id);
+interface CarProps<T> extends CarPropsBase<T> {
+  onClick?: (car: T) => any;
+}
 
-    return (
-      <Card red={!!car.reason} checked={thisChecked} onClick={() => onClick(car)}>
-        <SpaceBetween>
-          <Text>{car.manufacturer}</Text>
-          {car.garage && <Text>{car.garage.name}</Text>}
-        </SpaceBetween>
-        <Title>{car.name}</Title>
-        <Text>{car.class}</Text>
+export function Car(props: CarProps<ICar>): ReactElement;
+export function Car(props: CarProps<ModelCar>): ReactElement;
 
-        {car.reason && (
-          <Text style={{ paddingTop: "1rem" }}>
-            <b>Error:</b> {car.reason}
-          </Text>
-        )}
-      </Card>
-    );
-  }
+export function Car({ car, onClick }) {
+  const checkedCars = useISelector((state) => state.checked.cars);
+  const thisChecked = checkedCars.some((checkedCar: ICar) => checkedCar.id === car.id);
 
   return (
-    <Card>
+    <Card red={!!car.reason} checked={thisChecked} onClick={() => onClick(car)}>
+      <SpaceBetween>
+        <Text>{car.manufacturer}</Text>
+        {!!car.garage && <Text>{car.garage.name}</Text>}
+      </SpaceBetween>
+
       <Title>{car.name}</Title>
       <Text>{car.class}</Text>
+
+      {!!car.reason && (
+        <Text style={{ paddingTop: "1rem" }}>
+          <b>Error:</b> {car.reason}
+        </Text>
+      )}
     </Card>
   );
-};
+}

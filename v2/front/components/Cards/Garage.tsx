@@ -1,41 +1,36 @@
 import { IGarage, ModelGarage } from "../../interfaces/Garage";
-import { isTypeModelGarage } from "../../util/typeguards";
 import { Card } from "../Styles/Cards";
 import { SpaceBetween } from "../Styles/Containers";
 import { Text, Title } from "../Styles/Text";
+import { ReactElement } from "react";
 
-interface GarageProps {
-  garage: IGarage | ModelGarage;
-  onClick?: (garage: IGarage | ModelGarage) => void;
+interface GarageProps<T> {
+  garage: T;
+  onClick?: (garage: T) => any;
   notAllowed?: boolean;
   showCapacity?: boolean;
   showAlreadyOwned?: boolean;
 }
 
-export const Garage = ({
-  garage,
-  onClick,
-  notAllowed,
-  showCapacity,
-  showAlreadyOwned,
-}: GarageProps) => {
-  const isModelGarage = isTypeModelGarage(garage);
+export function Garage(props: GarageProps<IGarage>): ReactElement;
+export function Garage(props: GarageProps<ModelGarage>): ReactElement;
 
+export function Garage({ garage, onClick, notAllowed, showCapacity, showAlreadyOwned }) {
   return (
     <Card notAllowed={notAllowed} onClick={() => onClick(garage)}>
       <SpaceBetween>
         <Title>{garage.name}</Title>
 
-        {showCapacity && !isModelGarage && (
+        {showCapacity && (
           <Text>
             {garage.cars.length} / {garage.capacity}
           </Text>
         )}
 
-        {showAlreadyOwned && isModelGarage && garage.alreadyOwned && <Text>Already owned</Text>}
+        {showAlreadyOwned && garage?.alreadyOwned && <Text>Already owned</Text>}
       </SpaceBetween>
 
-      {!isModelGarage && <Text>{garage?.desc}</Text>}
+      <Text>{!!garage?.desc && garage?.desc}</Text>
     </Card>
   );
-};
+}
