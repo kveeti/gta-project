@@ -4,7 +4,7 @@ import { actions } from "../../../../state/actions";
 import { useISelector } from "../../../../state/hooks";
 import { SingleGrid } from "../../../Styles/Grid";
 import { Label } from "../../../Styles/Page-cards";
-import Car from "../../Car";
+import { Car } from "../../Car";
 
 const MatchingCars = () => {
   const dispatch = useDispatch();
