@@ -6,7 +6,7 @@ interface Props {
 }
 
 export const SigninButton = ({ onClick, disabled }: Props) => (
-  <StyledButton blue onClick={onClick} disabled={disabled}>
+  <StyledButton blue onClick={onClick} disabled={disabled} type="submit">
     Sign in
   </StyledButton>
 );
