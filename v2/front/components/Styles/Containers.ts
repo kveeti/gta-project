@@ -5,3 +5,9 @@ export const Centered = styled("div", {
   justifyContent: "center",
   alignItems: "center",
 });
+
+export const SpaceBetween = styled("div", {
+  display: "flex",
+  justifyContent: "space-between",
+  alignItems: "center",
+});

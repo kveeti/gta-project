@@ -3,14 +3,15 @@ import { useEffect } from "react";
 import { useRouter } from "next/router";
 import { useDispatch } from "react-redux";
 import { actions } from "../../state/actions";
-import { CarGrid } from "../../components/Cards/Cars/CarGrids";
 import Layout from "../../components/Layout";
 import { ICar } from "../../interfaces/Car";
-import { SearchGarageGrid } from "../../components/Cards/Garages/GarageGrid";
 import { IGarage } from "../../interfaces/Garage";
 import { Title } from "../../components/Styles/Text";
 import { styled } from "../../stitches.config";
 import Head from "next/head";
+import { Grid } from "../../components/Styles/Grid";
+import { Car } from "../../components/Cards/Car";
+import { Garage } from "../../components/Cards/Garage";
 
 const Div = styled("div", {
   display: "flex",
@@ -61,13 +62,30 @@ const SearchPage = () => {
         {showGarages && (
           <Div>
             <Title>Garages</Title>
-            <SearchGarageGrid garages={garages} onClick={(garage) => onGarageClick(garage)} />
+
+            <Grid>
+              {garages.map((garage: IGarage) => (
+                <Garage
+                  key={garage.id}
+                  garage={garage}
+                  onClick={(garage: IGarage) => onGarageClick(garage)}
+                  showCapacity={true}
+                />
+              ))}
+            </Grid>
           </Div>
         )}
         {showCars && (
           <Div>
             <Title>Cars</Title>
-            <CarGrid cars={cars} onClick={(car) => onCarClick(car)} />
+
+            {!!cars?.length && (
+              <Grid>
+                {cars.map((car: ICar) => (
+                  <Car onClick={(car: ICar) => onCarClick(car)} key={car.id} car={car} />
+                ))}
+              </Grid>
+            )}
           </Div>
         )}
       </Layout>

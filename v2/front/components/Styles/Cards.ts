@@ -59,5 +59,11 @@ export const Card = styled("div", {
         },
       },
     },
+    notAllowed: {
+      true: {
+        color: "rgba(0,0,0,0.3)",
+        cursor: "not-allowed",
+      },
+    },
   },
 });

@@ -4,7 +4,7 @@ import { actions } from "../../../../state/actions";
 import { useISelector } from "../../../../state/hooks";
 import { Input } from "../../../Input/Input";
 import { Label } from "../../../Styles/Page-cards";
-import { Garage } from "../../Garages/Garage";
+import { Garage } from "../../Garage";
 
 export const GarageInput = () => {
   const newGarageState = useISelector((state) => state.newGarage);

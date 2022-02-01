@@ -1,7 +1,9 @@
 import { useDispatch } from "react-redux";
+import { ICar } from "../../../interfaces/Car";
 import { actions } from "../../../state/actions";
 import { useISelector } from "../../../state/hooks";
-import { CarGrid } from "../../Cards/Cars/CarGrids";
+import Car from "../../Cards/Car";
+import { SingleGrid } from "../../Styles/Grid";
 
 export const CheckedCars = () => {
   const checkedCars = useISelector((state) => state.checked.cars);
@@ -11,9 +13,15 @@ export const CheckedCars = () => {
 
   if (!showCheckedCars) return null;
 
-  const onClick = (car) => {
+  const onCarClick = (car) => {
     dispatch(actions.checked.checkCar(car));
   };
 
-  return <CarGrid single cars={checkedCars} onClick={(car) => onClick(car)} />;
+  return (
+    <SingleGrid>
+      {checkedCars.map((car: ICar) => (
+        <Car onClick={(car: ICar) => onCarClick(car)} key={car.id} car={car} />
+      ))}
+    </SingleGrid>
+  );
 };

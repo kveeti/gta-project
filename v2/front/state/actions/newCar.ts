@@ -6,7 +6,7 @@ import { constants } from "../actionTypes";
 
 export const set = {
   chosen: {
-    car: (car: ICar) => {
+    car: (car: ModelCar) => {
       return {
         type: constants.new.car.set.chosen.CAR,
         payload: car,

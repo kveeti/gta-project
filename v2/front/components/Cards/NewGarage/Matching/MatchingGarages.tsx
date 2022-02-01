@@ -5,7 +5,7 @@ import { actions } from "../../../../state/actions";
 import { useISelector } from "../../../../state/hooks";
 import { SingleGrid } from "../../../Styles/Grid";
 import { Label } from "../../../Styles/Page-cards";
-import { Garage } from "../../Garages/Garage";
+import { Garage } from "../../Garage";
 
 const MatchingGarages = () => {
   const dispatch = useDispatch();

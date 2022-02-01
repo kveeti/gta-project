@@ -3,7 +3,7 @@ import { IGarage } from "../../../interfaces/Garage";
 import { actions } from "../../../state/actions";
 import { useISelector } from "../../../state/hooks";
 import { SingleGrid } from "../../Styles/Grid";
-import { Garage } from "../Garages/Garage";
+import { Garage } from "../Garage";
 import { StyledLabel } from "../NewCar/Styles";
 import { toast } from "react-toastify";
 

@@ -4,7 +4,7 @@ import { actions } from "../../../../state/actions";
 import { useISelector } from "../../../../state/hooks";
 import { Input } from "../../../Input/Input";
 import { Label } from "../../../Styles/Page-cards";
-import Car from "../../Cars/Car";
+import Car from "../../Car";
 
 const CarInput = () => {
   const newCarState = useISelector((state) => state.newCar);

@@ -1,10 +1,10 @@
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
-import { toast } from "react-toastify";
-import { CarGrid } from "../../components/Cards/Cars/CarGrids";
+import Car from "../../components/Cards/Car";
 import { GaragePageCard } from "../../components/Cards/GaragePage/GaragePageCard";
 import Layout from "../../components/Layout";
+import { Grid } from "../../components/Styles/Grid";
 import { Title } from "../../components/Styles/Text";
 import { ICar } from "../../interfaces/Car";
 import { actions } from "../../state/actions";
@@ -48,8 +48,13 @@ const GaragePage = () => {
         <Div>
           <GaragePageCard garage={garage} />
           <Title>{garage?.cars?.length !== 0 && "Cars"}</Title>
-          {garage?.cars?.length !== 0 && (
-            <CarGrid cars={garage?.cars} onClick={(car) => onCarClick(car)} />
+
+          {!!garage?.cars?.length && (
+            <Grid>
+              {garage.cars.map((car: ICar) => (
+                <Car onClick={(car: ICar) => onCarClick(car)} key={car.id} car={car} />
+              ))}
+            </Grid>
           )}
         </Div>
       )}

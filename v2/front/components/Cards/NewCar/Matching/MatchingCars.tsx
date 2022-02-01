@@ -1,9 +1,10 @@
 import { useDispatch } from "react-redux";
-import { ICar } from "../../../../interfaces/Car";
+import { ICar, ModelCar } from "../../../../interfaces/Car";
 import { actions } from "../../../../state/actions";
 import { useISelector } from "../../../../state/hooks";
+import { SingleGrid } from "../../../Styles/Grid";
 import { Label } from "../../../Styles/Page-cards";
-import { NewCardCarGrid } from "../../Cars/CarGrids";
+import Car from "../../Car";
 
 const MatchingCars = () => {
   const dispatch = useDispatch();
@@ -11,7 +12,7 @@ const MatchingCars = () => {
   const newCarState = useISelector((state) => state.newCar);
   const bp = useISelector((state) => state.bp);
 
-  const onCarClick = (car: ICar) => {
+  const onCarClick = (car: ModelCar) => {
     dispatch(actions.newCar.set.chosen.car(car));
   };
 
@@ -21,7 +22,11 @@ const MatchingCars = () => {
   return (
     <>
       {bp > 1 && <Label />}
-      <NewCardCarGrid cars={newCarState.cars.matching} onClick={(car) => onCarClick(car)} />
+      <SingleGrid>
+        {newCarState.cars.matching.map((car: ModelCar) => (
+          <Car onClick={(car: ModelCar) => onCarClick(car)} key={car.name} car={car} />
+        ))}
+      </SingleGrid>
     </>
   );
 };
