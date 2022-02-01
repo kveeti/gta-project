@@ -55,6 +55,8 @@ public class LoginTests
       Password = hash,
       Role = Guid.NewGuid().ToString(),
       TokenVersion = Guid.NewGuid(),
+      IsTestAccount = false,
+      EmailVerifyToken = Guid.NewGuid().ToString()
     };
 
     _fakeUserRepo.Setup(repo => repo
@@ -137,6 +139,8 @@ public class LoginTests
       Password = Hashing.HashToString(Guid.NewGuid().ToString()),
       Role = Guid.NewGuid().ToString(),
       TokenVersion = Guid.NewGuid(),
+      IsTestAccount = false,
+      EmailVerifyToken = Guid.NewGuid().ToString()
     };
 
     _fakeUserRepo.Setup(repo => repo
@@ -174,6 +178,7 @@ public class LoginTests
       Password = hash ?? Hashing.HashToString(Guid.NewGuid().ToString()),
       Role = Guid.NewGuid().ToString(),
       TokenVersion = Guid.NewGuid(),
+      EmailVerifyToken = Guid.NewGuid().ToString()
     };
   }
 
