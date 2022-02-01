@@ -129,7 +129,7 @@ public class AuthController : ControllerBase
     if (!goodUserId) return Unauthorized("bad userId");
 
     var user = await _userRepo.GetOneByFilterTracking(user => user.Id == userId);
-    if (user == null) return NotFound();
+    if (user == null) return BadRequest("User not found");
 
     if (user.IsTestAccount)
       return BadRequest("Test accounts can't change their password");
