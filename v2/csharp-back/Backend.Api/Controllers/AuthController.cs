@@ -5,6 +5,8 @@ using Backend.Api.Models;
 using Backend.Api.Repositories;
 using Microsoft.AspNetCore.Mvc;
 using Backend.Api.Configs;
+using Backend.Api.AuthDtos;
+using Microsoft.Extensions.Options;
 
 namespace Backend.Api.Controllers;
 
@@ -13,18 +15,21 @@ namespace Backend.Api.Controllers;
 public class AuthController : ControllerBase
 {
   private readonly IJwt _jwt;
-  private readonly IGenericRepo<User> _userRepo;
   private readonly IMailing _mailing;
+  private readonly IOptions<JwtConfig> _jwtConfig;
+  private readonly IGenericRepo<User> _userRepo;
 
   public AuthController(
     IJwt aJwt,
     IMailing aMailing,
-    IGenericRepo<User> aUserRepo
+    IGenericRepo<User> aUserRepo,
+    IOptions<JwtConfig> aJwtConfig
   )
   {
     _jwt = aJwt;
-    _userRepo = aUserRepo;
     _mailing = aMailing;
+    _userRepo = aUserRepo;
+    _jwtConfig = aJwtConfig;
   }
 
   [HttpPost("register")]
@@ -155,7 +160,7 @@ public class AuthController : ControllerBase
   }
 
   [HttpGet("tokens")]
-  public async Task<ActionResult> GetAccessToken()
+  public async Task<ActionResult> GetTokens()
   {
     var refreshTokenFromCookie = HttpContext.Request.Cookies[CookieConfig.RefreshTokenCookie];
     var refreshToken = _jwt.ValidateRefreshToken(refreshTokenFromCookie);
@@ -177,6 +182,44 @@ public class AuthController : ControllerBase
 
     HttpContext.Response
       .Headers[CookieConfig.AccessTokenHeader] = newAccessToken;
+
+    return NoContent();
+  }
+
+  [HttpPost("init-password-reset")]
+  public async Task<ActionResult<string>> InitPasswordReset(InitPasswordResetDto aDto)
+  {
+    var user = await _userRepo.GetOneByFilterTracking(user => user.Email == aDto.Email);
+    if (user == null) return BadRequest("User was not found");
+    if (user.IsTestAccount) return BadRequest("Test accounts can't change their passwords");
+
+    var passwordResetToken = $"{Guid.NewGuid().ToString()}-{Guid.NewGuid().ToString()}";
+    var hashedToken = Hashing.HmacSha256(passwordResetToken, _jwtConfig.Value.Access_Secret);
+
+    user.PasswordResetToken = hashedToken;
+    await _userRepo.Save();
+
+    _mailing.SendPasswordReset(user.Email, passwordResetToken);
+
+    return NoContent();
+  }
+
+  [HttpPost("reset-password")]
+  public async Task<ActionResult> ResetPassword(PasswordResetDto aDto)
+  {
+    var hashedToken = Hashing.HmacSha256(aDto.PasswordResetToken, _jwtConfig.Value.Access_Secret);
+
+    var user = await _userRepo.GetOneByFilterTracking(user => user.PasswordResetToken == hashedToken);
+    if (user == null) return BadRequest("User not found");
+    if (user.PasswordResetToken == null) return BadRequest("Invalid link");
+
+    var hashedNewPassword = Hashing.HashToString(aDto.NewPassword);
+
+    user.Password = hashedNewPassword;
+    user.PasswordResetToken = null;
+    await _userRepo.Save();
+
+    _mailing.SendPasswordChanged(user.Email);
 
     return NoContent();
   }

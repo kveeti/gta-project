@@ -1,6 +1,7 @@
 ﻿using JetBrains.Annotations;
 using Microsoft.AspNetCore.Cryptography.KeyDerivation;
 using System.Security.Cryptography;
+using System.Text;
 
 namespace Backend.Api.Helpers;
 
@@ -172,5 +173,14 @@ internal static class Hashing
   {
     var dataBytes = Convert.FromBase64String(aData);
     return Verify(aClearText, dataBytes);
+  }
+
+  public static string HmacSha256(string aClearText, string key)
+  {
+    var keyBytes = Encoding.ASCII.GetBytes(key);
+    var dataBytes = Encoding.ASCII.GetBytes(aClearText);
+
+    var hash = new HMACSHA256(keyBytes);
+    return hash.ComputeHash(dataBytes).ToString();
   }
 }

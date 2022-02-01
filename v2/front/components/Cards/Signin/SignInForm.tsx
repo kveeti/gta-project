@@ -2,12 +2,13 @@ import { useState } from "react";
 import { Input } from "../../Input/Input";
 import { InputContainer, Label } from "../../Styles/Page-cards";
 import { SigninButton } from "./Buttons/SigninButton";
-import { toast } from "react-toastify";
 import { useRouter } from "next/router";
 import { TestButton } from "./Buttons/TestButton";
 import { RegisterButton } from "./Buttons/RegisterButton";
 import { ButtonContainer } from "../../Styles/SinglePage";
 import { request } from "../../../util/axios";
+import { Desc, Text } from "../../Styles/Text";
+import { siteBaseUrl } from "../../../envs";
 
 interface InputProps {
   value: string;
@@ -46,6 +47,10 @@ export const SignInForm = () => {
         </Label>
         <PassInput value={password} onChange={setPassword} />
       </InputContainer>
+
+      <Text>
+        <a href={`${siteBaseUrl}/init-password-reset`}>Forgot password?</a>
+      </Text>
 
       <ButtonContainer>
         <SigninButton onClick={onSignInClick} disabled={signInButtonDisabled} />

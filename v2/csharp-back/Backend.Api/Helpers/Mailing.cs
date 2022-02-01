@@ -70,6 +70,27 @@ public class Mailing : IMailing
     await SendMail(emailToSend);
   }
 
+  public async Task SendPasswordReset(string receiversEmail, string linkId)
+  {
+    var emailToSend = new MimeMessage();
+
+    emailToSend.From.Add(new MailboxAddress(_config.Value.FromName, _config.Value.FromEmail));
+    emailToSend.To.Add(new MailboxAddress("", receiversEmail));
+
+    var link = $"{_config.Value.PasswordResetBase}/{linkId}";
+
+    emailToSend.Subject = $"Password reset request on {_config.Value.LocalDomain}";
+    var message = $"<h1>Hello!</h1>" +
+                  $"<p>A password reset was requested. Click the link below to reset your password.</p>" +
+                  $"<a href=\"{link}\" target=\"_blank\">{link}</a>" +
+                  "<br><br>" +
+                  "<b>If you didn't initiate the password reset, you should ignore this.</b>";
+
+    emailToSend.Body = new TextPart(TextFormat.Html) { Text = message };
+
+    await SendMail(emailToSend);
+  }
+
   private async Task SendMail(MimeMessage message)
   {
     try
