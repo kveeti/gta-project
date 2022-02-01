@@ -1,9 +1,9 @@
 import { useRouter } from "next/router";
-import { ICar } from "../../../../interfaces/Car";
-import { useISelector } from "../../../../state/hooks";
-import { SingleGrid } from "../../../Styles/Grid";
-import { Label } from "../../../Styles/Page-cards";
-import Car from "../../Car";
+import { ICar } from "../../../../../interfaces/Car";
+import { useISelector } from "../../../../../state/hooks";
+import { SingleGrid } from "../../../../Styles/Grid";
+import { Label } from "../../../../Styles/Page-cards";
+import { Car } from "../../../Car";
 
 interface Props {
   cars: ICar[];

@@ -1,4 +1,4 @@
-import { NewModelGarageCard } from "../../../components/Cards/ModelGarageMgmt/NewModelGarage";
+import { NewModelGarageCard } from "../../../components/Cards/Management/ModelGarage/NewModelGarage";
 import Layout from "../../../components/Layout";
 import { useAdminCheck } from "../../../hooks/useAdminCheck";
 

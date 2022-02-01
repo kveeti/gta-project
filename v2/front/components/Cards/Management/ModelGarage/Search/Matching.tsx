@@ -1,9 +1,9 @@
 import { useRouter } from "next/router";
-import { ModelGarage } from "../../../../interfaces/Garage";
-import { useISelector } from "../../../../state/hooks";
-import { SingleGrid } from "../../../Styles/Grid";
-import { Label } from "../../../Styles/Page-cards";
-import { Garage } from "../../Garage";
+import { ModelGarage } from "../../../../../interfaces/Garage";
+import { useISelector } from "../../../../../state/hooks";
+import { SingleGrid } from "../../../../Styles/Grid";
+import { Label } from "../../../../Styles/Page-cards";
+import { Garage } from "../../../Garage";
 
 interface Props {
   garages: ModelGarage[];

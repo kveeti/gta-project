@@ -1,4 +1,4 @@
-import { NewModelCarCard } from "../../../components/Cards/ModelCarMgmt/NewModelCar";
+import { NewModelCarCard } from "../../../components/Cards/Management/ModelCar/NewModelCar";
 import Layout from "../../../components/Layout";
 import { useAdminCheck } from "../../../hooks/useAdminCheck";
 

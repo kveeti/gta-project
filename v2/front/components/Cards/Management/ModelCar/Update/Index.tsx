@@ -1,16 +1,16 @@
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 import { toast } from "react-toastify";
-import { gtabaseLinkPrefix } from "../../../../envs";
-import { useAdminCheck } from "../../../../hooks/useAdminCheck";
-import { request } from "../../../../util/axios";
+import { gtabaseLinkPrefix } from "../../../../../envs";
+import { useAdminCheck } from "../../../../../hooks/useAdminCheck";
+import { request } from "../../../../../util/axios";
 import {
   InputContainer,
   PageButton,
   PageButtonContainer,
   PageCard,
-} from "../../../Styles/Page-cards";
-import { Title } from "../../../Styles/Text";
+} from "../../../../Styles/Page-cards";
+import { Title } from "../../../../Styles/Text";
 import { ClassInput, LinkInput, ManufacturerInput, NameInput } from "./Inputs";
 
 export const ModelCarUpdateCard = () => {

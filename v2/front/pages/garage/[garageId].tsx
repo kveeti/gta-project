@@ -1,7 +1,7 @@
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
-import Car from "../../components/Cards/Car";
+import { Car } from "../../components/Cards/Car";
 import { GaragePageCard } from "../../components/Cards/GaragePage/GaragePageCard";
 import Layout from "../../components/Layout";
 import { Grid } from "../../components/Styles/Grid";

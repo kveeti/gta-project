@@ -1,5 +1,5 @@
-import { Input } from "../../../Input/Input";
-import { Label } from "../../../Styles/Page-cards";
+import { Input } from "../../../../Input/Input";
+import { Label } from "../../../../Styles/Page-cards";
 
 export const NameInput = ({ value, setValue }) => (
   <>

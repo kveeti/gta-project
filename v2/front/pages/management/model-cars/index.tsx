@@ -1,4 +1,4 @@
-import { ModelCarMgmt } from "../../../components/Cards/ModelCarMgmt/ModelCarMgmt";
+import { ModelCarManagementIndex } from "../../../components/Cards/Management/ModelCar/IndexCard";
 import Layout from "../../../components/Layout";
 import { useAdminCheck } from "../../../hooks/useAdminCheck";
 
@@ -7,7 +7,7 @@ const ModelCarManagementPage = () => {
 
   if (layoutViewBlocked) return null;
 
-  return <Layout title="Model cars">{!viewBlocked && <ModelCarMgmt />}</Layout>;
+  return <Layout title="Model cars">{!viewBlocked && <ModelCarManagementIndex />}</Layout>;
 };
 
 export default ModelCarManagementPage;

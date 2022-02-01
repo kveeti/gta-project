@@ -1,5 +1,5 @@
 import { toast } from "react-toastify";
-import { request } from "../../../../util/axios";
+import { request } from "../../../../../util/axios";
 
 interface Props {
   setName: (garage: any) => void;

@@ -1,13 +1,13 @@
-import { ModelGarageMgmt } from "../../../components/Cards/ModelGarageMgmt/ModelGarageMgmt";
+import { ModelGarageManagementIndex } from "../../../components/Cards/Management/ModelGarage/IndexCard";
 import Layout from "../../../components/Layout";
 import { useAdminCheck } from "../../../hooks/useAdminCheck";
 
-const ModelCarManagementPage = () => {
+const ModelGarageManagementPage = () => {
   const { layoutViewBlocked, viewBlocked } = useAdminCheck();
 
   if (layoutViewBlocked) return null;
 
-  return <Layout title="Model garages">{!viewBlocked && <ModelGarageMgmt />}</Layout>;
+  return <Layout title="Model garages">{!viewBlocked && <ModelGarageManagementIndex />}</Layout>;
 };
 
-export default ModelCarManagementPage;
+export default ModelGarageManagementPage;

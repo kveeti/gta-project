@@ -1,16 +1,16 @@
 import { useState } from "react";
 import { toast } from "react-toastify";
-import { gtabaseLinkPrefix } from "../../../envs";
-import { request } from "../../../util/axios";
-import { Input } from "../../Input/Input";
+import { gtabaseLinkPrefix } from "../../../../envs";
+import { request } from "../../../../util/axios";
+import { Input } from "../../../Input/Input";
 import {
   Label,
   PageButton,
   PageButtonContainer,
   PageCard,
   InputContainer,
-} from "../../Styles/Page-cards";
-import { Title } from "../../Styles/Text";
+} from "../../../Styles/Page-cards";
+import { Title } from "../../../Styles/Text";
 
 export const NewModelCarCard = () => {
   const [name, setName] = useState("");

@@ -1,7 +1,7 @@
 import { useState } from "react";
-import { request } from "../../../../util/axios";
-import { Input } from "../../../Input/Input";
-import { Label } from "../../../Styles/Page-cards";
+import { request } from "../../../../../util/axios";
+import { Input } from "../../../../Input/Input";
+import { Label } from "../../../../Styles/Page-cards";
 
 export const SearchInput = ({ setMatching }) => {
   const [value, setValue] = useState("");
@@ -13,9 +13,7 @@ export const SearchInput = ({ setMatching }) => {
 
     const res = await request(`/modelcars?query=${value}`, "GET");
 
-    if (res) {
-      if (res?.data) setMatching(res.data);
-    }
+    if (res && res?.data) setMatching(res.data);
   };
 
   return (
