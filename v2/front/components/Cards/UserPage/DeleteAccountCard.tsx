@@ -7,6 +7,7 @@ import { initState } from "../../../state/InitState";
 import { request } from "../../../util/axios";
 import { wait } from "../../../util/wait";
 import { Input } from "../../Input/Input";
+import { FormWrapper } from "../../Styles/Forms";
 import {
   InputContainer,
   Label,
@@ -22,7 +23,7 @@ export const DeleteAccountCard = () => {
 
   const [password, setPassword] = useState("");
 
-  const onDelete = async () => {
+  const onSubmit = async () => {
     const res = await request("/users/me", "DELETE", {
       password,
     });
@@ -42,7 +43,7 @@ export const DeleteAccountCard = () => {
   return (
     <PageCard centered>
       <Title>Delete account</Title>
-      <Desc>Your account will be immediately deleted and you won't be able to log in again.</Desc>
+      <Desc>Your account will be immediately deleted and you won't be able to sign in again.</Desc>
 
       <InputContainer>
         <Label htmlFor="password">Password</Label>
@@ -50,7 +51,7 @@ export const DeleteAccountCard = () => {
       </InputContainer>
 
       <PageButtonContainer>
-        <PageButton red onClick={onDelete}>
+        <PageButton red onClick={onSubmit}>
           Delete account
         </PageButton>
       </PageButtonContainer>
