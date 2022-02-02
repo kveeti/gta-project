@@ -6,7 +6,7 @@ import { wait } from "../../../util/wait";
 import { Input } from "../../Input/Input";
 import { FormWrapper } from "../../Styles/Forms";
 import { InputContainer, Label, PageButton, PageButtonContainer } from "../../Styles/Page-cards";
-import { StyledCard } from "../../Styles/SinglePage";
+import { SingleCardPageCard } from "../../Styles/SinglePage";
 import { Title } from "../../Styles/Text";
 import { InvalidLink } from "./InvalidLink";
 
@@ -39,7 +39,7 @@ export const ResetPasswordCard = () => {
   if (!token) return <InvalidLink />;
 
   return (
-    <StyledCard>
+    <SingleCardPageCard>
       <Title>Password reset</Title>
 
       <form onSubmit={onSubmit}>
@@ -77,6 +77,6 @@ export const ResetPasswordCard = () => {
           </PageButtonContainer>
         </FormWrapper>
       </form>
-    </StyledCard>
+    </SingleCardPageCard>
   );
 };

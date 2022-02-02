@@ -1,15 +1,23 @@
 import { styled } from "@stitches/react";
 
-export const StyledCard = styled("div", {
+export const SingleCardPageCard = styled("div", {
   display: "grid",
   borderRadius: 4,
-  boxShadow: "0 1px 3px 0 rgb(0 0 0 / 20%)",
+  boxShadow: "$theShadow",
   padding: "1rem",
   margin: "1rem",
   backgroundColor: "White",
   gap: "1rem",
-  maxWidth: "320px",
+  maxWidth: "400px",
   width: "100%",
+
+  variants: {
+    notSoWide: {
+      true: {
+        maxWidth: "360px",
+      },
+    },
+  },
 });
 
 export const ButtonContainer = styled("div", {

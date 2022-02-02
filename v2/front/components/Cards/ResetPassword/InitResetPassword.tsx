@@ -4,7 +4,7 @@ import { request } from "../../../util/axios";
 import { Input } from "../../Input/Input";
 import { FormWrapper } from "../../Styles/Forms";
 import { InputContainer, Label, PageButton, PageButtonContainer } from "../../Styles/Page-cards";
-import { StyledCard } from "../../Styles/SinglePage";
+import { SingleCardPageCard } from "../../Styles/SinglePage";
 import { Desc, Title } from "../../Styles/Text";
 
 export const InitResetPasswordCard = () => {
@@ -20,7 +20,7 @@ export const InitResetPasswordCard = () => {
   };
 
   return (
-    <StyledCard>
+    <SingleCardPageCard>
       <Title>Reset password</Title>
       <Desc>A password reset link will be sent to this email.</Desc>
 
@@ -38,6 +38,6 @@ export const InitResetPasswordCard = () => {
           </PageButtonContainer>
         </FormWrapper>
       </form>
-    </StyledCard>
+    </SingleCardPageCard>
   );
 };

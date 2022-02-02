@@ -17,10 +17,10 @@ interface InputProps {
 
 export const SignInForm = () => {
   const router = useRouter();
-  const [username, setUsername] = useState("");
+  const [usernameOrEmail, setUsernameOrEmail] = useState("");
   const [password, setPassword] = useState("");
 
-  const signInButtonDisabled = !username || !password;
+  const signInButtonDisabled = !usernameOrEmail || !password;
 
   const onSubmit = async (e) => {
     e.preventDefault();
@@ -28,7 +28,7 @@ export const SignInForm = () => {
     if (signInButtonDisabled) return;
 
     const res = await request("/auth/login", "POST", {
-      username,
+      usernameOrEmail,
       password,
     });
 
@@ -39,10 +39,10 @@ export const SignInForm = () => {
     <form onSubmit={onSubmit}>
       <FormWrapper>
         <InputContainer column>
-          <Label column htmlFor="username">
-            Username
+          <Label column htmlFor="username-or-email">
+            Username or email
           </Label>
-          <UsernameInput value={username} onChange={setUsername} />
+          <UsernameOrEmailInput value={usernameOrEmail} onChange={setUsernameOrEmail} />
 
           <Label column htmlFor="password">
             Password
@@ -67,8 +67,17 @@ export const SignInForm = () => {
   );
 };
 
-const UsernameInput = ({ value, onChange }: InputProps) => {
-  return <Input required transparent id="username" type="text" onChange={onChange} value={value} />;
+const UsernameOrEmailInput = ({ value, onChange }: InputProps) => {
+  return (
+    <Input
+      required
+      transparent
+      id="username-or-email"
+      type="text"
+      onChange={onChange}
+      value={value}
+    />
+  );
 };
 
 const PassInput = ({ value, onChange }: InputProps) => {
