@@ -181,6 +181,6 @@ internal static class Hashing
     var dataBytes = Encoding.ASCII.GetBytes(aClearText);
 
     var hash = new HMACSHA256(keyBytes);
-    return hash.ComputeHash(dataBytes).ToString();
+    return Encoding.ASCII.GetString(hash.ComputeHash(dataBytes));
   }
 }

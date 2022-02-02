@@ -2,6 +2,7 @@ import { useRouter } from "next/router";
 import { useState } from "react";
 import { toast } from "react-toastify";
 import { request } from "../../../util/axios";
+import { wait } from "../../../util/wait";
 import { Input } from "../../Input/Input";
 import { FormWrapper } from "../../Styles/Forms";
 import { InputContainer, Label, PageButton, PageButtonContainer } from "../../Styles/Page-cards";
@@ -24,7 +25,15 @@ export const ResetPasswordCard = () => {
       newPassword,
     });
 
-    if (res) toast.success("Password reset successfully");
+    if (res) {
+      setNewPassword("");
+      setConfirmPassword("");
+      toast.success("Password reset successfully");
+
+      await wait(2000);
+
+      router.push("/signin", "/signin", { shallow: true });
+    }
   };
 
   if (!token) return <InvalidLink />;

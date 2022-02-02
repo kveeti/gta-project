@@ -208,7 +208,7 @@ public class AuthController : ControllerBase
     var hashedToken = Hashing.HmacSha256(aDto.PasswordResetToken, _jwtConfig.Value.Access_Secret);
 
     var user = await _userRepo.GetOneByFilterTracking(user => user.PasswordResetToken == hashedToken);
-    if (user == null) return BadRequest("User not found");
+    if (user == null) return BadRequest("Invalid link");
     if (user.PasswordResetToken == null) return BadRequest("Invalid link");
 
     var hashedNewPassword = Hashing.HashToString(aDto.NewPassword);
