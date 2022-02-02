@@ -60,14 +60,14 @@ export const ResetPasswordCard = () => {
               id="conf-new-password"
             />
           </InputContainer>
+
+          <PageButtonContainer>
+            <PageButton green type="submit">
+              Reset
+            </PageButton>
+          </PageButtonContainer>
         </FormWrapper>
       </form>
-
-      <PageButtonContainer>
-        <PageButton green type="submit">
-          Reset
-        </PageButton>
-      </PageButtonContainer>
     </StyledCard>
   );
 };
