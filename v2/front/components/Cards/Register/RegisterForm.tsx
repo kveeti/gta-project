@@ -5,7 +5,7 @@ import { request } from "../../../util/axios";
 import { useRouter } from "next/router";
 import { RegisterButton } from "./Buttons/RegisterButton";
 import { ButtonContainer } from "../../Styles/SinglePage";
-import { BackToSigninButton } from "./Buttons/BackToLogin";
+import { BackToSigninButton } from "./Buttons/BackToSignin";
 import { FormWrapper } from "../../Styles/Forms";
 
 interface InputProps {

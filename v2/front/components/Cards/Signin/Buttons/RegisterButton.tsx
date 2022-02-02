@@ -9,7 +9,7 @@ export const RegisterButton = () => {
   };
 
   return (
-    <StyledButton gray onClick={onClick}>
+    <StyledButton gray onClick={onClick} form="null">
       Register
     </StyledButton>
   );

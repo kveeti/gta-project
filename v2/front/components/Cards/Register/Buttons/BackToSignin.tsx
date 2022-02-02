@@ -9,7 +9,7 @@ export const BackToSigninButton = () => {
   };
 
   return (
-    <StyledButton gray onClick={onClick}>
+    <StyledButton gray onClick={onClick} form="null">
       Back to sign in
     </StyledButton>
   );
