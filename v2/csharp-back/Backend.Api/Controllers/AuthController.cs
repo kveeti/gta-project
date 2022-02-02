@@ -80,7 +80,9 @@ public class AuthController : ControllerBase
   [HttpPost("login")]
   public async Task<ActionResult<string>> Login(AuthUserDto aDto)
   {
-    var user = await _userRepo.GetOneByFilter(user => user.Username == aDto.Username);
+    User user = null;
+    user = await _userRepo.GetOneByFilter(user => user.Username == aDto.UsernameOrEmail);
+    user ??= await _userRepo.GetOneByFilter(user => user.Email == aDto.UsernameOrEmail);
     if (user == null) return BadRequest("Incorrect credentials");
 
     var match = Hashing.Verify(aDto.Password, user.Password);

@@ -2,7 +2,7 @@
 
 public record AuthUserDto
 {
-  public string Username { get; init; }
+  public string UsernameOrEmail { get; init; }
   public string Password { get; init; }
 }
 
