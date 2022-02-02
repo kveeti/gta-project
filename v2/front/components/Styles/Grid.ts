@@ -27,9 +27,15 @@ export const Grid = styled("div", {
 });
 
 export const SingleGrid = styled("div", {
-  display: "flex",
-  flexDirection: "column",
+  display: "grid",
   gap: "0.5rem",
-  flex: 1,
   transform: "translateY(-0.5rem)",
+
+  variants: {
+    noShiftUp: {
+      true: {
+        transform: "translateY(0)",
+      },
+    },
+  },
 });

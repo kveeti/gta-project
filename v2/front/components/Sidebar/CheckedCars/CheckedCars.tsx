@@ -18,7 +18,7 @@ export const CheckedCars = () => {
   };
 
   return (
-    <SingleGrid>
+    <SingleGrid noShiftUp>
       {checkedCars.map((car: ICar) => (
         <Car onClick={(car: ICar) => onCarClick(car)} key={car.id} car={car} />
       ))}
