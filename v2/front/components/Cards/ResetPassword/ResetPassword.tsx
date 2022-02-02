@@ -3,6 +3,7 @@ import { useState } from "react";
 import { toast } from "react-toastify";
 import { request } from "../../../util/axios";
 import { Input } from "../../Input/Input";
+import { FormWrapper } from "../../Styles/Forms";
 import { InputContainer, Label, PageButton, PageButtonContainer } from "../../Styles/Page-cards";
 import { StyledCard } from "../../Styles/SinglePage";
 import { Title } from "../../Styles/Text";
@@ -15,7 +16,9 @@ export const ResetPasswordCard = () => {
   const [newPassword, setNewPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
 
-  const onResetClick = async () => {
+  const onSubmit = async (e) => {
+    e.preventDefault();
+
     const res = await request("/auth/reset-password", "POST", {
       passwordResetToken: token,
       newPassword,
@@ -30,32 +33,38 @@ export const ResetPasswordCard = () => {
     <StyledCard>
       <Title>Password reset</Title>
 
-      <InputContainer column>
-        <Label column htmlFor="new-password">
-          New password
-        </Label>
-        <Input
-          transparent
-          type="password"
-          value={newPassword}
-          onChange={setNewPassword}
-          id="new-password"
-        />
+      <form onSubmit={onSubmit}>
+        <FormWrapper>
+          <InputContainer column>
+            <Label column htmlFor="new-password">
+              New password
+            </Label>
+            <Input
+              required
+              transparent
+              type="password"
+              value={newPassword}
+              onChange={setNewPassword}
+              id="new-password"
+            />
 
-        <Label column htmlFor="conf-new-password">
-          Confirm new password
-        </Label>
-        <Input
-          transparent
-          type="password"
-          value={confirmPassword}
-          onChange={setConfirmPassword}
-          id="conf-new-password"
-        />
-      </InputContainer>
+            <Label column htmlFor="conf-new-password">
+              Confirm new password
+            </Label>
+            <Input
+              required
+              transparent
+              type="password"
+              value={confirmPassword}
+              onChange={setConfirmPassword}
+              id="conf-new-password"
+            />
+          </InputContainer>
+        </FormWrapper>
+      </form>
 
       <PageButtonContainer>
-        <PageButton green onClick={onResetClick}>
+        <PageButton green type="submit">
           Reset
         </PageButton>
       </PageButtonContainer>

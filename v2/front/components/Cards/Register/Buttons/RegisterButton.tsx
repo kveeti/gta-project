@@ -1,12 +1,11 @@
 import { StyledButton } from "../../Signin/Buttons/Styles";
 
 interface Props {
-  onClick: () => void;
   disabled: boolean;
 }
 
-export const RegisterButton = ({ onClick, disabled }: Props) => (
-  <StyledButton blue onClick={onClick} disabled={disabled}>
+export const RegisterButton = ({ disabled }: Props) => (
+  <StyledButton blue disabled={disabled} type="submit">
     Register
   </StyledButton>
 );

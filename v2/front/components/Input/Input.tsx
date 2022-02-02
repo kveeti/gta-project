@@ -103,6 +103,7 @@ interface InputProps {
   onChange: (value: string) => void;
   onBlur?: () => void;
   onFocus?: () => void;
+  required?: boolean;
 }
 
 export const Input = ({
@@ -116,6 +117,7 @@ export const Input = ({
   onChange,
   onBlur,
   onFocus,
+  required,
 }: InputProps) => {
   const [contFocus, setContFocus] = useState(false);
   const [inputVal, setInputVal] = useState(value);
@@ -164,6 +166,7 @@ export const Input = ({
       <StyledInput
         ref={input}
         id={id}
+        required={required}
         autoFocus={autoFocus}
         type={showPass && isPass ? "text" : type}
         onChange={(e) => onInputChange(e.target.value)}

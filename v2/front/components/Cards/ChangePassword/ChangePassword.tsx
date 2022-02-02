@@ -2,6 +2,7 @@ import { useState } from "react";
 import { toast } from "react-toastify";
 import { request } from "../../../util/axios";
 import { Input } from "../../Input/Input";
+import { FormWrapper } from "../../Styles/Forms";
 import {
   InputContainer,
   Label,
@@ -25,7 +26,9 @@ export const ChangePassword = () => {
     setConfirmPassword("");
   };
 
-  const onSubmit = async () => {
+  const onSubmit = async (e) => {
+    e.preventDefault();
+
     if (changePasswordDisabled) return toast.error("Please fill out all fields");
     if (!newPasswordsMatch) return toast.error("New passwords do not match");
 
@@ -43,44 +46,48 @@ export const ChangePassword = () => {
   return (
     <PageCard centered>
       <Title style={{ paddingBottom: "1rem" }}>Change password</Title>
-      <InputContainer>
-        <Label htmlFor="current-password">Current password</Label>
-        <Input
-          transparent
-          type="password"
-          id="current-password"
-          onChange={setCurrPassword}
-          value={currPassword}
-        />
 
-        <Label htmlFor="new-password">New password</Label>
-        <Input
-          transparent
-          type="password"
-          id="new-password"
-          onChange={setNewPassword}
-          value={newPassword}
-        />
+      <form onSubmit={onSubmit}>
+        <FormWrapper>
+          <InputContainer>
+            <Label htmlFor="current-password">Current password</Label>
+            <Input
+              transparent
+              required
+              type="password"
+              id="current-password"
+              onChange={setCurrPassword}
+              value={currPassword}
+            />
 
-        <Label htmlFor="confirm-password">New password again</Label>
-        <Input
-          transparent
-          type="password"
-          id="confirm-password"
-          onChange={setConfirmPassword}
-          value={confirmPassword}
-        />
-      </InputContainer>
+            <Label htmlFor="new-password">New password</Label>
+            <Input
+              transparent
+              required
+              type="password"
+              id="new-password"
+              onChange={setNewPassword}
+              value={newPassword}
+            />
 
-      <PageButtonContainer>
-        <PageButton
-          green
-          disabled={changePasswordDisabled || !newPasswordsMatch}
-          onClick={onSubmit}
-        >
-          Change password
-        </PageButton>
-      </PageButtonContainer>
+            <Label htmlFor="confirm-password">New password again</Label>
+            <Input
+              transparent
+              required
+              type="password"
+              id="confirm-password"
+              onChange={setConfirmPassword}
+              value={confirmPassword}
+            />
+          </InputContainer>
+
+          <PageButtonContainer>
+            <PageButton green disabled={changePasswordDisabled || !newPasswordsMatch} type="submit">
+              Change password
+            </PageButton>
+          </PageButtonContainer>
+        </FormWrapper>
+      </form>
     </PageCard>
   );
 };

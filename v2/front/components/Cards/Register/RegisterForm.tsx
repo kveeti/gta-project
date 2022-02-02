@@ -6,6 +6,7 @@ import { useRouter } from "next/router";
 import { RegisterButton } from "./Buttons/RegisterButton";
 import { ButtonContainer } from "../../Styles/SinglePage";
 import { BackToSigninButton } from "./Buttons/BackToLogin";
+import { FormWrapper } from "../../Styles/Forms";
 
 interface InputProps {
   value: string;
@@ -20,7 +21,8 @@ export const RegisterForm = () => {
 
   const registerButtonDisabled = !username || !password || !email;
 
-  const onRegisterClick = async () => {
+  const onSubmit = async (e) => {
+    e.preventDefault();
     if (registerButtonDisabled) return;
 
     const res = await request("/auth/register", "POST", {
@@ -34,44 +36,48 @@ export const RegisterForm = () => {
   };
 
   return (
-    <>
-      <InputContainer column>
-        <Label column htmlFor="username">
-          Username
-        </Label>
-        <UsernameInput value={username} onChange={setUsername} />
-      </InputContainer>
+    <form onSubmit={onSubmit}>
+      <FormWrapper>
+        <InputContainer column>
+          <Label column htmlFor="username">
+            Username
+          </Label>
+          <UsernameInput value={username} onChange={setUsername} />
+        </InputContainer>
 
-      <InputContainer column>
-        <Label column htmlFor="email">
-          Email
-        </Label>
-        <EmailInput value={email} onChange={setEmail} />
-      </InputContainer>
+        <InputContainer column>
+          <Label column htmlFor="email">
+            Email
+          </Label>
+          <EmailInput value={email} onChange={setEmail} />
+        </InputContainer>
 
-      <InputContainer column>
-        <Label column htmlFor="password">
-          Password
-        </Label>
-        <PassInput value={password} onChange={setPassword} />
-      </InputContainer>
+        <InputContainer column>
+          <Label column htmlFor="password">
+            Password
+          </Label>
+          <PassInput value={password} onChange={setPassword} />
+        </InputContainer>
 
-      <ButtonContainer>
-        <RegisterButton onClick={onRegisterClick} disabled={registerButtonDisabled} />
-        <BackToSigninButton />
-      </ButtonContainer>
-    </>
+        <ButtonContainer>
+          <RegisterButton disabled={registerButtonDisabled} />
+          <BackToSigninButton />
+        </ButtonContainer>
+      </FormWrapper>
+    </form>
   );
 };
 
 const UsernameInput = ({ value, onChange }: InputProps) => {
-  return <Input transparent id="username" type="text" onChange={onChange} value={value} />;
+  return <Input required transparent id="username" type="text" onChange={onChange} value={value} />;
 };
 
 const EmailInput = ({ value, onChange }: InputProps) => {
-  return <Input transparent id="email" type="email" onChange={onChange} value={value} />;
+  return <Input required transparent id="email" type="email" onChange={onChange} value={value} />;
 };
 
 const PassInput = ({ value, onChange }: InputProps) => {
-  return <Input transparent id="password" type="password" onChange={onChange} value={value} />;
+  return (
+    <Input required transparent id="password" type="password" onChange={onChange} value={value} />
+  );
 };

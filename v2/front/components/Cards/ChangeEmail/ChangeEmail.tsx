@@ -5,6 +5,7 @@ import { actions } from "../../../state/actions";
 import { useISelector } from "../../../state/hooks";
 import { request } from "../../../util/axios";
 import { Input } from "../../Input/Input";
+import { FormWrapper } from "../../Styles/Forms";
 import {
   InputContainer,
   Label,
@@ -21,7 +22,9 @@ export const ChangeEmailCard = () => {
 
   const buttonDisabled = newEmail.length < 1 || newEmail === me?.email;
 
-  const onClick = async () => {
+  const onSubmit = async (e) => {
+    e.preventDefault();
+
     if (!newEmail) return;
     const res = await request("/email/change", "POST", { newEmail, userId: me?.id });
 
@@ -37,16 +40,27 @@ export const ChangeEmailCard = () => {
     <PageCard centered>
       <Title style={{ paddingBottom: "1rem" }}>Change email</Title>
 
-      <InputContainer>
-        <Label htmlFor="new-email">New email</Label>
-        <Input transparent type="email" id="new-email" onChange={setNewEmail} value={newEmail} />
-      </InputContainer>
+      <form onSubmit={onSubmit}>
+        <FormWrapper>
+          <InputContainer>
+            <Label htmlFor="new-email">New email</Label>
+            <Input
+              required
+              transparent
+              type="email"
+              id="new-email"
+              onChange={setNewEmail}
+              value={newEmail}
+            />
+          </InputContainer>
 
-      <PageButtonContainer>
-        <PageButton green disabled={buttonDisabled} onClick={onClick}>
-          Change email
-        </PageButton>
-      </PageButtonContainer>
+          <PageButtonContainer>
+            <PageButton green disabled={buttonDisabled} type="submit">
+              Change email
+            </PageButton>
+          </PageButtonContainer>
+        </FormWrapper>
+      </form>
     </PageCard>
   );
 };

@@ -22,7 +22,7 @@ export const SignInForm = () => {
 
   const signInButtonDisabled = !username || !password;
 
-  const onSubmit = async (e: FormEvent<HTMLFormElement>) => {
+  const onSubmit = async (e) => {
     e.preventDefault();
 
     if (signInButtonDisabled) return;
@@ -36,7 +36,7 @@ export const SignInForm = () => {
   };
 
   return (
-    <form onSubmit={(e) => onSubmit(e)}>
+    <form onSubmit={onSubmit}>
       <FormWrapper>
         <InputContainer column>
           <Label column htmlFor="username">
@@ -68,9 +68,11 @@ export const SignInForm = () => {
 };
 
 const UsernameInput = ({ value, onChange }: InputProps) => {
-  return <Input transparent id="username" type="text" onChange={onChange} value={value} />;
+  return <Input required transparent id="username" type="text" onChange={onChange} value={value} />;
 };
 
 const PassInput = ({ value, onChange }: InputProps) => {
-  return <Input transparent id="password" type="password" onChange={onChange} value={value} />;
+  return (
+    <Input required transparent id="password" type="password" onChange={onChange} value={value} />
+  );
 };
