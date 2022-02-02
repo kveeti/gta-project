@@ -21,8 +21,8 @@ export const InitResetPasswordCard = () => {
 
   return (
     <StyledCard>
-      <Title style={{ paddingBottom: "1rem" }}>Reset password</Title>
-      <Desc>A link to reset your password will be sent to this email.</Desc>
+      <Title>Reset password</Title>
+      <Desc>A password reset link will be sent to this email.</Desc>
 
       <form onSubmit={onSubmit}>
         <FormWrapper>
