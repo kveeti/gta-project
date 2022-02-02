@@ -20,7 +20,7 @@ export const TestButton = () => {
   };
 
   return (
-    <StyledButton green onClick={onClick}>
+    <StyledButton green form="null" onClick={onClick}>
       Test account
     </StyledButton>
   );
