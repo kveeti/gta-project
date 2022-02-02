@@ -7,4 +7,4 @@ Global state is handled with [`react-redux`](https://react-redux.js.org/) and [`
 Styling is done with [`@stitches/react`](https://stitches.dev/) and icons are from [`@radix-ui/react-icons`](https://icons.modulz.app/) and from the game Grand Theft Auto V.
 
 ## Authentication
-Authentication is done with [`next-auth`](https://next-auth.js.org/) using [JWTs](https://jwt.io/).
+Authentication is done using [JWTs](https://jwt.io/). 
