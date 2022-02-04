@@ -6,6 +6,8 @@ import { actions } from "../../../state/actions";
 import { Car } from "../Car";
 import { Garage } from "../Garage";
 import { Grid } from "../../Styles/Grid";
+import { Card } from "../../Styles/Cards";
+import { Title } from "../../Styles/Text";
 
 export const Test_1 = ({ garage, cars }) => {
   const [isOpen, setIsOpen] = useState(false);
@@ -32,17 +34,23 @@ export const Test_1 = ({ garage, cars }) => {
               collapsed: { opacity: 0, height: 0 },
             }}
           >
-            <Grid style={{ paddingTop: "0.5rem" }}>
-              {cars.map((car: any) => (
-                <Car
-                  car={car}
-                  key={car.id}
-                  onClick={(car) => {
-                    onCarClick(car);
-                  }}
-                />
-              ))}
-            </Grid>
+            {!!garage?.cars?.length ? (
+              <Grid style={{ paddingTop: "0.5rem" }}>
+                {cars.map((car: any) => (
+                  <Car
+                    car={car}
+                    key={car.id}
+                    onClick={(car) => {
+                      onCarClick(car);
+                    }}
+                  />
+                ))}
+              </Grid>
+            ) : (
+              <Card style={{ marginTop: "0.5rem" }}>
+                <Title>Garage is empty</Title>
+              </Card>
+            )}
           </motion.div>
         )}
       </AnimatePresence>

@@ -23,7 +23,7 @@ export const IndexPageCard = () => {
   const isAdmin = users?.me?.role === "Admin";
 
   return (
-    <PageCard centered>
+    <PageCard>
       {isTestAccount ? (
         <Title>{"Hello tester!"}</Title>
       ) : (
