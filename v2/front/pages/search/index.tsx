@@ -1,28 +1,33 @@
 import Head from "next/head";
 import { useISelector } from "../../state/hooks";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useRouter } from "next/router";
 import { useDispatch } from "react-redux";
 import { actions } from "../../state/actions";
 import Layout from "../../components/Layout";
 import { ICar } from "../../interfaces/Car";
 import { IGarage } from "../../interfaces/Garage";
-import { Title } from "../../components/Styles/Text";
+import { Desc, Title } from "../../components/Styles/Text";
 import { styled } from "../../stitches.config";
 import { Grid, SingleGrid } from "../../components/Styles/Grid";
 import { Car } from "../../components/Cards/Car";
 import { Test_1 } from "../../components/Cards/CollapsibleGarageTest/Test-1";
 import { Test_2 } from "../../components/Cards/CollapsibleGarageTest/Test-2";
+import { PageCard } from "../../components/Styles/Page-cards";
+import { StyledButton } from "../../components/Cards/Signin/Buttons/Styles";
 
 const Div = styled("div", {
   display: "flex",
   flexDirection: "column",
 
-  gap: "1rem",
-  paddingBottom: "0.5rem",
+  gap: "0.5rem",
+  paddingTop: "0.5rem",
 });
 
 const SearchPage = () => {
+  const [versionOne, setVersionOne] = useState(true);
+  const [dragging, setDragging] = useState(false);
+
   const cars = useISelector((state) => state.search.cars);
   const garages = useISelector((state) => state.search.garages);
 
@@ -56,33 +61,55 @@ const SearchPage = () => {
         <meta httpEquiv="Expires" content="0" />
       </Head>
       <Layout title={"Search"}>
-        {showGarages && (
-          <Div>
-            <Title>Garages</Title>
+        <PageCard style={{ alignContent: "space-between" }}>
+          <Title>Testing</Title>
+          <Desc>Collapsible garage version: {versionOne ? "1" : "2"}</Desc>
+          <Desc>Car dragging: {dragging ? "on" : "off"}</Desc>
 
-            {!!garages?.length && (
-              <SingleGrid>
-                {garages.map((garage: IGarage) => (
-                  //<Test_1 garage={garage} cars={garage.cars} />
-                  <Test_2 garage={garage} cars={garage.cars} />
-                ))}
+          <div style={{ display: "grid", gap: "0.5rem" }}>
+            <StyledButton blue onClick={() => setVersionOne(!versionOne)}>
+              Use version {versionOne ? "2" : "1"}
+            </StyledButton>
+
+            <StyledButton blue onClick={() => setDragging(!dragging)}>
+              Turn {dragging ? "off" : "on"} car dragging
+            </StyledButton>
+          </div>
+        </PageCard>
+        <Div>
+          {showGarages && (
+            <>
+              <Title>Garages</Title>
+
+              <SingleGrid noShiftUp>
+                {garages?.map((garage: IGarage) =>
+                  versionOne ? (
+                    <Test_1 garage={garage} cars={garage.cars} />
+                  ) : (
+                    <Test_2 garage={garage} cars={garage.cars} />
+                  )
+                )}
               </SingleGrid>
-            )}
-          </Div>
-        )}
-        {showCars && (
-          <Div>
-            <Title>Cars</Title>
+            </>
+          )}
 
-            {!!cars?.length && (
+          {showCars && (
+            <>
+              <Title>Cars</Title>
+
               <Grid>
                 {cars.map((car: ICar) => (
-                  <Car onClick={(car: ICar) => onCarClick(car)} key={car.id} car={car} />
+                  <Car
+                    onClick={(car: ICar) => onCarClick(car)}
+                    key={car.id}
+                    car={car}
+                    drag={dragging}
+                  />
                 ))}
               </Grid>
-            )}
-          </Div>
-        )}
+            </>
+          )}
+        </Div>
       </Layout>
     </>
   );

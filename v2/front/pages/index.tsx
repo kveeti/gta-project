@@ -1,11 +1,15 @@
+import { useState } from "react";
 import { useDispatch } from "react-redux";
 import { Car } from "../components/Cards/Car";
 import { Test_1 } from "../components/Cards/CollapsibleGarageTest/Test-1";
 import { Test_2 } from "../components/Cards/CollapsibleGarageTest/Test-2";
+import { Card } from "../components/Cards/EmailVerification/Styles";
 import { IndexPageCard } from "../components/Cards/IndexPageCard/IndexPageCard";
+import { StyledButton } from "../components/Cards/Signin/Buttons/Styles";
 import Layout from "../components/Layout";
 import { SingleGrid, Grid } from "../components/Styles/Grid";
-import { Title } from "../components/Styles/Text";
+import { PageCard } from "../components/Styles/Page-cards";
+import { Desc, Title } from "../components/Styles/Text";
 import { ICar } from "../interfaces/Car";
 import { IGarage } from "../interfaces/Garage";
 import { actions } from "../state/actions";
@@ -20,24 +24,30 @@ const Div = styled("div", {
   paddingTop: "0.5rem",
 });
 
-const Garages = ({ garages }) => (
+const Garages = ({ garages, versionOne }) => (
   <SingleGrid noShiftUp>
-    {garages?.map((garage: IGarage) => (
-      <Test_1 garage={garage} cars={garage.cars} />
-      //<Test_2 garage={garage} cars={garage.cars} />
-    ))}
+    {garages?.map((garage: IGarage) =>
+      versionOne ? (
+        <Test_1 garage={garage} cars={garage.cars} />
+      ) : (
+        <Test_2 garage={garage} cars={garage.cars} />
+      )
+    )}
   </SingleGrid>
 );
 
-const Cars = ({ cars, onCarClick }) => (
+const Cars = ({ cars, onCarClick, dragging }) => (
   <Grid>
     {cars.map((car: ICar) => (
-      <Car onClick={(car: ICar) => onCarClick(car)} key={car.id} car={car} />
+      <Car onClick={(car: ICar) => onCarClick(car)} key={car.id} car={car} drag={dragging} />
     ))}
   </Grid>
 );
 
 const Index = () => {
+  const [versionOne, setVersionOne] = useState(true);
+  const [dragging, setDragging] = useState(false);
+
   const cars = useISelector((state) => state.users.me?.cars);
   const garages = useISelector((state) => state.users.me?.garages);
 
@@ -52,19 +62,37 @@ const Index = () => {
 
   return (
     <Layout title="Home">
-      <IndexPageCard />
+      <Grid>
+        <IndexPageCard />
+        <PageCard style={{ alignContent: "space-between" }}>
+          <Title>Testing</Title>
+          <Desc>Collapsible garage version: {versionOne ? "1" : "2"}</Desc>
+          <Desc>Car dragging: {dragging ? "on" : "off"}</Desc>
+
+          <div style={{ display: "grid", gap: "0.5rem" }}>
+            <StyledButton blue onClick={() => setVersionOne(!versionOne)}>
+              Use version {versionOne ? "2" : "1"}
+            </StyledButton>
+
+            <StyledButton blue onClick={() => setDragging(!dragging)}>
+              Turn {dragging ? "off" : "on"} car dragging
+            </StyledButton>
+          </div>
+        </PageCard>
+      </Grid>
+
       <Div>
         {showGarages && (
           <>
             <Title>Garages</Title>
-            <Garages garages={garages} />
+            <Garages garages={garages} versionOne={versionOne} />
           </>
         )}
 
         {showCars && (
           <>
             <Title>Cars</Title>
-            <Cars cars={cars} onCarClick={onCarClick} />
+            <Cars cars={cars} onCarClick={onCarClick} dragging={dragging} />
           </>
         )}
       </Div>
