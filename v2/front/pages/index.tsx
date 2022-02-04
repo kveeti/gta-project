@@ -46,7 +46,6 @@ const Cars = ({ cars, onCarClick, dragging }) => (
 
 const Index = () => {
   const [versionOne, setVersionOne] = useState(true);
-  const [dragging, setDragging] = useState(false);
 
   const cars = useISelector((state) => state.users.me?.cars);
   const garages = useISelector((state) => state.users.me?.garages);
@@ -67,17 +66,10 @@ const Index = () => {
         <PageCard style={{ alignContent: "space-between" }}>
           <Title>Testing</Title>
           <Desc>Collapsible garage version: {versionOne ? "1" : "2"}</Desc>
-          <Desc>Car dragging: {dragging ? "on" : "off"}</Desc>
 
-          <div style={{ display: "grid", gap: "0.5rem" }}>
-            <StyledButton blue onClick={() => setVersionOne(!versionOne)}>
-              Use version {versionOne ? "2" : "1"}
-            </StyledButton>
-
-            <StyledButton blue onClick={() => setDragging(!dragging)}>
-              Turn {dragging ? "off" : "on"} car dragging
-            </StyledButton>
-          </div>
+          <StyledButton blue onClick={() => setVersionOne(!versionOne)}>
+            Use version {versionOne ? "2" : "1"}
+          </StyledButton>
         </PageCard>
       </Grid>
 
@@ -92,7 +84,7 @@ const Index = () => {
         {showCars && (
           <>
             <Title>Cars</Title>
-            <Cars cars={cars} onCarClick={onCarClick} dragging={dragging} />
+            <Cars cars={cars} onCarClick={onCarClick} />
           </>
         )}
       </Div>

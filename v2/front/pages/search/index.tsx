@@ -26,7 +26,6 @@ const Div = styled("div", {
 
 const SearchPage = () => {
   const [versionOne, setVersionOne] = useState(true);
-  const [dragging, setDragging] = useState(false);
 
   const cars = useISelector((state) => state.search.cars);
   const garages = useISelector((state) => state.search.garages);
@@ -64,17 +63,10 @@ const SearchPage = () => {
         <PageCard style={{ alignContent: "space-between" }}>
           <Title>Testing</Title>
           <Desc>Collapsible garage version: {versionOne ? "1" : "2"}</Desc>
-          <Desc>Car dragging: {dragging ? "on" : "off"}</Desc>
 
-          <div style={{ display: "grid", gap: "0.5rem" }}>
-            <StyledButton blue onClick={() => setVersionOne(!versionOne)}>
-              Use version {versionOne ? "2" : "1"}
-            </StyledButton>
-
-            <StyledButton blue onClick={() => setDragging(!dragging)}>
-              Turn {dragging ? "off" : "on"} car dragging
-            </StyledButton>
-          </div>
+          <StyledButton blue onClick={() => setVersionOne(!versionOne)}>
+            Use version {versionOne ? "2" : "1"}
+          </StyledButton>
         </PageCard>
         <Div>
           {showGarages && (
@@ -99,12 +91,7 @@ const SearchPage = () => {
 
               <Grid>
                 {cars.map((car: ICar) => (
-                  <Car
-                    onClick={(car: ICar) => onCarClick(car)}
-                    key={car.id}
-                    car={car}
-                    drag={dragging}
-                  />
+                  <Car onClick={(car: ICar) => onCarClick(car)} key={car.id} car={car} />
                 ))}
               </Grid>
             </>

@@ -7,7 +7,6 @@ import { ReactElement } from "react";
 import { motion } from "framer-motion";
 interface CarPropsBase<T> {
   car: T;
-  drag?: boolean;
 }
 
 interface CarProps<T> extends CarPropsBase<T> {
@@ -17,7 +16,7 @@ interface CarProps<T> extends CarPropsBase<T> {
 export function Car(props: CarProps<ICar>): ReactElement;
 export function Car(props: CarProps<ModelCar>): ReactElement;
 
-export function Car({ car, onClick, drag }) {
+export function Car({ car, onClick }) {
   const checkedCars = useISelector((state) => state.checked.cars);
   const thisChecked = checkedCars.some((checkedCar: ICar) => checkedCar.id === car.id);
 
@@ -27,7 +26,7 @@ export function Car({ car, onClick, drag }) {
   };
 
   return (
-    <motion.div drag={drag}>
+    <motion.div>
       <Card red={!!car.reason} checked={thisChecked} onClick={(e) => onCarClick(e, car)}>
         <SpaceBetween>
           <Text>{car.manufacturer}</Text>
