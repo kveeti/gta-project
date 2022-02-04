@@ -17,7 +17,7 @@ export const Test_2 = ({ garage, cars }) => {
 
   return (
     <motion.div initial={false} onClick={() => setIsOpen(!isOpen)}>
-      <Garage garage={garage} onClick={() => null} showCapacity>
+      <Garage garage={garage} onClick={() => null} showCapacity showChevron>
         <AnimatePresence initial={false}>
           {isOpen && (
             <motion.div
