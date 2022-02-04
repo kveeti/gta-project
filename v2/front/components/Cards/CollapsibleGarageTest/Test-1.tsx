@@ -36,6 +36,7 @@ export const Test_1 = ({ garage, cars }) => {
               {cars.map((car: any) => (
                 <Car
                   car={car}
+                  key={car.id}
                   onClick={(car) => {
                     onCarClick(car);
                   }}

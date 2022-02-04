@@ -36,8 +36,8 @@ export function Garage({
   const [isOpen, setIsOpen] = useState(false);
 
   const onGarageClick = (garage) => {
+    onClick(garage);
     setIsOpen(!isOpen);
-    if (onClick) onClick(garage);
   };
 
   return (

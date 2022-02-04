@@ -18,7 +18,7 @@ const Div = styled("div", {
   display: "flex",
   flexDirection: "column",
 
-  gap: "0.5rem",
+  gap: "1rem",
   paddingBottom: "0.5rem",
 });
 
@@ -60,12 +60,14 @@ const SearchPage = () => {
           <Div>
             <Title>Garages</Title>
 
-            <SingleGrid>
-              {garages.map((garage: IGarage) => (
-                //<Test_1 garage={garage} cars={garage.cars} />
-                <Test_2 garage={garage} cars={garage.cars} />
-              ))}
-            </SingleGrid>
+            {!!garages?.length && (
+              <SingleGrid>
+                {garages.map((garage: IGarage) => (
+                  //<Test_1 garage={garage} cars={garage.cars} />
+                  <Test_2 garage={garage} cars={garage.cars} />
+                ))}
+              </SingleGrid>
+            )}
           </Div>
         )}
         {showCars && (

@@ -4,6 +4,7 @@ import { Card } from "../Styles/Cards";
 import { Text, Title } from "../Styles/Text";
 import { SpaceBetween } from "../Styles/Containers";
 import { ReactElement } from "react";
+import { motion } from "framer-motion";
 interface CarPropsBase<T> {
   car: T;
 }
@@ -25,20 +26,22 @@ export function Car({ car, onClick }) {
   };
 
   return (
-    <Card red={!!car.reason} checked={thisChecked} onClick={(e) => onCarClick(e, car)}>
-      <SpaceBetween>
-        <Text>{car.manufacturer}</Text>
-        {!!car.garage && <Text>{car.garage.name}</Text>}
-      </SpaceBetween>
+    <motion.div drag style={{ zIndex: "1" }}>
+      <Card red={!!car.reason} checked={thisChecked} onClick={(e) => onCarClick(e, car)}>
+        <SpaceBetween>
+          <Text>{car.manufacturer}</Text>
+          {!!car.garage && <Text>{car.garage.name}</Text>}
+        </SpaceBetween>
 
-      <Title>{car.name}</Title>
-      <Text>{car.class}</Text>
+        <Title>{car.name}</Title>
+        <Text>{car.class}</Text>
 
-      {!!car.reason && (
-        <Text style={{ paddingTop: "1rem" }}>
-          <b>Error:</b> {car.reason}
-        </Text>
-      )}
-    </Card>
+        {!!car.reason && (
+          <Text style={{ paddingTop: "1rem" }}>
+            <b>Error:</b> {car.reason}
+          </Text>
+        )}
+      </Card>
+    </motion.div>
   );
 }
