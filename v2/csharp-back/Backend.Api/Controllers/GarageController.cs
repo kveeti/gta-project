@@ -1,5 +1,5 @@
 using Backend.Api.Attributes;
-using Backend.Api.GarageDtos;
+using Backend.Api.Dtos;
 using Backend.Api.Helpers;
 using Backend.Api.Models;
 using Backend.Api.Repositories;

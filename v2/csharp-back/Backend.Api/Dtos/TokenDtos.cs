@@ -1,4 +1,4 @@
-namespace Backend.Api.TokenDtos;
+namespace Backend.Api.Dtos;
 
 public record ValidTokenDto
 {

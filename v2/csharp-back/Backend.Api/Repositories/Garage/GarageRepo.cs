@@ -1,7 +1,6 @@
 using System.Linq.Expressions;
-using Backend.Api.CarDtos;
+using Backend.Api.Dtos;
 using Backend.Api.Data;
-using Backend.Api.GarageDtos;
 using Backend.Api.Models;
 using JetBrains.Annotations;
 using Microsoft.EntityFrameworkCore;

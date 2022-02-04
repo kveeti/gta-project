@@ -1,8 +1,6 @@
 using Backend.Api.Attributes;
-using Backend.Api.CarDtos;
-using Backend.Api.GarageDtos;
+using Backend.Api.Dtos;
 using Backend.Api.Repositories;
-using Backend.Api.SearchDtos;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Backend.Api.Controllers;

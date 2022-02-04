@@ -1,5 +1,5 @@
 ﻿using Backend.Api.Attributes;
-using Backend.Api.Dtos.UserDtos;
+using Backend.Api.Dtos;
 using Backend.Api.Models;
 using Backend.Api.Repositories;
 using Microsoft.AspNetCore.Mvc;
@@ -30,19 +30,7 @@ public class UserController : ControllerBase
     var user = await _db.GetOne(userId);
     if (user == null) return NotFound();
 
-    ReturnUserDto returnUser = new()
-    {
-      Id = user.Id,
-      Username = user.Username,
-      Email = user.Email,
-      Role = user.Role,
-      GarageCount = user.Garages.Count,
-      CarCount = user.Cars.Count,
-      EmailVerified = user.EmailVerifyToken == null,
-      IsTestAccount = user.IsTestAccount
-    };
-
-    return Ok(returnUser);
+    return Ok(user);
   }
 
   [HttpGet("{id:Guid}")]
@@ -52,19 +40,7 @@ public class UserController : ControllerBase
     var user = await _db.GetOne(id);
     if (user == null) return NotFound();
 
-    ReturnUserDto returnUser = new()
-    {
-      Id = user.Id,
-      Username = user.Username,
-      Email = user.Email,
-      Role = user.Role,
-      GarageCount = user.Garages.Count,
-      CarCount = user.Cars.Count,
-      EmailVerified = user.EmailVerifyToken == null,
-      IsTestAccount = user.IsTestAccount
-    };
-
-    return Ok(returnUser);
+    return Ok(user);
   }
 
   [HttpGet]

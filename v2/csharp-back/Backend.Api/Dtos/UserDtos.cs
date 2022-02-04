@@ -1,4 +1,5 @@
-﻿namespace Backend.Api.Dtos.UserDtos;
+﻿using Backend.Api.Models;
+namespace Backend.Api.Dtos;
 
 public record AuthUserDto
 {
@@ -40,5 +41,7 @@ public record ReturnUserDto
   public string Role { get; init; }
   public int CarCount { get; init; }
   public int GarageCount { get; init; }
+  public IEnumerable<JoinedCarDto> Cars { get; init; }
+  public IEnumerable<JoinedGarageDto> Garages { get; init; }
   public bool IsTestAccount { get; init; }
 }

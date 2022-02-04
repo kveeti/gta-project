@@ -1,6 +1,4 @@
-using Backend.Api.CarDtos;
-using Backend.Api.GarageDtos;
-using Backend.Api.ModelGarageDtos;
+using Backend.Api.Dtos;
 using Backend.Api.Models;
 
 namespace Backend.Api.Helpers;

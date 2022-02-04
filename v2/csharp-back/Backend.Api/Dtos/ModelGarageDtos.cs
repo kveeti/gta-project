@@ -1,4 +1,4 @@
-namespace Backend.Api.ModelGarageDtos;
+namespace Backend.Api.Dtos;
 
 public record ModelGarageDto
 {

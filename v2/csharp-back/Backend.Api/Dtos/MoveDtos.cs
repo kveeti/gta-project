@@ -1,4 +1,4 @@
-namespace Backend.Api.MoveDtos;
+namespace Backend.Api.Dtos;
 
 public record MoveCarDto
 {
