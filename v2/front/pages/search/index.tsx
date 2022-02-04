@@ -1,3 +1,4 @@
+import Head from "next/head";
 import { useISelector } from "../../state/hooks";
 import { useEffect } from "react";
 import { useRouter } from "next/router";
@@ -8,10 +9,10 @@ import { ICar } from "../../interfaces/Car";
 import { IGarage } from "../../interfaces/Garage";
 import { Title } from "../../components/Styles/Text";
 import { styled } from "../../stitches.config";
-import Head from "next/head";
-import { Grid } from "../../components/Styles/Grid";
+import { Grid, SingleGrid } from "../../components/Styles/Grid";
 import { Car } from "../../components/Cards/Car";
-import { Garage } from "../../components/Cards/Garage";
+import { Test_1 } from "../../components/Cards/CollapsibleGarageTest/Test-1";
+import { Test_2 } from "../../components/Cards/CollapsibleGarageTest/Test-2";
 
 const Div = styled("div", {
   display: "flex",
@@ -47,10 +48,6 @@ const SearchPage = () => {
     dispatch(actions.checked.checkCar(car));
   };
 
-  const onGarageClick = (garage: IGarage) => {
-    router.push(`/garage/${garage.id}`, `/garage/${garage.id}`, { shallow: true });
-  };
-
   return (
     <>
       <Head>
@@ -63,16 +60,12 @@ const SearchPage = () => {
           <Div>
             <Title>Garages</Title>
 
-            <Grid>
+            <SingleGrid>
               {garages.map((garage: IGarage) => (
-                <Garage
-                  key={garage.id}
-                  garage={garage}
-                  onClick={(garage: IGarage) => onGarageClick(garage)}
-                  showCapacity={true}
-                />
+                //<Test_1 garage={garage} cars={garage.cars} />
+                <Test_2 garage={garage} cars={garage.cars} />
               ))}
-            </Grid>
+            </SingleGrid>
           </Div>
         )}
         {showCars && (

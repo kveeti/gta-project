@@ -10,12 +10,13 @@ interface GarageProps<T> {
   notAllowed?: boolean;
   showCapacity?: boolean;
   showAlreadyOwned?: boolean;
+  children?: ReactElement;
 }
 
 export function Garage(props: GarageProps<IGarage>): ReactElement;
 export function Garage(props: GarageProps<ModelGarage>): ReactElement;
 
-export function Garage({ garage, onClick, notAllowed, showCapacity, showAlreadyOwned }) {
+export function Garage({ garage, onClick, notAllowed, showCapacity, showAlreadyOwned, children }) {
   return (
     <Card notAllowed={notAllowed} onClick={() => onClick(garage)}>
       <SpaceBetween>
@@ -31,6 +32,8 @@ export function Garage({ garage, onClick, notAllowed, showCapacity, showAlreadyO
       </SpaceBetween>
 
       <Text>{!!garage?.desc && garage?.desc}</Text>
+
+      {children}
     </Card>
   );
 }
