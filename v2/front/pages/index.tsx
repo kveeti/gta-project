@@ -3,7 +3,6 @@ import { useDispatch } from "react-redux";
 import { Car } from "../components/Cards/Car";
 import { Test_1 } from "../components/Cards/CollapsibleGarageTest/Test-1";
 import { Test_2 } from "../components/Cards/CollapsibleGarageTest/Test-2";
-import { Card } from "../components/Cards/EmailVerification/Styles";
 import { IndexPageCard } from "../components/Cards/IndexPageCard/IndexPageCard";
 import { StyledButton } from "../components/Cards/Signin/Buttons/Styles";
 import Layout from "../components/Layout";
@@ -36,10 +35,10 @@ const Garages = ({ garages, versionOne }) => (
   </SingleGrid>
 );
 
-const Cars = ({ cars, onCarClick, dragging }) => (
+const Cars = ({ cars, onCarClick }) => (
   <Grid>
     {cars.map((car: ICar) => (
-      <Car onClick={(car: ICar) => onCarClick(car)} key={car.id} car={car} drag={dragging} />
+      <Car onClick={(car: ICar) => onCarClick(car)} key={car.id} car={car} />
     ))}
   </Grid>
 );
