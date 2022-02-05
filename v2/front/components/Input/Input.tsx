@@ -1,4 +1,4 @@
-import { blackA, whiteA } from "@radix-ui/colors";
+import { blackA, red, whiteA } from "@radix-ui/colors";
 import { useEffect, useRef, useState } from "react";
 import { styled } from "../../stitches.config";
 import { ClearIcon } from "./Icons/ClearIcon";
@@ -37,6 +37,12 @@ const InputContainer = styled("div", {
     white: {
       true: {
         backgroundColor: "white",
+      },
+    },
+    red: {
+      true: {
+        backgroundColor: `${red.red8} !important`,
+        boxShadow: `0 0 0 2px ${red.red8} !important`,
       },
     },
   },
@@ -104,6 +110,7 @@ interface InputProps {
   onBlur?: () => void;
   onFocus?: () => void;
   required?: boolean;
+  error?: boolean;
 }
 
 export const Input = ({
@@ -118,6 +125,7 @@ export const Input = ({
   onBlur,
   onFocus,
   required,
+  error,
 }: InputProps) => {
   const [contFocus, setContFocus] = useState(false);
   const [inputVal, setInputVal] = useState(value);
@@ -161,6 +169,7 @@ export const Input = ({
       white={white}
       transparent={transparent}
       onClick={() => onInputContainerClick()}
+      red={error}
     >
       {isSearch && <SearchIcon />}
       <StyledInput
