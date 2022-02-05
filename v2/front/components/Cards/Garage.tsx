@@ -5,6 +5,7 @@ import { Text, Title } from "../Styles/Text";
 import { ReactElement, useState } from "react";
 import { Chevron } from "../Icons/ChevronRight";
 import { styled } from "../../stitches.config";
+import { useISelector } from "../../state/hooks";
 
 interface GarageProps<T> {
   garage: T;
@@ -34,6 +35,9 @@ export function Garage({
   children,
 }) {
   const [isOpen, setIsOpen] = useState(false);
+  const checkedCars = useISelector((state) => state.checked.cars);
+
+  const thisChecked = checkedCars.some((car) => car.garage.id === garage.id);
 
   const onGarageClick = (garage) => {
     onClick(garage);
@@ -41,7 +45,7 @@ export function Garage({
   };
 
   return (
-    <Card notAllowed={notAllowed} onClick={() => onGarageClick(garage)}>
+    <Card checked={thisChecked} notAllowed={notAllowed} onClick={() => onGarageClick(garage)}>
       <SpaceBetween>
         <TestDiv>
           {showCapacity && (

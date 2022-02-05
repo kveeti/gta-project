@@ -8,13 +8,21 @@ import { Garage } from "../Garage";
 import { Grid } from "../../Styles/Grid";
 import { Card } from "../../Styles/Cards";
 import { Title } from "../../Styles/Text";
+import { PageButton } from "../../Styles/Page-cards";
+import { useRouter } from "next/router";
+import { useISelector } from "../../../state/hooks";
 
-export const Test_1 = ({ garage, cars }) => {
+export const Test_1 = ({ garage }) => {
   const [isOpen, setIsOpen] = useState(false);
   const dispatch = useDispatch();
+  const router = useRouter();
 
   const onCarClick = (car: ICar) => {
     dispatch(actions.checked.checkCar(car));
+  };
+
+  const onModifyClick = () => {
+    router.push(`/garage/${garage.id}`, `/garage/${garage.id}`, { shallow: true });
   };
 
   return (
@@ -34,9 +42,12 @@ export const Test_1 = ({ garage, cars }) => {
               collapsed: { opacity: 0, height: 0 },
             }}
           >
-            {!!garage?.cars?.length ? (
-              <Grid style={{ paddingTop: "0.5rem" }}>
-                {cars.map((car: any) => (
+            <Grid style={{ paddingTop: "0.5rem" }}>
+              <PageButton blue onClick={onModifyClick}>
+                Modify
+              </PageButton>
+              {!!garage?.cars?.length ? (
+                garage?.cars.map((car: any) => (
                   <Car
                     car={car}
                     key={car.id}
@@ -44,13 +55,13 @@ export const Test_1 = ({ garage, cars }) => {
                       onCarClick(car);
                     }}
                   />
-                ))}
-              </Grid>
-            ) : (
-              <Card style={{ marginTop: "0.5rem" }}>
-                <Title>Garage is empty</Title>
-              </Card>
-            )}
+                ))
+              ) : (
+                <Card>
+                  <Title>Garage is empty</Title>
+                </Card>
+              )}
+            </Grid>
           </motion.div>
         )}
       </AnimatePresence>

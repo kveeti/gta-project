@@ -26,11 +26,7 @@ const Div = styled("div", {
 const Garages = ({ garages, versionOne }) => (
   <SingleGrid noShiftUp>
     {garages?.map((garage: IGarage) =>
-      versionOne ? (
-        <Test_1 garage={garage} cars={garage.cars} />
-      ) : (
-        <Test_2 garage={garage} cars={garage.cars} />
-      )
+      versionOne ? <Test_1 garage={garage} /> : <Test_2 garage={garage} />
     )}
   </SingleGrid>
 );
@@ -44,7 +40,7 @@ const Cars = ({ cars, onCarClick }) => (
 );
 
 const Index = () => {
-  const [versionOne, setVersionOne] = useState(true);
+  const [versionOne, setVersionOne] = useState(false);
 
   const cars = useISelector((state) => state.users.me?.cars);
   const garages = useISelector((state) => state.users.me?.garages);
@@ -75,14 +71,14 @@ const Index = () => {
       <Div>
         {showGarages && (
           <>
-            <Title>Garages</Title>
+            <Title>Your garages</Title>
             <Garages garages={garages} versionOne={versionOne} />
           </>
         )}
 
         {showCars && (
           <>
-            <Title>Cars</Title>
+            <Title>Your cars</Title>
             <Cars cars={cars} onCarClick={onCarClick} />
           </>
         )}
