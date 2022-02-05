@@ -177,10 +177,10 @@ internal static class Hashing
 
   public static string HmacSha256(string aClearText, string key)
   {
-    var keyBytes = Encoding.ASCII.GetBytes(key);
-    var dataBytes = Encoding.ASCII.GetBytes(aClearText);
+    var keyBytes = Encoding.UTF8.GetBytes(key);
+    var dataBytes = Encoding.UTF8.GetBytes(aClearText);
 
     var hash = new HMACSHA256(keyBytes);
-    return Encoding.ASCII.GetString(hash.ComputeHash(dataBytes));
+    return Encoding.UTF8.GetString(hash.ComputeHash(dataBytes));
   }
 }
