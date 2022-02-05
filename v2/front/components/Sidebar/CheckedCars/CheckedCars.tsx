@@ -1,4 +1,3 @@
-import { motion } from "framer-motion";
 import { useDispatch } from "react-redux";
 import { ICar } from "../../../interfaces/Car";
 import { actions } from "../../../state/actions";
@@ -21,9 +20,7 @@ export const CheckedCars = () => {
   return (
     <SingleGrid noShiftUp>
       {checkedCars.map((car: ICar) => (
-        <motion.div initial={{ y: 20 }} animate={{ x: 0, y: 0 }}>
-          <Car onClick={(car: ICar) => onCarClick(car)} key={car.id} car={car} />
-        </motion.div>
+        <Car onClick={(car: ICar) => onCarClick(car)} key={car.id} car={car} />
       ))}
     </SingleGrid>
   );
