@@ -2,7 +2,7 @@ using System.Security.Claims;
 using Backend.Api.Helpers;
 using Backend.Api.Models;
 using Backend.Api.Repositories;
-using Backend.Api.TokenDtos;
+using Backend.Api.Dtos;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Filters;
 using Backend.Api.Configs;

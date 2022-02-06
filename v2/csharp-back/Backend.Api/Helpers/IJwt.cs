@@ -1,5 +1,5 @@
 using Backend.Api.Models;
-using Backend.Api.TokenDtos;
+using Backend.Api.Dtos;
 
 namespace Backend.Api.Helpers;
 

@@ -1,6 +1,4 @@
-using Backend.Api.CarDtos;
-
-namespace Backend.Api.GarageDtos;
+namespace Backend.Api.Dtos;
 
 public record NewGarageDto
 {

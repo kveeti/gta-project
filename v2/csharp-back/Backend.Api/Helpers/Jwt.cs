@@ -4,7 +4,7 @@ using System.Security.Claims;
 using System.Text;
 using Backend.Api.Configs;
 using Backend.Api.Models;
-using Backend.Api.TokenDtos;
+using Backend.Api.Dtos;
 using Microsoft.Extensions.Options;
 
 namespace Backend.Api.Helpers;

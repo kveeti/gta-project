@@ -1,7 +1,4 @@
-using Backend.Api.CarDtos;
-using Backend.Api.GarageDtos;
-
-namespace Backend.Api.SearchDtos;
+namespace Backend.Api.Dtos;
 
 public record SearchDto
 {

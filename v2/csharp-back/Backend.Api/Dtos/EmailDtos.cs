@@ -1,4 +1,4 @@
-namespace Backend.Api.EmailDtos;
+namespace Backend.Api.Dtos;
 
 public record ChangeEmailDto
 {

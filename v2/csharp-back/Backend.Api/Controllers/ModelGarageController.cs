@@ -1,6 +1,6 @@
 using Backend.Api.Attributes;
 using Backend.Api.Helpers;
-using Backend.Api.ModelGarageDtos;
+using Backend.Api.Dtos;
 using Backend.Api.Models;
 using Backend.Api.Repositories;
 using Backend.Api.Repositories.ModelGarage;

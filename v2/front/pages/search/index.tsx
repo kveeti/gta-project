@@ -1,3 +1,4 @@
+import Head from "next/head";
 import { useISelector } from "../../state/hooks";
 import { useEffect } from "react";
 import { useRouter } from "next/router";
@@ -8,17 +9,14 @@ import { ICar } from "../../interfaces/Car";
 import { IGarage } from "../../interfaces/Garage";
 import { Title } from "../../components/Styles/Text";
 import { styled } from "../../stitches.config";
-import Head from "next/head";
 import { Grid } from "../../components/Styles/Grid";
 import { Car } from "../../components/Cards/Car";
-import { Garage } from "../../components/Cards/Garage";
+import { CollapsibleGarage } from "../../components/Cards/Garage";
 
 const Div = styled("div", {
   display: "flex",
   flexDirection: "column",
-
   gap: "0.5rem",
-  paddingBottom: "0.5rem",
 });
 
 const SearchPage = () => {
@@ -47,10 +45,6 @@ const SearchPage = () => {
     dispatch(actions.checked.checkCar(car));
   };
 
-  const onGarageClick = (garage: IGarage) => {
-    router.push(`/garage/${garage.id}`, `/garage/${garage.id}`, { shallow: true });
-  };
-
   return (
     <>
       <Head>
@@ -59,35 +53,29 @@ const SearchPage = () => {
         <meta httpEquiv="Expires" content="0" />
       </Head>
       <Layout title={"Search"}>
-        {showGarages && (
-          <Div>
-            <Title>Garages</Title>
+        <Div>
+          {showGarages && (
+            <>
+              <Title>Garages</Title>
 
-            <Grid>
-              {garages.map((garage: IGarage) => (
-                <Garage
-                  key={garage.id}
-                  garage={garage}
-                  onClick={(garage: IGarage) => onGarageClick(garage)}
-                  showCapacity={true}
-                />
+              {garages?.map((garage: IGarage) => (
+                <CollapsibleGarage garage={garage} onCarClick={onCarClick} />
               ))}
-            </Grid>
-          </Div>
-        )}
-        {showCars && (
-          <Div>
-            <Title>Cars</Title>
+            </>
+          )}
 
-            {!!cars?.length && (
+          {showCars && (
+            <>
+              <Title>Cars</Title>
+
               <Grid>
                 {cars.map((car: ICar) => (
                   <Car onClick={(car: ICar) => onCarClick(car)} key={car.id} car={car} />
                 ))}
               </Grid>
-            )}
-          </Div>
-        )}
+            </>
+          )}
+        </Div>
       </Layout>
     </>
   );

@@ -1,4 +1,4 @@
-namespace Backend.Api.AuthDtos;
+namespace Backend.Api.Dtos;
 
 public record InitPasswordResetDto
 {
