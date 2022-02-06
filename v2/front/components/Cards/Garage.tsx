@@ -6,6 +6,12 @@ import { ReactElement, useState } from "react";
 import { Chevron } from "../Icons/ChevronRight";
 import { styled } from "../../stitches.config";
 import { useISelector } from "../../state/hooks";
+import { AnimatePresence, motion } from "framer-motion";
+import { Grid } from "../Styles/Grid";
+import { PageButton } from "../Styles/Page-cards";
+import { Car } from "./Car";
+import { ICar } from "../../interfaces/Car";
+import { useRouter } from "next/router";
 
 interface GarageProps<T> {
   garage: T;
@@ -14,10 +20,11 @@ interface GarageProps<T> {
   showCapacity?: boolean;
   showAlreadyOwned?: boolean;
   showChevron?: boolean;
+  open?: boolean;
   children?: ReactElement;
 }
 
-const TestDiv = styled("div", {
+const Div = styled("div", {
   display: "flex",
   flexDirection: "column",
 });
@@ -32,22 +39,17 @@ export function Garage({
   showCapacity,
   showAlreadyOwned,
   showChevron,
+  open,
   children,
 }) {
-  const [isOpen, setIsOpen] = useState(false);
   const checkedCars = useISelector((state) => state.checked.cars);
 
   const thisChecked = checkedCars.some((car) => car.garage.id === garage.id);
 
-  const onGarageClick = (garage) => {
-    onClick(garage);
-    setIsOpen(!isOpen);
-  };
-
   return (
-    <Card checked={thisChecked} notAllowed={notAllowed} onClick={() => onGarageClick(garage)}>
+    <Card checked={thisChecked} notAllowed={notAllowed} onClick={() => onClick(garage)}>
       <SpaceBetween>
-        <TestDiv>
+        <Div>
           {showCapacity && (
             <Text>
               {garage.cars.length} / {garage.capacity}
@@ -56,14 +58,68 @@ export function Garage({
           <Title>{garage.name} </Title>
 
           <Text>{!!garage?.desc && garage?.desc}</Text>
-        </TestDiv>
+        </Div>
 
         {showAlreadyOwned && garage?.alreadyOwned && <Text>Already owned</Text>}
 
-        {showChevron && <Chevron open={isOpen} />}
+        {showChevron && <Chevron open={open} />}
       </SpaceBetween>
 
       {children}
     </Card>
+  );
+}
+
+interface CollapsibleGarageProps {
+  garage: IGarage;
+  onCarClick?: (car: ICar) => any;
+}
+
+export function CollapsibleGarage({ garage, onCarClick }: CollapsibleGarageProps) {
+  const [isOpen, setIsOpen] = useState(false);
+  const router = useRouter();
+
+  const onModifyClick = () => {
+    router.push(`/garage/${garage.id}`, `/garage/${garage.id}`, { shallow: true });
+  };
+
+  return (
+    <Garage garage={garage} onClick={() => setIsOpen(!isOpen)} showCapacity showChevron>
+      <AnimatePresence initial={false}>
+        {isOpen && (
+          <motion.div
+            key="test"
+            initial="collapsed"
+            animate="open"
+            exit="collapsed"
+            variants={{
+              open: { opacity: 1, height: "auto" },
+              collapsed: { opacity: 0, height: 0 },
+            }}
+          >
+            <Grid style={{ paddingTop: "1rem" }}>
+              <PageButton blue onClick={onModifyClick}>
+                Modify
+              </PageButton>
+              {!!garage?.cars?.length ? (
+                garage?.cars?.map((car: any) => (
+                  <Car
+                    car={car}
+                    key={car.id}
+                    onClick={(car) => {
+                      onCarClick(car);
+                    }}
+                  />
+                ))
+              ) : (
+                <Card>
+                  <Text>Garage is empty</Text>
+                </Card>
+              )}
+            </Grid>
+          </motion.div>
+        )}
+      </AnimatePresence>
+    </Garage>
   );
 }

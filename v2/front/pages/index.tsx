@@ -1,16 +1,11 @@
-import { useState } from "react";
 import { useDispatch } from "react-redux";
 import { Car } from "../components/Cards/Car";
-import { Test_1 } from "../components/Cards/CollapsibleGarageTest/Test-1";
-import { Test_2 } from "../components/Cards/CollapsibleGarageTest/Test-2";
+import { CollapsibleGarage } from "../components/Cards/Garage";
 import { IndexPageCard } from "../components/Cards/IndexPageCard/IndexPageCard";
-import { StyledButton } from "../components/Cards/Signin/Buttons/Styles";
 import Layout from "../components/Layout";
-import { SingleGrid, Grid } from "../components/Styles/Grid";
-import { PageCard } from "../components/Styles/Page-cards";
-import { Desc, Title } from "../components/Styles/Text";
+import { Grid } from "../components/Styles/Grid";
+import { Title } from "../components/Styles/Text";
 import { ICar } from "../interfaces/Car";
-import { IGarage } from "../interfaces/Garage";
 import { actions } from "../state/actions";
 import { useISelector } from "../state/hooks";
 import { styled } from "../stitches.config";
@@ -23,25 +18,7 @@ const Div = styled("div", {
   paddingTop: "0.5rem",
 });
 
-const Garages = ({ garages, versionOne }) => (
-  <SingleGrid noShiftUp>
-    {garages?.map((garage: IGarage) =>
-      versionOne ? <Test_1 garage={garage} /> : <Test_2 garage={garage} />
-    )}
-  </SingleGrid>
-);
-
-const Cars = ({ cars, onCarClick }) => (
-  <Grid>
-    {cars.map((car: ICar) => (
-      <Car onClick={(car: ICar) => onCarClick(car)} key={car.id} car={car} />
-    ))}
-  </Grid>
-);
-
 const Index = () => {
-  const [versionOne, setVersionOne] = useState(false);
-
   const cars = useISelector((state) => state.users.me?.cars);
   const garages = useISelector((state) => state.users.me?.garages);
 
@@ -58,28 +35,26 @@ const Index = () => {
     <Layout title="Home">
       <Grid>
         <IndexPageCard />
-        <PageCard style={{ alignContent: "space-between" }}>
-          <Title>Testing</Title>
-          <Desc>Collapsible garage version: {versionOne ? "1" : "2"}</Desc>
-
-          <StyledButton blue onClick={() => setVersionOne(!versionOne)}>
-            Use version {versionOne ? "2" : "1"}
-          </StyledButton>
-        </PageCard>
       </Grid>
 
       <Div>
         {showGarages && (
           <>
             <Title>Your garages</Title>
-            <Garages garages={garages} versionOne={versionOne} />
+            {garages.map((garage) => (
+              <CollapsibleGarage garage={garage} onCarClick={onCarClick} />
+            ))}
           </>
         )}
 
         {showCars && (
           <>
             <Title>Your cars</Title>
-            <Cars cars={cars} onCarClick={onCarClick} />
+            <Grid>
+              {cars.map((car: ICar) => (
+                <Car onClick={(car: ICar) => onCarClick(car)} key={car.id} car={car} />
+              ))}
+            </Grid>
           </>
         )}
       </Div>
