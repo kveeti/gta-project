@@ -5,6 +5,7 @@ import * as newCar from "./newCar";
 import * as newGarage from "./newGarage";
 import * as breakpoint from "./breakpoint";
 import * as move from "./move";
+import * as reset from "./reset";
 
 export const actions = {
   users,
@@ -14,4 +15,5 @@ export const actions = {
   newGarage,
   bp: breakpoint,
   move,
+  reset,
 };

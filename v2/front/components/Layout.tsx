@@ -7,7 +7,7 @@ import { MenuBar } from "./MenuBar/MenuBar";
 import { Sidebar } from "./Sidebar/Sidebar";
 import { Toast } from "./Toast/Toast";
 import { useResizeListener } from "../hooks/useResizeListener";
-import { useIsLoggedIn } from "../hooks/useTest";
+import { useIsLoggedIn } from "../hooks/useIsLoggedIn";
 import { useDispatch } from "react-redux";
 
 interface Props {
