@@ -1,4 +1,5 @@
 import { useRouter } from "next/router";
+import { StyledTooltip } from "../../Cards/Tooltip/Tooltip";
 import { NewGarageIcon } from "../../Icons/NewGarageIcon";
 import { MenubarBtn } from "./Styles";
 
@@ -10,8 +11,10 @@ export const NewGarageButton = () => {
   };
 
   return (
-    <MenubarBtn transparent onClick={() => onClick()}>
-      <NewGarageIcon color={"white"} height={25} />
-    </MenubarBtn>
+    <StyledTooltip content="New garage">
+      <MenubarBtn transparent onClick={() => onClick()}>
+        <NewGarageIcon color={"white"} height={25} />
+      </MenubarBtn>
+    </StyledTooltip>
   );
 };

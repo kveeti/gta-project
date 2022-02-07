@@ -23,7 +23,7 @@ export const UserPageCard = () => {
 
   return (
     <PageCard centered>
-      <Title>Your information</Title>
+      <Title>Profile</Title>
       <Div>
         <Text>
           <b>Email: </b>
