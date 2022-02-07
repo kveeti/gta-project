@@ -45,6 +45,8 @@ export interface InitState {
     garageInput: string;
     chosenGarage: IGarage;
 
+    show: boolean;
+
     matchingGarages: {
       matching: IGarage[];
 
@@ -159,6 +161,8 @@ export const initState: InitState = {
   move: {
     garageInput: "",
     chosenGarage: null,
+
+    show: false,
 
     matchingGarages: {
       matching: [],

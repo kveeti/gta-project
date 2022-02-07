@@ -11,6 +11,13 @@ export const reset = () => {
   };
 };
 
+export const show = (value: boolean) => {
+  return {
+    type: constants.move.SHOW,
+    payload: value,
+  };
+};
+
 export const matchingGarages = {
   search: (query: string) => async (dispatch) => {
     if (!query) return;
@@ -99,6 +106,7 @@ export const api = {
 
 export const move = (cars: ICar[], garage: IGarage, searchInput: string) => async (dispatch) => {
   if (!cars.length) return;
+  if (!garage) return;
 
   const carIds = cars.map((car) => car.id);
 
@@ -111,6 +119,7 @@ export const move = (cars: ICar[], garage: IGarage, searchInput: string) => asyn
 
   if (res) {
     dispatch(actions.checked.setCheckedCars(res.data));
+    dispatch(actions.users.get.me());
     toast.success("Cars moved successfully!");
     dispatch(reset());
     if (searchInput) dispatch(actions.search.search(searchInput));

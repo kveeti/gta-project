@@ -99,6 +99,12 @@ const reducer = (state = initState.move, action: any) => {
     case constants.move.RESET:
       return initState.move;
 
+    case constants.move.SHOW:
+      return {
+        ...state,
+        show: action.payload,
+      };
+
     default:
       return state;
   }

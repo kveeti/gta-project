@@ -88,7 +88,6 @@ export function CollapsibleGarage({ garage, onCarClick }: CollapsibleGarageProps
       <AnimatePresence initial={false}>
         {isOpen && (
           <motion.div
-            key="test"
             initial="collapsed"
             animate="open"
             exit="collapsed"

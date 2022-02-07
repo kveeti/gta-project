@@ -41,6 +41,8 @@ export const constants = {
       CHOSEN_GARAGE: "MOVE__SET_CHOSEN_GARAGE",
     },
 
+    SHOW: "MOVE__SHOW",
+
     matchingGarages: {
       SET: "MOVE__MATCHING_GARAGES_SET",
       api: {

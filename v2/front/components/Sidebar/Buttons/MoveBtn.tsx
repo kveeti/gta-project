@@ -1,23 +1,23 @@
-import { useRouter } from "next/router";
-import { toast } from "react-toastify";
 import { useISelector } from "../../../state/hooks";
+import { useDispatch } from "react-redux";
 import { SidebarBtn } from "./Styles";
+import { actions } from "../../../state/actions";
+import { toast } from "react-toastify";
 
 export const MoveBtn = () => {
-  const router = useRouter();
-  const checkedCars = useISelector((state) => state.checked.cars);
+  const dispatch = useDispatch();
 
-  const showButton = checkedCars.length > 0;
+  const checkedCars = useISelector((state) => state.checked.cars);
+  const showValue = useISelector((state) => state.move.show);
 
   const onClick = () => {
-    if (!checkedCars.length) return toast.error("No cars selected");
-
-    router.push("/move", "/move", { shallow: true });
+    if (!checkedCars.length) return toast.error("No selected cars");
+    dispatch(actions.move.show(!showValue));
   };
 
   return (
-    <SidebarBtn blue disabled={!showButton} onClick={() => onClick()}>
-      Move
+    <SidebarBtn blue onClick={onClick} disabled={!checkedCars.length && !showValue}>
+      {showValue ? "Close" : "Move"}
     </SidebarBtn>
   );
 };

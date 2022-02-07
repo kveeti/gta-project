@@ -55,6 +55,7 @@ export const remove = (carIds: string[], searchInput: string) => async (dispatch
 
   if (res) {
     dispatch(reset());
+    dispatch(actions.users.get.me());
     if (searchInput) dispatch(actions.search.search(searchInput));
   } else {
     dispatch(removeApi.setError(true));
