@@ -84,7 +84,13 @@ export function CollapsibleGarage({ garage, onCarClick }: CollapsibleGarageProps
   };
 
   return (
-    <Garage garage={garage} onClick={() => setIsOpen(!isOpen)} showCapacity showChevron>
+    <Garage
+      garage={garage}
+      onClick={() => setIsOpen(!isOpen)}
+      open={isOpen}
+      showCapacity
+      showChevron
+    >
       <AnimatePresence initial={false}>
         {isOpen && (
           <motion.div
