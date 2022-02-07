@@ -84,7 +84,7 @@ public class CarController : ControllerBase
     if (garage == null) return NotFound("garage was not found");
     if (modelCar == null) return NotFound("model car was not found");
 
-    if (garage.Cars.Count() >= garage.Capacity) return BadRequest("garage is full");
+    if (garage.Cars.Count() >= garage.Capacity) return BadRequest("Garage is full");
 
     Car newCar = new()
     {
@@ -124,7 +124,7 @@ public class CarController : ControllerBase
     if (!cars.Any()) return NotFound("no cars were found");
 
     if ((newGarage.Capacity - newGarage.Cars.Count()) < cars.Count())
-      return BadRequest("garage is full");
+      return BadRequest("Garage does not have enough room");
 
     foreach (var car in cars)
     {
