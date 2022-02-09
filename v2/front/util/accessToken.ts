@@ -1,6 +1,6 @@
 import { toast } from "react-toastify";
 import { accessTokenHeader } from "../envs";
-import { request } from "./axios";
+import { request, requestNo401Redirect } from "./axios";
 
 export const setAccessToken = (value: string) => {
   try {
@@ -50,6 +50,17 @@ export const getAccessToken = async () => {
   return token;
 };
 
+export const getAccessTokenNoRedirect = async () => {
+  let token = getAccessTokenOnlyLocal();
+
+  if (!token) await requestNo401Redirect("/auth/tokens", "GET");
+
+  token = getAccessTokenOnlyLocal();
+
+  return token;
+};
+
 export const handleUnauthorized = () => {
   localStorage.clear();
+  window.location.assign("/signin");
 };

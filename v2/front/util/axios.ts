@@ -13,6 +13,7 @@ const axiosErrorHandler = (error: any, redirect401 = true) => {
   if (statusCode === 400) return toast.error(error.response.data);
   if (statusCode === 409) return toast.error(error.response.data);
   if (redirect401 && statusCode === 401) return handleUnauthorized();
+  if (statusCode === 401) return;
 
   toast.error("Something went wrong, no changes were made.");
 };
@@ -42,6 +43,24 @@ export const request = async (
     return response;
   } catch (err) {
     axiosErrorHandler(err);
+    return null;
+  }
+};
+
+export const requestNo401Redirect = async (
+  path: string,
+  method: Method,
+  data?: any
+): Promise<AxiosResponse | null> => {
+  try {
+    const response = await axios(config(path, method, data));
+
+    const accessToken = response.headers[accessTokenHeader];
+    setAccessToken(accessToken);
+
+    return response;
+  } catch (err) {
+    axiosErrorHandler(err, false);
     return null;
   }
 };
