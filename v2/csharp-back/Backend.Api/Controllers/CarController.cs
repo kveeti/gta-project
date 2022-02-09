@@ -35,6 +35,8 @@ public class CarController : ControllerBase
       out var userId);
     if (!goodUserId) return Unauthorized("bad userId");
 
+    query = Sanitize.GetGoodQuery(query);
+    
     var cars = await _carRepo
       .GetMatching(userId, query);
 

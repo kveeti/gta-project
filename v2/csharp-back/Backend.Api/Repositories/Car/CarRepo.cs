@@ -2,7 +2,6 @@ using System.Linq.Expressions;
 using Backend.Api.Data;
 using Backend.Api.Dtos;
 using Backend.Api.Models;
-using JetBrains.Annotations;
 using Microsoft.EntityFrameworkCore;
 
 namespace Backend.Api.Repositories;
@@ -16,7 +15,7 @@ public class CarRepo : GenericRepo<Car>, ICarRepo
     _context = context;
   }
 
-  public async Task<IEnumerable<JoinedCarDto>> GetMatching(Guid userId, [CanBeNull] string aQuery = null)
+  public async Task<IEnumerable<JoinedCarDto>> GetMatching(Guid userId, string aQuery = null)
   {
     var dbQuery = _context.Cars
       .AsNoTracking()
