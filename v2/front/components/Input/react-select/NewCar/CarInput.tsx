@@ -17,7 +17,7 @@ const Option = (props: OptionProps<ModelCar>) => (
 
 export const CarInputSelect = () => {
   const [timer, setTimer] = useState(null);
-  const inputValue = useISelector((state) => state.newCar.inputs.car);
+  const inputValue = useISelector((state) => state.newCar.inputs.cars);
 
   const dispatch = useDispatch();
 
