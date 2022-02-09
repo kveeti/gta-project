@@ -8,7 +8,7 @@ const NewCarCard = () => {
   return (
     <PageCard centered>
       <Title>New Cars</Title>
-      <Desc>Save a new cars here.</Desc>
+      <Desc>Save new cars here.</Desc>
 
       <InputContainer>
         <Label htmlFor="car-input">Cars</Label>
