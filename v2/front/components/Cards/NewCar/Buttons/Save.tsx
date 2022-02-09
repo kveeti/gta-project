@@ -1,23 +1,45 @@
+import { useState } from "react";
 import { useDispatch } from "react-redux";
 import { toast } from "react-toastify";
 import { actions } from "../../../../state/actions";
 import { useISelector } from "../../../../state/hooks";
+import { request } from "../../../../util/axios";
 import { PageButton } from "../../../Styles/Page-cards";
 
 const SaveButton = () => {
   const dispatch = useDispatch();
+  const [saving, setSaving] = useState(false);
 
   const newCarState = useISelector((state) => state.newCar);
+  const chosenCars = newCarState.inputs.cars;
+  const chosenGarage = newCarState.inputs.garage;
 
-  const onClick = () => {
-    if (!newCarState.chosenCar) return toast.error("No car chosen");
-    if (!newCarState.chosenGarage) return toast.error("No garage chosen");
-
-    dispatch(actions.newCar.save(newCarState.chosenCar, newCarState.chosenGarage));
+  const reset = () => {
+    dispatch(actions.newCar.setInput.garage(null));
+    dispatch(actions.newCar.setInput.car(null));
   };
 
-  const bothChosen = newCarState.chosenCar && newCarState.chosenGarage;
-  const saving = newCarState.api.saving;
+  const onClick = async () => {
+    console.log("chosenCars", chosenCars);
+    console.log("chosenGarage", chosenGarage);
+
+    if (!chosenCars.length || !chosenGarage) return;
+
+    setSaving(true);
+
+    const res = await request("/cars", "POST", {
+      modelCarIds: chosenCars.map((car) => car.id),
+      garageId: chosenGarage.id,
+    });
+    setSaving(false);
+
+    if (res) {
+      toast.success(`Saved!`);
+      reset();
+    }
+  };
+
+  const bothChosen = chosenCars?.length && chosenGarage;
 
   return (
     <PageButton disabled={!bothChosen || saving} green onClick={() => onClick()}>

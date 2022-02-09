@@ -11,7 +11,7 @@ export const ModelCarManagementIndex = () => {
   const [matching, setMatching] = useState([]);
 
   const onNewClick = () => {
-    router.push("/management/model-cars/new", "/management/model-cars/new", { shallow: true });
+    router.push("/management/model-cars/new", "/management/model-cars/new");
   };
 
   return (

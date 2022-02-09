@@ -8,7 +8,7 @@ export const DeleteAccountButton = () => {
     <StyledButton
       red
       onClick={() => {
-        router.push("/me/delete", "/me/delete", { shallow: true });
+        router.push("/me/delete", "/me/delete");
       }}
     >
       Delete account

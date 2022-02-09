@@ -33,7 +33,8 @@ public class ModelGarageController : ControllerBase
       out var userId);
     if (!goodUserId) return Unauthorized("bad userId");
     
-    query = Sanitize.GetGoodQuery(query);
+    if (query != null)
+      query = Sanitize.GetGoodQuery(query);
 
     var modelGarages = await _modelGarageRepo.GetMatching(query);
     var garages = await _garageRepo

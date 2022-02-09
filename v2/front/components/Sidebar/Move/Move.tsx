@@ -5,7 +5,7 @@ import { IGarage } from "../../../interfaces/Garage";
 import { actions } from "../../../state/actions";
 import { useISelector } from "../../../state/hooks";
 import { StyledButton } from "../../Cards/Signin/Buttons/Styles";
-import { OwnedGarageInput } from "../../Input/react-select/OwnedGarageInput";
+import { Move_GarageInput } from "../../Input/react-select/Move-GarageInput";
 import { Desc } from "../../Styles/Text";
 
 export const Move = ({ open }) => {
@@ -44,7 +44,7 @@ export const Move = ({ open }) => {
           <Desc>Select a garage below to move the selected car{plural} there.</Desc>
           <br />
           <br />
-          <OwnedGarageInput onSelect={onSelect} />
+          <Move_GarageInput onSelect={onSelect} />
 
           <StyledButton
             blue

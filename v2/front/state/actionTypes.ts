@@ -63,36 +63,10 @@ export const constants = {
 
   new: {
     car: {
-      set: {
-        chosen: {
-          CAR: "NEW_CAR__SET_CHOSEN_CAR",
-          GARAGE: "NEW_CAR__SET_CHOSEN_GARAGE",
-        },
-        cars: {
-          MATCHING: "NEW_CAR__SET_MODEL_CARS_MATCHING",
-          api: {
-            LOADING: "NEW_CAR__SET_MODEL_CARS_API_LOADING",
-            ERROR: "NEW_CAR__SET_MODEL_CARS_API_ERROR",
-          },
-        },
-        garages: {
-          MATCHING: "NEW_CAR__SET_MODEL_GARAGES_MATCHING",
-          api: {
-            LOADING: "NEW_CAR__SET_MODEL_GARAGES_API_LOADING",
-            ERROR: "NEW_CAR__SET_MODEL_GARAGES_API_ERROR",
-          },
-        },
-        input: {
-          CAR: "NEW_CAR__SET_INPUT_CAR",
-          GARAGE: "NEW_CAR__SET_INPUT_GARAGE",
-        },
-
-        api: {
-          SAVING: "NEW_CAR__SET_API_SAVING",
-          ERROR: "NEW_CAR__SET_API_ERROR",
-        },
+      setInput: {
+        CAR: "NEW_CAR__SET_INPUT_CAR",
+        GARAGE: "NEW_CAR__SET_INPUT_GARAGE",
       },
-      RESET: "NEW_CAR__RESET",
     },
 
     garage: {

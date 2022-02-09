@@ -1,4 +1,4 @@
-import { ICar } from "../interfaces/Car";
+import { ICar, ModelCar } from "../interfaces/Car";
 import { IGarage } from "../interfaces/Garage";
 
 export interface InitState {
@@ -72,26 +72,8 @@ export interface InitState {
       };
 
       inputs: {
-        car: string;
-        garage: string;
-      };
-
-      chosenCar: ICar | null;
-      chosenGarage: IGarage | null;
-
-      cars: {
-        matching: ICar[];
-        api: {
-          loading: boolean;
-          error: boolean;
-        };
-      };
-      garages: {
-        matching: IGarage[];
-        api: {
-          loading: boolean;
-          error: boolean;
-        };
+        cars: ModelCar[];
+        garage: IGarage;
       };
     };
     garage: {
@@ -189,26 +171,8 @@ export const initState: InitState = {
       },
 
       inputs: {
-        car: "",
-        garage: "",
-      },
-
-      chosenCar: null,
-      chosenGarage: null,
-
-      cars: {
-        matching: [],
-        api: {
-          loading: false,
-          error: false,
-        },
-      },
-      garages: {
-        matching: [],
-        api: {
-          loading: false,
-          error: false,
-        },
+        cars: [],
+        garage: null,
       },
     },
     garage: {

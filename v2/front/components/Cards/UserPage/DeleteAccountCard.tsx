@@ -36,7 +36,7 @@ export const DeleteAccountCard = () => {
 
     await wait(2000);
 
-    await router.push("/signin", "/signin", { shallow: true });
+    await router.push("/signin", "/signin");
     dispatch(actions.users.set.me(initState.users.me));
   };
 

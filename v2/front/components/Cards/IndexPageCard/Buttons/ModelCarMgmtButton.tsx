@@ -5,7 +5,7 @@ export const ModelCarMgmtButton = () => {
   const router = useRouter();
 
   const onClick = async () => {
-    router.push("/management/model-cars", "/management/model-cars", { shallow: true });
+    router.push("/management/model-cars", "/management/model-cars");
   };
 
   return (

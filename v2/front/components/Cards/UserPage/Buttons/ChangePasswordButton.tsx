@@ -5,7 +5,7 @@ export const ChangePasswordButton = () => {
   const router = useRouter();
 
   const onClick = async () => {
-    router.push("/me/change/password", "/me/change/password", { shallow: true });
+    router.push("/me/change/password", "/me/change/password");
   };
 
   return (

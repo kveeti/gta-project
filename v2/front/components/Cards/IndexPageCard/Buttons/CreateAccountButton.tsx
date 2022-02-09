@@ -14,7 +14,7 @@ export const CreateAccountButton = () => {
     await requestWithNo401RedirectAndDontSetToken("/auth/logout", "POST");
     localStorage.clear();
 
-    await router.push("/register", "/register", { shallow: true });
+    await router.push("/register", "/register");
     dispatch(actions.users.set.me(initState.users.me));
   };
 

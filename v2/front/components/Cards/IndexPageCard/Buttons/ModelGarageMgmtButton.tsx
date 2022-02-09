@@ -5,7 +5,7 @@ export const ModelGarageMgmtButton = () => {
   const router = useRouter();
 
   const onClick = async () => {
-    router.push("/management/model-garages", "/management/model-garages", { shallow: true });
+    router.push("/management/model-garages", "/management/model-garages");
   };
 
   return (

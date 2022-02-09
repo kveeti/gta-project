@@ -1,23 +1,21 @@
-import { PageButtonContainer, PageCard, InputContainer } from "../../Styles/Page-cards";
+import { CarInputSelect } from "../../Input/react-select/NewCar/CarInput";
+import { GarageInputSelect } from "../../Input/react-select/NewCar/GarageInput";
+import { PageButtonContainer, PageCard, InputContainer, Label } from "../../Styles/Page-cards";
 import { Desc, Title } from "../../Styles/Text";
 import SaveButton from "./Buttons/Save";
-import CarInput from "./Inputs/Car";
-import GarageInput from "./Inputs/Garage";
-import MatchingCars from "./Matching/MatchingCars";
-import MatchingGarages from "./Matching/MatchingGarages";
 
 const NewCarCard = () => {
   return (
     <PageCard centered>
-      <Title>New Car</Title>
-      <Desc>Save a new car here.</Desc>
+      <Title>New Cars</Title>
+      <Desc>Save a new cars here.</Desc>
 
       <InputContainer>
-        <CarInput />
-        <MatchingCars />
+        <Label htmlFor="car-input">Cars</Label>
+        <CarInputSelect />
 
-        <GarageInput />
-        <MatchingGarages />
+        <Label htmlFor="garage-input">Garage</Label>
+        <GarageInputSelect />
       </InputContainer>
 
       <PageButtonContainer>

@@ -16,7 +16,7 @@ export const TestButton = () => {
       isTestAccount: true,
     });
 
-    if (res) router.push("/", "/", { shallow: true });
+    if (res) router.push("/", "/");
   };
 
   return (

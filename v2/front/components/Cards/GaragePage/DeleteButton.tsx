@@ -30,11 +30,11 @@ export const DeleteButton = ({ garage }) => {
       await wait(2000);
 
       if (searchInput) {
-        router.push(`/search?q=${searchInput}`, `/search?q=${searchInput}`, { shallow: true });
+        router.push(`/search?q=${searchInput}`, `/search?q=${searchInput}`);
         return null;
       }
 
-      router.push("/", "/", { shallow: true });
+      router.push("/", "/");
 
       setOpen(false);
       return clearTimeout(deleteTimer);

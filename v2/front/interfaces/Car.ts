@@ -11,6 +11,7 @@ export interface ICar {
 }
 
 export interface ModelCar {
+  id: string;
   name: string;
   manufacturer: string;
   price: number;

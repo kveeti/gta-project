@@ -23,7 +23,8 @@ public class ModelCarController : ControllerBase
   [Authorization.CustomAuth("Standard, Admin")]
   public async Task<ActionResult<IEnumerable<ModelCar>>> GetAll([CanBeNull] string query)
   {
-    query = Sanitize.GetGoodQuery(query);
+    if (query != null)
+      query = Sanitize.GetGoodQuery(query);
 
     var cars = await _db.GetMatching(query);
     if (query == null) return Ok(cars);

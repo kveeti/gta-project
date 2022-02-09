@@ -22,7 +22,7 @@ interface Props {
   onSelect: (value: IGarage) => void;
 }
 
-export const OwnedGarageInput = ({ onSelect }: Props) => {
+export const Move_GarageInput = ({ onSelect }: Props) => {
   const [timer, setTimer] = useState(null);
 
   const checkedCars = useISelector((state) => state.checked.cars);
@@ -41,15 +41,17 @@ export const OwnedGarageInput = ({ onSelect }: Props) => {
 
   return (
     <AsyncSelect
+      isSearchable
+      isClearable
+      isOptionDisabled={(option: IGarage) => option.room < checkedCars.length}
       components={{ Option, NoOptionsMessage }}
       loadOptions={loadOptions}
       onChange={onSelect}
+      getOptionLabel={(option: IGarage) => option.name}
+      getOptionValue={(option: IGarage) => option.id}
       placeholder="Select a garage..."
       theme={theme}
       styles={styles}
-      getOptionLabel={(option) => option.name}
-      getOptionValue={(option) => option.id}
-      isOptionDisabled={(option) => option.room < checkedCars.length}
     />
   );
 };

@@ -35,7 +35,8 @@ public class CarController : ControllerBase
       out var userId);
     if (!goodUserId) return Unauthorized("bad userId");
 
-    query = Sanitize.GetGoodQuery(query);
+    if (query != null)
+      query = Sanitize.GetGoodQuery(query);
     
     var cars = await _carRepo
       .GetMatching(userId, query);
@@ -75,8 +76,8 @@ public class CarController : ControllerBase
     if (!goodUserId) return Unauthorized("bad userId");
     if (HttpContext.Items["emailVerified"] as string == "False") return BadRequest("Email must be verified");
 
-    var modelCar = await _modelCarRepo
-      .GetOneByFilter(modelCar => modelCar.Id == aDto.ModelCarId);
+    var modelCars = await _modelCarRepo
+      .GetManyByFilter(modelCar => aDto.ModelCarIds.Contains(modelCar.Id));
 
     var garage = await _garageRepo
       .GetOneJoinedByFilter(garage => garage.Id == aDto.GarageId
@@ -84,22 +85,25 @@ public class CarController : ControllerBase
                                       garage.OwnerId == userId);
 
     if (garage == null) return NotFound("garage was not found");
-    if (modelCar == null) return NotFound("model car was not found");
+    if (!modelCars.Any()) return NotFound("no model cars were found");
 
-    if (garage.Cars.Count() >= garage.Capacity) return BadRequest("Garage is full");
+    var room = garage.Capacity - garage.Cars.Count();
+    if (room <= 0 || modelCars.Count() > room) return BadRequest("Garage does not have enough room.");
 
-    Car newCar = new()
+    foreach (var modelCar in modelCars)
     {
-      Id = Guid.NewGuid(),
-      OwnerId = userId,
-      GarageId = garage.Id,
-      ModelCarId = modelCar.Id
-    };
-
-    _carRepo.Add(newCar);
+      _carRepo.Add(new Car()
+      {
+        Id = Guid.NewGuid(),
+        OwnerId = userId,
+        GarageId = garage.Id,
+        ModelCarId = modelCar.Id
+      });
+    }
+    
     await _carRepo.Save();
 
-    return Ok(newCar);
+    return NoContent();
   }
 
   [HttpPost("move")]

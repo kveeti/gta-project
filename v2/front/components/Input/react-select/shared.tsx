@@ -1,6 +1,5 @@
 import { blackA, red } from "@radix-ui/colors";
-import { components, OptionProps } from "react-select";
-import { IGarage } from "../../../interfaces/Garage";
+import { components, StylesConfig } from "react-select";
 
 export function theme(theme: any) {
   return {
@@ -13,7 +12,7 @@ export function theme(theme: any) {
   };
 }
 
-export const styles = {
+export const styles: StylesConfig = {
   noOptionsMessage: (styles) => ({
     ...styles,
     backgroundColor: `${red.red8}`,

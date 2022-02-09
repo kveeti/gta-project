@@ -5,7 +5,7 @@ export const ChangeEmailButton = () => {
   const router = useRouter();
 
   const onClick = async () => {
-    router.push("/me/change/email", "/me/change/email", { shallow: true });
+    router.push("/me/change/email", "/me/change/email");
   };
 
   return (

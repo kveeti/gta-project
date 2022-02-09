@@ -2,7 +2,7 @@ namespace Backend.Api.Dtos;
 
 public record NewCarDto
 {
-  public Guid ModelCarId { get; init; }
+  public IEnumerable<Guid> ModelCarIds { get; init; }
   public Guid GarageId { get; set; }
 }
 

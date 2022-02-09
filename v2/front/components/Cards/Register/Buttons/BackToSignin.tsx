@@ -5,7 +5,7 @@ export const BackToSigninButton = () => {
   const router = useRouter();
 
   const onClick = () => {
-    router.push("/signin", "/signin", { shallow: true });
+    router.push("/signin", "/signin");
   };
 
   return (

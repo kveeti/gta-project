@@ -12,7 +12,7 @@ export const useIsLoggedIn = () => {
   const pushToSignIn = () => {
     localStorage.clear();
     dispatch(actions.reset.resetState());
-    router.push("/signin", "/signin", { shallow: true });
+    router.push("/signin", "/signin");
   };
 
   useEffect(() => {

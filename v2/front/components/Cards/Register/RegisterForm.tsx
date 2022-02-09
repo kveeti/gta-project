@@ -32,7 +32,7 @@ export const RegisterForm = () => {
       isTestAccount: false,
     });
 
-    if (res) router.push("/", "/", { shallow: true });
+    if (res) router.push("/", "/");
   };
 
   return (

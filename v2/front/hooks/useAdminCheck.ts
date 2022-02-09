@@ -11,7 +11,7 @@ export const useAdminCheck = () => {
   const router = useRouter();
 
   const handleUnauthorized = () => {
-    router.push("/", "/", { shallow: true });
+    router.push("/", "/");
   };
 
   useEffect(() => {

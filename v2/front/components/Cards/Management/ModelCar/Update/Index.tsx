@@ -70,7 +70,7 @@ export const ModelCarUpdateCard = () => {
   };
 
   const onBackClick = () => {
-    router.push("/management/model-cars", "/management/model-cars", { shallow: true });
+    router.push("/management/model-cars", "/management/model-cars");
   };
 
   const updateButtonDisabled =

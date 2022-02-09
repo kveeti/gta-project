@@ -7,7 +7,7 @@ export const ProfileButton = () => {
   const router = useRouter();
 
   const onClick = async () => {
-    await router.push("/me", "/me", { shallow: true });
+    await router.push("/me", "/me");
   };
 
   return (

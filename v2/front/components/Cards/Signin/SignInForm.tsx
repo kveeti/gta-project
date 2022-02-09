@@ -32,7 +32,7 @@ export const SignInForm = () => {
       password,
     });
 
-    if (res) router.push("/", "/", { shallow: true });
+    if (res) router.push("/", "/");
   };
 
   return (

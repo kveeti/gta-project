@@ -80,7 +80,7 @@ export function CollapsibleGarage({ garage, onCarClick }: CollapsibleGarageProps
   const router = useRouter();
 
   const onModifyClick = () => {
-    router.push(`/garage/${garage.id}`, `/garage/${garage.id}`, { shallow: true });
+    router.push(`/garage/${garage.id}`, `/garage/${garage.id}`);
   };
 
   return (

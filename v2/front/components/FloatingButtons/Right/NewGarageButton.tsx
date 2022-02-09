@@ -6,7 +6,7 @@ export const FloatingNewGarageButton = () => {
   const router = useRouter();
 
   const onClick = () => {
-    router.push("/new/garage", "/new/garage", { shallow: true });
+    router.push("/new/garage", "/new/garage");
   };
 
   return (

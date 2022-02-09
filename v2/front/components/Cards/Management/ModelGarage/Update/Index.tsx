@@ -41,7 +41,7 @@ export const ModelGarageUpdateCard = () => {
   };
 
   const onBackClick = () => {
-    router.push("/management/model-garages", "/management/model-garages", { shallow: true });
+    router.push("/management/model-garages", "/management/model-garages");
   };
 
   const updateButtonDisabled =

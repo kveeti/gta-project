@@ -12,7 +12,7 @@ export const LogoutButton = () => {
     await request("/auth/logout", "POST");
     localStorage.clear();
 
-    await router.push("/signin", "/signin", { shallow: true });
+    await router.push("/signin", "/signin");
     dispatch(actions.reset.resetState());
   };
 

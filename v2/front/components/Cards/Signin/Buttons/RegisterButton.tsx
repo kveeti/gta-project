@@ -5,7 +5,7 @@ export const RegisterButton = () => {
   const router = useRouter();
 
   const onClick = () => {
-    router.push("/register", "/register", { shallow: true });
+    router.push("/register", "/register");
   };
 
   return (

@@ -32,7 +32,7 @@ export const ResetPasswordCard = () => {
 
       await wait(2000);
 
-      router.push("/signin", "/signin", { shallow: true });
+      router.push("/signin", "/signin");
     }
   };
 
