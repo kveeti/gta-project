@@ -3,7 +3,7 @@ using System.Linq.Expressions;
 using System.Threading.Tasks;
 using Backend.Api.Configs;
 using Backend.Api.Controllers;
-using Backend.Api.Dtos.UserDtos;
+using Backend.Api.Dtos;
 using Backend.Api.Helpers;
 using Backend.Api.Models;
 using Backend.Api.Repositories;
@@ -51,7 +51,7 @@ public class LoginTests
     {
       Id = Guid.NewGuid(),
       Email = Guid.NewGuid().ToString(),
-      Username = authDto.Username,
+      Username = authDto.UsernameOrEmail,
       Password = hash,
       Role = Guid.NewGuid().ToString(),
       TokenVersion = Guid.NewGuid(),
@@ -83,14 +83,14 @@ public class LoginTests
     result.Result.Should().BeOfType<NoContentResult>();
 
     refreshToken.Email.Should().Be(existingUser.Email);
-    refreshToken.Username.Should().Be(authDto.Username);
+    refreshToken.Username.Should().Be(authDto.UsernameOrEmail);
     refreshToken.TokenVersion.Should().Be(existingUser.TokenVersion);
     refreshToken.Role.Should().Be(existingUser.Role);
     refreshToken.EmailVerified.Should().Be(false);
     refreshToken.IsTestAccount.Should().Be(false);
 
     accessToken.Email.Should().Be(existingUser.Email);
-    accessToken.Username.Should().Be(authDto.Username);
+    accessToken.Username.Should().Be(authDto.UsernameOrEmail);
     accessToken.TokenVersion.Should().Be(existingUser.TokenVersion);
     accessToken.Role.Should().Be(existingUser.Role);
     accessToken.EmailVerified.Should().Be(false);
@@ -135,7 +135,7 @@ public class LoginTests
     {
       Id = Guid.NewGuid(),
       Email = Guid.NewGuid().ToString(),
-      Username = authDto.Username,
+      Username = authDto.UsernameOrEmail,
       Password = Hashing.HashToString(Guid.NewGuid().ToString()),
       Role = Guid.NewGuid().ToString(),
       TokenVersion = Guid.NewGuid(),
@@ -186,7 +186,7 @@ public class LoginTests
   {
     return new()
     {
-      Username = Guid.NewGuid().ToString(),
+      UsernameOrEmail = Guid.NewGuid().ToString(),
       Password = password
     };
   }

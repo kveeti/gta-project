@@ -3,7 +3,7 @@ using System.Linq.Expressions;
 using System.Threading.Tasks;
 using Backend.Api.Configs;
 using Backend.Api.Controllers;
-using Backend.Api.Dtos.UserDtos;
+using Backend.Api.Dtos;
 using Backend.Api.Helpers;
 using Backend.Api.Models;
 using Backend.Api.Repositories;

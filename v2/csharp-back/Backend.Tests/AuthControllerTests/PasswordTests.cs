@@ -3,7 +3,7 @@ using System.Linq.Expressions;
 using System.Threading.Tasks;
 using Backend.Api.Configs;
 using Backend.Api.Controllers;
-using Backend.Api.Dtos.UserDtos;
+using Backend.Api.Dtos;
 using Backend.Api.Helpers;
 using Backend.Api.Models;
 using Backend.Api.Repositories;
@@ -134,7 +134,7 @@ public class PasswordTests
 
     _fakeUserRepo.Setup(repo => repo
         .GetOneByFilterTracking(It.IsAny<Expression<Func<User, bool>>>()))
-      .ReturnsAsync((User)null);
+      .ReturnsAsync((User) null);
 
     var fakeContext = new DefaultHttpContext();
     fakeContext.Items["userId"] = userId;
@@ -170,7 +170,7 @@ public class PasswordTests
   {
     return new()
     {
-      Username = Guid.NewGuid().ToString(),
+      UsernameOrEmail = Guid.NewGuid().ToString(),
       Password = password
     };
   }
