@@ -5,6 +5,7 @@ import { toast } from "react-toastify";
 import { actions } from "../../../state/actions";
 import { useISelector } from "../../../state/hooks";
 import { request } from "../../../util/axios";
+import { msgs } from "../../../util/messages";
 import { wait } from "../../../util/wait";
 import { PageButton } from "../../Styles/Buttons";
 
@@ -21,7 +22,7 @@ export const DeleteButton = ({ garage }) => {
       const res = await request(`/garages/${garage.id}`, "DELETE");
 
       if (res) {
-        toast.success("Garage deleted successfully!");
+        toast.success(msgs.success.garageDeleted);
         dispatch(actions.users.get.me());
 
         if (searchInput) dispatch(actions.search.search(searchInput));

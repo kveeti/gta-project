@@ -1,6 +1,8 @@
+import { toast } from "react-toastify";
 import { actions } from ".";
 import { ICar } from "../../interfaces/Car";
 import { request } from "../../util/axios";
+import { msgs } from "../../util/messages";
 import { constants } from "../actionTypes";
 
 export const checkCar = (car: ICar) => {
@@ -49,11 +51,14 @@ export const setCheckedCars = (checkedCars: ICar[]) => {
 export const remove = (carIds: string[], searchInput: string) => async (dispatch) => {
   if (!carIds.length) return;
 
+  const plural = carIds.length > 1;
+
   dispatch(removeApi.setLoading(true));
   const res = await request(`/cars`, "DELETE", { carIds });
   dispatch(removeApi.setLoading(false));
 
   if (res) {
+    toast.success(plural ? msgs.success.carDeleted.plural : msgs.success.carDeleted.singular);
     dispatch(reset());
     dispatch(actions.users.get.me());
     if (searchInput) dispatch(actions.search.search(searchInput));

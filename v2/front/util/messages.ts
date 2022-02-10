@@ -22,15 +22,15 @@ export const msgs = {
       singular: "Car moved successfully!",
       plural: "Cars moved successfully!",
     },
-    carRemoved: {
-      singular: "Car removed successfully!",
-      plural: "Cars removed successfully!",
+    carDeleted: {
+      singular: "Car deleted successfully!",
+      plural: "Cars deleted successfully!",
     },
 
     modelCarUpdated: "Model car updated successfully!",
 
     garageAdded: "Garage added successfully!",
-    garageRemoved: "Garage removed successfully!",
+    garageDeleted: "Garage deleted successfully!",
     garageUpdated: "Garage updated successfully!",
 
     passChanged: "Password changed successfully!",
