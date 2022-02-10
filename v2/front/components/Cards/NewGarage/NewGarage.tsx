@@ -1,9 +1,8 @@
-import { PageButtonContainer, PageCard, InputContainer } from "../../Styles/Page-cards";
+import { GarageInputSelect } from "../../Input/react-select/NewGarage/GarageInput";
+import { PageButtonContainer, PageCard, InputContainer, Label } from "../../Styles/Page-cards";
 import { Desc, Title } from "../../Styles/Text";
 import SaveButton from "./Buttons/Save";
 import { DescInput } from "./Inputs/Desc";
-import { GarageInput } from "./Inputs/Garage";
-import MatchingGarages from "./Matching/MatchingGarages";
 
 export const NewGarageCard = () => {
   return (
@@ -12,8 +11,8 @@ export const NewGarageCard = () => {
       <Desc>Save a new garage here. The description is optional.</Desc>
 
       <InputContainer>
-        <GarageInput />
-        <MatchingGarages />
+        <Label htmlFor="garage-input">Garage</Label>
+        <GarageInputSelect />
         <DescInput />
       </InputContainer>
 

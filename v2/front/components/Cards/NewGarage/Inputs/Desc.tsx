@@ -18,7 +18,7 @@ const TextField = () => {
   const newGarageState = useISelector((state) => state.newGarage);
 
   const onInputChange = (value: string) => {
-    dispatch(actions.newGarage.set.input.desc(value));
+    dispatch(actions.newGarage.setInput.desc(value));
   };
 
   return (
