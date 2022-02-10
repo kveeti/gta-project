@@ -6,12 +6,16 @@ import { ModelCar } from "../../../../interfaces/Car";
 import { actions } from "../../../../state/actions";
 import { useISelector } from "../../../../state/hooks";
 import { request } from "../../../../util/axios";
-import { Text } from "../../../Styles/Text";
+import { Text, Title } from "../../../Styles/Text";
 import { theme, NoOptionsMessage, styles } from "../shared";
 
 const Option = (props: OptionProps<ModelCar>) => (
   <components.Option {...props}>
-    <Text>{props.label}</Text>
+    <div style={{ display: "flex", flexDirection: "column" }}>
+      <Text>{props.data.manufacturer}</Text>
+      <Title>{props.data.name}</Title>
+      <Text>{props.data.class}</Text>
+    </div>
   </components.Option>
 );
 
@@ -40,6 +44,7 @@ export const CarInputSelect = () => {
       isMulti
       isSearchable
       isClearable
+      closeMenuOnScroll
       value={inputValue}
       components={{ Option, NoOptionsMessage }}
       loadOptions={loadOptions}

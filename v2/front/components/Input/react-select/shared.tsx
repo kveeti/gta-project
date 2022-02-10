@@ -13,10 +13,16 @@ export function theme(theme: any) {
 }
 
 export const styles: StylesConfig = {
-  noOptionsMessage: (styles) => ({
-    ...styles,
+  noOptionsMessage: (base) => ({
+    ...base,
     backgroundColor: `${red.red8}`,
     color: "black",
+  }),
+  option: (base) => ({
+    ...base,
+    ":not(:last-child)": {
+      borderBottom: `1px solid ${blackA.blackA6}`,
+    },
   }),
 };
 

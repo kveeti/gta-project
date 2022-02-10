@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { useDispatch } from "react-redux";
-import { OptionProps, components, SelectOptionActionMeta } from "react-select";
+import { OptionProps, components } from "react-select";
 import AsyncSelect from "react-select/async";
 import { IGarage } from "../../../../interfaces/Garage";
 import { actions } from "../../../../state/actions";
@@ -11,14 +11,15 @@ import { theme, NoOptionsMessage, styles } from "../shared";
 
 const Option = (props: OptionProps<IGarage>) => (
   <components.Option {...props}>
-    <div style={{ display: "flex", justifyContent: "space-between" }}>
-      <Text>
-        {props.label} {props.isDisabled && <Text>- (Not enough room)</Text>}
-      </Text>
-
+    <div style={{ display: "flex", flexDirection: "column" }}>
+      {" "}
       <Text>
         {props.data.cars.length} / {props.data.capacity}
       </Text>
+      <Text>
+        {props.label} {props.isDisabled && <Text>- (Not enough room)</Text>}
+      </Text>
+      <Text>{!!props.data.desc && props.data.desc}</Text>
     </div>
   </components.Option>
 );

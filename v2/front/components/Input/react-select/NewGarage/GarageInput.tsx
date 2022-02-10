@@ -11,7 +11,7 @@ import { theme, NoOptionsMessage, styles } from "../shared";
 
 const Option = (props: OptionProps<ModelGarage>) => (
   <components.Option {...props}>
-    <div style={{ display: "flex", justifyContent: "space-between" }}>
+    <div style={{ display: "flex", flexDirection: "column" }}>
       <Text>{props.label}</Text>
 
       {props.isDisabled && <Text>Already owned</Text>}
