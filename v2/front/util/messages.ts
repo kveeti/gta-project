@@ -18,6 +18,10 @@ export const msgs = {
       singular: "Car added successfully!",
       plural: "Cars added successfully!",
     },
+    carMoved: {
+      singular: "Car moved successfully!",
+      plural: "Cars moved successfully!",
+    },
     carRemoved: {
       singular: "Car removed successfully!",
       plural: "Cars removed successfully!",

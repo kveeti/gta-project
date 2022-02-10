@@ -5,8 +5,8 @@ import { IGarage } from "../../../interfaces/Garage";
 import { actions } from "../../../state/actions";
 import { useISelector } from "../../../state/hooks";
 import { msgs } from "../../../util/messages";
-import { StyledButton } from "../../Cards/Signin/Buttons/Styles";
 import { Move_GarageInput } from "../../Input/react-select/Move-GarageInput";
+import { FullWidthButton } from "../../Styles/Buttons";
 import { Desc } from "../../Styles/Text";
 
 export const Move = ({ open }) => {
@@ -47,14 +47,14 @@ export const Move = ({ open }) => {
           <br />
           <Move_GarageInput onSelect={onSelect} />
 
-          <StyledButton
+          <FullWidthButton
             blue
             style={{ marginTop: "0.5rem" }}
             onClick={onMoveClick}
             disabled={!!!chosenGarage || !checkedCars.length}
           >
             Move
-          </StyledButton>
+          </FullWidthButton>
         </motion.div>
       )}
     </AnimatePresence>

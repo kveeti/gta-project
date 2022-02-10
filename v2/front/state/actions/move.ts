@@ -3,6 +3,7 @@ import { actions } from ".";
 import { ICar } from "../../interfaces/Car";
 import { IGarage } from "../../interfaces/Garage";
 import { request } from "../../util/axios";
+import { msgs } from "../../util/messages";
 import { constants } from "../actionTypes";
 
 export const reset = () => {
@@ -109,6 +110,7 @@ export const move = (cars: ICar[], garage: IGarage, searchInput: string) => asyn
   if (!garage) return;
 
   const carIds = cars.map((car) => car.id);
+  const plural = carIds.length > 1;
 
   dispatch(api.setLoading(true));
   const res = await request(`/cars/move`, "POST", {
@@ -120,7 +122,7 @@ export const move = (cars: ICar[], garage: IGarage, searchInput: string) => asyn
   if (res) {
     dispatch(actions.checked.setCheckedCars(res.data));
     dispatch(actions.users.get.me());
-    toast.success("Cars moved successfully!");
+    toast.success(plural ? msgs.success.carMoved.plural : msgs.success.carMoved.singular);
     dispatch(reset());
     if (searchInput) dispatch(actions.search.search(searchInput));
   } else {

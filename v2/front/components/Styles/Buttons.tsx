@@ -82,7 +82,6 @@ export const BaseBtn = styled("button", {
 
 const FullWidthButtonStyles = styled(BaseBtn, {
   width: "100%",
-  height: "100%",
   minHeight: "2.5rem",
   fontSize: "1.1rem",
 });

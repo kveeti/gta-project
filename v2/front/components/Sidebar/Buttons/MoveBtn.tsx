@@ -12,7 +12,7 @@ export const MoveBtn = () => {
   const showValue = useISelector((state) => state.move.show);
 
   const onClick = () => {
-    if (!checkedCars.length) return toast.error(msgs.error.noCarsSelected);
+    if (!checkedCars.length && !showValue) return toast.error(msgs.error.noCarsSelected);
     dispatch(actions.move.show(!showValue));
   };
 
