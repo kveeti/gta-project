@@ -1,14 +1,14 @@
 version: "3.9"
 
 services:
-  back:
+  gta-back-prod:
     build: csharp-back/Backend.Api/
     image: gta-csharp-back-prod
     ports:
       - "11000:5000"
     restart: unless-stopped
 
-  front:
+  gta-front-prod:
     build: front/
     image: gta-front-prod
     ports:
