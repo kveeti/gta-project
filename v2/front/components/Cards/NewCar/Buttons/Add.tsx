@@ -14,11 +14,6 @@ export const AddButton = () => {
   const chosenCars = newCarState.inputs.cars;
   const chosenGarage = newCarState.inputs.garage;
 
-  const reset = () => {
-    dispatch(actions.newCar.setInput.garage(null));
-    dispatch(actions.newCar.setInput.car(null));
-  };
-
   const onClick = async () => {
     console.log("chosenCars", chosenCars);
     console.log("chosenGarage", chosenGarage);
@@ -31,11 +26,12 @@ export const AddButton = () => {
       modelCarIds: chosenCars.map((car) => car.id),
       garageId: chosenGarage.id,
     });
+
     setSaving(false);
 
     if (res) {
       toast.success(`Car added!`);
-      reset();
+      dispatch(actions.newCar.reset());
     }
   };
 

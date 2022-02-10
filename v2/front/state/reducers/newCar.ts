@@ -24,6 +24,9 @@ const reducer = (state = initState.new.car, action: any) => {
         },
       };
 
+    case constants.new.car.RESET:
+      return initState.new.car;
+
     default:
       return state;
   }

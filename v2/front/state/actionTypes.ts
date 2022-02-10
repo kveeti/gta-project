@@ -67,6 +67,8 @@ export const constants = {
         CAR: "NEW_CAR__SET_INPUT_CAR",
         GARAGE: "NEW_CAR__SET_INPUT_GARAGE",
       },
+
+      RESET: "NEW_CAR__RESET",
     },
 
     garage: {
@@ -89,6 +91,7 @@ export const constants = {
           ERROR: "NEW_GARAGE__SET_API_ERROR",
         },
       },
+
       RESET: "NEW_GARAGE__RESET",
     },
   },

@@ -14,3 +14,9 @@ export const setInput = {
     };
   },
 };
+
+export const reset = () => {
+  return {
+    type: constants.new.car.RESET,
+  };
+};
