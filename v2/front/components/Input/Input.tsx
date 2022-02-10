@@ -23,7 +23,7 @@ const InputContainer = styled("div", {
   variants: {
     focused: {
       true: {
-        boxShadow: `0 0 0 1px ${blackA.blackA10}`,
+        boxShadow: `0 0 0 1px ${blackA.blackA9}`,
       },
     },
 

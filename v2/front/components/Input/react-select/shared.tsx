@@ -7,7 +7,7 @@ export function theme(theme: any) {
     colors: {
       ...theme.colors,
       primary25: `${blackA.blackA6}`,
-      primary: `${blackA.blackA10}`,
+      primary: `${blackA.blackA9}`,
     },
   };
 }
