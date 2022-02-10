@@ -30,7 +30,7 @@ export const AddButton = () => {
     if (res) {
       dispatch(actions.users.get.me());
 
-      toast.success("Garage added!");
+      toast.success(msgs.success.garageAdded);
       dispatch(actions.newGarage.reset());
     }
   };
