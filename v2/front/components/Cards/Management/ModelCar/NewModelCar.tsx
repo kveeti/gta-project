@@ -79,7 +79,6 @@ const NameInput = ({ value, setValue }) => {
         value={value}
         id="name"
         placeholder="E.g. 8f Drafter"
-        transparent
       />
     </>
   );
@@ -96,7 +95,6 @@ const ManufacturerInput = ({ value, setValue, onBlur }) => {
         id="manufacturer"
         placeholder="E.g. Obey"
         onBlur={onBlur}
-        transparent
       />
     </>
   );
@@ -112,7 +110,6 @@ const ClassInput = ({ value, setValue }) => {
         value={value}
         id="class"
         placeholder="E.g. Sports"
-        transparent
       />
     </>
   );
@@ -128,7 +125,6 @@ const LinkInput = ({ value, setValue }) => {
         value={value}
         id="link"
         placeholder="Link to gtabase.com"
-        transparent
       />
     </>
   );

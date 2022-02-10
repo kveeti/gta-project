@@ -20,7 +20,6 @@ export const SearchInput = ({ setMatching }) => {
     <>
       <Label htmlFor="search-model-cars">Search</Label>
       <Input
-        transparent
         type="text"
         value={value}
         onChange={onChange}

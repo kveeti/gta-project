@@ -8,7 +8,6 @@ interface Props {
 export const DescInput = ({ onChange, value }: Props) => {
   return (
     <Input
-      transparent
       id="desc-input"
       type="text"
       placeholder="E.g sports cars (optional)"

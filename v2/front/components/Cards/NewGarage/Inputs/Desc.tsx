@@ -23,7 +23,6 @@ const TextField = () => {
 
   return (
     <Input
-      transparent
       id="desc-input"
       type="text"
       placeholder="E.g. sports cars (optional)"

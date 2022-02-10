@@ -33,7 +33,7 @@ export const InitResetPasswordCard = () => {
             <Label htmlFor="email" column>
               Email
             </Label>
-            <Input type="email" id="email" value={email} onChange={setEmail} transparent />
+            <Input type="email" id="email" value={email} onChange={setEmail} />
           </InputContainer>
 
           <PageButtonContainer>

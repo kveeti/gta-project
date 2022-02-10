@@ -69,15 +69,13 @@ export const RegisterForm = () => {
 };
 
 const UsernameInput = ({ value, onChange }: InputProps) => {
-  return <Input required transparent id="username" type="text" onChange={onChange} value={value} />;
+  return <Input required id="username" type="text" onChange={onChange} value={value} />;
 };
 
 const EmailInput = ({ value, onChange }: InputProps) => {
-  return <Input required transparent id="email" type="email" onChange={onChange} value={value} />;
+  return <Input required id="email" type="email" onChange={onChange} value={value} />;
 };
 
 const PassInput = ({ value, onChange }: InputProps) => {
-  return (
-    <Input required transparent id="password" type="password" onChange={onChange} value={value} />
-  );
+  return <Input required id="password" type="password" onChange={onChange} value={value} />;
 };

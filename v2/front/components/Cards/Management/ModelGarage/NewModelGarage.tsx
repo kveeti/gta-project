@@ -59,7 +59,6 @@ const NameInput = ({ value, setValue }) => {
         value={value}
         id="name"
         placeholder="E.g. Popular street, unit 2"
-        transparent
       />
     </>
   );
@@ -75,7 +74,6 @@ const CapacityInput = ({ value, setValue }) => {
         value={value}
         id="capacity"
         placeholder="E.g. 10"
-        transparent
       />
     </>
   );

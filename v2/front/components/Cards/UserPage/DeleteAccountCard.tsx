@@ -47,7 +47,7 @@ export const DeleteAccountCard = () => {
 
       <InputContainer>
         <Label htmlFor="password">Password</Label>
-        <Input transparent type="password" id="password" value={password} onChange={setPassword} />
+        <Input type="password" id="password" value={password} onChange={setPassword} />
       </InputContainer>
 
       <PageButtonContainer>

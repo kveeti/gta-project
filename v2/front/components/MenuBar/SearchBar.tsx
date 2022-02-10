@@ -31,6 +31,7 @@ export const SearchBar = () => {
 
   return (
     <Input
+      maxHeight
       white
       autoFocus
       id={"search"}

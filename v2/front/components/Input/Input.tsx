@@ -7,12 +7,13 @@ import { ShowIcon } from "./Icons/ShowIcon";
 
 const InputContainer = styled("div", {
   flex: 1,
-  height: "100%",
+  minHeight: 38,
   display: "flex",
   alignItems: "center",
   backgroundColor: "White",
   borderRadius: 4,
   transition: "0.2s",
+  border: "1px solid rgb(204, 204, 204)",
 
   "&:disabled": {
     boxShadow: `0 0 0 1px ${blackA.blackA7}`,
@@ -22,15 +23,13 @@ const InputContainer = styled("div", {
   variants: {
     focused: {
       true: {
-        boxShadow: `0 0 0 2px ${blackA.blackA10}`,
+        boxShadow: `0 0 0 1px ${blackA.blackA10}`,
       },
     },
 
     transparent: {
       true: {
         backgroundColor: "transparent",
-
-        boxShadow: `0 0 0 1px ${blackA.blackA10}`,
       },
     },
 
@@ -45,6 +44,11 @@ const InputContainer = styled("div", {
         boxShadow: `0 0 0 2px ${red.red8} !important`,
       },
     },
+    maxHeight: {
+      true: {
+        height: "100%",
+      },
+    },
   },
 
   compoundVariants: [
@@ -54,7 +58,7 @@ const InputContainer = styled("div", {
 
       css: {
         backgroundColor: "transparent",
-        boxShadow: `0 0 0 2px ${blackA.blackA10}`,
+        boxShadow: `0 0 0 1px ${blackA.blackA10}`,
       },
     },
     {
@@ -76,18 +80,7 @@ const StyledInput = styled("input", {
   transition: "0.2s",
   fontSize: 16,
 
-  "@bp2": {
-    fontSize: 15,
-  },
-
   variants: {
-    transparent: {
-      true: {
-        "&::placeholder": {
-          opacity: 0.5,
-        },
-      },
-    },
     search: {
       true: {
         padding: "0",
@@ -97,7 +90,7 @@ const StyledInput = styled("input", {
 });
 
 interface InputProps {
-  transparent?: boolean;
+  maxHeight?: boolean;
   white?: boolean;
   id?: string;
   autoFocus?: boolean;
@@ -114,7 +107,7 @@ interface InputProps {
 }
 
 export const Input = ({
-  transparent,
+  maxHeight,
   white,
   id = "",
   autoFocus,
@@ -167,9 +160,9 @@ export const Input = ({
     <InputContainer
       focused={contFocus}
       white={white}
-      transparent={transparent}
       onClick={() => onInputContainerClick()}
       red={error}
+      maxHeight={maxHeight}
     >
       {isSearch && <SearchIcon />}
       <StyledInput
@@ -184,7 +177,6 @@ export const Input = ({
         onFocus={onInputFocus}
         onBlur={onInputBlur}
         value={inputVal}
-        transparent={transparent}
         search={isSearch}
       />
 

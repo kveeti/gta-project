@@ -68,20 +68,9 @@ export const SignInForm = () => {
 };
 
 const UsernameOrEmailInput = ({ value, onChange }: InputProps) => {
-  return (
-    <Input
-      required
-      transparent
-      id="username-or-email"
-      type="text"
-      onChange={onChange}
-      value={value}
-    />
-  );
+  return <Input required id="username-or-email" type="text" onChange={onChange} value={value} />;
 };
 
 const PassInput = ({ value, onChange }: InputProps) => {
-  return (
-    <Input required transparent id="password" type="password" onChange={onChange} value={value} />
-  );
+  return <Input required id="password" type="password" onChange={onChange} value={value} />;
 };

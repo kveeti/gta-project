@@ -50,7 +50,6 @@ export const ResetPasswordCard = () => {
             </Label>
             <Input
               required
-              transparent
               type="password"
               value={newPassword}
               onChange={setNewPassword}
@@ -62,7 +61,6 @@ export const ResetPasswordCard = () => {
             </Label>
             <Input
               required
-              transparent
               type="password"
               value={confirmPassword}
               onChange={setConfirmPassword}

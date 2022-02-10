@@ -44,14 +44,7 @@ export const ChangeEmailCard = () => {
         <FormWrapper>
           <InputContainer>
             <Label htmlFor="new-email">New email</Label>
-            <Input
-              required
-              transparent
-              type="email"
-              id="new-email"
-              onChange={setNewEmail}
-              value={newEmail}
-            />
+            <Input required type="email" id="new-email" onChange={setNewEmail} value={newEmail} />
           </InputContainer>
 
           <PageButtonContainer>

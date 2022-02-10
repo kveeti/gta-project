@@ -52,7 +52,6 @@ export const ChangePassword = () => {
           <InputContainer>
             <Label htmlFor="current-password">Current password</Label>
             <Input
-              transparent
               required
               type="password"
               id="current-password"
@@ -62,7 +61,6 @@ export const ChangePassword = () => {
 
             <Label htmlFor="new-password">New password</Label>
             <Input
-              transparent
               required
               type="password"
               id="new-password"
@@ -72,7 +70,6 @@ export const ChangePassword = () => {
 
             <Label htmlFor="confirm-password">New password again</Label>
             <Input
-              transparent
               required
               type="password"
               id="confirm-password"
