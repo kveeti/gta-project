@@ -6,7 +6,7 @@ import { useISelector } from "../../../../state/hooks";
 import { request } from "../../../../util/axios";
 import { PageButton } from "../../../Styles/Page-cards";
 
-const SaveButton = () => {
+export const AddButton = () => {
   const dispatch = useDispatch();
   const [saving, setSaving] = useState(false);
 
@@ -34,7 +34,7 @@ const SaveButton = () => {
     setSaving(false);
 
     if (res) {
-      toast.success(`Saved!`);
+      toast.success(`Car added!`);
       reset();
     }
   };
@@ -43,9 +43,7 @@ const SaveButton = () => {
 
   return (
     <PageButton disabled={!bothChosen || saving} green onClick={() => onClick()}>
-      Save
+      Add
     </PageButton>
   );
 };
-
-export default SaveButton;

@@ -2,13 +2,13 @@ import { CarInputSelect } from "../../Input/react-select/NewCar/CarInput";
 import { GarageInputSelect } from "../../Input/react-select/NewCar/GarageInput";
 import { PageButtonContainer, PageCard, InputContainer, Label } from "../../Styles/Page-cards";
 import { Desc, Title } from "../../Styles/Text";
-import SaveButton from "./Buttons/Save";
+import { AddButton } from "./Buttons/Add";
 
 const NewCarCard = () => {
   return (
     <PageCard centered>
       <Title>New Cars</Title>
-      <Desc>Save new cars here.</Desc>
+      <Desc>Add new cars here.</Desc>
 
       <InputContainer>
         <Label htmlFor="car-input">Cars</Label>
@@ -19,7 +19,7 @@ const NewCarCard = () => {
       </InputContainer>
 
       <PageButtonContainer>
-        <SaveButton />
+        <AddButton />
       </PageButtonContainer>
     </PageCard>
   );

@@ -1,7 +1,7 @@
 import { GarageInputSelect } from "../../Input/react-select/NewGarage/GarageInput";
 import { PageButtonContainer, PageCard, InputContainer, Label } from "../../Styles/Page-cards";
 import { Desc, Title } from "../../Styles/Text";
-import SaveButton from "./Buttons/Save";
+import { AddButton } from "./Buttons/Add";
 import { DescInput } from "./Inputs/Desc";
 
 export const NewGarageCard = () => {
@@ -17,7 +17,7 @@ export const NewGarageCard = () => {
       </InputContainer>
 
       <PageButtonContainer>
-        <SaveButton />
+        <AddButton />
       </PageButtonContainer>
     </PageCard>
   );
