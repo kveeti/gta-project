@@ -4,6 +4,7 @@ import { toast } from "react-toastify";
 import { actions } from "../../../../state/actions";
 import { useISelector } from "../../../../state/hooks";
 import { request } from "../../../../util/axios";
+import { msgs } from "../../../../util/messages";
 import { PageButton } from "../../../Styles/Buttons";
 
 export const AddButton = () => {
@@ -15,12 +16,9 @@ export const AddButton = () => {
   const chosenGarage = newCarState.inputs.garage;
 
   const onClick = async () => {
-    console.log("chosenCars", chosenCars);
-    console.log("chosenGarage", chosenGarage);
-
     if (!chosenCars.length || !chosenGarage) return;
 
-    const plural = chosenCars.length > 1 ? "s" : "";
+    const plural = chosenCars.length > 1;
 
     setSaving(true);
 
@@ -32,7 +30,7 @@ export const AddButton = () => {
     setSaving(false);
 
     if (res) {
-      toast.success(`Car${plural} added!`);
+      toast.success(plural ? msgs.success.carAdded.plural : msgs.success.carAdded.singular);
       dispatch(actions.newCar.reset());
     }
   };
@@ -40,7 +38,7 @@ export const AddButton = () => {
   const bothChosen = chosenCars?.length && chosenGarage;
 
   return (
-    <PageButton disabled={!bothChosen || saving} green onClick={() => onClick()}>
+    <PageButton disabled={!bothChosen || saving} green onClick={onClick}>
       Add
     </PageButton>
   );
