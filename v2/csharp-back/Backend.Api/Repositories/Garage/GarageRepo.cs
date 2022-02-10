@@ -132,6 +132,6 @@ public class GarageRepo : GenericRepo<Garage>, IGarageRepo
           }
         })
       })
-      .SingleAsync(aFilter);
+      .SingleOrDefaultAsync(aFilter);
   }
 }
