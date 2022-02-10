@@ -20,6 +20,8 @@ export const AddButton = () => {
 
     if (!chosenCars.length || !chosenGarage) return;
 
+    const plural = chosenCars.length > 1 ? "s" : "";
+
     setSaving(true);
 
     const res = await request("/cars", "POST", {
@@ -30,7 +32,7 @@ export const AddButton = () => {
     setSaving(false);
 
     if (res) {
-      toast.success(`Car added!`);
+      toast.success(`Car${plural} added!`);
       dispatch(actions.newCar.reset());
     }
   };
