@@ -4,6 +4,7 @@ import { toast } from "react-toastify";
 import { actions } from "../../../../state/actions";
 import { useISelector } from "../../../../state/hooks";
 import { request } from "../../../../util/axios";
+import { msgs } from "../../../../util/messages";
 import { PageButton } from "../../../Styles/Buttons";
 
 export const AddButton = () => {
@@ -16,7 +17,7 @@ export const AddButton = () => {
   const desc = state.inputs.desc;
 
   const onClick = async () => {
-    if (!chosenGarage) return toast.error("No garage chosen");
+    if (!chosenGarage) return toast.error(msgs.error.noGarageSelected);
 
     setSaving(true);
     const res = await request(`/garages`, "POST", {

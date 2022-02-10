@@ -4,6 +4,7 @@ import { toast } from "react-toastify";
 import { gtabaseLinkPrefix } from "../../../../../envs";
 import { useAdminCheck } from "../../../../../hooks/useAdminCheck";
 import { request } from "../../../../../util/axios";
+import { msgs } from "../../../../../util/messages";
 import { PageButton } from "../../../../Styles/Buttons";
 import { PageCard } from "../../../../Styles/Cards";
 import { InputContainer, PageButtonContainer } from "../../../../Styles/Containers";
@@ -42,7 +43,7 @@ export const ModelCarUpdateCard = () => {
       setLink(res.data.link.split("vehicles/")[1]);
       setOgLink(res.data.link.split("vehicles/")[1]);
     } else {
-      toast.error("Something went wrong");
+      toast.error(msgs.error.somethingWentWrong);
     }
   };
 
@@ -62,7 +63,7 @@ export const ModelCarUpdateCard = () => {
 
     if (res) {
       getCar();
-      toast.success("Model car updated successfully!");
+      toast.success(msgs.success.modelCarUpdated);
     }
   };
 

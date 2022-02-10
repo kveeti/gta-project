@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { toast } from "react-toastify";
 import { request } from "../../../util/axios";
+import { msgs } from "../../../util/messages";
 import { Input } from "../../Input/Input";
 import { PageButton } from "../../Styles/Buttons";
 import { PageCard } from "../../Styles/Cards";
@@ -25,8 +26,8 @@ export const ChangePassword = () => {
   const onSubmit = async (e) => {
     e.preventDefault();
 
-    if (changePasswordDisabled) return toast.error("Please fill out all fields");
-    if (!newPasswordsMatch) return toast.error("New passwords do not match");
+    if (changePasswordDisabled) return toast.error(msgs.error.fillAllFields);
+    if (!newPasswordsMatch) return toast.error(msgs.error.passNoMatch);
 
     const res = await request("/auth/change-password", "PATCH", {
       currentPassword: currPassword,
@@ -34,7 +35,7 @@ export const ChangePassword = () => {
     });
 
     if (res) {
-      toast.success("Password changed successfully!");
+      toast.success(msgs.success.passChanged);
       reset();
     }
   };

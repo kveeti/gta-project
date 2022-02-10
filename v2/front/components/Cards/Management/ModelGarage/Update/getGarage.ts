@@ -1,5 +1,6 @@
 import { toast } from "react-toastify";
 import { request } from "../../../../../util/axios";
+import { msgs } from "../../../../../util/messages";
 
 interface Props {
   setName: (garage: any) => void;
@@ -24,6 +25,6 @@ export const getGarage = async ({
     setCapacity(res.data.capacity);
     setOriginalCapacity(res.data.capacity);
   } else {
-    toast.error("Something went wrong");
+    toast.error(msgs.error.somethingWentWrong);
   }
 };

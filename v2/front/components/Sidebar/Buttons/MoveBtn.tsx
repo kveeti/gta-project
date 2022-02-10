@@ -3,6 +3,7 @@ import { useDispatch } from "react-redux";
 import { SidebarBtn } from "./Styles";
 import { actions } from "../../../state/actions";
 import { toast } from "react-toastify";
+import { msgs } from "../../../util/messages";
 
 export const MoveBtn = () => {
   const dispatch = useDispatch();
@@ -11,7 +12,7 @@ export const MoveBtn = () => {
   const showValue = useISelector((state) => state.move.show);
 
   const onClick = () => {
-    if (!checkedCars.length) return toast.error("No selected cars");
+    if (!checkedCars.length) return toast.error(msgs.error.noCarsSelected);
     dispatch(actions.move.show(!showValue));
   };
 

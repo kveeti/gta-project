@@ -9,6 +9,7 @@ import { request } from "../../../util/axios";
 import { PageButton } from "../../Styles/Buttons";
 import { InputContainer, PageButtonContainer } from "../../Styles/Containers";
 import { PageCard } from "../../Styles/Cards";
+import { msgs } from "../../../util/messages";
 
 interface Props {
   garage: IGarageDeep;
@@ -30,14 +31,14 @@ export const GaragePageCard = ({ garage }: Props) => {
   const onChange = (value: string) => setDescVal(value);
 
   const onSaveClick = async () => {
-    if (!descHasChanged) return toast.error("You haven't changed the description");
+    if (!descHasChanged) return toast.error(msgs.error.nothingChanged);
 
     setLoading(true);
     const res = await request(`/garages/${garage.id}/desc`, "PATCH", { newDesc: descVal });
 
     if (res) {
       setLoading(false);
-      toast.success("Description updated successfully!");
+      toast.success(msgs.success.garageUpdated);
 
       if (res?.data) setOriginalDesc(res.data.desc);
     } else {

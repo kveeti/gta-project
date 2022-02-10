@@ -1,5 +1,6 @@
 import { toast } from "react-toastify";
 import { useISelector } from "../../../state/hooks";
+import { msgs } from "../../../util/messages";
 import { SidebarBtn } from "./Styles";
 
 export const DeleteBtn = ({ onClick, open }) => {
@@ -8,7 +9,7 @@ export const DeleteBtn = ({ onClick, open }) => {
   const showButton = checkedCars.length > 0;
 
   const onBtnClick = (e) => {
-    if (!showButton) return toast.error("No cars selected");
+    if (!showButton) return toast.error(msgs.error.noCarsSelected);
 
     onClick(e);
   };

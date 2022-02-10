@@ -4,6 +4,7 @@ import { toast } from "react-toastify";
 import { IGarage } from "../../../interfaces/Garage";
 import { actions } from "../../../state/actions";
 import { useISelector } from "../../../state/hooks";
+import { msgs } from "../../../util/messages";
 import { StyledButton } from "../../Cards/Signin/Buttons/Styles";
 import { Move_GarageInput } from "../../Input/react-select/Move-GarageInput";
 import { Desc } from "../../Styles/Text";
@@ -22,8 +23,8 @@ export const Move = ({ open }) => {
   };
 
   const onMoveClick = () => {
-    if (!chosenGarage) return toast.error("No chosen garage");
-    if (!checkedCars.length) return toast.error("No selected cars");
+    if (!chosenGarage) return toast.error(msgs.error.noGarageSelected);
+    if (!checkedCars.length) return toast.error(msgs.error.noCarsSelected);
     dispatch(actions.move.move(checkedCars, chosenGarage, searchInput));
     dispatch(actions.move.show(false));
   };

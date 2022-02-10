@@ -2,20 +2,21 @@ import axios, { AxiosRequestConfig, AxiosResponse, Method } from "axios";
 import { toast } from "react-toastify";
 import { accessTokenHeader, apiBaseUrl } from "../envs";
 import { getAccessTokenOnlyLocal, handleUnauthorized, setAccessToken } from "./accessToken";
+import { msgs } from "./messages";
 
 const axiosErrorHandler = (error: any, redirect401 = true) => {
   if (!error.response || error.response.status >= 502)
-    return toast.error("Failed connecting to the server, please try again later.");
+    return toast.error(msgs.error.failedServerConnection);
 
   const statusCode = error?.response?.status;
 
-  if (statusCode === 500) return toast.error("Server error, please try again later.");
+  if (statusCode === 500) return toast.error(msgs.error.serverError);
   if (statusCode === 400) return toast.error(error.response.data);
   if (statusCode === 409) return toast.error(error.response.data);
   if (redirect401 && statusCode === 401) return handleUnauthorized();
   if (statusCode === 401) return;
 
-  toast.error("Something went wrong, no changes were made.");
+  toast.error(msgs.error.somethingWentWrong);
 };
 
 const config = (path: string, method: Method, data?: any): AxiosRequestConfig => {
