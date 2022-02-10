@@ -6,14 +6,13 @@ import { SearchIcon } from "./Icons/SearchIcon";
 import { ShowIcon } from "./Icons/ShowIcon";
 
 const InputContainer = styled("div", {
-  flex: 1,
   minHeight: 38,
   display: "flex",
   alignItems: "center",
   backgroundColor: "White",
   borderRadius: 4,
   transition: "0.2s",
-  border: "1px solid rgb(204, 204, 204)",
+  boxShadow: "0 0 0 1px rgb(204, 204, 204)",
 
   "&:disabled": {
     boxShadow: `0 0 0 1px ${blackA.blackA7}`,
@@ -23,25 +22,12 @@ const InputContainer = styled("div", {
   variants: {
     focused: {
       true: {
-        boxShadow: `0 0 0 1px ${blackA.blackA9}`,
+        boxShadow: `0 0 0 2px ${blackA.blackA9}`,
       },
     },
-
-    transparent: {
-      true: {
-        backgroundColor: "transparent",
-      },
-    },
-
     white: {
       true: {
         backgroundColor: "white",
-      },
-    },
-    red: {
-      true: {
-        backgroundColor: `${red.red8} !important`,
-        boxShadow: `0 0 0 2px ${red.red8} !important`,
       },
     },
     maxHeight: {
@@ -54,11 +40,10 @@ const InputContainer = styled("div", {
   compoundVariants: [
     {
       focused: true,
-      transparent: true,
 
       css: {
         backgroundColor: "transparent",
-        boxShadow: `0 0 0 1px ${blackA.blackA10}`,
+        boxShadow: `0 0 0 2px ${blackA.blackA10}`,
       },
     },
     {
@@ -67,7 +52,7 @@ const InputContainer = styled("div", {
 
       css: {
         backgroundColor: "white",
-        boxShadow: `0 0 0 2px ${whiteA.whiteA12}`,
+        boxShadow: `0 0 0 1px ${whiteA.whiteA12}`,
       },
     },
   ],
@@ -97,13 +82,10 @@ interface InputProps {
   placeholder?: string;
   value: string;
   type: string;
-  ref?: any;
-  gridArea?: string;
   onChange: (value: string) => void;
   onBlur?: () => void;
   onFocus?: () => void;
   required?: boolean;
-  error?: boolean;
 }
 
 export const Input = ({
@@ -118,7 +100,6 @@ export const Input = ({
   onBlur,
   onFocus,
   required,
-  error,
 }: InputProps) => {
   const [contFocus, setContFocus] = useState(false);
   const [inputVal, setInputVal] = useState(value);
@@ -161,7 +142,6 @@ export const Input = ({
       focused={contFocus}
       white={white}
       onClick={() => onInputContainerClick()}
-      red={error}
       maxHeight={maxHeight}
     >
       {isSearch && <SearchIcon />}
