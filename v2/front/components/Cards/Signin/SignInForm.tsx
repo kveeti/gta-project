@@ -1,14 +1,13 @@
-import { FormEvent, useState } from "react";
+import { useState } from "react";
 import { Input } from "../../Input/Input";
-import { InputContainer, Label } from "../../Styles/Page-cards";
 import { SigninButton } from "./Buttons/SigninButton";
 import { useRouter } from "next/router";
 import { TestButton } from "./Buttons/TestButton";
 import { RegisterButton } from "./Buttons/RegisterButton";
-import { ButtonContainer } from "../../Styles/SinglePage";
 import { request } from "../../../util/axios";
-import { Text } from "../../Styles/Text";
+import { Label, Text } from "../../Styles/Text";
 import { FormWrapper } from "../../Styles/Forms";
+import { ButtonContainer, InputContainer } from "../../Styles/Containers";
 
 interface InputProps {
   value: string;

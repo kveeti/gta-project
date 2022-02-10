@@ -3,10 +3,11 @@ import { useState } from "react";
 import { toast } from "react-toastify";
 import { request } from "../../../util/axios";
 import { Input } from "../../Input/Input";
+import { PageButton } from "../../Styles/Buttons";
+import { SingleCardPageCard } from "../../Styles/Cards";
+import { InputContainer, PageButtonContainer } from "../../Styles/Containers";
 import { FormWrapper } from "../../Styles/Forms";
-import { InputContainer, Label, PageButton, PageButtonContainer } from "../../Styles/Page-cards";
-import { SingleCardPageCard } from "../../Styles/SinglePage";
-import { Desc, Title } from "../../Styles/Text";
+import { Desc, Label, Title } from "../../Styles/Text";
 
 export const InitResetPasswordCard = () => {
   const router = useRouter();
@@ -25,7 +26,7 @@ export const InitResetPasswordCard = () => {
 
   return (
     <SingleCardPageCard>
-      <Title>Reset password</Title>
+      <Title padding>Reset password</Title>
       <Desc>A password reset link will be sent to this email.</Desc>
       <form onSubmit={onSubmit}>
         <FormWrapper>

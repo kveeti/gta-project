@@ -2,7 +2,7 @@ import { useDispatch } from "react-redux";
 import { actions } from "../../../../state/actions";
 import { useISelector } from "../../../../state/hooks";
 import { Input } from "../../../Input/Input";
-import { Label } from "../../../Styles/Page-cards";
+import { Label } from "../../../Styles/Text";
 
 export const DescInput = () => {
   return (

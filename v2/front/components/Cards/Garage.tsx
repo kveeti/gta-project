@@ -8,10 +8,10 @@ import { styled } from "../../stitches.config";
 import { useISelector } from "../../state/hooks";
 import { AnimatePresence, motion } from "framer-motion";
 import { Grid } from "../Styles/Grid";
-import { PageButton } from "../Styles/Page-cards";
 import { Car } from "./Car";
 import { ICar } from "../../interfaces/Car";
 import { useRouter } from "next/router";
+import { FullWidthButton } from "../Styles/Buttons";
 
 interface GarageProps<T> {
   garage: T;
@@ -103,9 +103,9 @@ export function CollapsibleGarage({ garage, onCarClick }: CollapsibleGarageProps
             }}
           >
             <Grid style={{ paddingTop: "1rem" }}>
-              <PageButton blue onClick={onModifyClick}>
+              <FullWidthButton blue onClick={onModifyClick}>
                 Modify
-              </PageButton>
+              </FullWidthButton>
               {!!garage?.cars?.length ? (
                 garage?.cars?.map((car: any) => (
                   <Car

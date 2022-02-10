@@ -3,14 +3,10 @@ import { toast } from "react-toastify";
 import { gtabaseLinkPrefix } from "../../../../envs";
 import { request } from "../../../../util/axios";
 import { Input } from "../../../Input/Input";
-import {
-  Label,
-  PageButton,
-  PageButtonContainer,
-  PageCard,
-  InputContainer,
-} from "../../../Styles/Page-cards";
-import { Title } from "../../../Styles/Text";
+import { PageButton } from "../../../Styles/Buttons";
+import { PageCard } from "../../../Styles/Cards";
+import { InputContainer, PageButtonContainer } from "../../../Styles/Containers";
+import { Label, Title } from "../../../Styles/Text";
 
 export const NewModelCarCard = () => {
   const [name, setName] = useState("");

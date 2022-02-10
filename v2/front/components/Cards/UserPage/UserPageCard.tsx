@@ -1,8 +1,8 @@
 import { useGetMe } from "../../../hooks/useGetMe";
 import { useISelector } from "../../../state/hooks";
 import { styled } from "../../../stitches.config";
-import { PageCard } from "../../Styles/Page-cards";
-import { ButtonContainer } from "../../Styles/SinglePage";
+import { PageCard } from "../../Styles/Cards";
+import { ButtonContainer } from "../../Styles/Containers";
 import { Text, Title } from "../../Styles/Text";
 import { CreateAccountButton } from "../IndexPageCard/Buttons/CreateAccountButton";
 import { ChangeEmailButton } from "./Buttons/ChangeEmail";

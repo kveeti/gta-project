@@ -4,12 +4,9 @@ import { toast } from "react-toastify";
 import { gtabaseLinkPrefix } from "../../../../../envs";
 import { useAdminCheck } from "../../../../../hooks/useAdminCheck";
 import { request } from "../../../../../util/axios";
-import {
-  InputContainer,
-  PageButton,
-  PageButtonContainer,
-  PageCard,
-} from "../../../../Styles/Page-cards";
+import { PageButton } from "../../../../Styles/Buttons";
+import { PageCard } from "../../../../Styles/Cards";
+import { InputContainer, PageButtonContainer } from "../../../../Styles/Containers";
 import { Title } from "../../../../Styles/Text";
 import { ClassInput, LinkInput, ManufacturerInput, NameInput } from "./Inputs";
 

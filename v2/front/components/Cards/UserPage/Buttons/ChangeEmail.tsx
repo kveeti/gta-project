@@ -1,5 +1,5 @@
 import { useRouter } from "next/router";
-import { StyledButton } from "../../Signin/Buttons/Styles";
+import { FullWidthButton } from "../../../Styles/Buttons";
 
 export const ChangeEmailButton = () => {
   const router = useRouter();
@@ -9,8 +9,8 @@ export const ChangeEmailButton = () => {
   };
 
   return (
-    <StyledButton blue onClick={onClick}>
+    <FullWidthButton blue onClick={onClick}>
       Change email
-    </StyledButton>
+    </FullWidthButton>
   );
 };

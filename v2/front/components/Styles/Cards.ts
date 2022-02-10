@@ -1,18 +1,19 @@
 import { red } from "@radix-ui/colors";
 import { styled } from "../../stitches.config";
 
-export const Card = styled("div", {
+export const BaseCard = styled("div", {
+  borderRadius: 4,
+  color: "black",
+  backgroundColor: "White",
+  boxShadow: "$theShadow",
+  padding: "0.8rem",
+});
+
+export const Card = styled(BaseCard, {
   display: "flex",
   flexDirection: "column",
-  padding: "0.7rem",
-  borderRadius: 4,
   cursor: "pointer",
-  color: "black",
-  transition: "0.2s",
-  backgroundColor: "White",
   flex: 1,
-
-  boxShadow: "$theShadow",
 
   "@media (hover: hover)": {
     "&:hover, &:focus": {
@@ -63,6 +64,35 @@ export const Card = styled("div", {
       true: {
         color: "rgba(0,0,0,0.3)",
         cursor: "not-allowed",
+      },
+    },
+  },
+});
+
+export const PageCard = styled(BaseCard, {
+  display: "grid",
+  gap: "1rem",
+  maxWidth: "600px",
+
+  variants: {
+    centered: {
+      true: {
+        margin: "0 auto",
+      },
+    },
+  },
+});
+
+export const SingleCardPageCard = styled(BaseCard, {
+  display: "grid",
+  margin: "1rem",
+  maxWidth: "400px",
+  width: "100%",
+
+  variants: {
+    notSoWide: {
+      true: {
+        maxWidth: "360px",
       },
     },
   },

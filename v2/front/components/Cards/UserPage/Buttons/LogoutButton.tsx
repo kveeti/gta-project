@@ -2,7 +2,8 @@ import { useRouter } from "next/router";
 import { useDispatch } from "react-redux";
 import { actions } from "../../../../state/actions";
 import { request } from "../../../../util/axios";
-import { StyledButton } from "../../Signin/Buttons/Styles";
+import { FullWidthButton } from "../../../Styles/Buttons";
+import { ButtonText } from "../../../Styles/Text";
 
 export const LogoutButton = () => {
   const dispatch = useDispatch();
@@ -17,8 +18,8 @@ export const LogoutButton = () => {
   };
 
   return (
-    <StyledButton red onClick={onClick}>
-      Logout
-    </StyledButton>
+    <FullWidthButton red onClick={onClick}>
+      <ButtonText>Logout</ButtonText>
+    </FullWidthButton>
   );
 };

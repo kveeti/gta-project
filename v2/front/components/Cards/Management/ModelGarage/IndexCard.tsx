@@ -1,7 +1,8 @@
 import { useRouter } from "next/router";
 import { useState } from "react";
 import { FullWidthButton } from "../../../Styles/Buttons";
-import { InputContainer, PageCard } from "../../../Styles/Page-cards";
+import { PageCard } from "../../../Styles/Cards";
+import { InputContainer } from "../../../Styles/Containers";
 import { Title } from "../../../Styles/Text";
 import { MatchingGarages } from "./Search/Matching";
 import { SearchInput } from "./Search/SearchInput";

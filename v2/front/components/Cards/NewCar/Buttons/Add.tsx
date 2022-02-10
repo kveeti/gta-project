@@ -4,7 +4,7 @@ import { toast } from "react-toastify";
 import { actions } from "../../../../state/actions";
 import { useISelector } from "../../../../state/hooks";
 import { request } from "../../../../util/axios";
-import { PageButton } from "../../../Styles/Page-cards";
+import { PageButton } from "../../../Styles/Buttons";
 
 export const AddButton = () => {
   const dispatch = useDispatch();

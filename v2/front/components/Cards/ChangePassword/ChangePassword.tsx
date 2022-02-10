@@ -2,15 +2,11 @@ import { useState } from "react";
 import { toast } from "react-toastify";
 import { request } from "../../../util/axios";
 import { Input } from "../../Input/Input";
+import { PageButton } from "../../Styles/Buttons";
+import { PageCard } from "../../Styles/Cards";
+import { InputContainer, PageButtonContainer } from "../../Styles/Containers";
 import { FormWrapper } from "../../Styles/Forms";
-import {
-  InputContainer,
-  Label,
-  PageButton,
-  PageButtonContainer,
-  PageCard,
-} from "../../Styles/Page-cards";
-import { Title } from "../../Styles/Text";
+import { Label, Title } from "../../Styles/Text";
 
 export const ChangePassword = () => {
   const [currPassword, setCurrPassword] = useState("");

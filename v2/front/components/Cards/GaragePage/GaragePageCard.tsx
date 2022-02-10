@@ -1,13 +1,14 @@
 import { useState } from "react";
 import { IGarageDeep } from "../../../interfaces/Garage";
-import { PageButton, PageButtonContainer, PageCard, InputContainer } from "../../Styles/Page-cards";
-import { Desc, Title } from "../../Styles/Text";
+import { Desc, Label, Title } from "../../Styles/Text";
 import { DescInput } from "./DescInput";
-import { Label } from "../../Styles/Page-cards";
 import { toast } from "react-toastify";
 import { styled } from "../../../stitches.config";
 import { DeleteButton } from "./DeleteButton";
 import { request } from "../../../util/axios";
+import { PageButton } from "../../Styles/Buttons";
+import { InputContainer, PageButtonContainer } from "../../Styles/Containers";
+import { PageCard } from "../../Styles/Cards";
 
 interface Props {
   garage: IGarageDeep;

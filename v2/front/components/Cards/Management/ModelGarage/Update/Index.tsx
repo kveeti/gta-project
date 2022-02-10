@@ -3,12 +3,9 @@ import { useEffect, useState } from "react";
 import { toast } from "react-toastify";
 import { useAdminCheck } from "../../../../../hooks/useAdminCheck";
 import { request } from "../../../../../util/axios";
-import {
-  InputContainer,
-  PageButton,
-  PageButtonContainer,
-  PageCard,
-} from "../../../../Styles/Page-cards";
+import { PageButton } from "../../../../Styles/Buttons";
+import { PageCard } from "../../../../Styles/Cards";
+import { InputContainer, PageButtonContainer } from "../../../../Styles/Containers";
 import { Title } from "../../../../Styles/Text";
 import { getGarage } from "./getGarage";
 import { CapacityInput, NameInput } from "./Inputs";

@@ -4,10 +4,11 @@ import { toast } from "react-toastify";
 import { request } from "../../../util/axios";
 import { wait } from "../../../util/wait";
 import { Input } from "../../Input/Input";
+import { PageButton } from "../../Styles/Buttons";
+import { SingleCardPageCard } from "../../Styles/Cards";
+import { InputContainer, PageButtonContainer } from "../../Styles/Containers";
 import { FormWrapper } from "../../Styles/Forms";
-import { InputContainer, Label, PageButton, PageButtonContainer } from "../../Styles/Page-cards";
-import { SingleCardPageCard } from "../../Styles/SinglePage";
-import { Title } from "../../Styles/Text";
+import { Label, Title } from "../../Styles/Text";
 import { InvalidLink } from "./InvalidLink";
 
 export const ResetPasswordCard = () => {
@@ -40,7 +41,7 @@ export const ResetPasswordCard = () => {
 
   return (
     <SingleCardPageCard>
-      <Title>Password reset</Title>
+      <Title padding>Password reset</Title>
 
       <form onSubmit={onSubmit}>
         <FormWrapper>

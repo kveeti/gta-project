@@ -2,7 +2,7 @@ import { useRouter } from "next/router";
 import { ModelGarage } from "../../../../../interfaces/Garage";
 import { useISelector } from "../../../../../state/hooks";
 import { SingleGrid } from "../../../../Styles/Grid";
-import { Label } from "../../../../Styles/Page-cards";
+import { Label } from "../../../../Styles/Text";
 import { Garage } from "../../../Garage";
 
 interface Props {

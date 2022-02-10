@@ -2,7 +2,7 @@ import { useRouter } from "next/router";
 import { ICar } from "../../../../../interfaces/Car";
 import { useISelector } from "../../../../../state/hooks";
 import { SingleGrid } from "../../../../Styles/Grid";
-import { Label } from "../../../../Styles/Page-cards";
+import { Label } from "../../../../Styles/Text";
 import { Car } from "../../../Car";
 
 interface Props {

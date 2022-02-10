@@ -1,5 +1,5 @@
 import { useRouter } from "next/router";
-import { StyledButton } from "../../Signin/Buttons/Styles";
+import { FullWidthButton } from "../../../Styles/Buttons";
 
 export const ChangePasswordButton = () => {
   const router = useRouter();
@@ -9,8 +9,8 @@ export const ChangePasswordButton = () => {
   };
 
   return (
-    <StyledButton blue onClick={onClick}>
+    <FullWidthButton blue onClick={onClick}>
       Change password
-    </StyledButton>
+    </FullWidthButton>
   );
 };

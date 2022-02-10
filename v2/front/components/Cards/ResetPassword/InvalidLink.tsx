@@ -1,5 +1,5 @@
+import { SingleCardPageCard } from "../../Styles/Cards";
 import { Centered } from "../../Styles/Containers";
-import { SingleCardPageCard } from "../../Styles/SinglePage";
 import { Title } from "../../Styles/Text";
 
 export const InvalidLink = () => (

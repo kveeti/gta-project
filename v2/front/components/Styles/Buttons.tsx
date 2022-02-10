@@ -1,5 +1,6 @@
 import { blackA, blue, gray, green, red } from "@radix-ui/colors";
 import { styled } from "../../stitches.config";
+import { ButtonText } from "./Text";
 
 export const BaseBtn = styled("button", {
   all: "unset",
@@ -40,7 +41,6 @@ export const BaseBtn = styled("button", {
         "&:hover": { backgroundColor: gray.gray7 },
       },
     },
-
     white: {
       true: {
         backgroundColor: "white",
@@ -80,8 +80,26 @@ export const BaseBtn = styled("button", {
   },
 });
 
-export const FullWidthButton = styled(BaseBtn, {
+const FullWidthButtonStyles = styled(BaseBtn, {
   width: "100%",
-  height: "2.5rem",
+  height: "100%",
+  minHeight: "2.5rem",
   fontSize: "1.1rem",
 });
+
+const PageButtonStyles = styled(BaseBtn, {
+  padding: "0 2rem",
+  height: "100%",
+});
+
+export const FullWidthButton = ({ children, ...rest }) => (
+  <FullWidthButtonStyles {...rest}>
+    <ButtonText>{children}</ButtonText>
+  </FullWidthButtonStyles>
+);
+
+export const PageButton = ({ children, ...rest }) => (
+  <PageButtonStyles {...rest}>
+    <ButtonText>{children}</ButtonText>
+  </PageButtonStyles>
+);

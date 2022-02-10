@@ -6,7 +6,7 @@ import { actions } from "../../../state/actions";
 import { useISelector } from "../../../state/hooks";
 import { request } from "../../../util/axios";
 import { wait } from "../../../util/wait";
-import { PageButton } from "../../Styles/Page-cards";
+import { PageButton } from "../../Styles/Buttons";
 
 export const DeleteButton = ({ garage }) => {
   const router = useRouter();
