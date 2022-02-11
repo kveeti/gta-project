@@ -72,20 +72,18 @@ export const MenuBar = ({ mobile }) => {
           <SearchBar />
         </LeftContainer>
 
-        <RightContainer>
-          {mobile ? (
+        {mobile ? (
+          <ProfileButton style={{ margin: "0.5rem 0.4rem 0 0.5rem" }} />
+        ) : (
+          <RightContainer>
+            <LeftButtons>
+              <HomeButton />
+              {users.me?.garageCount !== 0 && <NewCarButton />}
+              <NewGarageButton />
+            </LeftButtons>
             <ProfileButton />
-          ) : (
-            <>
-              <LeftButtons>
-                <HomeButton />
-                {users.me?.garageCount !== 0 && <NewCarButton />}
-                <NewGarageButton />
-              </LeftButtons>
-              <ProfileButton />
-            </>
-          )}
-        </RightContainer>
+          </RightContainer>
+        )}
       </MenubarContent>
     </MenubarContainer>
   );

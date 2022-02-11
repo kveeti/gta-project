@@ -3,7 +3,11 @@ import { MenubarBtn } from "./Styles";
 import { useRouter } from "next/router";
 import { StyledTooltip } from "../../Cards/Tooltip/Tooltip";
 
-export const ProfileButton = () => {
+interface Props {
+  style?: any;
+}
+
+export const ProfileButton = ({ style }: Props) => {
   const router = useRouter();
 
   const onClick = async () => {
@@ -12,7 +16,7 @@ export const ProfileButton = () => {
 
   return (
     <StyledTooltip content="Profile">
-      <MenubarBtn transparent profile onClick={() => onClick()}>
+      <MenubarBtn transparent profile onClick={() => onClick()} style={style}>
         <PersonIcon style={{ color: "white", transform: "scale(1.6)" }} />
       </MenubarBtn>
     </StyledTooltip>
