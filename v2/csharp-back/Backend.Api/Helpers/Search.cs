@@ -8,17 +8,17 @@ public static class Search
   public static IEnumerable<JoinedCarDto> GetResults(IEnumerable<JoinedCarDto> aCars, string aQuery)
   {
     return aCars
-      .OrderBy(c => c.Name.IndexOf(aQuery, StringComparison.OrdinalIgnoreCase) != 0)
+      .OrderBy(c => c.Garage.Name.IndexOf(aQuery, StringComparison.OrdinalIgnoreCase) != 0)
+      .ThenBy(c => c.Garage.Desc.IndexOf(aQuery, StringComparison.OrdinalIgnoreCase) != 0)
       .ThenBy(c => c.Manufacturer.IndexOf(aQuery, StringComparison.OrdinalIgnoreCase) != 0)
-      .ThenBy(c => c.Garage.Name.IndexOf(aQuery, StringComparison.OrdinalIgnoreCase) != 0)
-      .ThenBy(c => c.Garage.Desc.IndexOf(aQuery, StringComparison.OrdinalIgnoreCase) != 0);
+      .ThenBy(c => c.Name.IndexOf(aQuery, StringComparison.OrdinalIgnoreCase) != 0);
   }
 
   public static IEnumerable<JoinedGarageDto> GetResults(IEnumerable<JoinedGarageDto> aGarages, string aQuery)
   {
     return aGarages
-      .OrderBy(g => g.Name.IndexOf(aQuery, StringComparison.OrdinalIgnoreCase) != 0)
-      .ThenBy(g => g.Desc.IndexOf(aQuery, StringComparison.OrdinalIgnoreCase) != 0);
+      .OrderBy(g => g.Desc.IndexOf(aQuery, StringComparison.OrdinalIgnoreCase) != 0)
+      .ThenBy(g => g.Name.IndexOf(aQuery, StringComparison.OrdinalIgnoreCase) != 0);
   }
 
   public static IEnumerable<ReturnModelGarageDto> GetResults(IEnumerable<ReturnModelGarageDto> aGarages, string aQuery)
