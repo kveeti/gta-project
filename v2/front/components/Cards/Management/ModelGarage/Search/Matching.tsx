@@ -1,6 +1,7 @@
 import { useRouter } from "next/router";
 import { ModelGarage } from "../../../../../interfaces/Garage";
 import { useISelector } from "../../../../../state/hooks";
+import { paths } from "../../../../../util/constants";
 import { SingleGrid } from "../../../../Styles/Grid";
 import { Label } from "../../../../Styles/Text";
 import { Garage } from "../../../Garage";
@@ -14,13 +15,7 @@ export const MatchingGarages = ({ garages }: Props) => {
   const bp = useISelector((state) => state.bp);
 
   const onGarageClick = (garage: ModelGarage) => {
-    router.push(
-      `/management/model-garages/${garage.id}`,
-      `/management/model-garages/${garage.id}`,
-      {
-        shallow: true,
-      }
-    );
+    router.push(paths.mgmtModelGarageEdit(garage.id));
   };
 
   return (

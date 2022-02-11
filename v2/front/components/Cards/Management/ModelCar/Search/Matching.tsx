@@ -1,6 +1,7 @@
 import { useRouter } from "next/router";
 import { ICar } from "../../../../../interfaces/Car";
 import { useISelector } from "../../../../../state/hooks";
+import { paths } from "../../../../../util/constants";
 import { SingleGrid } from "../../../../Styles/Grid";
 import { Label } from "../../../../Styles/Text";
 import { Car } from "../../../Car";
@@ -14,9 +15,7 @@ export const MatchingCars = ({ cars }: Props) => {
   const bp = useISelector((state) => state.bp);
 
   const onCarClick = (car: ICar) => {
-    router.push(`/management/model-cars/${car.id}`, `/management/model-cars/${car.id}`, {
-      shallow: true,
-    });
+    router.push(paths.mgmtModelCarEdit(car.id));
   };
 
   return (

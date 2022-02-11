@@ -1,6 +1,7 @@
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 import { getAccessTokenOnlyLocal } from "../util/accessToken";
+import { paths } from "../util/constants";
 import { checkAdmin } from "../util/jwt";
 
 export const useAdminCheck = () => {
@@ -11,7 +12,7 @@ export const useAdminCheck = () => {
   const router = useRouter();
 
   const handleUnauthorized = () => {
-    router.push("/", "/");
+    router.push(paths.home());
   };
 
   useEffect(() => {

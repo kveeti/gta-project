@@ -2,6 +2,7 @@ import { useRouter } from "next/router";
 import { useState } from "react";
 import { toast } from "react-toastify";
 import { request } from "../../../util/axios";
+import { paths } from "../../../util/constants";
 import { wait } from "../../../util/wait";
 import { Input } from "../../Input/Input";
 import { PageButton } from "../../Styles/Buttons";
@@ -33,7 +34,7 @@ export const ResetPasswordCard = () => {
 
       await wait(2000);
 
-      router.push("/signin", "/signin");
+      router.push(paths.signin());
     }
   };
 

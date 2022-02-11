@@ -1,4 +1,5 @@
 import { useRouter } from "next/router";
+import { paths } from "../../../util/constants";
 import { StyledTooltip } from "../../Cards/Tooltip/Tooltip";
 import { NewCarIcon } from "../../Icons/NewCarIcon";
 import { MenubarBtn } from "./Styles";
@@ -7,7 +8,7 @@ export const NewCarButton = () => {
   const router = useRouter();
 
   const onClick = () => {
-    router.push("/new/cars", "/new/cars");
+    router.push(paths.newCar());
   };
 
   return (

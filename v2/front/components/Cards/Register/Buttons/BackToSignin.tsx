@@ -1,11 +1,12 @@
 import { StyledButton } from "../../Signin/Buttons/Styles";
 import { useRouter } from "next/router";
+import { paths } from "../../../../util/constants";
 
 export const BackToSigninButton = () => {
   const router = useRouter();
 
   const onClick = () => {
-    router.push("/signin", "/signin");
+    router.push(paths.signin());
   };
 
   return (

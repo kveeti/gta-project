@@ -2,6 +2,7 @@ import { useRouter } from "next/router";
 import { useDispatch } from "react-redux";
 import { actions } from "../../../../state/actions";
 import { request } from "../../../../util/axios";
+import { paths } from "../../../../util/constants";
 import { FullWidthButton } from "../../../Styles/Buttons";
 import { ButtonText } from "../../../Styles/Text";
 
@@ -13,7 +14,7 @@ export const LogoutButton = () => {
     await request("/auth/logout", "POST");
     localStorage.clear();
 
-    await router.push("/signin", "/signin");
+    await router.push(paths.signin());
     dispatch(actions.reset.resetState());
   };
 

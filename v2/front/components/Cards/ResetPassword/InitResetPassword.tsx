@@ -2,6 +2,7 @@ import { useRouter } from "next/router";
 import { useState } from "react";
 import { toast } from "react-toastify";
 import { request } from "../../../util/axios";
+import { paths } from "../../../util/constants";
 import { Input } from "../../Input/Input";
 import { PageButton } from "../../Styles/Buttons";
 import { SingleCardPageCard } from "../../Styles/Cards";
@@ -22,7 +23,8 @@ export const InitResetPasswordCard = () => {
     if (res) toast.success("Email sent!");
   };
 
-  const onBackToSignIn = () => typeof window != "undefined" && window.location.assign("/signin");
+  const onBackToSignIn = () =>
+    typeof window != "undefined" && window.location.assign(paths.signin());
 
   return (
     <SingleCardPageCard>

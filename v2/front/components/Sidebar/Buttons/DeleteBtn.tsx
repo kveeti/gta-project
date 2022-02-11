@@ -1,6 +1,6 @@
 import { toast } from "react-toastify";
 import { useISelector } from "../../../state/hooks";
-import { msgs } from "../../../util/messages";
+import { msgs } from "../../../util/constants";
 import { SidebarBtn } from "./Styles";
 
 export const DeleteBtn = ({ onClick, open }) => {

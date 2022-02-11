@@ -5,7 +5,7 @@ import { toast } from "react-toastify";
 import { actions } from "../../../state/actions";
 import { useISelector } from "../../../state/hooks";
 import { request } from "../../../util/axios";
-import { msgs } from "../../../util/messages";
+import { paths, msgs } from "../../../util/constants";
 import { wait } from "../../../util/wait";
 import { PageButton } from "../../Styles/Buttons";
 
@@ -35,7 +35,7 @@ export const DeleteButton = ({ garage }) => {
         return null;
       }
 
-      router.push("/", "/");
+      router.push(paths.home());
 
       setOpen(false);
       return clearTimeout(deleteTimer);

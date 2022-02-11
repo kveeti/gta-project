@@ -52,7 +52,7 @@ const InputContainer = styled("div", {
 
       css: {
         backgroundColor: "white",
-        boxShadow: `0 0 0 1px ${whiteA.whiteA12}`,
+        boxShadow: `0 0 0 2px ${whiteA.whiteA12}`,
       },
     },
   ],

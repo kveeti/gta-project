@@ -5,6 +5,7 @@ import { toast } from "react-toastify";
 import { actions } from "../../../state/actions";
 import { initState } from "../../../state/InitState";
 import { request } from "../../../util/axios";
+import { paths } from "../../../util/constants";
 import { wait } from "../../../util/wait";
 import { Input } from "../../Input/Input";
 import { PageButton } from "../../Styles/Buttons";
@@ -31,7 +32,7 @@ export const DeleteAccountCard = () => {
 
     await wait(2000);
 
-    await router.push("/signin", "/signin");
+    await router.push(paths.signin());
     dispatch(actions.users.set.me(initState.users.me));
   };
 

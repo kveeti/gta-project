@@ -12,6 +12,7 @@ import { Car } from "./Car";
 import { ICar } from "../../interfaces/Car";
 import { useRouter } from "next/router";
 import { FullWidthButton } from "../Styles/Buttons";
+import { paths } from "../../util/constants";
 
 interface GarageProps<T> {
   garage: T;
@@ -80,7 +81,7 @@ export function CollapsibleGarage({ garage, onCarClick }: CollapsibleGarageProps
   const router = useRouter();
 
   const onModifyClick = () => {
-    router.push(`/garage/${garage.id}`, `/garage/${garage.id}`);
+    router.push(paths.garagePage(garage.id));
   };
 
   return (

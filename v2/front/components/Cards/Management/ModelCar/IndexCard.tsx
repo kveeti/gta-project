@@ -1,5 +1,6 @@
 import { useRouter } from "next/router";
 import { useState } from "react";
+import { paths } from "../../../../util/constants";
 import { FullWidthButton } from "../../../Styles/Buttons";
 import { PageCard } from "../../../Styles/Cards";
 import { InputContainer } from "../../../Styles/Containers";
@@ -12,7 +13,7 @@ export const ModelCarManagementIndex = () => {
   const [matching, setMatching] = useState([]);
 
   const onNewClick = () => {
-    router.push("/management/model-cars/new", "/management/model-cars/new");
+    router.push(paths.mgmtModelCarNew());
   };
 
   return (

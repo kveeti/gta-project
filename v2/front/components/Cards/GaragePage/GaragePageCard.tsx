@@ -9,7 +9,7 @@ import { request } from "../../../util/axios";
 import { PageButton } from "../../Styles/Buttons";
 import { InputContainer, PageButtonContainer } from "../../Styles/Containers";
 import { PageCard } from "../../Styles/Cards";
-import { msgs } from "../../../util/messages";
+import { msgs } from "../../../util/constants";
 
 interface Props {
   garage: IGarageDeep;

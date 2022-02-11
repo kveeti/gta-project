@@ -4,6 +4,7 @@ import { requestWithNo401RedirectAndDontSetToken } from "../../../../util/axios"
 import { actions } from "../../../../state/actions";
 import { initState } from "../../../../state/InitState";
 import { FullWidthButton } from "../../../Styles/Buttons";
+import { paths } from "../../../../util/constants";
 
 export const CreateAccountButton = () => {
   const dispatch = useDispatch();
@@ -13,7 +14,7 @@ export const CreateAccountButton = () => {
     await requestWithNo401RedirectAndDontSetToken("/auth/logout", "POST");
     localStorage.clear();
 
-    await router.push("/register", "/register");
+    await router.push(paths.register());
     dispatch(actions.users.set.me(initState.users.me));
   };
 

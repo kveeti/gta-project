@@ -2,7 +2,7 @@ import axios, { AxiosRequestConfig, AxiosResponse, Method } from "axios";
 import { toast } from "react-toastify";
 import { accessTokenHeader, apiBaseUrl } from "../envs";
 import { getAccessTokenOnlyLocal, handleUnauthorized, setAccessToken } from "./accessToken";
-import { msgs } from "./messages";
+import { msgs } from "./constants";
 
 const axiosErrorHandler = (error: any, redirect401 = true) => {
   if (!error.response || error.response.status >= 502)

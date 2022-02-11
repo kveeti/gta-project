@@ -1,5 +1,6 @@
 import { useRouter } from "next/router";
 import { useState } from "react";
+import { paths } from "../../../../util/constants";
 import { FullWidthButton } from "../../../Styles/Buttons";
 import { PageCard } from "../../../Styles/Cards";
 import { InputContainer } from "../../../Styles/Containers";
@@ -12,14 +13,12 @@ export const ModelGarageManagementIndex = () => {
   const [matching, setMatching] = useState([]);
 
   const onNewClick = () => {
-    router.push("/management/model-garages/new", "/management/model-garages/new", {
-      shallow: true,
-    });
+    router.push(paths.mgmtModelGarageNew());
   };
 
   return (
     <PageCard centered>
-      <Title style={{ paddingBottom: "1rem" }}>Manage model garages</Title>
+      <Title padding>Manage model garages</Title>
 
       <InputContainer>
         <SearchInput setMatching={setMatching} />

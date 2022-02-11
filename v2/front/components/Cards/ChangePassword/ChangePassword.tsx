@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { toast } from "react-toastify";
 import { request } from "../../../util/axios";
-import { msgs } from "../../../util/messages";
+import { msgs } from "../../../util/constants";
 import { Input } from "../../Input/Input";
 import { PageButton } from "../../Styles/Buttons";
 import { PageCard } from "../../Styles/Cards";

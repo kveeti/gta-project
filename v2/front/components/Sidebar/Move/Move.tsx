@@ -4,7 +4,7 @@ import { toast } from "react-toastify";
 import { IGarage } from "../../../interfaces/Garage";
 import { actions } from "../../../state/actions";
 import { useISelector } from "../../../state/hooks";
-import { msgs } from "../../../util/messages";
+import { msgs } from "../../../util/constants";
 import { Move_GarageInput } from "../../Input/react-select/Move-GarageInput";
 import { FullWidthButton } from "../../Styles/Buttons";
 import { Desc } from "../../Styles/Text";

@@ -8,6 +8,7 @@ import { request } from "../../../util/axios";
 import { Label, Text } from "../../Styles/Text";
 import { FormWrapper } from "../../Styles/Forms";
 import { ButtonContainer, InputContainer } from "../../Styles/Containers";
+import { paths } from "../../../util/constants";
 
 interface InputProps {
   value: string;
@@ -31,7 +32,7 @@ export const SignInForm = () => {
       password,
     });
 
-    if (res) router.push("/", "/");
+    if (res) router.push(paths.home());
   };
 
   return (
@@ -50,7 +51,7 @@ export const SignInForm = () => {
         </InputContainer>
 
         <Text>
-          <a href="/init-password-reset">Forgot password?</a>
+          <a href={paths.initPasswordReset()}>Forgot password?</a>
         </Text>
 
         <ButtonContainer>

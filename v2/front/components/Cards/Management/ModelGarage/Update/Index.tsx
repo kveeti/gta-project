@@ -3,6 +3,7 @@ import { useEffect, useState } from "react";
 import { toast } from "react-toastify";
 import { useAdminCheck } from "../../../../../hooks/useAdminCheck";
 import { request } from "../../../../../util/axios";
+import { paths } from "../../../../../util/constants";
 import { PageButton } from "../../../../Styles/Buttons";
 import { PageCard } from "../../../../Styles/Cards";
 import { InputContainer, PageButtonContainer } from "../../../../Styles/Containers";
@@ -38,7 +39,7 @@ export const ModelGarageUpdateCard = () => {
   };
 
   const onBackClick = () => {
-    router.push("/management/model-garages", "/management/model-garages");
+    router.push(paths.mgmtModelGarageIndex());
   };
 
   const updateButtonDisabled =

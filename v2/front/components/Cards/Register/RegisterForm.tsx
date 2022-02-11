@@ -7,6 +7,7 @@ import { BackToSigninButton } from "./Buttons/BackToSignin";
 import { FormWrapper } from "../../Styles/Forms";
 import { ButtonContainer, InputContainer } from "../../Styles/Containers";
 import { Label } from "../../Styles/Text";
+import { paths } from "../../../util/constants";
 
 interface InputProps {
   value: string;
@@ -32,7 +33,7 @@ export const RegisterForm = () => {
       isTestAccount: false,
     });
 
-    if (res) router.push("/", "/");
+    if (res) router.push(paths.home());
   };
 
   return (

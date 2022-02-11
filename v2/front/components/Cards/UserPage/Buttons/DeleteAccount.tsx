@@ -1,4 +1,5 @@
 import { useRouter } from "next/router";
+import { paths } from "../../../../util/constants";
 import { FullWidthButton } from "../../../Styles/Buttons";
 
 export const DeleteAccountButton = () => {
@@ -8,7 +9,7 @@ export const DeleteAccountButton = () => {
     <FullWidthButton
       red
       onClick={() => {
-        router.push("/me/delete", "/me/delete");
+        router.push(paths.deleteAccount());
       }}
     >
       Delete account

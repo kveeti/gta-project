@@ -1,12 +1,13 @@
 import { useRouter } from "next/router";
 import { MenubarBtn } from "./Styles";
 import { StyledTooltip } from "../../Cards/Tooltip/Tooltip";
+import { paths } from "../../../util/constants";
 
 export const HomeButton = () => {
   const router = useRouter();
 
   const onClick = () => {
-    router.push("/", "/");
+    router.push(paths.home());
   };
 
   return (

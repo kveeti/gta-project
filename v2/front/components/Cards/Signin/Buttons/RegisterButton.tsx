@@ -1,11 +1,12 @@
 import { StyledButton } from "./Styles";
 import { useRouter } from "next/router";
+import { paths } from "../../../../util/constants";
 
 export const RegisterButton = () => {
   const router = useRouter();
 
   const onClick = () => {
-    router.push("/register", "/register");
+    router.push(paths.register());
   };
 
   return (

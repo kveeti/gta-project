@@ -3,7 +3,7 @@ import { actions } from ".";
 import { ICar } from "../../interfaces/Car";
 import { IGarage } from "../../interfaces/Garage";
 import { request } from "../../util/axios";
-import { msgs } from "../../util/messages";
+import { msgs } from "../../util/constants";
 import { constants } from "../actionTypes";
 
 export const reset = () => {

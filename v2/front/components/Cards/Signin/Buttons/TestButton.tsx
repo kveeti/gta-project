@@ -2,6 +2,7 @@ import { useRouter } from "next/router";
 import { StyledButton } from "./Styles";
 import { request } from "../../../../util/axios";
 import { siteBaseUrl } from "../../../../envs";
+import { paths } from "../../../../util/constants";
 
 export const TestButton = () => {
   const router = useRouter();
@@ -16,7 +17,7 @@ export const TestButton = () => {
       isTestAccount: true,
     });
 
-    if (res) router.push("/", "/");
+    if (res) router.push(paths.home());
   };
 
   return (

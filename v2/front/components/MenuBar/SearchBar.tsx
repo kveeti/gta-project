@@ -1,6 +1,7 @@
 import { useRouter } from "next/router";
 import { useDispatch } from "react-redux";
 import { actions } from "../../state/actions";
+import { paths } from "../../util/constants";
 import { Input } from "../Input/Input";
 
 export const SearchBar = () => {
@@ -16,17 +17,13 @@ export const SearchBar = () => {
       dispatch(actions.search.api.reset());
       dispatch(actions.search.set.cars([]));
       dispatch(actions.search.set.garages([]));
-      return router.push("/");
+      return router.push(paths.home());
     }
 
-    router.push(
-      {
-        pathname: "/search",
-        query: { q: value },
-      },
-      undefined,
-      { shallow: true }
-    );
+    router.push({
+      pathname: "/search",
+      query: { q: value },
+    });
   };
 
   return (

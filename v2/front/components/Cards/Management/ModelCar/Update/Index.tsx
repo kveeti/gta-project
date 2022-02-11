@@ -4,7 +4,7 @@ import { toast } from "react-toastify";
 import { gtabaseLinkPrefix } from "../../../../../envs";
 import { useAdminCheck } from "../../../../../hooks/useAdminCheck";
 import { request } from "../../../../../util/axios";
-import { msgs } from "../../../../../util/messages";
+import { paths, msgs } from "../../../../../util/constants";
 import { PageButton } from "../../../../Styles/Buttons";
 import { PageCard } from "../../../../Styles/Cards";
 import { InputContainer, PageButtonContainer } from "../../../../Styles/Containers";
@@ -68,7 +68,7 @@ export const ModelCarUpdateCard = () => {
   };
 
   const onBackClick = () => {
-    router.push("/management/model-cars", "/management/model-cars");
+    router.push(paths.mgmtModelCarIndex());
   };
 
   const updateButtonDisabled =

@@ -1,6 +1,7 @@
 import { toast } from "react-toastify";
 import { accessTokenHeader } from "../envs";
 import { request, requestNo401Redirect } from "./axios";
+import { paths } from "./constants";
 
 export const setAccessToken = (value: string) => {
   try {
@@ -62,5 +63,5 @@ export const getAccessTokenNoRedirect = async () => {
 
 export const handleUnauthorized = () => {
   localStorage.clear();
-  window.location.assign("/signin");
+  window.location.assign(paths.signin());
 };

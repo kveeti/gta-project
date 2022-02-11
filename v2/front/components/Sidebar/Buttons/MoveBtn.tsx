@@ -3,7 +3,7 @@ import { useDispatch } from "react-redux";
 import { SidebarBtn } from "./Styles";
 import { actions } from "../../../state/actions";
 import { toast } from "react-toastify";
-import { msgs } from "../../../util/messages";
+import { msgs } from "../../../util/constants";
 
 export const MoveBtn = () => {
   const dispatch = useDispatch();

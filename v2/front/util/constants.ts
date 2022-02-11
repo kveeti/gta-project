@@ -36,3 +36,30 @@ export const msgs = {
     passChanged: "Password changed successfully!",
   },
 };
+
+export const paths = {
+  home: () => "/",
+
+  newCar: () => "/new/cars",
+  newGarage: () => "/new/garage",
+
+  garagePage: (id: string) => `/garage/${id}`,
+
+  profile: () => "/me",
+  deleteAccount: () => "/me/delete",
+  changeEmail: () => "/me/change/email",
+  changePassword: () => "/me/change/password",
+
+  signin: () => "/signin",
+  register: () => "/register",
+
+  initPasswordReset: () => "/init-password-reset",
+
+  mgmtModelCarIndex: () => `/management/model-cars`,
+  mgmtModelCarNew: () => `/management/model-cars/new`,
+  mgmtModelCarEdit: (carId: string) => `/management/model-cars/${carId}`,
+
+  mgmtModelGarageIndex: () => `/management/model-garages`,
+  mgmtModelGarageNew: () => `/management/model-garages/new`,
+  mgmtModelGarageEdit: (garageId: string) => `/management/model-garages/${garageId}`,
+};

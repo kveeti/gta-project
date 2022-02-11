@@ -1,6 +1,6 @@
 import { toast } from "react-toastify";
 import { request } from "../../../../../util/axios";
-import { msgs } from "../../../../../util/messages";
+import { msgs } from "../../../../../util/constants";
 
 interface Props {
   setName: (garage: any) => void;

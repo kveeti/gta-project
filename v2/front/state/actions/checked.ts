@@ -2,7 +2,7 @@ import { toast } from "react-toastify";
 import { actions } from ".";
 import { ICar } from "../../interfaces/Car";
 import { request } from "../../util/axios";
-import { msgs } from "../../util/messages";
+import { msgs } from "../../util/constants";
 import { constants } from "../actionTypes";
 
 export const checkCar = (car: ICar) => {
