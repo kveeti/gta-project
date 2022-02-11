@@ -7,6 +7,7 @@ export const BaseCard = styled("div", {
   backgroundColor: "White",
   boxShadow: "$theShadow",
   padding: "0.8rem",
+  transition: "all 0.2s ease-in-out",
 });
 
 export const Card = styled(BaseCard, {
