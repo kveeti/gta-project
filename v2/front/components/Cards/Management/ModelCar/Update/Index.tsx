@@ -12,7 +12,6 @@ import { Title } from "../../../../Styles/Text";
 import { ClassInput, LinkInput, ManufacturerInput, NameInput } from "./Inputs";
 
 export const ModelCarUpdateCard = () => {
-  const loading = useAdminCheck();
   const router = useRouter();
 
   const { carId } = router.query;
@@ -50,8 +49,6 @@ export const ModelCarUpdateCard = () => {
   useEffect(() => {
     getCar();
   }, []);
-
-  if (loading) return null;
 
   const onSave = async () => {
     const res = await request(`/modelcars/${carId}`, "PATCH", {

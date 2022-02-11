@@ -12,7 +12,6 @@ import { getGarage } from "./getGarage";
 import { CapacityInput, NameInput } from "./Inputs";
 
 export const ModelGarageUpdateCard = () => {
-  const loading = useAdminCheck();
   const router = useRouter();
 
   const { garageId } = router.query;
@@ -26,8 +25,6 @@ export const ModelGarageUpdateCard = () => {
   useEffect(() => {
     getGarage({ setName, setOriginalName, setCapacity, setOriginalCapacity, garageId });
   }, []);
-
-  if (loading) return null;
 
   const onSave = async () => {
     const res = await request(`/modelgarages/${garageId}`, "PATCH", { name, capacity });
