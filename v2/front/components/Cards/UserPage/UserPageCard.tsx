@@ -9,6 +9,7 @@ import { ChangeEmailButton } from "./Buttons/ChangeEmail";
 import { ChangePasswordButton } from "./Buttons/ChangePasswordButton";
 import { DeleteAccountButton } from "./Buttons/DeleteAccount";
 import { LogoutButton } from "./Buttons/LogoutButton";
+import { ResendEmailButton } from "./Buttons/ResendEmail";
 
 const Div = styled("div", {
   display: "flex",
@@ -60,6 +61,7 @@ export const UserPageCard = () => {
       <ButtonContainer>
         {!users?.me?.isTestAccount ? (
           <>
+            {!users.me.emailVerified && <ResendEmailButton />}
             <ChangeEmailButton />
             <ChangePasswordButton />
             <DeleteAccountButton />

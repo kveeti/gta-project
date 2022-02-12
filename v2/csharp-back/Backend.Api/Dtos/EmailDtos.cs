@@ -10,3 +10,8 @@ public record VerifyEmailDto
 {
   public string Token { get; init; }
 }
+
+public record ResendEmailDto
+{
+  public Guid UserId { get; init; }
+}

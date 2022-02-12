@@ -34,6 +34,8 @@ export const msgs = {
     garageUpdated: "Garage updated successfully!",
 
     passChanged: "Password changed successfully!",
+
+    emailResent: "Email sent!",
   },
 };
 
@@ -48,6 +50,7 @@ export const paths = {
   profile: () => "/me",
   deleteAccount: () => "/me/delete",
   changeEmail: () => "/me/change/email",
+  resendEmail: () => "/email/resend",
   changePassword: () => "/me/change/password",
 
   signin: () => "/signin",
