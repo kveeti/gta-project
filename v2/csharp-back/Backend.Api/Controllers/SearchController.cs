@@ -1,5 +1,6 @@
 using Backend.Api.Attributes;
 using Backend.Api.Dtos;
+using Backend.Api.Helpers;
 using Backend.Api.Repositories;
 using Microsoft.AspNetCore.Mvc;
 
@@ -28,6 +29,9 @@ public class SearchController : ControllerBase
     var goodUserId = Guid.TryParse(HttpContext.Items["userId"].ToString(),
       out var userId);
     if (!goodUserId) return Unauthorized("bad userId");
+    
+    if (query != null)
+          query = Sanitize.GetGoodQuery(query);
 
     var cars = await _carRepo
       .GetMatching(userId, query);
