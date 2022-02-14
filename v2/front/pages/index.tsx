@@ -42,7 +42,7 @@ const Index = () => {
           <>
             <Title>Your garages</Title>
             {garages.map((garage) => (
-              <CollapsibleGarage garage={garage} onCarClick={onCarClick} />
+              <CollapsibleGarage key={garage.id} garage={garage} onCarClick={onCarClick} />
             ))}
           </>
         )}

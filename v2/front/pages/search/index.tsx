@@ -59,7 +59,7 @@ const SearchPage = () => {
               <Title>Garages</Title>
 
               {garages?.map((garage: IGarage) => (
-                <CollapsibleGarage garage={garage} onCarClick={onCarClick} />
+                <CollapsibleGarage key={garage.id} garage={garage} onCarClick={onCarClick} />
               ))}
             </>
           )}
