@@ -22,8 +22,11 @@ export const IndexPageCard = () => {
   const isTestAccount = users?.me?.isTestAccount;
   const isAdmin = users?.me?.role === "Admin";
 
+  const bp = useISelector((state) => state.bp);
+  const tablet = bp === 2;
+
   return (
-    <PageCard>
+    <PageCard fullWidth={tablet}>
       {isTestAccount ? (
         <Title>{"Hello tester!"}</Title>
       ) : (

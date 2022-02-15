@@ -33,9 +33,7 @@ const Index = () => {
 
   return (
     <Layout title="Home">
-      <Grid>
-        <IndexPageCard />
-      </Grid>
+      <IndexPageCard />
 
       <Div>
         {showGarages && (

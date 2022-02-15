@@ -81,6 +81,11 @@ export const PageCard = styled(BaseCard, {
         margin: "0 auto",
       },
     },
+    fullWidth: {
+      true: {
+        maxWidth: "100%",
+      },
+    },
   },
 });
 
