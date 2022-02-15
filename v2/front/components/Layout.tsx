@@ -1,6 +1,6 @@
 import Head from "next/head";
 import { useISelector } from "../state/hooks";
-import { Content, Main, Section, SidebarContainer } from "./Containers/Containers";
+import { Content, Main, SidebarContainer } from "./Containers/Containers";
 import { LeftFloatingButton } from "./FloatingButtons/Left/LeftButtons";
 import { RightFloatingButtons } from "./FloatingButtons/Right/RightButtons";
 import { MenuBar } from "./MenuBar/MenuBar";
@@ -53,26 +53,24 @@ const Layout = ({ children, token, title, ...props }: Props) => {
       <Head>
         <title>{title ? title : "My GTA Online"}</title>
       </Head>
-      <Section>
-        <MenuBar mobile={mobile} />
-        <Toast />
-        <Content single={newSite && tablet}>
-          {!showOnlySidebar && <Main>{children}</Main>}
+      <MenuBar mobile={mobile} />
+      <Toast />
+      <Content single={newSite && tablet}>
+        {!showOnlySidebar && <Main>{children}</Main>}
 
-          {showSideBar && (
-            <SidebarContainer>
-              <Sidebar />
-            </SidebarContainer>
-          )}
+        {showSideBar && (
+          <SidebarContainer>
+            <Sidebar />
+          </SidebarContainer>
+        )}
 
-          {showFloatingButtons && (
-            <>
-              <RightFloatingButtons />
-              {!newSite && <LeftFloatingButton />}
-            </>
-          )}
-        </Content>
-      </Section>
+        {showFloatingButtons && (
+          <>
+            <RightFloatingButtons />
+            {!newSite && <LeftFloatingButton />}
+          </>
+        )}
+      </Content>
     </>
   );
 };
