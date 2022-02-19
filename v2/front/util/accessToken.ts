@@ -1,16 +1,17 @@
 import { toast } from "react-toastify";
 import { accessTokenHeader } from "../envs";
 import { request, requestNo401Redirect } from "./axios";
-import { paths } from "./constants";
+import { decodeToken } from "./jwt";
 
 export const setAccessToken = (value: string) => {
   try {
     if (value && value.length) {
-      const exp = Date.now() + 1000 * 60 * 15;
+      const decoded = decodeToken(value);
+      const exp = (decoded as any).exp;
       localStorage.setItem(accessTokenHeader, JSON.stringify({ exp, token: value }));
     }
   } catch {
-    toast.warn("Couldn't access local storage");
+    toast.error("Error, Couldn't access local storage");
   }
 };
 
@@ -25,7 +26,7 @@ export const getAccessTokenOnlyLocal = () => {
   try {
     test = localStorage.getItem(accessTokenHeader);
   } catch {
-    toast.warn("Couldn't access local storage");
+    toast.error("Error, Couldn't access local storage");
     return null;
   }
 
@@ -34,7 +35,7 @@ export const getAccessTokenOnlyLocal = () => {
   const accessToken = JSON.parse(test) as AccessToken;
 
   try {
-    if (Date.now() > parseInt(accessToken.exp)) return null;
+    if (Date.now() / 1000 > parseInt(accessToken.exp)) return null;
     return accessToken.token;
   } catch {
     return null;
@@ -62,6 +63,5 @@ export const getAccessTokenNoRedirect = async () => {
 };
 
 export const handleUnauthorized = () => {
-  localStorage.clear();
-  window.location.assign(paths.signin());
+  console.log("unauthorized");
 };

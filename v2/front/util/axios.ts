@@ -1,7 +1,12 @@
 import axios, { AxiosRequestConfig, AxiosResponse, Method } from "axios";
 import { toast } from "react-toastify";
 import { accessTokenHeader, apiBaseUrl } from "../envs";
-import { getAccessTokenOnlyLocal, handleUnauthorized, setAccessToken } from "./accessToken";
+import {
+  getAccessTokenNoRedirect,
+  getAccessTokenOnlyLocal,
+  handleUnauthorized,
+  setAccessToken,
+} from "./accessToken";
 import { msgs } from "./constants";
 
 const axiosErrorHandler = (error: any, redirect401 = true) => {
@@ -35,6 +40,27 @@ export const request = async (
   method: Method,
   data?: any
 ): Promise<AxiosResponse | null> => {
+  try {
+    const response = await axios(config(path, method, data));
+
+    const accessToken = response.headers[accessTokenHeader];
+    setAccessToken(accessToken);
+
+    return response;
+  } catch (err) {
+    if (err.response && err.response.status === 401) {
+      const accessToken = await getAccessTokenNoRedirect();
+      setAccessToken(accessToken);
+
+      return retry(path, method, data);
+    }
+
+    axiosErrorHandler(err);
+    return null;
+  }
+};
+
+const retry = async (path: string, method: Method, data?: any) => {
   try {
     const response = await axios(config(path, method, data));
 
