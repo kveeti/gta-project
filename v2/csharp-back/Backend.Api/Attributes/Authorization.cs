@@ -89,11 +89,6 @@ public class Authorization
         context.Result = new ForbidResult();
         return;
       }
-
-      var newAccessToken = _jwt.CreateAccessToken(user);
-
-      context.HttpContext.Response
-        .Headers[CookieConfig.AccessTokenHeader] = newAccessToken;
     }
 
     private static bool TokenMatchesWithDb(ValidTokenDto aToken, User aDbData)
@@ -108,7 +103,6 @@ public class Authorization
 
     private void HandleUnauthorized(AuthorizationFilterContext context, string message)
     {
-      context.HttpContext.Response.Headers.SetCookie = Cookie.GetDeleteCookie();
       Console.WriteLine($"unauthorized {message}");
       context.Result = new UnauthorizedObjectResult(message);
     }
