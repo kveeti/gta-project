@@ -33,6 +33,7 @@ public class Jwt : IJwt
       RequireAudience = true,
       RequireSignedTokens = true,
       RequireExpirationTime = true,
+      ClockSkew = TimeSpan.Zero,
 
       ValidIssuer = _jwtConfig.Value.Refresh_Iss,
       ValidAudience = _jwtConfig.Value.Refresh_Aud,
@@ -65,6 +66,7 @@ public class Jwt : IJwt
       RequireAudience = true,
       RequireSignedTokens = true,
       RequireExpirationTime = true,
+      ClockSkew = TimeSpan.Zero,
 
       ValidIssuer = _jwtConfig.Value.Access_Iss,
       ValidAudience = _jwtConfig.Value.Access_Aud,
@@ -126,7 +128,7 @@ public class Jwt : IJwt
       _jwtConfig.Value.Access_Iss,
       _jwtConfig.Value.Access_Aud,
       claims,
-      expires: DateTime.Now.AddMinutes(15),
+      expires: DateTime.Now.AddSeconds(15),
       signingCredentials: credentials);
 
     return new JwtSecurityTokenHandler().WriteToken(tokenDescriptor);
