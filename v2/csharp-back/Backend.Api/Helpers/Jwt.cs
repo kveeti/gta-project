@@ -128,7 +128,7 @@ public class Jwt : IJwt
       _jwtConfig.Value.Access_Iss,
       _jwtConfig.Value.Access_Aud,
       claims,
-      expires: DateTime.Now.AddSeconds(15),
+      expires: DateTime.Now.AddMinutes(15),
       signingCredentials: credentials);
 
     return new JwtSecurityTokenHandler().WriteToken(tokenDescriptor);
