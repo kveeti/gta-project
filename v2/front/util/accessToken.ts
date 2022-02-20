@@ -63,5 +63,6 @@ export const getAccessTokenNoRedirect = async () => {
 };
 
 export const handleUnauthorized = () => {
-  console.log("unauthorized");
+  localStorage.clear();
+  window.location.assign("/signin");
 };
