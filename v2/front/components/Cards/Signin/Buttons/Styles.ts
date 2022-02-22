@@ -1,5 +1,5 @@
 import { styled } from "../../../../stitches.config";
-import { BaseBtn } from "../../../Styles/Buttons";
+import { BaseBtn } from "../../../Common/Buttons";
 
 export const StyledButton = styled(BaseBtn, {
   width: "100%",

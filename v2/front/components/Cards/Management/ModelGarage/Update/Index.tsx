@@ -4,17 +4,17 @@ import { toast } from "react-toastify";
 import { useAdminCheck } from "../../../../../hooks/useAdminCheck";
 import { request } from "../../../../../util/axios";
 import { paths } from "../../../../../util/constants";
-import { PageButton } from "../../../../Styles/Buttons";
-import { PageCard } from "../../../../Styles/Cards";
-import { InputContainer, PageButtonContainer } from "../../../../Styles/Containers";
-import { Title } from "../../../../Styles/Text";
+import { PageButton } from "../../../../Common/Buttons";
+import { PageCard } from "../../../../Common/Cards";
+import { InputContainer, PageButtonContainer } from "../../../../Common/Containers";
+import { Title } from "../../../../Common/Text";
 import { getGarage } from "./getGarage";
 import { CapacityInput, NameInput } from "./Inputs";
 
 export const ModelGarageUpdateCard = () => {
   const router = useRouter();
 
-  const { garageId } = router.query;
+  const garageId = router.query.garageId as string | undefined;
 
   const [originalName, setOriginalName] = useState("");
   const [originalCapacity, setOriginalCapacity] = useState("");

@@ -1,5 +1,5 @@
 import { ResetPasswordCard } from "../../components/Cards/ResetPassword/ResetPassword";
-import SingleCardPageLayout from "../../components/SingleCardPageLayout";
+import SingleCardPageLayout from "../../components/Layouts/SingleCardPageLayout";
 import { useAuthPageRedirector } from "../../hooks/useAuthPageRedirector";
 
 const ResetPasswordPage = () => {

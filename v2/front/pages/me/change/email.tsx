@@ -1,5 +1,5 @@
 import { ChangeEmailCard } from "../../../components/Cards/ChangeEmail/ChangeEmail";
-import Layout from "../../../components/Layout";
+import Layout from "../../../components/Layouts/Layout";
 
 const EmailChangePage = () => {
   return (

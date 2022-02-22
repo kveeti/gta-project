@@ -1,5 +1,5 @@
 import { SignInCard } from "../../components/Cards/Signin/Signin";
-import SingleCardPageLayout from "../../components/SingleCardPageLayout";
+import SingleCardPageLayout from "../../components/Layouts/SingleCardPageLayout";
 import { useAuthPageRedirector } from "../../hooks/useAuthPageRedirector";
 
 const Login = () => {

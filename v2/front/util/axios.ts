@@ -50,7 +50,7 @@ export const request = async (
   } catch (err) {
     if (err.response && err.response.status === 401) {
       const accessToken = await getAccessTokenNoRedirect();
-      setAccessToken(accessToken);
+      if (accessToken) setAccessToken(accessToken);
 
       return retry(path, method, data);
     }

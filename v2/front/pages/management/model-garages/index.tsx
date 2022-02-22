@@ -1,5 +1,5 @@
 import { ModelGarageManagementIndex } from "../../../components/Cards/Management/ModelGarage/IndexCard";
-import Layout from "../../../components/Layout";
+import Layout from "../../../components/Layouts/Layout";
 import { useAdminCheck } from "../../../hooks/useAdminCheck";
 
 const ModelGarageManagementPage = () => {

@@ -1,5 +1,5 @@
 import { NewModelCarCard } from "../../../components/Cards/Management/ModelCar/NewModelCar";
-import Layout from "../../../components/Layout";
+import Layout from "../../../components/Layouts/Layout";
 import { useAdminCheck } from "../../../hooks/useAdminCheck";
 
 const NewModelCarPage = () => {

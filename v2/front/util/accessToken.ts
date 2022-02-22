@@ -21,18 +21,18 @@ interface AccessToken {
 }
 
 export const getAccessTokenOnlyLocal = () => {
-  let test = null;
+  let jsonToken: string | null = null;
 
   try {
-    test = localStorage.getItem(accessTokenHeader);
+    jsonToken = localStorage.getItem(accessTokenHeader);
   } catch {
     toast.error("Error, Couldn't access local storage");
     return null;
   }
 
-  if (!test) return null;
+  if (!jsonToken) return null;
 
-  const accessToken = JSON.parse(test) as AccessToken;
+  const accessToken = JSON.parse(jsonToken) as AccessToken;
 
   try {
     if (Date.now() / 1000 > parseInt(accessToken.exp)) return null;

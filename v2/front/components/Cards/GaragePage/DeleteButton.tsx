@@ -7,12 +7,12 @@ import { useISelector } from "../../../state/hooks";
 import { request } from "../../../util/axios";
 import { paths, msgs } from "../../../util/constants";
 import { wait } from "../../../util/wait";
-import { PageButton } from "../../Styles/Buttons";
+import { PageButton } from "../../Common/Buttons";
 
 export const DeleteButton = ({ garage }) => {
   const router = useRouter();
   const [open, setOpen] = useState(false);
-  const [deleteTimer, setDeleteTimer] = useState(null);
+  const [deleteTimer, setDeleteTimer] = useState<NodeJS.Timeout | null>(null);
 
   const dispatch = useDispatch();
   const searchInput = useISelector((state) => state.search.input.value);
@@ -38,12 +38,13 @@ export const DeleteButton = ({ garage }) => {
       router.push(paths.home());
 
       setOpen(false);
-      return clearTimeout(deleteTimer);
+      if (deleteTimer) clearTimeout(deleteTimer);
+      return;
     }
 
     setOpen(!open);
 
-    clearTimeout(deleteTimer);
+    if (deleteTimer) clearTimeout(deleteTimer);
     const timer = setTimeout(() => {
       setOpen(false);
     }, 2000);

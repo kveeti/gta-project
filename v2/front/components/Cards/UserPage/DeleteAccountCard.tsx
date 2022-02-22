@@ -7,11 +7,11 @@ import { initState } from "../../../state/InitState";
 import { request } from "../../../util/axios";
 import { paths } from "../../../util/constants";
 import { wait } from "../../../util/wait";
-import { Input } from "../../Input/Input";
-import { PageButton } from "../../Styles/Buttons";
-import { PageCard } from "../../Styles/Cards";
-import { InputContainer, PageButtonContainer } from "../../Styles/Containers";
-import { Desc, Label, Title } from "../../Styles/Text";
+import { Input } from "../../Common/Input/Input";
+import { PageButton } from "../../Common/Buttons";
+import { PageCard } from "../../Common/Cards";
+import { InputContainer, PageButtonContainer } from "../../Common/Containers";
+import { Desc, Label, Title } from "../../Common/Text";
 
 export const DeleteAccountCard = () => {
   const router = useRouter();

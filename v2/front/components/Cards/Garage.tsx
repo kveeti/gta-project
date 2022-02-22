@@ -1,17 +1,17 @@
 import { IGarage, ModelGarage } from "../../interfaces/Garage";
-import { Card } from "../Styles/Cards";
-import { SpaceBetween } from "../Styles/Containers";
-import { Text, Title } from "../Styles/Text";
+import { Card } from "../Common/Cards";
+import { SpaceBetween } from "../Common/Containers";
+import { Text, Title } from "../Common/Text";
 import { ReactElement, useState } from "react";
-import { Chevron } from "../Icons/ChevronRight";
+import { Chevron } from "../Common/Icons/ChevronRight";
 import { styled } from "../../stitches.config";
 import { useISelector } from "../../state/hooks";
 import { AnimatePresence, motion } from "framer-motion";
-import { Grid } from "../Styles/Grid";
+import { Grid } from "../Common/Grids";
 import { Car } from "./Car";
 import { ICar } from "../../interfaces/Car";
 import { useRouter } from "next/router";
-import { FullWidthButton } from "../Styles/Buttons";
+import { FullWidthButton } from "../Common/Buttons";
 import { paths } from "../../util/constants";
 
 interface GarageProps<T> {
@@ -109,13 +109,7 @@ export function CollapsibleGarage({ garage, onCarClick }: CollapsibleGarageProps
               </FullWidthButton>
               {!!garage?.cars?.length ? (
                 garage?.cars?.map((car: any) => (
-                  <Car
-                    car={car}
-                    key={car.id}
-                    onClick={(car) => {
-                      onCarClick(car);
-                    }}
-                  />
+                  <Car car={car} key={car.id} onClick={(car) => onCarClick && onCarClick(car)} />
                 ))
               ) : (
                 <Card>

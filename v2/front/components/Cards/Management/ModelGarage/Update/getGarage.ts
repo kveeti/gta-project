@@ -1,13 +1,11 @@
-import { toast } from "react-toastify";
 import { request } from "../../../../../util/axios";
-import { msgs } from "../../../../../util/constants";
 
 interface Props {
   setName: (garage: any) => void;
   setOriginalName: (garage: any) => void;
   setCapacity: (garage: any) => void;
   setOriginalCapacity: (garage: any) => void;
-  garageId: string | string[];
+  garageId: string | undefined;
 }
 
 export const getGarage = async ({
@@ -17,6 +15,7 @@ export const getGarage = async ({
   setOriginalCapacity,
   garageId,
 }: Props) => {
+  if (!garageId) return;
   const res = await request(`/modelgarages/${garageId}`, "GET");
 
   if (res) {
@@ -24,7 +23,5 @@ export const getGarage = async ({
     setOriginalName(res.data.name);
     setCapacity(res.data.capacity);
     setOriginalCapacity(res.data.capacity);
-  } else {
-    toast.error(msgs.error.somethingWentWrong);
   }
 };

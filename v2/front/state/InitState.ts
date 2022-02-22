@@ -22,12 +22,12 @@ export interface InitState {
 
   users: {
     me: {
-      id: string;
-      role: string;
-      username: string;
-      carCount: number;
-      garageCount: number;
-      isTestAccount: boolean;
+      id: string | null;
+      role: string | null;
+      username: string | null;
+      carCount: number | null;
+      garageCount: number | null;
+      isTestAccount: boolean | null;
     };
 
     api: {
@@ -43,7 +43,7 @@ export interface InitState {
 
   move: {
     garageInput: string;
-    chosenGarage: IGarage;
+    chosenGarage: IGarage | null;
 
     show: boolean;
 
@@ -73,12 +73,12 @@ export interface InitState {
 
       inputs: {
         cars: ModelCar[];
-        garage: IGarage;
+        garage: IGarage | null;
       };
     };
     garage: {
       inputs: {
-        garage: ModelGarage;
+        garage: ModelGarage | null;
         desc: string;
       };
     };

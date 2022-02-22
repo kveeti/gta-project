@@ -5,10 +5,10 @@ import { gtabaseLinkPrefix } from "../../../../../envs";
 import { useAdminCheck } from "../../../../../hooks/useAdminCheck";
 import { request } from "../../../../../util/axios";
 import { paths, msgs } from "../../../../../util/constants";
-import { PageButton } from "../../../../Styles/Buttons";
-import { PageCard } from "../../../../Styles/Cards";
-import { InputContainer, PageButtonContainer } from "../../../../Styles/Containers";
-import { Title } from "../../../../Styles/Text";
+import { PageButton } from "../../../../Common/Buttons";
+import { PageCard } from "../../../../Common/Cards";
+import { InputContainer, PageButtonContainer } from "../../../../Common/Containers";
+import { Title } from "../../../../Common/Text";
 import { ClassInput, LinkInput, ManufacturerInput, NameInput } from "./Inputs";
 
 export const ModelCarUpdateCard = () => {

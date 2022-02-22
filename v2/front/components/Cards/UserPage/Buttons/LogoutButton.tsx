@@ -3,8 +3,8 @@ import { useDispatch } from "react-redux";
 import { actions } from "../../../../state/actions";
 import { request } from "../../../../util/axios";
 import { paths } from "../../../../util/constants";
-import { FullWidthButton } from "../../../Styles/Buttons";
-import { ButtonText } from "../../../Styles/Text";
+import { FullWidthButton } from "../../../Common/Buttons";
+import { ButtonText } from "../../../Common/Text";
 
 export const LogoutButton = () => {
   const dispatch = useDispatch();

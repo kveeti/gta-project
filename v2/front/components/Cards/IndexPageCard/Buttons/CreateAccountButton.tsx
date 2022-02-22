@@ -3,7 +3,7 @@ import { useRouter } from "next/router";
 import { requestWithNo401RedirectAndDontSetToken } from "../../../../util/axios";
 import { actions } from "../../../../state/actions";
 import { initState } from "../../../../state/InitState";
-import { FullWidthButton } from "../../../Styles/Buttons";
+import { FullWidthButton } from "../../../Common/Buttons";
 import { paths } from "../../../../util/constants";
 
 export const CreateAccountButton = () => {

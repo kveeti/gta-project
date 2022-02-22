@@ -1,5 +1,5 @@
 import { UserPageCard } from "../../components/Cards/UserPage/UserPageCard";
-import Layout from "../../components/Layout";
+import Layout from "../../components/Layouts/Layout";
 
 const MePage = () => {
   return (

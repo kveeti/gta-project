@@ -1,5 +1,5 @@
-import { SingleCardPageCard } from "../../Styles/Cards";
-import { Title } from "../../Styles/Text";
+import { SingleCardPageCard } from "../../Common/Cards";
+import { Title } from "../../Common/Text";
 import { RegisterForm } from "./RegisterForm";
 
 export const RegisterCard = () => {

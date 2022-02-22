@@ -3,13 +3,14 @@ import { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
 import { Car } from "../../components/Cards/Car";
 import { GaragePageCard } from "../../components/Cards/GaragePage/GaragePageCard";
-import Layout from "../../components/Layout";
-import { Grid } from "../../components/Styles/Grid";
-import { Title } from "../../components/Styles/Text";
+import Layout from "../../components/Layouts/Layout";
+import { Grid } from "../../components/Common/Grids";
+import { Title } from "../../components/Common/Text";
 import { ICar } from "../../interfaces/Car";
 import { actions } from "../../state/actions";
 import { styled } from "../../stitches.config";
 import { request } from "../../util/axios";
+import { IGarage } from "../../interfaces/Garage";
 
 const Div = styled("div", {
   display: "flex",
@@ -26,7 +27,7 @@ const GaragePage = () => {
   const router = useRouter();
   const { garageId } = router.query;
 
-  const [garage, setGarage] = useState(null);
+  const [garage, setGarage] = useState<IGarage | null>(null);
 
   useEffect(() => {
     const getGarage = async () => {

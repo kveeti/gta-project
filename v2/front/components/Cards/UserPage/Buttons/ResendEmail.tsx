@@ -2,7 +2,7 @@ import { toast } from "react-toastify";
 import { useISelector } from "../../../../state/hooks";
 import { request } from "../../../../util/axios";
 import { msgs, paths } from "../../../../util/constants";
-import { FullWidthButton } from "../../../Styles/Buttons";
+import { FullWidthButton } from "../../../Common/Buttons";
 
 export const ResendEmailButton = () => {
   const me = useISelector((state) => state.users.me);

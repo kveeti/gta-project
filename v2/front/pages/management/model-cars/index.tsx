@@ -1,5 +1,5 @@
 import { ModelCarManagementIndex } from "../../../components/Cards/Management/ModelCar/IndexCard";
-import Layout from "../../../components/Layout";
+import Layout from "../../../components/Layouts/Layout";
 import { useAdminCheck } from "../../../hooks/useAdminCheck";
 
 const ModelCarManagementPage = () => {

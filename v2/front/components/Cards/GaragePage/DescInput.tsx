@@ -1,4 +1,4 @@
-import { Input } from "../../Input/Input";
+import { Input } from "../../Common/Input/Input";
 
 interface Props {
   onChange: (value: string) => void;

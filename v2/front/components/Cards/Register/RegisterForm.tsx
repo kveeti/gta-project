@@ -1,12 +1,12 @@
 import { useState } from "react";
-import { Input } from "../../Input/Input";
+import { Input } from "../../Common/Input/Input";
 import { request } from "../../../util/axios";
 import { useRouter } from "next/router";
 import { RegisterButton } from "./Buttons/RegisterButton";
 import { BackToSigninButton } from "./Buttons/BackToSignin";
-import { FormWrapper } from "../../Styles/Forms";
-import { ButtonContainer, InputContainer } from "../../Styles/Containers";
-import { Label } from "../../Styles/Text";
+import { FormWrapper } from "../../Common/Forms";
+import { ButtonContainer, InputContainer } from "../../Common/Containers";
+import { Label } from "../../Common/Text";
 import { paths } from "../../../util/constants";
 
 interface InputProps {

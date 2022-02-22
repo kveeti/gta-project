@@ -4,12 +4,12 @@ import { toast } from "react-toastify";
 import { request } from "../../../util/axios";
 import { paths } from "../../../util/constants";
 import { wait } from "../../../util/wait";
-import { Input } from "../../Input/Input";
-import { PageButton } from "../../Styles/Buttons";
-import { SingleCardPageCard } from "../../Styles/Cards";
-import { InputContainer, PageButtonContainer } from "../../Styles/Containers";
-import { FormWrapper } from "../../Styles/Forms";
-import { Label, Title } from "../../Styles/Text";
+import { Input } from "../../Common/Input/Input";
+import { PageButton } from "../../Common/Buttons";
+import { SingleCardPageCard } from "../../Common/Cards";
+import { InputContainer, PageButtonContainer } from "../../Common/Containers";
+import { FormWrapper } from "../../Common/Forms";
+import { Label, Title } from "../../Common/Text";
 import { InvalidLink } from "./InvalidLink";
 
 export const ResetPasswordCard = () => {

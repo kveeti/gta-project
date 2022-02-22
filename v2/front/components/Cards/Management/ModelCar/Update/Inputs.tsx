@@ -1,5 +1,5 @@
-import { Input } from "../../../../Input/Input";
-import { Label } from "../../../../Styles/Text";
+import { Input } from "../../../../Common/Input/Input";
+import { Label } from "../../../../Common/Text";
 
 export const NameInput = ({ value, setValue }) => (
   <>

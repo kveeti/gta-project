@@ -1,5 +1,5 @@
 import { NewModelGarageCard } from "../../../components/Cards/Management/ModelGarage/NewModelGarage";
-import Layout from "../../../components/Layout";
+import Layout from "../../../components/Layouts/Layout";
 import { useAdminCheck } from "../../../hooks/useAdminCheck";
 
 const NewModelGaragePage = () => {

@@ -1,12 +1,12 @@
 import { useISelector } from "../../../state/hooks";
 import { styled } from "../../../stitches.config";
-import { Text, Title } from "../../Styles/Text";
+import { Text, Title } from "../../Common/Text";
 import { CreateAccountButton } from "./Buttons/CreateAccountButton";
 import { ModelCarMgmtButton } from "./Buttons/ModelCarMgmtButton";
 import { ModelGarageMgmtButton } from "./Buttons/ModelGarageMgmtButton";
 import { useGetMe } from "../../../hooks/useGetMe";
-import { PageCard } from "../../Styles/Cards";
-import { ButtonContainer } from "../../Styles/Containers";
+import { PageCard } from "../../Common/Cards";
+import { ButtonContainer } from "../../Common/Containers";
 
 const Specs = styled("div", {
   display: "flex",

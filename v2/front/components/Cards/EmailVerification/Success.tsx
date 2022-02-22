@@ -1,4 +1,4 @@
-import { Text, Title } from "../../Styles/Text";
+import { Text, Title } from "../../Common/Text";
 import { Card } from "./Styles";
 
 export const Success = () => (

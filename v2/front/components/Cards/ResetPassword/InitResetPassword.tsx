@@ -3,12 +3,12 @@ import { useState } from "react";
 import { toast } from "react-toastify";
 import { request } from "../../../util/axios";
 import { paths } from "../../../util/constants";
-import { Input } from "../../Input/Input";
-import { PageButton } from "../../Styles/Buttons";
-import { SingleCardPageCard } from "../../Styles/Cards";
-import { InputContainer, PageButtonContainer } from "../../Styles/Containers";
-import { FormWrapper } from "../../Styles/Forms";
-import { Desc, Label, Title } from "../../Styles/Text";
+import { Input } from "../../Common/Input/Input";
+import { PageButton } from "../../Common/Buttons";
+import { SingleCardPageCard } from "../../Common/Cards";
+import { InputContainer, PageButtonContainer } from "../../Common/Containers";
+import { FormWrapper } from "../../Common/Forms";
+import { Desc, Label, Title } from "../../Common/Text";
 
 export const InitResetPasswordCard = () => {
   const router = useRouter();

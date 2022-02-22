@@ -1,7 +1,7 @@
-import { GarageInputSelect } from "../../Input/react-select/NewGarage/GarageInput";
-import { PageCard } from "../../Styles/Cards";
-import { InputContainer, PageButtonContainer } from "../../Styles/Containers";
-import { Desc, Label, Title } from "../../Styles/Text";
+import { GarageInputSelect } from "../../Common/Input/react-select/NewGarage/GarageInput";
+import { PageCard } from "../../Common/Cards";
+import { InputContainer, PageButtonContainer } from "../../Common/Containers";
+import { Desc, Label, Title } from "../../Common/Text";
 import { AddButton } from "./Buttons/Add";
 import { DescInput } from "./Inputs/Desc";
 

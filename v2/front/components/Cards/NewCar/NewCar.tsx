@@ -1,8 +1,8 @@
-import { CarInputSelect } from "../../Input/react-select/NewCar/CarInput";
-import { GarageInputSelect } from "../../Input/react-select/NewCar/GarageInput";
-import { PageCard } from "../../Styles/Cards";
-import { InputContainer, PageButtonContainer } from "../../Styles/Containers";
-import { Desc, Label, Title } from "../../Styles/Text";
+import { CarInputSelect } from "../../Common/Input/react-select/NewCar/CarInput";
+import { GarageInputSelect } from "../../Common/Input/react-select/NewCar/GarageInput";
+import { PageCard } from "../../Common/Cards";
+import { InputContainer, PageButtonContainer } from "../../Common/Containers";
+import { Desc, Label, Title } from "../../Common/Text";
 import { AddButton } from "./Buttons/Add";
 
 const NewCarCard = () => {

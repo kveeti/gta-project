@@ -4,12 +4,12 @@ import { toast } from "react-toastify";
 import { actions } from "../../../state/actions";
 import { useISelector } from "../../../state/hooks";
 import { request } from "../../../util/axios";
-import { Input } from "../../Input/Input";
-import { PageButton } from "../../Styles/Buttons";
-import { PageCard } from "../../Styles/Cards";
-import { InputContainer, PageButtonContainer } from "../../Styles/Containers";
-import { FormWrapper } from "../../Styles/Forms";
-import { Label, Title } from "../../Styles/Text";
+import { Input } from "../../Common/Input/Input";
+import { PageButton } from "../../Common/Buttons";
+import { PageCard } from "../../Common/Cards";
+import { InputContainer, PageButtonContainer } from "../../Common/Containers";
+import { FormWrapper } from "../../Common/Forms";
+import { Label, Title } from "../../Common/Text";
 
 export const ChangeEmailCard = () => {
   const [newEmail, setNewEmail] = useState("");

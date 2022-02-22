@@ -1,6 +1,6 @@
 import { useRouter } from "next/router";
 import { paths } from "../../../../util/constants";
-import { FullWidthButton } from "../../../Styles/Buttons";
+import { FullWidthButton } from "../../../Common/Buttons";
 
 export const DeleteAccountButton = () => {
   const router = useRouter();

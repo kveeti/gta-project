@@ -4,12 +4,12 @@ import { useEffect } from "react";
 import { useRouter } from "next/router";
 import { useDispatch } from "react-redux";
 import { actions } from "../../state/actions";
-import Layout from "../../components/Layout";
+import Layout from "../../components/Layouts/Layout";
 import { ICar } from "../../interfaces/Car";
 import { IGarage } from "../../interfaces/Garage";
-import { Title } from "../../components/Styles/Text";
+import { Title } from "../../components/Common/Text";
 import { styled } from "../../stitches.config";
-import { Grid } from "../../components/Styles/Grid";
+import { Grid } from "../../components/Common/Grids";
 import { Car } from "../../components/Cards/Car";
 import { CollapsibleGarage } from "../../components/Cards/Garage";
 

@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { request } from "../../../../../util/axios";
-import { Input } from "../../../../Input/Input";
-import { Label } from "../../../../Styles/Text";
+import { Input } from "../../../../Common/Input/Input";
+import { Label } from "../../../../Common/Text";
 
 export const SearchInput = ({ setMatching }) => {
   const [value, setValue] = useState("");

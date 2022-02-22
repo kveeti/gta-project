@@ -1,5 +1,5 @@
 import { EmailVerification } from "../../../components/Cards/EmailVerification/EmailVerification";
-import SingleCardPageLayout from "../../../components/SingleCardPageLayout";
+import SingleCardPageLayout from "../../../components/Layouts/SingleCardPageLayout";
 
 const EmailVerificationPage = () => (
   <SingleCardPageLayout title="Email verification">

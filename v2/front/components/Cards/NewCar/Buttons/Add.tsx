@@ -5,7 +5,7 @@ import { actions } from "../../../../state/actions";
 import { useISelector } from "../../../../state/hooks";
 import { request } from "../../../../util/axios";
 import { msgs } from "../../../../util/constants";
-import { PageButton } from "../../../Styles/Buttons";
+import { PageButton } from "../../../Common/Buttons";
 
 export const AddButton = () => {
   const dispatch = useDispatch();

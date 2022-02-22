@@ -1,5 +1,5 @@
 import { DeleteAccountCard } from "../../components/Cards/UserPage/DeleteAccountCard";
-import Layout from "../../components/Layout";
+import Layout from "../../components/Layouts/Layout";
 
 const DeleteAccountPage = () => {
   return (

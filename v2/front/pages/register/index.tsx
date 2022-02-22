@@ -1,4 +1,4 @@
-import SingleCardPageLayout from "../../components/SingleCardPageLayout";
+import SingleCardPageLayout from "../../components/Layouts/SingleCardPageLayout";
 import { RegisterCard } from "../../components/Cards/Register/Register";
 import { useAuthPageRedirector } from "../../hooks/useAuthPageRedirector";
 
