@@ -10,8 +10,8 @@ import { IGarage } from "../../interfaces/Garage";
 import { Title } from "../../components/Common/Text";
 import { styled } from "../../stitches.config";
 import { Grid } from "../../components/Common/Grids";
-import { Car } from "../../components/Cards/Car";
-import { CollapsibleGarage } from "../../components/Cards/Garage";
+import { Car } from "../../components/Common/Car";
+import { CollapsibleGarage } from "../../components/Common/Garage";
 
 const Div = styled("div", {
   display: "flex",

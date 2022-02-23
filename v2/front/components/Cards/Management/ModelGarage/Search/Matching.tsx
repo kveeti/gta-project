@@ -4,7 +4,7 @@ import { useISelector } from "../../../../../state/hooks";
 import { paths } from "../../../../../util/constants";
 import { SingleGrid } from "../../../../Common/Grids";
 import { Label } from "../../../../Common/Text";
-import { Garage } from "../../../Garage";
+import { Garage } from "../../../../Common/Garage";
 
 interface Props {
   garages: ModelGarage[];

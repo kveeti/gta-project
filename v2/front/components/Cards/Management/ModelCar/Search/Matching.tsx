@@ -4,7 +4,7 @@ import { useISelector } from "../../../../../state/hooks";
 import { paths } from "../../../../../util/constants";
 import { SingleGrid } from "../../../../Common/Grids";
 import { Label } from "../../../../Common/Text";
-import { Car } from "../../../Car";
+import { Car } from "../../../../Common/Car";
 
 interface Props {
   cars: ICar[];

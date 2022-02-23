@@ -1,8 +1,8 @@
 import { ICar, ModelCar } from "../../interfaces/Car";
 import { useISelector } from "../../state/hooks";
-import { Card } from "../Common/Cards";
-import { Text, Title } from "../Common/Text";
-import { SpaceBetween } from "../Common/Containers";
+import { Card } from "./Cards";
+import { Text, Title } from "./Text";
+import { SpaceBetween } from "./Containers";
 import { ReactElement } from "react";
 import { motion } from "framer-motion";
 interface CarPropsBase<T> {

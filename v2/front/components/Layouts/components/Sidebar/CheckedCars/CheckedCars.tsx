@@ -2,7 +2,7 @@ import { useDispatch } from "react-redux";
 import { ICar } from "../../../../../interfaces/Car";
 import { actions } from "../../../../../state/actions";
 import { useISelector } from "../../../../../state/hooks";
-import { Car } from "../../../../Cards/Car";
+import { Car } from "../../../../Common/Car";
 import { SingleGrid } from "../../../../Common/Grids";
 
 export const CheckedCars = () => {

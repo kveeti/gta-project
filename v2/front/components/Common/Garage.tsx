@@ -1,17 +1,17 @@
 import { IGarage, ModelGarage } from "../../interfaces/Garage";
-import { Card } from "../Common/Cards";
-import { SpaceBetween } from "../Common/Containers";
-import { Text, Title } from "../Common/Text";
+import { Card } from "./Cards";
+import { SpaceBetween } from "./Containers";
+import { Text, Title } from "./Text";
 import { ReactElement, useState } from "react";
-import { Chevron } from "../Common/Icons/ChevronRight";
+import { Chevron } from "./Icons/ChevronRight";
 import { styled } from "../../stitches.config";
 import { useISelector } from "../../state/hooks";
 import { AnimatePresence, motion } from "framer-motion";
-import { Grid } from "../Common/Grids";
+import { Grid } from "./Grids";
 import { Car } from "./Car";
 import { ICar } from "../../interfaces/Car";
 import { useRouter } from "next/router";
-import { FullWidthButton } from "../Common/Buttons";
+import { FullWidthButton } from "./Buttons";
 import { paths } from "../../util/constants";
 
 interface GarageProps<T> {
