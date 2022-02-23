@@ -10,7 +10,7 @@ export const LeftFloatingButtons = () => {
   const showCheckedCarsButton = checkedCars.length > 0 || showSidebar;
   const location = window.location.pathname;
   const newSite = location?.includes("new");
-  const home = !!location;
+  const home = location === "/";
 
   return (
     <FloatingButtons left>
