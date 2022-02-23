@@ -18,7 +18,7 @@ export const Sidebar = () => {
 
   const checkedCars = useISelector((state) => state.checked.cars);
   const searchInput = useISelector((state) => state.search.input.value);
-  const mobile = useISelector((state) => state.checked.show);
+  const sidebarIsOnlyVisible = useISelector((state) => state.checked.show); // will be only visible on mobile
 
   const showCheckedCars = checkedCars.length > 0;
 
@@ -42,22 +42,17 @@ export const Sidebar = () => {
 
   return (
     <StyledSidebar>
-      <TopContainer
-        paddingBottom={moveOpen}
-        style={{ marginTop: `${mobile && moveOpen ? "0.5rem" : 0}` }}
-      >
-        {!mobile && (
+      <TopContainer paddingBottom={moveOpen}>
+        {!sidebarIsOnlyVisible && (
           <div style={{ display: "flex", width: "100%", gap: "0.5rem" }}>
             <DeleteBtn onClick={() => deleteOnClick()} open={deleteOpen} />
             <MoveBtn />
           </div>
         )}
-
         <Move open={moveOpen} />
+        {sidebarIsOnlyVisible && <Title style={{ marginTop: "0.5rem" }}>Selected cars</Title>}
       </TopContainer>
-      <LowerContainer text={!showCheckedCars} border={mobile && moveOpen}>
-        {mobile && <Title style={{ paddingBottom: "0.5rem" }}>Selected cars</Title>}
-
+      <LowerContainer text={!showCheckedCars}>
         {showCheckedCars ? <CheckedCars /> : <Text lessOpaque>Selected cars will appear here</Text>}
       </LowerContainer>
     </StyledSidebar>

@@ -8,10 +8,12 @@ export const LeftFloatingButtons = () => {
   const showSidebar = useISelector((state) => state.checked.show);
 
   const showCheckedCarsButton = checkedCars.length > 0 || showSidebar;
+  const location = window.location.pathname;
+  const newSite = location?.includes("new");
 
   return (
     <FloatingButtons left>
-      {showCheckedCarsButton ? <ShowCheckedButton /> : <FloatingHomeButton />}
+      {!newSite && showCheckedCarsButton ? <ShowCheckedButton /> : <FloatingHomeButton />}
     </FloatingButtons>
   );
 };

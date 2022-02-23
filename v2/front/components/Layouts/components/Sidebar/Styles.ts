@@ -23,11 +23,10 @@ export const StyledSidebar = styled("div", {
 export const TopContainer = styled("div", {
   gap: "0.5rem",
   padding: "0.5rem",
-  borderBottom: `1px solid ${gray.gray6}`,
 
   "@mobile": {
-    borderBottom: 0,
-    padding: "0 0.5rem 0 0.5rem",
+    borderBottom: "none",
+    padding: "0 0.5rem 0.5rem 0.5rem",
     gap: 0,
   },
 
