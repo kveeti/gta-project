@@ -48,6 +48,7 @@ interface BaseFloatingButtonProps extends ComponentProps<StyledComponent<"button
   red?: boolean;
   blue?: boolean;
   link?: string;
+  big?: boolean;
   as: DetailedHTMLProps<ButtonHTMLAttributes<HTMLButtonElement>, HTMLButtonElement>;
 }
 
