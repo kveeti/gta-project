@@ -1,14 +1,13 @@
 import { useState } from "react";
 import { Input } from "../../Common/Input/Input";
-import { SigninButton } from "./Buttons/SigninButton";
 import { useRouter } from "next/router";
 import { TestButton } from "./Buttons/TestButton";
-import { RegisterButton } from "./Buttons/RegisterButton";
 import { request } from "../../../util/axios";
 import { Label, Text } from "../../Common/Text";
 import { FormWrapper } from "../../Common/Forms";
 import { ButtonContainer, InputContainer } from "../../Common/Containers";
 import { paths } from "../../../util/constants";
+import { FullWidthButton } from "../../Common/Buttons";
 
 interface InputProps {
   value: string;
@@ -55,11 +54,15 @@ export const SignInForm = () => {
         </Text>
 
         <ButtonContainer>
-          <SigninButton onClick={() => {}} disabled={signInButtonDisabled} />
+          <FullWidthButton blue disabled={signInButtonDisabled}>
+            Sign in
+          </FullWidthButton>
 
           <ButtonContainer row>
             <TestButton />
-            <RegisterButton />
+            <FullWidthButton gray link={paths.register()}>
+              Register
+            </FullWidthButton>
           </ButtonContainer>
         </ButtonContainer>
       </FormWrapper>

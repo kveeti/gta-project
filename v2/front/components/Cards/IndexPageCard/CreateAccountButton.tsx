@@ -1,10 +1,10 @@
 import { useDispatch } from "react-redux";
 import { useRouter } from "next/router";
-import { requestWithNo401RedirectAndDontSetToken } from "../../../../util/axios";
-import { actions } from "../../../../state/actions";
-import { initState } from "../../../../state/InitState";
-import { FullWidthButton } from "../../../Common/Buttons";
-import { paths } from "../../../../util/constants";
+import { requestWithNo401RedirectAndDontSetToken } from "../../../util/axios";
+import { actions } from "../../../state/actions";
+import { initState } from "../../../state/InitState";
+import { FullWidthButton } from "../../Common/Buttons";
+import { paths } from "../../../util/constants";
 
 export const CreateAccountButton = () => {
   const dispatch = useDispatch();
@@ -20,7 +20,7 @@ export const CreateAccountButton = () => {
 
   return (
     <FullWidthButton green onClick={onClick}>
-      Create an actual account
+      Create an account
     </FullWidthButton>
   );
 };

@@ -1,4 +1,7 @@
 import { blackA, blue, gray, green, red } from "@radix-ui/colors";
+import { StyledComponent } from "@stitches/react/types/styled-component";
+import { useRouter } from "next/router";
+import { ButtonHTMLAttributes, ComponentProps, DetailedHTMLProps, FC, HTMLAttributes } from "react";
 import { styled } from "../../stitches.config";
 import { ButtonText } from "./Text";
 
@@ -91,14 +94,43 @@ const PageButtonStyles = styled(BaseBtn, {
   height: "100%",
 });
 
-export const FullWidthButton = ({ children, ...rest }) => (
-  <FullWidthButtonStyles {...rest}>
-    <ButtonText>{children}</ButtonText>
-  </FullWidthButtonStyles>
+interface BaseButtonProps extends ComponentProps<StyledComponent<"button">> {
+  transparent?: boolean;
+  gray?: boolean;
+  white?: boolean;
+  blue?: boolean;
+  red?: boolean;
+  green?: boolean;
+  link?: string;
+  as: DetailedHTMLProps<ButtonHTMLAttributes<HTMLButtonElement>, HTMLButtonElement>;
+}
+
+type ButtonProps = Omit<BaseButtonProps, "as">;
+
+const BaseButton: FC<BaseButtonProps> = ({ children, link, onClick, ...rest }) => {
+  const router = useRouter();
+
+  return (
+    <BaseBtn
+      onClick={(e) => {
+        onClick && onClick(e);
+        link && router.push(link);
+      }}
+      {...rest}
+    >
+      <ButtonText>{children}</ButtonText>
+    </BaseBtn>
+  );
+};
+
+export const FullWidthButton: FC<ButtonProps> = ({ children, ...rest }) => (
+  <BaseButton {...rest} as={FullWidthButtonStyles}>
+    {children}
+  </BaseButton>
 );
 
-export const PageButton = ({ children, ...rest }) => (
-  <PageButtonStyles {...rest}>
-    <ButtonText>{children}</ButtonText>
-  </PageButtonStyles>
+export const PageButton: FC<ButtonProps> = ({ children, ...rest }) => (
+  <BaseButton {...rest} as={PageButtonStyles}>
+    {children}
+  </BaseButton>
 );

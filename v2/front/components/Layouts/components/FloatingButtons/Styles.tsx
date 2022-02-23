@@ -1,7 +1,10 @@
 import { blue, red } from "@radix-ui/colors";
+import { StyledComponent } from "@stitches/react/types/styled-component";
+import { useRouter } from "next/router";
+import { ButtonHTMLAttributes, ComponentProps, DetailedHTMLProps, FC } from "react";
 import { styled } from "../../../../stitches.config";
 
-export const FloatingButton = styled("button", {
+export const BaseFloatingButton = styled("button", {
   all: "unset",
   display: "flex",
   justifyContent: "center",
@@ -29,7 +32,7 @@ export const FloatingButton = styled("button", {
   },
 });
 
-export const SmallFloatingButton = styled(FloatingButton, {
+export const SmallFloatingButtonStyles = styled(BaseFloatingButton, {
   transform: "scale(0.8)",
 
   variants: {
@@ -40,6 +43,43 @@ export const SmallFloatingButton = styled(FloatingButton, {
     },
   },
 });
+
+interface BaseFloatingButtonProps extends ComponentProps<StyledComponent<"button">> {
+  red?: boolean;
+  blue?: boolean;
+  link?: string;
+  as: DetailedHTMLProps<ButtonHTMLAttributes<HTMLButtonElement>, HTMLButtonElement>;
+}
+
+type FloatingButtonProps = Omit<BaseFloatingButtonProps, "as">;
+
+export const Base: FC<BaseFloatingButtonProps> = ({ children, link, onClick, ...rest }) => {
+  const router = useRouter();
+
+  return (
+    <BaseFloatingButton
+      {...rest}
+      onClick={(e) => {
+        onClick && onClick(e);
+        link && router.push(link);
+      }}
+    >
+      {children}
+    </BaseFloatingButton>
+  );
+};
+
+export const FloatingButton: FC<FloatingButtonProps> = ({ children, ...rest }) => (
+  <Base {...rest} as={BaseFloatingButton}>
+    {children}
+  </Base>
+);
+
+export const SmallFloatingButton: FC<FloatingButtonProps> = ({ children, ...rest }) => (
+  <Base {...rest} as={SmallFloatingButtonStyles}>
+    {children}
+  </Base>
+);
 
 export const FloatingButtons = styled("div", {
   display: "flex",

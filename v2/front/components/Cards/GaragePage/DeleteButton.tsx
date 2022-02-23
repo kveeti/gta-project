@@ -18,6 +18,15 @@ export const DeleteButton = ({ garage }) => {
   const searchInput = useISelector((state) => state.search.input.value);
 
   const onBtnClick = async () => {
+    if (!open) {
+      setOpen(!open);
+      if (deleteTimer) clearTimeout(deleteTimer);
+      const timer = setTimeout(() => {
+        setOpen(false);
+      }, 2000);
+      setDeleteTimer(timer);
+    }
+
     if (open) {
       const res = await request(`/garages/${garage.id}`, "DELETE");
 
@@ -30,10 +39,7 @@ export const DeleteButton = ({ garage }) => {
 
       await wait(2000);
 
-      if (searchInput) {
-        router.push(`/search?q=${searchInput}`, `/search?q=${searchInput}`);
-        return null;
-      }
+      if (searchInput) return router.push(`/search?q=${searchInput}`, `/search?q=${searchInput}`);
 
       router.push(paths.home());
 
@@ -41,14 +47,6 @@ export const DeleteButton = ({ garage }) => {
       if (deleteTimer) clearTimeout(deleteTimer);
       return;
     }
-
-    setOpen(!open);
-
-    if (deleteTimer) clearTimeout(deleteTimer);
-    const timer = setTimeout(() => {
-      setOpen(false);
-    }, 2000);
-    setDeleteTimer(timer);
   };
 
   return (

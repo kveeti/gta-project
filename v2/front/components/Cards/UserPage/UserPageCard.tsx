@@ -1,13 +1,12 @@
 import { useGetMe } from "../../../hooks/useGetMe";
 import { useISelector } from "../../../state/hooks";
 import { styled } from "../../../stitches.config";
+import { paths } from "../../../util/constants";
+import { FullWidthButton } from "../../Common/Buttons";
 import { PageCard } from "../../Common/Cards";
 import { ButtonContainer } from "../../Common/Containers";
 import { Text, Title } from "../../Common/Text";
-import { CreateAccountButton } from "../IndexPageCard/Buttons/CreateAccountButton";
-import { ChangeEmailButton } from "./Buttons/ChangeEmail";
-import { ChangePasswordButton } from "./Buttons/ChangePasswordButton";
-import { DeleteAccountButton } from "./Buttons/DeleteAccount";
+import { CreateAccountButton } from "../IndexPageCard/CreateAccountButton";
 import { LogoutButton } from "./Buttons/LogoutButton";
 import { ResendEmailButton } from "./Buttons/ResendEmail";
 
@@ -62,9 +61,15 @@ export const UserPageCard = () => {
         {!users?.me?.isTestAccount ? (
           <>
             {!users.me.emailVerified && <ResendEmailButton />}
-            <ChangeEmailButton />
-            <ChangePasswordButton />
-            <DeleteAccountButton />
+            <FullWidthButton blue link={paths.changeEmail()}>
+              Change email
+            </FullWidthButton>
+            <FullWidthButton blue link={paths.changePassword()}>
+              Change password
+            </FullWidthButton>
+            <FullWidthButton red link={paths.deleteAccount()}>
+              Delete account
+            </FullWidthButton>
           </>
         ) : (
           <CreateAccountButton />

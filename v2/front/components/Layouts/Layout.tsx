@@ -1,7 +1,7 @@
 import Head from "next/head";
 import { useISelector } from "../../state/hooks";
 import { Content, Main, SidebarContainer } from "./components/Containers";
-import { LeftFloatingButton } from "./components/FloatingButtons/Left/LeftButtons";
+import { LeftFloatingButtons } from "./components/FloatingButtons/Left/LeftButtons";
 import { RightFloatingButtons } from "./components/FloatingButtons/Right/RightButtons";
 import { MenuBar } from "./components/MenuBar/MenuBar";
 import { Sidebar } from "./components/Sidebar/Sidebar";
@@ -65,7 +65,7 @@ const Layout = ({ children, token, title, ...props }: Props) => {
         {showFloatingButtons && (
           <>
             <RightFloatingButtons />
-            {!newSite && <LeftFloatingButton />}
+            <LeftFloatingButtons />
           </>
         )}
       </Content>

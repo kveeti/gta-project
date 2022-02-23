@@ -23,8 +23,6 @@ const Div = styled("div", {
 export const GaragePageCard = ({ garage }: Props) => {
   const [descVal, setDescVal] = useState(garage.desc);
   const [originalDesc, setOriginalDesc] = useState(garage.desc);
-  const [loading, setLoading] = useState(false);
-  const [error, setError] = useState(false);
 
   const descHasChanged = descVal !== originalDesc;
 
@@ -33,17 +31,11 @@ export const GaragePageCard = ({ garage }: Props) => {
   const onSaveClick = async () => {
     if (!descHasChanged) return toast.error(msgs.error.nothingChanged);
 
-    setLoading(true);
     const res = await request(`/garages/${garage.id}/desc`, "PATCH", { newDesc: descVal });
 
     if (res) {
-      setLoading(false);
       toast.success(msgs.success.garageUpdated);
-
       if (res?.data) setOriginalDesc(res.data.desc);
-    } else {
-      setLoading(false);
-      setError(true);
     }
   };
 

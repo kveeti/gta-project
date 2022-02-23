@@ -8,6 +8,7 @@ import { FormWrapper } from "../../Common/Forms";
 import { ButtonContainer, InputContainer } from "../../Common/Containers";
 import { Label } from "../../Common/Text";
 import { paths } from "../../../util/constants";
+import { FullWidthButton } from "../../Common/Buttons";
 
 interface InputProps {
   value: string;
@@ -61,8 +62,12 @@ export const RegisterForm = () => {
         </InputContainer>
 
         <ButtonContainer>
-          <RegisterButton disabled={registerButtonDisabled} />
-          <BackToSigninButton />
+          <FullWidthButton blue type="submit" disabled={registerButtonDisabled}>
+            Register
+          </FullWidthButton>
+          <FullWidthButton gray link={paths.signin()} form="null">
+            Back to sign in
+          </FullWidthButton>
         </ButtonContainer>
       </FormWrapper>
     </form>
