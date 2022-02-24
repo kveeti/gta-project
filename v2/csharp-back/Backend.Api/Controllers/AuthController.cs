@@ -14,21 +14,21 @@ namespace Backend.Api.Controllers;
 public class AuthController : ControllerBase
 {
   private readonly IJwt _jwt;
+  private readonly IMisc _misc;
   private readonly IMailing _mailing;
-  private readonly IOptions<JwtConfig> _jwtConfig;
   private readonly IGenericRepo<User> _userRepo;
 
   public AuthController(
     IJwt aJwt,
+    IMisc aMisc,
     IMailing aMailing,
-    IGenericRepo<User> aUserRepo,
-    IOptions<JwtConfig> aJwtConfig
+    IGenericRepo<User> aUserRepo
   )
   {
     _jwt = aJwt;
+    _misc = aMisc;
     _mailing = aMailing;
     _userRepo = aUserRepo;
-    _jwtConfig = aJwtConfig;
   }
 
   [HttpPost("register")]
@@ -55,11 +55,11 @@ public class AuthController : ControllerBase
 
     if (!aDto.IsTestAccount)
     {
-      var emailVerifyToken = $"{Guid.NewGuid().ToString()}{Guid.NewGuid().ToString()}";
+      var emailConfirmationToken = _misc.GenerateEmailConfirmationToken();
 
-      user.EmailVerifyToken = emailVerifyToken;
+      user.EmailVerifyToken = _misc.HashGeneratedToken(emailConfirmationToken);
 
-      _mailing.SendEmailConfirmation(aDto.Email, emailVerifyToken);
+      _mailing.SendEmailConfirmation(aDto.Email, emailConfirmationToken);
     }
 
     _userRepo.Add(user);
@@ -69,7 +69,7 @@ public class AuthController : ControllerBase
     var newRefreshToken = _jwt.CreateRefreshToken(user);
 
     HttpContext.Response.Headers
-      .SetCookie = Cookie.CreateCookie(newRefreshToken);
+      .SetCookie = _misc.CreateCookie(newRefreshToken);
 
     HttpContext.Response.Headers[CookieConfig.AccessTokenHeader] = newAccessToken;
 
@@ -91,7 +91,7 @@ public class AuthController : ControllerBase
     var newRefreshToken = _jwt.CreateRefreshToken(user);
 
     HttpContext.Response.Headers
-      .SetCookie = Cookie.CreateCookie(newRefreshToken);
+      .SetCookie = _misc.CreateCookie(newRefreshToken);
 
     HttpContext.Response
       .Headers[CookieConfig.AccessTokenHeader] = newAccessToken;
@@ -113,7 +113,7 @@ public class AuthController : ControllerBase
       }
     }
 
-    HttpContext.Response.Headers.SetCookie = Cookie.GetDeleteCookie();
+    HttpContext.Response.Headers.SetCookie = _misc.GetDeleteCookie();
 
     HttpContext.Response
       .Headers[CookieConfig.AccessTokenHeader] = "";
@@ -140,7 +140,7 @@ public class AuthController : ControllerBase
     var newRefreshToken = _jwt.CreateRefreshToken(user);
 
     HttpContext.Response.Headers
-      .SetCookie = Cookie.CreateCookie(newRefreshToken);
+      .SetCookie = _misc.CreateCookie(newRefreshToken);
 
     HttpContext.Response
       .Headers[CookieConfig.AccessTokenHeader] = newAccessToken;
@@ -175,7 +175,7 @@ public class AuthController : ControllerBase
     var newRefreshToken = _jwt.CreateRefreshToken(user);
 
     HttpContext.Response.Headers
-      .SetCookie = Cookie.CreateCookie(newRefreshToken);
+      .SetCookie = _misc.CreateCookie(newRefreshToken);
 
     HttpContext.Response
       .Headers[CookieConfig.AccessTokenHeader] = newAccessToken;
@@ -192,8 +192,8 @@ public class AuthController : ControllerBase
     if (user == null) return BadRequest("User was not found");
     if (user.IsTestAccount) return BadRequest("Test accounts can't change their passwords");
 
-    var passwordResetToken = $"{Guid.NewGuid().ToString()}-{Guid.NewGuid().ToString()}";
-    var hashedToken = Hashing.HmacSha256(passwordResetToken, _jwtConfig.Value.Access_Secret);
+    var passwordResetToken = _misc.GeneratePasswordResetToken();
+    var hashedToken = _misc.HashGeneratedToken(passwordResetToken);
 
     user.PasswordResetToken = hashedToken;
     await _userRepo.Save();
@@ -206,7 +206,7 @@ public class AuthController : ControllerBase
   [HttpPost("reset-password")]
   public async Task<ActionResult> ResetPassword(PasswordResetDto aDto)
   {
-    var hashedToken = Hashing.HmacSha256(aDto.PasswordResetToken, _jwtConfig.Value.Access_Secret);
+    var hashedToken = _misc.HashGeneratedToken(aDto.PasswordResetToken);
 
     var user = await _userRepo.GetOneByFilterTracking(user => user.PasswordResetToken == hashedToken);
     if (user == null) return BadRequest("Invalid link");

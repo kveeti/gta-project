@@ -5,7 +5,6 @@ using Backend.Api.Models;
 using Backend.Api.Repositories;
 using Microsoft.AspNetCore.Mvc;
 using Backend.Api.Configs;
-using Microsoft.Extensions.Options;
 
 namespace Backend.Api.Controllers;
 
@@ -14,21 +13,21 @@ namespace Backend.Api.Controllers;
 public class EmailController : ControllerBase
 {
   private readonly IJwt _jwt;
+  private readonly IMisc _misc;
   private readonly IMailing _mailing;
   private readonly IGenericRepo<User> _userRepo;
-  private readonly IOptions<JwtConfig> _jwtConfig;
 
   public EmailController(
     IJwt aJwt,
+    IMisc aMisc,
     IMailing aMailing,
-    IGenericRepo<User> aUserRepo,
-    IOptions<JwtConfig> aJwtConfig
+    IGenericRepo<User> aUserRepo
   )
   {
     _jwt = aJwt;
+    _misc = aMisc;
     _mailing = aMailing;
     _userRepo = aUserRepo;
-    _jwtConfig = aJwtConfig;
   }
 
   [HttpPost("change")]
@@ -43,10 +42,10 @@ public class EmailController : ControllerBase
 
     if (user.IsTestAccount) return BadRequest("Test accounts can't change their email");
 
-    var emailConfirmationToken = GenerateEmailConfirmationToken();
-
+    var emailConfirmationToken = _misc.GenerateEmailConfirmationToken();
+      
     user.Email = aDto.NewEmail;
-    user.EmailVerifyToken = HashEmailConfirmationToken(emailConfirmationToken);
+    user.EmailVerifyToken = _misc.HashGeneratedToken(emailConfirmationToken);
     await _userRepo.Save();
 
     _mailing.SendEmailConfirmation(aDto.NewEmail, emailConfirmationToken);
@@ -55,7 +54,7 @@ public class EmailController : ControllerBase
     var newRefreshToken = _jwt.CreateRefreshToken(user);
 
     HttpContext.Response.Headers
-      .SetCookie = Cookie.CreateCookie(newRefreshToken);
+      .SetCookie = _misc.CreateCookie(newRefreshToken);
 
     HttpContext.Response
       .Headers[CookieConfig.AccessTokenHeader] = newAccessToken;
@@ -68,7 +67,7 @@ public class EmailController : ControllerBase
   {
     if (aDto.Token == null) return BadRequest("Invalid token");
 
-    var hashed = HashEmailConfirmationToken(aDto.Token);
+    var hashed = _misc.HashGeneratedToken(aDto.Token);
 
     var user = await _userRepo
       .GetOneByFilterTracking(user => user.EmailVerifyToken == hashed);
@@ -94,23 +93,13 @@ public class EmailController : ControllerBase
 
     if (user.IsTestAccount) return BadRequest("Test accounts have verified emails by default");
 
-    var emailConfirmationToken = GenerateEmailConfirmationToken();
+    var emailConfirmationToken = _misc.GenerateEmailConfirmationToken();
 
-    user.EmailVerifyToken = HashEmailConfirmationToken(emailConfirmationToken);
+    user.EmailVerifyToken = _misc.HashGeneratedToken(emailConfirmationToken);
     await _userRepo.Save();
 
     await _mailing.SendEmailConfirmation(user.Email, emailConfirmationToken);
 
     return NoContent();
-  }
-
-  private static string GenerateEmailConfirmationToken()
-  {
-    return $"{Guid.NewGuid().ToString()}-{Guid.NewGuid().ToString()}";
-  }
-
-  private string HashEmailConfirmationToken(string aClearText)
-  {
-    return Hashing.HmacSha256(aClearText, _jwtConfig.Value.Access_Secret);
   }
 }

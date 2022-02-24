@@ -6,7 +6,6 @@ using Backend.Api.Helpers;
 using Backend.Api.Models;
 using Backend.Api.Repositories.ModelCar;
 using Backend.Api.Repositories.ModelGarage;
-using Prometheus;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -28,8 +27,9 @@ builder.Services.AddScoped<IModelCarRepo, ModelCarRepo>();
 builder.Services.AddScoped<IModelGarageRepo, ModelGarageRepo>();
 builder.Services.AddScoped<IUserRepo, UserRepo>();
 
-builder.Services.AddScoped<IJwt, Jwt>();
-builder.Services.AddTransient<IMailing, Mailing>();
+builder.Services.AddSingleton<IJwt, Jwt>();
+builder.Services.AddSingleton<IMailing, Mailing>();
+builder.Services.AddSingleton<IMisc, Misc>();
 
 builder.Services.AddRouting(options => options.LowercaseUrls = true);
 
@@ -40,26 +40,5 @@ var app = builder.Build();
 
 app.MapControllers();
 app.UseRouting();
-
-app.Map("/metrics", appBuilder =>
-{
-  appBuilder.Use(async (aContext, next) =>
-  {
-    var rightPass = builder.Configuration.GetValue<string>("MetricsPass");
-    var pass = aContext.Request.Headers.Authorization;
-
-    if (pass != rightPass)
-    {
-      aContext.Response.StatusCode = 401;
-      return;
-    }
-
-    await next();
-  });
-
-  appBuilder.UseEndpoints(endpoints => endpoints.MapMetrics());
-});
-
-app.UseHttpMetrics();
 
 app.Run("http://0.0.0.0:5000");

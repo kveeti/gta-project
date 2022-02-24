@@ -13,10 +13,12 @@ namespace Backend.Api.Controllers;
 public class UserController : ControllerBase
 {
   private readonly IUserRepo _db;
+  private readonly IMisc _misc;
 
-  public UserController(IUserRepo aUserRepo)
+  public UserController(IUserRepo aUserRepo, IMisc aMisc)
   {
     _db = aUserRepo;
+    _misc = aMisc;
   }
 
   [HttpGet("me")]
@@ -94,7 +96,7 @@ public class UserController : ControllerBase
     _db.Delete(userToDelete);
     await _db.Save();
 
-    HttpContext.Response.Headers.SetCookie = Cookie.GetDeleteCookie();
+    HttpContext.Response.Headers.SetCookie = _misc.GetDeleteCookie();
 
     HttpContext.Response
       .Headers[CookieConfig.AccessTokenHeader] = "";
