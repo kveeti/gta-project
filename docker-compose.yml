@@ -1,21 +1,16 @@
 version: "3.9"
 
 services:
-  gta-back-prod:
-    build: csharp-back/Backend.Api/
-    image: gta-csharp-back-prod
+  gta-back:
+    build: back/Backend.Api/
+    image: gta-back-prod
     ports:
       - "11000:5000"
     restart: unless-stopped
 
-  gta-front-prod:
+  gta-front:
     build: front/
     image: gta-front-prod
     ports:
       - "10000:5000"
     restart: unless-stopped
-
-networks:
-  default:
-    external: true
-    name: gta
