@@ -14,3 +14,13 @@ services:
     ports:
       - "10000:5000"
     restart: unless-stopped
+
+  gta-db:
+    image: postgres
+    ports:
+      - "61000:5432"
+    env_file:
+      - .env.postgres
+    volumes:
+      - ./DATA:/var/lib/postgresql/data
+    restart: unless-stopped
