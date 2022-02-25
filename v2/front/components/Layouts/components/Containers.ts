@@ -33,11 +33,7 @@ export const Main = styled("main", {
 
   "@tablet": {
     padding: "0.5rem",
-    height: "calc(100vh - 5rem)",
-  },
-
-  "@mobile": {
-    height: "calc(100% - 1rem)",
+    height: "calc(100vh - 10rem)",
   },
 });
 
