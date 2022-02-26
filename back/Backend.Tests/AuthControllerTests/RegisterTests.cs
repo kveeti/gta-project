@@ -71,6 +71,8 @@ public class RegisterTests
 
     result.Result.Should().BeOfType<NoContentResult>();
 
+    _fakeMailing.Verify(moq => moq.SendEmailConfirmation(It.IsAny<string>(), It.IsAny<string>()), Times.Once());
+
     refreshToken.Email.Should().Be(registerDto.Email);
     refreshToken.Username.Should().Be(registerDto.Username);
     refreshToken.TokenVersion.Should().NotBeEmpty();
@@ -110,6 +112,10 @@ public class RegisterTests
     var result = await controller.Register(registerDto);
     var resRefreshToken = fakeContext.Response.Headers.SetCookie;
     var resAccessToken = fakeContext.Response.Headers[CookieConfig.AccessTokenHeader];
+
+    _fakeMailing.Verify(moq => moq
+        .SendEmailConfirmation(It.IsAny<string>(), It.IsAny<string>()),
+      Times.Never());
 
     resRefreshToken.Should().BeEmpty();
     resAccessToken.Should().BeEmpty();
