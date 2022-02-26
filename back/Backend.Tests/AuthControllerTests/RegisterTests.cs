@@ -19,6 +19,7 @@ namespace Backend.Tests.AuthControllerTests;
 public class RegisterTests
 {
   private readonly IJwt _jwt;
+  private readonly IMisc _fakeMisc;
   private readonly Mock<IGenericRepo<User>> _fakeUserRepo = new();
   private readonly Mock<IMailing> _fakeMailing = new();
 
@@ -38,6 +39,7 @@ public class RegisterTests
   public RegisterTests()
   {
     _jwt = new Jwt(_jwtConfig);
+    _fakeMisc = new Misc(_jwtConfig);
   }
 
   [Fact]
@@ -52,7 +54,7 @@ public class RegisterTests
     ).Verifiable();
 
     var fakeContext = new DefaultHttpContext();
-    var controller = new AuthController(_jwt, _fakeMailing.Object, _fakeUserRepo.Object, _jwtConfig)
+    var controller = new AuthController(_jwt, _fakeMisc, _fakeMailing.Object, _fakeUserRepo.Object)
     {
       ControllerContext = new ControllerContext()
       {
@@ -97,7 +99,7 @@ public class RegisterTests
       .ReturnsAsync(existingUser);
 
     var fakeContext = new DefaultHttpContext();
-    var controller = new AuthController(_jwt, _fakeMailing.Object, _fakeUserRepo.Object, _jwtConfig)
+    var controller = new AuthController(_jwt, _fakeMisc, _fakeMailing.Object, _fakeUserRepo.Object)
     {
       ControllerContext = new ControllerContext()
       {

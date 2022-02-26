@@ -18,8 +18,9 @@ namespace Backend.Tests.AuthControllerTests;
 public class LogoutTests
 {
   private readonly IJwt _jwt;
-  private readonly Mock<IGenericRepo<User>> _fakeUserRepo = new();
+  private readonly IMisc _fakeMisc;
   private readonly Mock<IMailing> _fakeMailing = new();
+  private readonly Mock<IGenericRepo<User>> _fakeUserRepo = new();
 
   private readonly IOptions<JwtConfig> _jwtConfig = Options.Create<JwtConfig>(
     new JwtConfig()
@@ -36,13 +37,14 @@ public class LogoutTests
   public LogoutTests()
   {
     _jwt = new Jwt(_jwtConfig);
+    _fakeMisc = new Misc(_jwtConfig);
   }
 
   [Fact]
   public async Task Logout_ResetsHeaders()
   {
     var fakeContext = new DefaultHttpContext();
-    var controller = new AuthController(_jwt, _fakeMailing.Object, _fakeUserRepo.Object, _jwtConfig)
+    var controller = new AuthController(_jwt, _fakeMisc, _fakeMailing.Object, _fakeUserRepo.Object)
     {
       ControllerContext = new ControllerContext()
       {
